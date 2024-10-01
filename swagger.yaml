@@ -1,0 +1,1038 @@
+openapi: 3.0.0
+info:
+  title: Sovereign European Cloud API
+  version: 0.3.61
+  description: API for managing cloud resources
+paths:
+  /locations:
+    get:
+      tags:
+        - Organization
+      summary: List all locations
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /vpc:
+    get:
+      tags:
+        - Network
+      summary: List all VPCs
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VPC'
+    post:
+      tags:
+        - Network
+      summary: Create a new VPC
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VPCSpec'
+      responses:
+        '201':
+          description: VPC created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VPC'
+  /vpc/{vpc}:
+    get:
+      tags:
+        - Network
+      summary: Get a specific VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VPC'
+    put:
+      tags:
+        - Network
+      summary: Update a specific VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VPCSpec'
+      responses:
+        '200':
+          description: VPC updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VPC'
+    delete:
+      tags:
+        - Network
+      summary: Delete a specific VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: VPC deleted
+  /vpc/{vpc}/subnets:
+    get:
+      tags:
+        - Network
+      summary: List all subnets in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subnet'
+    post:
+      tags:
+        - Network
+      summary: Create a new subnet in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubnetSpec'
+      responses:
+        '201':
+          description: Subnet created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subnet'
+  /vpc/{vpc}/subnets/{name}:
+    get:
+      tags:
+        - Network
+      summary: Get a specific subnet in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subnet'
+    put:
+      tags:
+        - Network
+      summary: Update a specific subnet in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubnetSpec'
+      responses:
+        '200':
+          description: Subnet updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subnet'
+    delete:
+      tags:
+        - Network
+      summary: Delete a specific subnet in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Subnet deleted
+  /vpc/{vpc}/security-groups:
+    get:
+      tags:
+        - Security
+      summary: List all security groups in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SecurityGroup'
+    post:
+      tags:
+        - Security
+      summary: Create a new security group in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityGroupSpec'
+      responses:
+        '201':
+          description: Security group created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroup'
+  /vpc/{vpc}/security-groups/{name}:
+    get:
+      tags:
+        - Security
+      summary: Get a specific security group in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroup'
+    put:
+      tags:
+        - Security
+      summary: Update a specific security group in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityGroupSpec'
+      responses:
+        '200':
+          description: Security group updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroup'
+    delete:
+      tags:
+        - Security
+      summary: Delete a specific security group in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Security group deleted
+  /vpc/{vpc}/servers:
+    get:
+      tags:
+        - Compute
+      summary: List all servers in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Server'
+    post:
+      tags:
+        - Compute
+      summary: Create a new server in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServerSpec'
+      responses:
+        '201':
+          description: Server created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server'
+  /vpc/{vpc}/servers/{name}:
+    get:
+      tags:
+        - Compute
+      summary: Get a specific server in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server'
+    put:
+      tags:
+        - Compute
+      summary: Update a specific server in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServerSpec'
+      responses:
+        '200':
+          description: Server updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server'
+    delete:
+      tags:
+        - Compute
+      summary: Delete a specific server in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Server deleted
+  /vpc/{vpc}/volumes:
+    get:
+      tags:
+        - Storage
+      summary: List all volumes in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Volume'
+    post:
+      tags:
+        - Storage
+      summary: Create a new volume in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VolumeSpec'
+      responses:
+        '201':
+          description: Volume created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Volume'
+  /vpc/{vpc}/volumes/{name}:
+    get:
+      tags:
+        - Storage
+      summary: Get a specific volume in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Volume'
+    put:
+      tags:
+        - Storage
+      summary: Update a specific volume in a VPC (does not handle attachment/detachment)
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VolumeSpec'
+      responses:
+        '200':
+          description: Volume updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Volume'
+    delete:
+      tags:
+        - Storage
+      summary: Delete a specific volume in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Volume deleted
+  /vpc/{vpc}/volumes/{name}/create-image:
+    post:
+      tags:
+        - Storage
+      summary: Create an image from a volume
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '201':
+          description: Image created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+  /vpc/{vpc}/volumes/{name}/attach:
+    patch:
+      tags:
+        - Storage
+      summary: Attach a volume to a server
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                serverId:
+                  type: string
+                deviceName:
+                  type: string
+      responses:
+        '200':
+          description: Volume attached successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Volume'
+        '400':
+          description: Bad request (e.g., volume already attached)
+        '404':
+          description: Volume or server not found
+  /vpc/{vpc}/volumes/{name}/detach:
+    patch:
+      tags:
+        - Storage
+      summary: Detach a volume from a server
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Volume detached successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Volume'
+        '400':
+          description: Bad request (e.g., volume not attached)
+        '404':
+          description: Volume not found
+  /vpc/{vpc}/server-profile:
+    get:
+      summary: Get the server profile for a VPC
+      tags:
+        - Profiles
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerProfile'
+  /vpc/{vpc}/volume-profile:
+    get:
+      summary: Get the volume profile for a VPC
+      tags:
+        - Profiles
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VolumeProfile'
+  /ssh-keys:
+    get:
+      summary: List SSH Keys
+      tags:
+        - Security
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SSHKey'
+    post:
+      summary: Create SSH Key
+      tags:
+        - Security
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SSHKeySpec'
+      responses:
+        '201':
+          description: Created
+  /ssh-keys/{name}:
+    get:
+      summary: Get SSH Key
+      tags:
+        - Security
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SSHKey'
+    delete:
+      summary: Delete SSH Key
+      tags:
+        - Security
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful response
+  /images:
+    get:
+      summary: List Images
+      tags:
+        - Organization
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Image'
+  /images/{name}:
+    get:
+      summary: Get Image
+      tags:
+        - Organization
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+    delete:
+      summary: Delete Image
+      tags:
+        - Organization
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful response
+components:
+  schemas:
+    VPC:
+      allOf:
+        - $ref: '#/components/schemas/Resource'
+        - type: object
+          properties:
+            spec:
+              $ref: '#/components/schemas/VPCSpec'
+            status:
+              $ref: '#/components/schemas/VPCSpec'
+    Subnet:
+      allOf:
+        - $ref: '#/components/schemas/Resource'
+        - type: object
+          properties:
+            spec:
+              $ref: '#/components/schemas/SubnetSpec'
+            status:
+              allOf:
+                - $ref: '#/components/schemas/SubnetSpec'
+                - type: object
+                  properties:
+                    state:
+                      type: string
+                      enum:
+                        - provisioning
+                        - running
+    NIC:
+      allOf:
+        - $ref: '#/components/schemas/Resource'
+        - type: object
+          properties:
+            spec:
+              $ref: '#/components/schemas/NICSpec'
+            status:
+              allOf:
+                - $ref: '#/components/schemas/NICSpec'
+                - type: object
+                  properties:
+                    state:
+                      type: string
+                      enum:
+                        - connecting
+                        - connected
+                        - disconnecting
+    SecurityGroup:
+      allOf:
+        - $ref: '#/components/schemas/Resource'
+        - type: object
+          properties:
+            spec:
+              $ref: '#/components/schemas/SecurityGroupSpec'
+            status:
+              $ref: '#/components/schemas/SecurityGroupSpec'
+    Server:
+      allOf:
+        - $ref: '#/components/schemas/Resource'
+        - type: object
+          properties:
+            spec:
+              $ref: '#/components/schemas/ServerSpec'
+            status:
+              allOf:
+                - $ref: '#/components/schemas/ServerSpec'
+                - type: object
+                  properties:
+                    state:
+                      type: string
+                      enum:
+                        - provisioning
+                        - running
+                        - terminating
+    Volume:
+      allOf:
+        - $ref: '#/components/schemas/Resource'
+        - type: object
+          properties:
+            spec:
+              $ref: '#/components/schemas/VolumeSpec'
+            status:
+              allOf:
+                - $ref: '#/components/schemas/VolumeSpec'
+                - type: object
+                  properties:
+                    state:
+                      type: string
+                      enum:
+                        - provisioning
+                        - running
+                        - resizing
+                        - terminating
+    SSHKey:
+      allOf:
+        - $ref: '#/components/schemas/Resource'
+        - type: object
+          properties:
+            spec:
+              $ref: '#/components/schemas/SSHKeySpec'
+    Image:
+      allOf:
+        - $ref: '#/components/schemas/Resource'
+        - type: object
+          properties:
+            spec:
+              $ref: '#/components/schemas/ImageSpec'
+    ServerProfile:
+      type: object
+      properties:
+        name:
+          type: string
+        cpuType:
+          type: string
+        cores:
+          type: integer
+          minimum: 1
+        ramGB:
+          type: number
+          multipleOf: 0.25
+      required:
+        - cpuType
+        - cores
+        - ramGB
+    VolumeProfile:
+      type: object
+      properties:
+        name:
+          type: string
+        IOPs:
+          type: integer
+          minimum: 1
+      required:
+        - IOPs
+    Label:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    ResourceSpec:
+      type: object
+      properties:
+        name:
+          type: string
+        labels:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
+    Attribute:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    Resource:
+      allOf:
+        - $ref: '#/components/schemas/ResourceSpec'
+        - type: object
+          properties:
+            status:
+              type: object
+              items:
+                $ref: '#/components/schemas/Attribute'
+    VPCSpec:
+      allOf:
+        - $ref: '#/components/schemas/ResourceSpec'
+        - type: object
+          properties:
+            location:
+              type: string
+    SubnetSpec:
+      allOf:
+        - $ref: '#/components/schemas/ResourceSpec'
+        - type: object
+          properties:
+            ipRange:
+              type: string
+    SecurityGroupSpec:
+      allOf:
+        - $ref: '#/components/schemas/ResourceSpec'
+        - type: object
+          properties:
+            rules:
+              type: array
+              items:
+                type: object
+                properties:
+                  protocol:
+                    type: string
+                  port:
+                    type: integer
+                  ipFilter:
+                    type: string
+    NICSpec:
+      allOf:
+        - $ref: '#/components/schemas/ResourceSpec'
+        - type: object
+          properties:
+            ipAddress:
+              type: string
+            publicIP:
+              type: boolean
+    ServerSpec:
+      allOf:
+        - $ref: '#/components/schemas/ResourceSpec'
+        - type: object
+          properties:
+            profile:
+              type: string
+            nics:
+              type: array
+              items:
+                $ref: '#/components/schemas/NICSpec'
+            attachedVolumes:
+              type: array
+              items:
+                type: string
+    VolumeSpec:
+      allOf:
+        - $ref: '#/components/schemas/ResourceSpec'
+        - type: object
+          properties:
+            profile:
+              type: string
+            sizeGB:
+              type: integer
+            attachedTo:
+              type: object
+              properties:
+                serverName:
+                  type: string
+                deviceName:
+                  type: string
+    ImageSpec:
+      type: object
+      properties:
+        osType:
+          type: string
+        version:
+          type: string
+    SSHKeySpec:
+      type: object
+      properties:
+        publicKey:
+          type: string
