@@ -1,8 +1,15 @@
 openapi: 3.0.0
 info:
   title: Sovereign European Cloud API
-  version: 0.3.61
-  description: API for managing cloud resources
+  version: 0.3.67
+  description: |
+    API for managing cloud resources
+
+    For this intermediate version, the scope 
+    * the focus is on IaaS Layer 3 Network
+    * does not include rights management or rbac - every provider can use its own authentication/authorization protocol 
+    * does not include PaaS features
+    * does not include loadbalancers, nat, vpn, and other network features
 paths:
   /locations:
     get:
@@ -17,7 +24,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: string
+                  $ref: '#/components/schemas/Location'
   /vpc:
     get:
       tags:
@@ -63,29 +70,6 @@ paths:
       responses:
         '200':
           description: Successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/VPC'
-    put:
-      tags:
-        - Network
-      summary: Update a specific VPC
-      parameters:
-        - name: vpc
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/VPCSpec'
-      responses:
-        '200':
-          description: VPC updated
           content:
             application/json:
               schema:
@@ -189,7 +173,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SubnetSpec'
+              $ref: '#/components/schemas/SubnetUpdate'
       responses:
         '200':
           description: Subnet updated
@@ -301,7 +285,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SecurityGroupSpec'
+              $ref: '#/components/schemas/SecurityGroupUpdate'
       responses:
         '200':
           description: Security group updated
@@ -413,7 +397,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ServerSpec'
+              $ref: '#/components/schemas/ServerUpdate'
       responses:
         '200':
           description: Server updated
@@ -652,9 +636,9 @@ paths:
           description: Volume not found
   /vpc/{vpc}/server-profile:
     get:
-      summary: Get the server profile for a VPC
+      summary: Get the server profiles for a VPC
       tags:
-        - Profiles
+        - Catalogues
       parameters:
         - name: vpc
           in: path
@@ -667,12 +651,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServerProfile'
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServerProfile'
   /vpc/{vpc}/volume-profile:
     get:
-      summary: Get the volume profile for a VPC
+      summary: Get the volume profiles for a VPC
       tags:
-        - Profiles
+        - Catalogues
       parameters:
         - name: vpc
           in: path
@@ -685,7 +671,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VolumeProfile'
+                type: array
+                items:
+                  $ref: '#/components/schemas/VolumeProfile'
   /ssh-keys:
     get:
       summary: List SSH Keys
@@ -922,6 +910,13 @@ components:
           minimum: 1
       required:
         - IOPs
+    Location:
+      type: object
+      properties:
+        name:
+          type: string
+        availableZones:
+          type: string
     Label:
       type: object
       properties:
@@ -929,15 +924,20 @@ components:
           type: string
         value:
           type: string
-    ResourceSpec:
+    ResourceUpdate:
       type: object
       properties:
-        name:
-          type: string
         labels:
           type: array
           items:
             $ref: '#/components/schemas/Label'
+    ResourceSpec:
+      allOf:
+        - $ref: '#/components/schemas/ResourceUpdate'
+        - type: object
+          properties:
+            name:
+              type: string
     Attribute:
       type: object
       properties:
@@ -961,16 +961,28 @@ components:
           properties:
             location:
               type: string
-    SubnetSpec:
+    SubnetUpdate:
       allOf:
-        - $ref: '#/components/schemas/ResourceSpec'
+        - $ref: '#/components/schemas/ResourceUpdate'
         - type: object
           properties:
             ipRange:
               type: string
-    SecurityGroupSpec:
+    SubnetSpec:
       allOf:
         - $ref: '#/components/schemas/ResourceSpec'
+        - $ref: '#/components/schemas/SubnetUpdate'
+        - type: object
+          properties:
+            bandWidth:
+              type: string
+              enum:
+                - 100MBit
+                - 1GBit
+                - 10GBit
+    SecurityGroupUpdate:
+      allOf:
+        - $ref: '#/components/schemas/ResourceUpdate'
         - type: object
           properties:
             rules:
@@ -984,6 +996,10 @@ components:
                     type: integer
                   ipFilter:
                     type: string
+    SecurityGroupSpec:
+      allOf:
+        - $ref: '#/components/schemas/ResourceSpec'
+        - $ref: '#/components/schemas/SecurityGroupUpdate'
     NICSpec:
       allOf:
         - $ref: '#/components/schemas/ResourceSpec'
@@ -993,13 +1009,26 @@ components:
               type: string
             publicIP:
               type: boolean
-    ServerSpec:
+    ServerUpdate:
       allOf:
-        - $ref: '#/components/schemas/ResourceSpec'
+        - $ref: '#/components/schemas/ResourceUpdate'
         - type: object
           properties:
-            profile:
-              type: string
+            placement:
+              type: object
+              properties:
+                strategy:
+                  type: string
+                  enum:
+                    - zone
+                    - auto
+                    - anti-affinity
+                zone:
+                  type: string
+                antiAffinityGroup:
+                  type: string
+              required:
+                - strategy
             nics:
               type: array
               items:
@@ -1008,13 +1037,19 @@ components:
               type: array
               items:
                 type: string
-    VolumeSpec:
+    ServerSpec:
       allOf:
         - $ref: '#/components/schemas/ResourceSpec'
+        - $ref: '#/components/schemas/ServerUpdate'
         - type: object
           properties:
             profile:
               type: string
+    VolumeUpdate:
+      allOf:
+        - $ref: '#/components/schemas/ResourceUpdate'
+        - type: object
+          properties:
             sizeGB:
               type: integer
             attachedTo:
@@ -1024,6 +1059,14 @@ components:
                   type: string
                 deviceName:
                   type: string
+    VolumeSpec:
+      allOf:
+        - $ref: '#/components/schemas/ResourceSpec'
+        - $ref: '#/components/schemas/VolumeUpdate'
+        - type: object
+          properties:
+            profile:
+              type: string
     ImageSpec:
       type: object
       properties:
