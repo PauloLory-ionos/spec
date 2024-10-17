@@ -1,0 +1,1499 @@
+openapi: 3.0.0
+info:
+  title: Sovereign European Cloud API
+  version: 0.4.2
+  description: |
+    API for managing cloud resources
+
+    For this intermediate version, the scope 
+    * the focus is on IaaS Layer 3 Network
+    * does not include rights management or rbac - every provider can use its own authentication/authorization protocol 
+    * does not include PaaS features
+    * does not include loadbalancers, nat, vpn, and other network features
+
+    ![API Diagram](https://x.frei-services.net/api-diagram.png)
+paths:
+  /regions:
+    get:
+      tags:
+        - Organization
+      summary: List all regions
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/region'
+  /vpcs:
+    get:
+      tags:
+        - Network
+      summary: List all VPCs
+      responses:
+        '200':
+          $ref: '#/components/responses/Success200'
+  /vpcs/{vpc}:
+    get:
+      tags:
+        - Network
+      summary: Get a specific VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Success200'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '500':
+          $ref: '#/components/responses/Error500'
+    put:
+      tags:
+        - Network
+      summary: Create or update a specific VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VPC'
+      responses:
+        '202':
+          $ref: '#/components/responses/Success202VPC'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '422':
+          $ref: '#/components/responses/Error422'
+        '500':
+          $ref: '#/components/responses/Error500'
+    delete:
+      tags:
+        - Network
+      summary: Delete a specific VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          $ref: '#/components/responses/Success202VPC'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '500':
+          $ref: '#/components/responses/Error500'
+  /vpcs/{vpc}/subnets:
+    get:
+      tags:
+        - Network
+      summary: List all subnets in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subnet'
+  /vpcs/{vpc}/subnets/{name}:
+    get:
+      tags:
+        - Network
+      summary: Get a specific subnet in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subnet'
+    put:
+      tags:
+        - Network
+      summary: Create or update a specific subnet in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subnet'
+      responses:
+        '200':
+          description: Subnet created or updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subnet'
+        '201':
+          description: Subnet created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subnet'
+    delete:
+      tags:
+        - Network
+      summary: Delete a specific subnet in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Subnet deleted
+  /vpcs/{vpc}/security-groups:
+    get:
+      tags:
+        - Security
+      summary: List all security groups in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SecurityGroup'
+  /vpcs/{vpc}/security-groups/{name}:
+    get:
+      tags:
+        - Security
+      summary: Get a specific security group in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroup'
+    put:
+      tags:
+        - Security
+      summary: Create or update a specific security group in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityGroup'
+      responses:
+        '200':
+          description: Security group updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroup'
+        '201':
+          description: Security group created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroup'
+    delete:
+      tags:
+        - Security
+      summary: Delete a specific security group in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Security group deleted
+  /vpcs/{vpc}/servers:
+    get:
+      tags:
+        - Compute
+      summary: List all servers in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Server'
+  /vpcs/{vpc}/servers/{name}:
+    get:
+      tags:
+        - Compute
+      summary: Get a specific server in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server'
+    put:
+      tags:
+        - Compute
+      summary: Create or update a specific server in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Server'
+      responses:
+        '200':
+          description: Server updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server'
+        '201':
+          description: Server created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server'
+    delete:
+      tags:
+        - Compute
+      summary: Delete a specific server in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Server deleted
+  /vpcs/{vpc}/volumes:
+    get:
+      tags:
+        - Storage
+      summary: List all volumes in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Volume'
+  /vpcs/{vpc}/volumes/{name}:
+    get:
+      tags:
+        - Storage
+      summary: Get a specific volume in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Volume'
+    put:
+      tags:
+        - Storage
+      summary: Create or update a specific volume in a VPC (does not handle attachment/detachment)
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Volume'
+      responses:
+        '200':
+          description: Volume updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Volume'
+        '201':
+          description: Volume created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Volume'
+    delete:
+      tags:
+        - Storage
+      summary: Delete a specific volume in a VPC
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Volume deleted
+  /vpcs/{vpc}/volumes/{name}/snapshots:
+    get:
+      tags:
+        - Storage
+      summary: List all snapshots of a volume
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VolumeSnapshot'
+    put:
+      tags:
+        - Storage
+      summary: Create or update a snapshot of a volume
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VolumeSnapshot'
+      responses:
+        '200':
+          description: Snapshot updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VolumeSnapshot'
+        '201':
+          description: Snapshot created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VolumeSnapshot'
+  /vpcs/{vpc}/volumes/{name}/snapshots/{snapshotName}:
+    get:
+      tags:
+        - Storage
+      summary: Get a specific snapshot of a volume
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: snapshotName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VolumeSnapshot'
+    delete:
+      tags:
+        - Storage
+      summary: Delete a specific snapshot of a volume
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: snapshotName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Snapshot deleted
+  /vpcs/{vpc}/server-profile:
+    get:
+      summary: Get the server profiles for a VPC
+      tags:
+        - Catalogues
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServerProfile'
+  /vpcs/{vpc}/volume-profile:
+    get:
+      summary: Get the volume profiles for a VPC
+      tags:
+        - Catalogues
+      parameters:
+        - name: vpc
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VolumeProfile'
+  /images:
+    get:
+      summary: List Images
+      tags:
+        - Organization
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Image'
+  /images/{name}:
+    get:
+      summary: Get Image
+      tags:
+        - Organization
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+    delete:
+      summary: Delete Image
+      tags:
+        - Organization
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful response
+  /vpcs/{vpc}/routing-tables:
+    get:
+      tags:
+        - Network
+      summary: List all routing tables for a VPC
+      parameters:
+        - in: path
+          name: vpc
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoutingTable'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '500':
+          $ref: '#/components/responses/Error500'
+  /vpcs/{vpc}/routing-tables/{name}:
+    get:
+      tags:
+        - Network
+      summary: Get a specific routing table
+      parameters:
+        - in: path
+          name: vpc
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoutingTable'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '500':
+          $ref: '#/components/responses/Error500'
+    put:
+      tags:
+        - Network
+      summary: Create or update a routing table
+      description: Create a new routing table or update an existing one, including its routes. Routes are manipulated by updating the entire routing table object.
+      parameters:
+        - in: path
+          name: vpc
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoutingTable'
+      responses:
+        '200':
+          description: Routing table updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoutingTable'
+        '201':
+          description: Routing table created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoutingTable'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '422':
+          $ref: '#/components/responses/Error422'
+        '500':
+          $ref: '#/components/responses/Error500'
+    delete:
+      tags:
+        - Network
+      summary: Delete a routing table
+      parameters:
+        - in: path
+          name: vpc
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful deletion
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '500':
+          $ref: '#/components/responses/Error500'
+components:
+  schemas:
+    VPC:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/ResourceMetadata'
+        spec:
+          type: object
+          properties:
+            region:
+              type: string
+            routingTableRef:
+              type: string
+        status:
+          type: object
+          readOnly: true
+          properties:
+            state:
+              type: string
+              enum:
+                - provisioning
+                - running
+                - terminating
+            region:
+              type: string
+            routingTableRef:
+              type: string
+    Subnet:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/ResourceMetadata'
+        spec:
+          type: object
+          properties:
+            ipv4Range:
+              type: string
+              format: CIDR
+            ipv6Range:
+              type: string
+              format: CIDR
+            bandWidth:
+              type: string
+              enum:
+                - 100MBit
+                - 1GBit
+                - 10GBit
+            routingTableRef:
+              type: string
+        status:
+          type: object
+          readOnly: true
+          properties:
+            state:
+              type: string
+              enum:
+                - provisioning
+                - running
+            ipv4Range:
+              type: string
+              format: CIDR
+            ipv6Range:
+              type: string
+              format: CIDR
+            bandWidth:
+              type: string
+              enum:
+                - 100MBit
+                - 1GBit
+                - 10GBit
+            zone:
+              type: string
+            routingTableRef:
+              type: string
+    NIC:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/ResourceMetadata'
+        spec:
+          type: object
+          properties:
+            ipv4Address:
+              type: string
+              format: ipv4
+            ipv6Address:
+              type: string
+              format: ipv6
+            publicIP:
+              type: boolean
+            subnetRef:
+              type: string
+            securityGroupRef:
+              type: string
+        status:
+          type: object
+          readOnly: true
+          properties:
+            state:
+              type: string
+              enum:
+                - connecting
+                - connected
+                - disconnecting
+            ipv4Address:
+              type: string
+              format: ipv4
+            ipv6Address:
+              type: string
+              format: ipv6
+            publicIP:
+              type: boolean
+            subnetRef:
+              type: string
+            securityGroupRef:
+              type: string
+    SecurityGroup:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/ResourceMetadata'
+        spec:
+          type: object
+          properties:
+            rules:
+              type: array
+              items:
+                type: object
+                properties:
+                  protocol:
+                    type: string
+                  portRange:
+                    type: object
+                    properties:
+                      from:
+                        type: integer
+                      to:
+                        type: integer
+                  ipv4Filter:
+                    type: string
+                    format: CIDR
+                    example: 203.0.113.0/24
+                  ipv6Filter:
+                    type: string
+                    format: CIDR
+                    example: 2001:db8:1234::/48
+                  priority:
+                    type: integer
+        status:
+          type: object
+          readOnly: true
+          properties:
+            state:
+              type: string
+              enum:
+                - provisioning
+                - running
+                - updating
+            rules:
+              type: array
+              items:
+                type: object
+                properties:
+                  protocol:
+                    type: string
+                  portRange:
+                    type: object
+                    properties:
+                      from:
+                        type: integer
+                      to:
+                        type: integer
+                  ipv4Filter:
+                    type: string
+                    format: CIDR
+                    example: 203.0.113.0/24
+                  ipv6Filter:
+                    type: string
+                    format: CIDR
+                    example: 2001:db8:1234::/48
+                  priority:
+                    type: integer
+    Server:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/ResourceMetadata'
+        spec:
+          type: object
+          properties:
+            profile:
+              type: string
+            placement:
+              type: object
+              properties:
+                strategy:
+                  type: string
+                  enum:
+                    - zone
+                    - auto
+                    - anti-affinity
+                zone:
+                  type: string
+                antiAffinityGroup:
+                  type: string
+              required:
+                - strategy
+            nics:
+              type: array
+              items:
+                $ref: '#/components/schemas/NIC'
+            cloudInitUserData:
+              type: string
+              description: Cloud-init user data for server initialization
+            attachedVolumeRef:
+              type: array
+              items:
+                type: string
+        status:
+          type: object
+          readOnly: true
+          properties:
+            state:
+              type: string
+              enum:
+                - provisioning
+                - running
+                - terminating
+            profile:
+              type: string
+            placement:
+              type: object
+              properties:
+                strategy:
+                  type: string
+                  enum:
+                    - zone
+                    - auto
+                    - anti-affinity
+                zone:
+                  type: string
+                antiAffinityGroup:
+                  type: string
+            nics:
+              type: array
+              items:
+                $ref: '#/components/schemas/NIC'
+            attachedVolumes:
+              type: array
+              items:
+                type: string
+    Volume:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/ResourceMetadata'
+        spec:
+          type: object
+          properties:
+            sizeGB:
+              type: integer
+            attachedTo:
+              type: object
+              properties:
+                serverRef:
+                  type: string
+                connectionType:
+                  type: string
+                  enum:
+                    - sata
+                    - ide
+                    - scsi
+                    - usb
+                    - nvme
+                deviceName:
+                  type: string
+            profile:
+              type: string
+              readOnly: true
+            snapshotId:
+              type: string
+              description: ID of the snapshot to create the volume from
+        status:
+          type: object
+          readOnly: true
+          properties:
+            state:
+              type: string
+              enum:
+                - provisioning
+                - running
+                - resizing
+                - terminating
+                - attaching
+                - snapshotting
+            sizeGB:
+              type: integer
+            attachedTo:
+              type: object
+              properties:
+                serverRef:
+                  type: string
+                connectionType:
+                  type: string
+                  enum:
+                    - sata
+                    - ide
+                    - scsi
+                    - usb
+                    - nvme
+                deviceName:
+                  type: string
+            lastSnapshotId:
+              type: string
+              description: ID of the last successful snapshot
+    VolumeSnapshot:
+      type: object
+      x-no-put: true
+      properties:
+        metadata:
+          $ref: '#/components/schemas/ResourceMetadata'
+        spec:
+          type: object
+          properties:
+            volumeRef:
+              type: string
+              description: ID of the volume to create a snapshot from
+            description:
+              type: string
+        status:
+          type: object
+          readOnly: true
+          properties:
+            state:
+              type: string
+              enum:
+                - creating
+                - available
+                - error
+            sizeGB:
+              type: integer
+            creationTime:
+              type: string
+              format: date-time
+    Image:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/ResourceMetadata'
+        spec:
+          type: object
+          properties:
+            osType:
+              type: string
+            version:
+              type: string
+            volumeSnapshotRef:
+              type: string
+              description: Reference to the snapshot used to create this image
+            visiblity:
+              type: string
+              enum:
+                - private
+                - public
+              description: TODO - that can be done more sophisticated
+            cloudInitSupport:
+              type: object
+              properties:
+                supported:
+                  type: boolean
+                version:
+                  type: string
+              description: |
+                Indicates cloud-init support for this image. We support cloud-init version 22.4 or newer.
+                Example cloud-init configuration with SSH key:
+                ```yaml
+                #cloud-config
+                ssh_authorized_keys:
+                  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0g+ZTxC7weoIJLUafOgrm+h...
+                ```
+        status:
+          type: object
+          readOnly: true
+          properties:
+            state:
+              type: string
+              enum:
+                - available
+                - unavailable
+            osType:
+              type: string
+            version:
+              type: string
+            cloudInitSupport:
+              type: object
+              properties:
+                supported:
+                  type: boolean
+                version:
+                  type: string
+    ServerProfile:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/ResourceMetadata'
+        spec:
+          type: object
+          properties:
+            cpuType:
+              type: string
+            cores:
+              type: integer
+              minimum: 1
+            ramGB:
+              type: number
+              multipleOf: 0.25
+          required:
+            - cpuType
+            - cores
+            - ramGB
+        status:
+          type: object
+          properties:
+            state:
+              type: string
+              enum:
+                - available
+                - unavailable
+    VolumeProfile:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/ResourceMetadata'
+        spec:
+          type: object
+          properties:
+            IOPs:
+              type: integer
+              minimum: 1
+          required:
+            - IOPs
+        status:
+          type: object
+          properties:
+            state:
+              type: string
+              enum:
+                - available
+                - unavailable
+    Error:
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+    ErrorDetail:
+      type: object
+      required:
+        - status
+        - code
+        - title
+      properties:
+        status:
+          type: string
+          description: The HTTP status code applicable to this problem, expressed as a string value.
+        code:
+          type: string
+          description: An application-specific error code, expressed as a string value.
+        title:
+          type: string
+          description: A short, human-readable summary of the problem.
+        detail:
+          type: string
+          description: A human-readable explanation specific to this occurrence of the problem.
+        source:
+          type: object
+          description: An object containing references to the source of the error.
+          properties:
+            pointer:
+              type: string
+              description: A JSON Pointer [RFC6901] to the associated entity in the request document.
+            parameter:
+              type: string
+              description: A string indicating which URI query parameter caused the error.
+        meta:
+          type: object
+          description: A meta object containing non-standard meta-information about the error.
+    Error400:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          example:
+            errors:
+              - status: '400'
+                code: INVALID_REQUEST
+                title: Bad Request
+                detail: The request was invalid or cannot be served.
+    Error401:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          example:
+            errors:
+              - status: '401'
+                code: UNAUTHORIZED
+                title: Unauthorized
+                detail: Authentication is required and has failed or has not been provided.
+    Error403:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          example:
+            errors:
+              - status: '403'
+                code: FORBIDDEN
+                title: Forbidden
+                detail: The request was valid, but the server is refusing action.
+    Error404:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          example:
+            errors:
+              - status: '404'
+                code: RESOURCE_NOT_FOUND
+                title: Not Found
+                detail: The requested resource could not be found.
+    Error422:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          example:
+            errors:
+              - status: '422'
+                code: VALIDATION_ERROR
+                title: Unprocessable Entity
+                detail: The request was well-formed but was unable to be followed due to semantic errors.
+                source:
+                  pointer: /data/attributes/username
+    Error500:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          example:
+            errors:
+              - status: '500'
+                code: INTERNAL_SERVER_ERROR
+                title: Internal Server Error
+                detail: The server encountered an unexpected condition that prevented it from fulfilling the request.
+    Route:
+      type: object
+      properties:
+        spec:
+          type: object
+          properties:
+            destinationCidrBlock:
+              type: string
+              description: The CIDR block for the destination
+            target:
+              type: string
+              description: The target for the route (e.g., igw-id, nat-gateway-id)
+        status:
+          type: object
+          properties:
+            state:
+              type: string
+              enum:
+                - active
+                - blackhole
+              description: The state of the route
+            managedBy:
+              type: string
+              enum:
+                - user
+                - service
+              description: Whether the route is managed by the user or a service
+    RoutingTable:
+      type: object
+      properties:
+        spec:
+          type: object
+          properties:
+            routes:
+              type: array
+              items:
+                $ref: '#/components/schemas/Route'
+        status:
+          type: object
+          properties:
+            routes:
+              type: array
+              items:
+                $ref: '#/components/schemas/Route'
+    region:
+      type: object
+      properties:
+        name:
+          type: string
+        availableZones:
+          type: array
+          items:
+            type: string
+    Label:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    ResourceMetadata:
+      type: object
+      properties:
+        name:
+          type: string
+        labels:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
+  responses:
+    Success200:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/VPC'
+    Success202VPC:
+      description: Accepted
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/VPC'
+    Error400:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error400'
+    Error401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error401'
+    Error403:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error403'
+    Error404:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error404'
+    Error422:
+      description: Unprocessable Entity
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error422'
+    Error500:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error500'
