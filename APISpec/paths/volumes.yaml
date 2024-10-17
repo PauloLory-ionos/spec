@@ -1,0 +1,344 @@
+/vpc/{vpc}/volumes:
+  get:
+    tags:
+      - Storage
+    summary: List all volumes in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/volume.yaml#/Volume'
+  # post:
+  #   tags:
+  #     - Storage
+  #   summary: Create a new volume in a VPC
+  #   parameters:
+  #     - name: vpc
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string
+  #   requestBody:
+  #     required: true
+  #     content:
+  #       application/json:
+  #         schema:
+  #           $ref: '../schemas/volume.yaml#/Volume'
+  #   responses:
+  #     '201':
+  #       description: Volume created
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '../schemas/volume.yaml#/Volume'
+
+/vpc/{vpc}/volumes/{name}:
+  get:
+    tags:
+      - Storage
+    summary: Get a specific volume in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/volume.yaml#/Volume'
+  put:
+    tags:
+      - Storage
+    summary: Create or update a specific volume in a VPC (does not handle attachment/detachment)
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/volume.yaml#/Volume'
+    responses:
+      '200':
+        description: Volume updated
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/volume.yaml#/Volume'
+      '201':
+        description: Volume created
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/volume.yaml#/Volume'
+  delete:
+    tags:
+      - Storage
+    summary: Delete a specific volume in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '204':
+        description: Volume deleted
+
+/vpc/{vpc}/volumes/{name}/attach:
+  patch:
+    tags:
+      - Storage
+    summary: Attach a volume to a server
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              spec:
+                type: object
+                properties:
+                  attachedTo:
+                    type: object
+                    properties:
+                      serverName:
+                        type: string
+                      deviceName:
+                        type: string
+    responses:
+      '200':
+        description: Volume attached successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/volume.yaml#/Volume'
+      '400':
+        description: Bad request (e.g., volume already attached)
+      '404':
+        description: Volume or server not found
+
+/vpc/{vpc}/volumes/{name}/detach:
+  patch:
+    tags:
+      - Storage
+    summary: Detach a volume from a server
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              spec:
+                type: object
+                properties:
+                  attachedTo: 
+                    type: 'null'
+    responses:
+      '200':
+        description: Volume detached successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/volume.yaml#/Volume'
+      '400':
+        description: Bad request (e.g., volume not attached)
+      '404':
+        description: Volume not found
+
+/vpc/{vpc}/volumes/{name}/snapshots:
+  get:
+    tags:
+      - Storage
+    summary: List all snapshots of a volume
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/volume.yaml#/VolumeSnapshot'
+  # post:
+  #   tags:
+  #     - Storage
+  #   summary: Create a new snapshot of a volume
+  #   parameters:
+  #     - name: vpc
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string
+  #     - name: name
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string
+  #   requestBody:
+  #     required: true
+  #     content:
+  #       application/json:
+  #         schema:
+  #           $ref: '../schemas/volume.yaml#/VolumeSnapshot'
+  #   responses:
+  #     '201':
+  #       description: Snapshot created
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '../schemas/volume.yaml#/VolumeSnapshot'
+  put:
+    tags:
+      - Storage
+    summary: Create or update a snapshot of a volume
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/volume.yaml#/VolumeSnapshot'
+    responses:
+      '200':
+        description: Snapshot updated
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/volume.yaml#/VolumeSnapshot'
+      '201':
+        description: Snapshot created
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/volume.yaml#/VolumeSnapshot'
+
+/vpc/{vpc}/volumes/{name}/snapshots/{snapshotName}:
+  get:
+    tags:
+      - Storage
+    summary: Get a specific snapshot of a volume
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: snapshotName
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/volume.yaml#/VolumeSnapshot'
+  delete:
+    tags:
+      - Storage
+    summary: Delete a specific snapshot of a volume
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: snapshotName
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '204':
+        description: Snapshot deleted

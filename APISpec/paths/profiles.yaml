@@ -1,0 +1,41 @@
+/vpc/{vpc}/server-profiles:
+  get:
+    summary: Get the server profiles for a VPC
+    tags:
+      - Catalogues
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/resource.yaml#/ServerProfile'
+
+/vpc/{vpc}/volume-profiles:
+  get:
+    summary: Get the volume profiles for a VPC
+    tags:
+      - Catalogues
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/resource.yaml#/VolumeProfile'

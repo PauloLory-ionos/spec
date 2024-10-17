@@ -1,0 +1,52 @@
+Image:
+  type: object
+  properties:
+    metadata:
+      $ref: './resource.yaml#/ResourceMetadata'
+    spec:
+      type: object
+      properties:
+        osType:
+          type: string
+        version:
+          type: string
+        volumeSnapshotRef:
+          type: string
+          description: Reference to the snapshot used to create this image
+        visiblity:
+          type: string
+          enum: ['private', 'public']
+          description: TODO - that can be done more sophisticated
+        cloudInitSupport:
+          type: object
+          properties:
+            supported:
+              type: boolean
+            version:
+              type: string
+          description: |
+            Indicates cloud-init support for this image. We support cloud-init version 22.4 or newer.
+            Example cloud-init configuration with SSH key:
+            ```yaml
+            #cloud-config
+            ssh_authorized_keys:
+              - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0g+ZTxC7weoIJLUafOgrm+h...
+            ```
+    status:
+      type: object
+      readOnly: true
+      properties:
+        state:
+          type: string
+          enum: ['available', 'unavailable']
+        osType:
+          type: string
+        version:
+          type: string
+        cloudInitSupport:
+          type: object
+          properties:
+            supported:
+              type: boolean
+            version:
+              type: string

@@ -1,0 +1,39 @@
+Subnet:
+  type: object
+  properties:
+    metadata:
+      $ref: './resource.yaml#/ResourceMetadata'
+    spec:
+      type: object
+      properties:
+        ipv4Range:
+          type: string
+          format: CIDR
+        ipv6Range:
+          type: string
+          format: CIDR
+        bandWidth:
+          type: string
+          enum: ['100MBit', '1GBit', '10GBit']
+        routingTableRef:
+          type: string
+    status:
+      type: object
+      readOnly: true
+      properties:
+        state:
+          type: string
+          enum: ['provisioning', 'running']
+        ipv4Range:
+          type: string
+          format: CIDR
+        ipv6Range:
+          type: string
+          format: CIDR
+        bandWidth:
+          type: string
+          enum: ['100MBit', '1GBit', '10GBit']
+        zone:
+          type: string
+        routingTableRef:
+          type: string

@@ -1,0 +1,264 @@
+/vpc/{vpc}/servers:
+  get:
+    tags:
+      - Compute
+    summary: List all servers in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/server.yaml#/Server'
+  # post:
+  #   tags:
+  #     - Compute
+  #   summary: Create a new server in a VPC
+  #   parameters:
+  #     - name: vpc
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string
+  #   requestBody:
+  #     required: true
+  #     content:
+  #       application/json:
+  #         schema:
+  #           $ref: '../schemas/server.yaml#/Server'
+  #   responses:
+  #     '201':
+  #       description: Server created
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '../schemas/server.yaml#/Server'
+
+/vpc/{vpc}/servers/{name}:
+  get:
+    tags:
+      - Compute
+    summary: Get a specific server in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/server.yaml#/Server'
+  put:
+    tags:
+      - Compute
+    summary: Create or update a specific server in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/server.yaml#/Server'
+    responses:
+      '200':
+        description: Server updated
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/server.yaml#/Server'
+      '201':
+        description: Server created
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/server.yaml#/Server'
+  delete:
+    tags:
+      - Compute
+    summary: Delete a specific server in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '204':
+        description: Server deleted
+
+/vpc/{vpc}/servers/{name}/nics:
+  get:
+    tags:
+      - Compute
+    summary: List all NICs for a specific server
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/nic.yaml#/NIC'
+  # post:
+  #   tags:
+  #     - Compute
+  #   summary: Create a new NIC for a specific server
+  #   parameters:
+  #     - name: vpc
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string
+  #     - name: name
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string
+  #   requestBody:
+  #     required: true
+  #     content:
+  #       application/json:
+  #         schema:
+  #           $ref: '../schemas/nic.yaml#/NIC'
+  #   responses:
+  #     '201':
+  #       description: NIC created
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '../schemas/nic.yaml#/NIC'
+
+/vpc/{vpc}/servers/{name}/nics/{nicId}:
+  get:
+    tags:
+      - Compute
+    summary: Get a specific NIC for a server
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: nicId
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/nic.yaml#/NIC'
+  put:
+    tags:
+      - Compute
+    summary: Create or update a specific NIC for a server
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: nicId
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/nic.yaml#/NIC'
+    responses:
+      '200':
+        description: NIC updated
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/nic.yaml#/NIC'
+      '201':
+        description: NIC created
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/nic.yaml#/NIC'
+  delete:
+    tags:
+      - Compute
+    summary: Delete a specific NIC for a server
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: nicId
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '204':
+        description: NIC deleted
