@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Sovereign European Cloud API
-  version: 0.3.95
+  version: 0.4.2
   description: |
     API for managing cloud resources
 
@@ -35,29 +35,6 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Success200'
-    post:
-      tags:
-        - Network
-      summary: Create a new VPC
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/VPC'
-      responses:
-        '202':
-          $ref: '#/components/responses/Success202VPC'
-        '400':
-          $ref: '#/components/responses/Error400'
-        '401':
-          $ref: '#/components/responses/Error401'
-        '403':
-          $ref: '#/components/responses/Error403'
-        '422':
-          $ref: '#/components/responses/Error422'
-        '500':
-          $ref: '#/components/responses/Error500'
   /vpcs/{vpc}:
     get:
       tags:
@@ -85,7 +62,7 @@ paths:
     put:
       tags:
         - Network
-      summary: Update a specific VPC
+      summary: Create or update a specific VPC
       parameters:
         - name: vpc
           in: path
@@ -156,29 +133,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Subnet'
-    post:
-      tags:
-        - Network
-      summary: Create a new subnet in a VPC
-      parameters:
-        - name: vpc
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Subnet'
-      responses:
-        '201':
-          description: Subnet created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Subnet'
   /vpcs/{vpc}/subnets/{name}:
     get:
       tags:
@@ -205,7 +159,7 @@ paths:
     put:
       tags:
         - Network
-      summary: Update a specific subnet in a VPC
+      summary: Create or update a specific subnet in a VPC
       parameters:
         - name: vpc
           in: path
@@ -225,7 +179,13 @@ paths:
               $ref: '#/components/schemas/Subnet'
       responses:
         '200':
-          description: Subnet updated
+          description: Subnet created or updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subnet'
+        '201':
+          description: Subnet created
           content:
             application/json:
               schema:
@@ -268,29 +228,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SecurityGroup'
-    post:
-      tags:
-        - Security
-      summary: Create a new security group in a VPC
-      parameters:
-        - name: vpc
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SecurityGroup'
-      responses:
-        '201':
-          description: Security group created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SecurityGroup'
   /vpcs/{vpc}/security-groups/{name}:
     get:
       tags:
@@ -317,7 +254,7 @@ paths:
     put:
       tags:
         - Security
-      summary: Update a specific security group in a VPC
+      summary: Create or update a specific security group in a VPC
       parameters:
         - name: vpc
           in: path
@@ -338,6 +275,12 @@ paths:
       responses:
         '200':
           description: Security group updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroup'
+        '201':
+          description: Security group created
           content:
             application/json:
               schema:
@@ -380,29 +323,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Server'
-    post:
-      tags:
-        - Compute
-      summary: Create a new server in a VPC
-      parameters:
-        - name: vpc
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Server'
-      responses:
-        '201':
-          description: Server created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Server'
   /vpcs/{vpc}/servers/{name}:
     get:
       tags:
@@ -429,7 +349,7 @@ paths:
     put:
       tags:
         - Compute
-      summary: Update a specific server in a VPC
+      summary: Create or update a specific server in a VPC
       parameters:
         - name: vpc
           in: path
@@ -450,6 +370,12 @@ paths:
       responses:
         '200':
           description: Server updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Server'
+        '201':
+          description: Server created
           content:
             application/json:
               schema:
@@ -492,29 +418,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Volume'
-    post:
-      tags:
-        - Storage
-      summary: Create a new volume in a VPC
-      parameters:
-        - name: vpc
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Volume'
-      responses:
-        '201':
-          description: Volume created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Volume'
   /vpcs/{vpc}/volumes/{name}:
     get:
       tags:
@@ -541,7 +444,7 @@ paths:
     put:
       tags:
         - Storage
-      summary: Update a specific volume in a VPC (does not handle attachment/detachment)
+      summary: Create or update a specific volume in a VPC (does not handle attachment/detachment)
       parameters:
         - name: vpc
           in: path
@@ -566,6 +469,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Volume'
+        '201':
+          description: Volume created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Volume'
     delete:
       tags:
         - Storage
@@ -584,40 +493,6 @@ paths:
       responses:
         '204':
           description: Volume deleted
-  /vpcs/{vpc}/volumes/{name}/create-image:
-    post:
-      tags:
-        - Storage
-      summary: Create an image from a volume
-      parameters:
-        - name: vpc
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-      responses:
-        '201':
-          description: Image created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Image'
   /vpcs/{vpc}/volumes/{name}/snapshots:
     get:
       tags:
@@ -643,10 +518,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/VolumeSnapshot'
-    post:
+    put:
       tags:
         - Storage
-      summary: Create a new snapshot of a volume
+      summary: Create or update a snapshot of a volume
       parameters:
         - name: vpc
           in: path
@@ -665,13 +540,19 @@ paths:
             schema:
               $ref: '#/components/schemas/VolumeSnapshot'
       responses:
+        '200':
+          description: Snapshot updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VolumeSnapshot'
         '201':
           description: Snapshot created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/VolumeSnapshot'
-  /vpcs/{vpc}/volumes/{name}/snapshots/{snapshotId}:
+  /vpcs/{vpc}/volumes/{name}/snapshots/{snapshotName}:
     get:
       tags:
         - Storage
@@ -687,7 +568,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: snapshotId
+        - name: snapshotName
           in: path
           required: true
           schema:
@@ -714,7 +595,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: snapshotId
+        - name: snapshotName
           in: path
           required: true
           schema:
@@ -809,6 +690,8 @@ paths:
           description: Successful response
   /vpcs/{vpc}/routing-tables:
     get:
+      tags:
+        - Network
       summary: List all routing tables for a VPC
       parameters:
         - in: path
@@ -835,41 +718,10 @@ paths:
           $ref: '#/components/responses/Error404'
         '500':
           $ref: '#/components/responses/Error500'
-    post:
-      summary: Create a new routing table in a VPC
-      parameters:
-        - in: path
-          name: vpc
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RoutingTable'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RoutingTable'
-        '400':
-          $ref: '#/components/responses/Error400'
-        '401':
-          $ref: '#/components/responses/Error401'
-        '403':
-          $ref: '#/components/responses/Error403'
-        '404':
-          $ref: '#/components/responses/Error404'
-        '422':
-          $ref: '#/components/responses/Error422'
-        '500':
-          $ref: '#/components/responses/Error500'
-  /vpcs/{vpc}/routing-tables/{tableId}:
+  /vpcs/{vpc}/routing-tables/{name}:
     get:
+      tags:
+        - Network
       summary: Get a specific routing table
       parameters:
         - in: path
@@ -878,7 +730,7 @@ paths:
           schema:
             type: string
         - in: path
-          name: tableId
+          name: name
           required: true
           schema:
             type: string
@@ -900,7 +752,10 @@ paths:
         '500':
           $ref: '#/components/responses/Error500'
     put:
-      summary: Update a routing table
+      tags:
+        - Network
+      summary: Create or update a routing table
+      description: Create a new routing table or update an existing one, including its routes. Routes are manipulated by updating the entire routing table object.
       parameters:
         - in: path
           name: vpc
@@ -908,7 +763,7 @@ paths:
           schema:
             type: string
         - in: path
-          name: tableId
+          name: name
           required: true
           schema:
             type: string
@@ -920,7 +775,13 @@ paths:
               $ref: '#/components/schemas/RoutingTable'
       responses:
         '200':
-          description: Successful response
+          description: Routing table updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoutingTable'
+        '201':
+          description: Routing table created
           content:
             application/json:
               schema:
@@ -938,6 +799,8 @@ paths:
         '500':
           $ref: '#/components/responses/Error500'
     delete:
+      tags:
+        - Network
       summary: Delete a routing table
       parameters:
         - in: path
@@ -946,121 +809,7 @@ paths:
           schema:
             type: string
         - in: path
-          name: tableId
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Successful deletion
-        '400':
-          $ref: '#/components/responses/Error400'
-        '401':
-          $ref: '#/components/responses/Error401'
-        '403':
-          $ref: '#/components/responses/Error403'
-        '404':
-          $ref: '#/components/responses/Error404'
-        '500':
-          $ref: '#/components/responses/Error500'
-  /vpcs/{vpc}/routing-tables/{tableId}/routes:
-    post:
-      summary: Add a new route to a routing table
-      parameters:
-        - in: path
-          name: vpc
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: tableId
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Route'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Route'
-        '400':
-          $ref: '#/components/responses/Error400'
-        '401':
-          $ref: '#/components/responses/Error401'
-        '403':
-          $ref: '#/components/responses/Error403'
-        '404':
-          $ref: '#/components/responses/Error404'
-        '422':
-          $ref: '#/components/responses/Error422'
-        '500':
-          $ref: '#/components/responses/Error500'
-  /vpcs/{vpc}/routing-tables/{tableId}/routes/{routeId}:
-    put:
-      summary: Update a specific route
-      parameters:
-        - in: path
-          name: vpc
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: tableId
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: routeId
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Route'
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Route'
-        '400':
-          $ref: '#/components/responses/Error400'
-        '401':
-          $ref: '#/components/responses/Error401'
-        '403':
-          $ref: '#/components/responses/Error403'
-        '404':
-          $ref: '#/components/responses/Error404'
-        '422':
-          $ref: '#/components/responses/Error422'
-        '500':
-          $ref: '#/components/responses/Error500'
-    delete:
-      summary: Delete a specific route
-      parameters:
-        - in: path
-          name: vpc
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: tableId
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: routeId
+          name: name
           required: true
           schema:
             type: string
@@ -1113,8 +862,12 @@ components:
         spec:
           type: object
           properties:
-            ipRange:
+            ipv4Range:
               type: string
+              format: CIDR
+            ipv6Range:
+              type: string
+              format: CIDR
             bandWidth:
               type: string
               enum:
@@ -1132,8 +885,12 @@ components:
               enum:
                 - provisioning
                 - running
-            ipRange:
+            ipv4Range:
               type: string
+              format: CIDR
+            ipv6Range:
+              type: string
+              format: CIDR
             bandWidth:
               type: string
               enum:
@@ -1152,11 +909,17 @@ components:
         spec:
           type: object
           properties:
-            ipAddress:
+            ipv4Address:
               type: string
+              format: ipv4
+            ipv6Address:
+              type: string
+              format: ipv6
             publicIP:
               type: boolean
             subnetRef:
+              type: string
+            securityGroupRef:
               type: string
         status:
           type: object
@@ -1168,11 +931,17 @@ components:
                 - connecting
                 - connected
                 - disconnecting
-            ipAddress:
+            ipv4Address:
               type: string
+              format: ipv4
+            ipv6Address:
+              type: string
+              format: ipv6
             publicIP:
               type: boolean
             subnetRef:
+              type: string
+            securityGroupRef:
               type: string
     SecurityGroup:
       type: object
@@ -1189,10 +958,21 @@ components:
                 properties:
                   protocol:
                     type: string
-                  port:
-                    type: integer
-                  ipFilter:
+                  portRange:
+                    type: object
+                    properties:
+                      from:
+                        type: integer
+                      to:
+                        type: integer
+                  ipv4Filter:
                     type: string
+                    format: CIDR
+                    example: 203.0.113.0/24
+                  ipv6Filter:
+                    type: string
+                    format: CIDR
+                    example: 2001:db8:1234::/48
                   priority:
                     type: integer
         status:
@@ -1212,10 +992,21 @@ components:
                 properties:
                   protocol:
                     type: string
-                  port:
-                    type: integer
-                  ipFilter:
+                  portRange:
+                    type: object
+                    properties:
+                      from:
+                        type: integer
+                      to:
+                        type: integer
+                  ipv4Filter:
                     type: string
+                    format: CIDR
+                    example: 203.0.113.0/24
+                  ipv6Filter:
+                    type: string
+                    format: CIDR
+                    example: 2001:db8:1234::/48
                   priority:
                     type: integer
     Server:
@@ -1247,13 +1038,13 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/NIC'
-            attachedVolumes:
-              type: array
-              items:
-                type: string
             cloudInitUserData:
               type: string
               description: Cloud-init user data for server initialization
+            attachedVolumeRef:
+              type: array
+              items:
+                type: string
         status:
           type: object
           readOnly: true
@@ -1392,9 +1183,15 @@ components:
               type: string
             version:
               type: string
-            snapshotRef:
+            volumeSnapshotRef:
               type: string
               description: Reference to the snapshot used to create this image
+            visiblity:
+              type: string
+              enum:
+                - private
+                - public
+              description: TODO - that can be done more sophisticated
             cloudInitSupport:
               type: object
               properties:
@@ -1612,26 +1409,20 @@ components:
     RoutingTable:
       type: object
       properties:
-        id:
-          type: string
-          description: Unique identifier for the routing table
-        vpcId:
-          type: string
-          description: The ID of the VPC this routing table belongs to
-        routes:
-          type: array
-          items:
-            $ref: '#/components/schemas/Route'
-        associations:
-          type: array
-          items:
-            type: string
-          description: IDs of subnets associated with this routing table
-        tags:
+        spec:
           type: object
-          additionalProperties:
-            type: string
-          description: Tags for the routing table
+          properties:
+            routes:
+              type: array
+              items:
+                $ref: '#/components/schemas/Route'
+        status:
+          type: object
+          properties:
+            routes:
+              type: array
+              items:
+                $ref: '#/components/schemas/Route'
     region:
       type: object
       properties:
