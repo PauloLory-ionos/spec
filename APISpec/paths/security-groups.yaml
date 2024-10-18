@@ -1,0 +1,119 @@
+/vpc/{vpc}/security-groups:
+  get:
+    tags:
+      - Security
+    summary: List all security groups in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/security-group.yaml#/SecurityGroup'
+  # post:
+  #   tags:
+  #     - Security
+  #   summary: Create a new security group in a VPC
+  #   parameters:
+  #     - name: vpc
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string
+  #   requestBody:
+  #     required: true
+  #     content:
+  #       application/json:
+  #         schema:
+  #           $ref: '../schemas/security-group.yaml#/SecurityGroup'
+  #   responses:
+  #     '201':
+  #       description: Security group created
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '../schemas/security-group.yaml#/SecurityGroup'
+
+/vpc/{vpc}/security-groups/{name}:
+  get:
+    tags:
+      - Security
+    summary: Get a specific security group in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/security-group.yaml#/SecurityGroup'
+  put:
+    tags:
+      - Security
+    summary: Create or update a specific security group in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/security-group.yaml#/SecurityGroup'
+    responses:
+      '200':
+        description: Security group updated
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/security-group.yaml#/SecurityGroup'
+      '201':
+        description: Security group created
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/security-group.yaml#/SecurityGroup'
+  delete:
+    tags:
+      - Security
+    summary: Delete a specific security group in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '204':
+        description: Security group deleted

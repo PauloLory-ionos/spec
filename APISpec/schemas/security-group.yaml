@@ -1,0 +1,63 @@
+SecurityGroup:
+  type: object
+  properties:
+    metadata:
+      $ref: './resource.yaml#/ResourceMetadata'
+    spec:
+      type: object
+      properties:
+        rules:
+          type: array
+          items:
+            type: object
+            properties:
+              protocol:
+                type: string
+              portRange:
+                type: object
+                properties:
+                  from: 
+                    type: integer
+                  to:
+                    type: integer
+              ipv4Filter:
+                type: string
+                format: CIDR
+                example: '203.0.113.0/24'
+              ipv6Filter:
+                type: string
+                format: CIDR
+                example: '2001:db8:1234::/48'
+              priority:
+                type: integer
+    status:
+      type: object
+      readOnly: true
+      properties:
+        state:
+          type: string
+          enum: ['provisioning', 'running', 'updating']
+        rules:
+          type: array
+          items:
+            type: object
+            properties:
+              protocol:
+                type: string
+              portRange:
+                type: object
+                properties:
+                  from: 
+                    type: integer
+                  to:
+                    type: integer
+              ipv4Filter:
+                type: string
+                format: CIDR
+                example: '203.0.113.0/24'
+              ipv6Filter:
+                type: string
+                format: CIDR
+                example: '2001:db8:1234::/48'
+              priority:
+                type: integer

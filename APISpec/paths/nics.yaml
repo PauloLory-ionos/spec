@@ -1,0 +1,113 @@
+/vpc/{vpc}/nics:
+  get:
+    tags:
+      - Network
+    summary: List all NICs in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/nic.yaml#/NIC'
+  post:
+    tags:
+      - Network
+    summary: Create a new NIC in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/nic.yaml#/NICSpec'
+    responses:
+      '201':
+        description: NIC created
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/nic.yaml#/NIC'
+
+/vpc/{vpc}/nics/{nicId}:
+  get:
+    tags:
+      - Network
+    summary: Get a specific NIC in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: nicId
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/nic.yaml#/NIC'
+  put:
+    tags:
+      - Network
+    summary: Update a specific NIC in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: nicId
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/nic.yaml#/NICSpec'
+    responses:
+      '200':
+        description: NIC updated
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/nic.yaml#/NIC'
+  delete:
+    tags:
+      - Network
+    summary: Delete a specific NIC in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: nicId
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '204':
+        description: NIC deleted

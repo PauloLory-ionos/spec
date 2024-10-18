@@ -1,0 +1,86 @@
+/resources:
+  get:
+    summary: List all resources
+    tags:
+      - Organization
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/resource.yaml#/Resource'
+  post:
+    summary: Create a new resource
+    tags:
+      - Organization
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/resource.yaml#/Resource'
+    responses:
+      '201':
+        description: Resource created
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/resource.yaml#/Resource'
+
+/resources/{resourceId}:
+  get:
+    summary: Get a specific resource
+    tags:
+      - Organization
+    parameters:
+      - name: resourceId
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/resource.yaml#/Resource'
+  put:
+    summary: Update a specific resource
+    tags:
+      - Organization
+    parameters:
+      - name: resourceId
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/resource.yaml#/Resource'
+    responses:
+      '200':
+        description: Resource updated
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/resource.yaml#/Resource'
+  delete:
+    summary: Delete a specific resource
+    tags:
+      - Organization
+    parameters:
+      - name: resourceId
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '204':
+        description: Resource deleted

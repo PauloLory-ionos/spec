@@ -1,0 +1,60 @@
+Server:
+  type: object
+  properties:
+    metadata:
+      $ref: './resource.yaml#/ResourceMetadata'
+    spec:
+      type: object
+      properties:
+        profile:
+          type: string
+        placement:
+          type: object
+          properties:
+            strategy:
+              type: string
+              enum: ['zone', 'auto', 'anti-affinity']
+            zone:
+              type: string
+            antiAffinityGroup:
+              type: string
+          required:
+            - strategy
+        nics:
+          type: array
+          items:
+            $ref: './nic.yaml#/NIC'
+        cloudInitUserData:
+          type: string
+          description: Cloud-init user data for server initialization
+        attachedVolumeRef:
+          type: array
+          items:
+            type: string
+    status:
+      type: object
+      readOnly: true
+      properties:
+        state:
+          type: string
+          enum: ['provisioning', 'running', 'terminating']
+        profile:
+          type: string
+        placement:
+          type: object
+          properties:
+            strategy:
+              type: string
+              enum: ['zone', 'auto', 'anti-affinity']
+            zone:
+              type: string
+            antiAffinityGroup:
+              type: string
+        nics:
+          type: array
+          items:
+            $ref: './nic.yaml#/NIC'
+        attachedVolumes:
+          type: array
+          items:
+            type: string

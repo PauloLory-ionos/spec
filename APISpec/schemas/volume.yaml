@@ -1,0 +1,75 @@
+Volume:
+  type: object
+  properties:
+    metadata:
+      $ref: './resource.yaml#/ResourceMetadata'
+    spec:
+      type: object
+      properties:
+        sizeGB:
+          type: integer
+        attachedTo:
+          type: object
+          properties:
+            serverRef:
+              type: string
+            connectionType:
+              type: string
+              enum: [sata, ide, scsi, usb, nvme]
+            deviceName:
+              type: string
+        profile: 
+          type: string
+          readOnly: true
+        snapshotId:
+          type: string
+          description: ID of the snapshot to create the volume from
+    status:
+      type: object
+      readOnly: true
+      properties:
+        state:
+          type: string
+          enum: [ 'provisioning', 'running', 'resizing', 'terminating', 'attaching', 'snapshotting' ]
+        sizeGB:
+          type: integer
+        attachedTo:
+          type: object
+          properties:
+            serverRef:
+              type: string
+            connectionType:
+              type: string
+              enum: [sata, ide, scsi, usb, nvme]
+            deviceName:
+              type: string
+        lastSnapshotId:
+          type: string
+          description: ID of the last successful snapshot
+
+VolumeSnapshot:
+  type: object
+  x-no-put: true
+  properties:
+    metadata:
+      $ref: './resource.yaml#/ResourceMetadata'
+    spec:
+      type: object
+      properties:
+        volumeRef:
+          type: string
+          description: ID of the volume to create a snapshot from
+        description:
+          type: string
+    status:
+      type: object
+      readOnly: true
+      properties:
+        state:
+          type: string
+          enum: [ 'creating', 'available', 'error' ]
+        sizeGB:
+          type: integer
+        creationTime:
+          type: string
+          format: date-time

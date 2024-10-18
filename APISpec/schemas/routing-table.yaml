@@ -1,0 +1,41 @@
+Route:
+  type: object
+  properties:
+    spec:
+      type: object
+      properties:
+        destinationCidrBlock:
+          type: string
+          description: The CIDR block for the destination
+        target:
+          type: string
+          description: The target for the route (e.g., igw-id, nat-gateway-id)
+    status:
+      type: object
+      properties:
+        state:
+          type: string
+          enum: [active, blackhole]
+          description: The state of the route
+        managedBy:
+          type: string
+          enum: [user, service]
+          description: Whether the route is managed by the user or a service
+
+RoutingTable:
+  type: object
+  properties:
+    spec:
+      type: object
+      properties:
+        routes:
+          type: array
+          items:
+            $ref: '#/Route'
+    status:
+      type: object
+      properties:
+        routes:
+          type: array
+          items:
+            $ref: '#/Route'

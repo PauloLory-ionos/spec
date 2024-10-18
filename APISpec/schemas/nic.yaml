@@ -1,0 +1,40 @@
+NIC:
+  type: object
+  properties:
+    metadata:
+      $ref: './resource.yaml#/ResourceMetadata'
+    spec:
+      type: object
+      properties:
+        ipv4Address:
+          type: string
+          format: ipv4 
+        ipv6Address:
+          type: string
+          format: ipv6
+        publicIP:
+          type: boolean
+        subnetRef:
+          type: string
+        securityGroupRef:
+          type: string
+    status:
+      type: object
+      readOnly: true
+      properties:
+        state:
+          type: string
+          enum: ['connecting', 'connected', 'disconnecting']
+        ipv4Address:
+          type: string
+          format: ipv4
+        ipv6Address:
+          type: string
+          format: ipv6
+        publicIP:
+          type: boolean
+        subnetRef:
+          type: string
+        securityGroupRef:
+          type: string
+

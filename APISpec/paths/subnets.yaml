@@ -1,0 +1,119 @@
+/vpc/{vpc}/subnets:
+  get:
+    tags:
+      - Network
+    summary: List all subnets in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/subnet.yaml#/Subnet'
+  # post:
+  #   tags:
+  #     - Network
+  #   summary: Create a new subnet in a VPC
+  #   parameters:
+  #     - name: vpc
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string
+  #   requestBody:
+  #     required: true
+  #     content:
+  #       application/json:
+  #         schema:
+  #           $ref: '../schemas/subnet.yaml#/Subnet'
+  #   responses:
+  #     '201':
+  #       description: Subnet created
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '../schemas/subnet.yaml#/Subnet'
+
+/vpc/{vpc}/subnets/{name}:
+  get:
+    tags:
+      - Network
+    summary: Get a specific subnet in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/subnet.yaml#/Subnet'
+  put:
+    tags:
+      - Network
+    summary: Create or update a specific subnet in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/subnet.yaml#/Subnet'
+    responses:
+      '200':
+        description: Subnet created or updated
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/subnet.yaml#/Subnet'
+      '201':
+        description: Subnet created
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/subnet.yaml#/Subnet'
+  delete:
+    tags:
+      - Network
+    summary: Delete a specific subnet in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '204':
+        description: Subnet deleted

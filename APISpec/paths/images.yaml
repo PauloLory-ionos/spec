@@ -1,0 +1,46 @@
+/images:
+  get:
+    summary: List Images
+    tags:
+      - Organization
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/image.yaml#/Image'
+
+/images/{name}:
+  get:
+    summary: Get Image
+    tags:
+      - Organization
+    parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/image.yaml#/Image'
+  delete:
+    summary: Delete Image
+    tags:
+      - Organization
+    parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '204':
+        description: Successful response

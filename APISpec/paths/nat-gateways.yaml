@@ -1,0 +1,113 @@
+/vpc/{vpc}/nat-gateways:
+  get:
+    tags:
+      - Network
+    summary: List all NAT gateways in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/network-resources.yaml#/NatGateway'
+  post:
+    tags:
+      - Network
+    summary: Create a new NAT gateway in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/network-resources.yaml#/NatGateway'
+    responses:
+      '201':
+        description: NAT gateway created
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/network-resources.yaml#/NatGateway'
+
+/vpc/{vpc}/nat-gateways/{natGatewayId}:
+  get:
+    tags:
+      - Network
+    summary: Get a specific NAT gateway in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: natGatewayId
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/network-resources.yaml#/NatGateway'
+  put:
+    tags:
+      - Network
+    summary: Update a specific NAT gateway in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: natGatewayId
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/network-resources.yaml#/NatGateway'
+    responses:
+      '200':
+        description: NAT gateway updated
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/network-resources.yaml#/NatGateway'
+  delete:
+    tags:
+      - Network
+    summary: Delete a specific NAT gateway in a VPC
+    parameters:
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: natGatewayId
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '204':
+        description: NAT gateway deleted

@@ -1,0 +1,23 @@
+VPC:
+  type: object
+  properties:
+    metadata:
+      $ref: './resource.yaml#/ResourceMetadata'
+    spec:
+      type: object
+      properties:
+        region:
+          type: string
+        routingTableRef:
+          type: string
+    status:
+      type: object
+      readOnly: true
+      properties:
+        state:
+          type: string
+          enum: ['provisioning', 'running', 'terminating']
+        region:
+          type: string
+        routingTableRef:
+          type: string
