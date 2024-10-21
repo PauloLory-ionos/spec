@@ -1,0 +1,25 @@
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+runs-on: self-hosted
+
+name: Validate
+
+env:
+  GOPRIVATE: "github.com/eu-sovereign-cloud"
+
+jobs:
+  validate:
+    name: Validate Specs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.23.0'
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Validate
+        run: make lint
