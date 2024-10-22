@@ -71,7 +71,8 @@ Such an example, a disk can be created by sending an HTTP PUT request containing
   ```
 
   
-- Sending an HTTP GET request to the collection's URI retrieves a list of the elements within it. Each element in the collection also has its own unique URI. An HTTP GET request to an element's URI returns the details of that element.
+- Sending an HTTP GET request to the collection's URI retrieves a list of the elements within it; each element in the collection also has its own unique URI. 
+- An HTTP GET request to an element's URI returns the details of that element.
 
 ### Relationship
 
@@ -103,3 +104,263 @@ However, if this model is adopted excessively, its implementation could become c
 5. Avoid introducing dependencies between the resource APIs and the underlying data sources. For example, if the data is persisted in a relational database, it is not necessary for the resource API to expose each table as a collection of resources, as this could likely be a design flaw. Instead, consider the web API as an abstraction over the database. If necessary, introduce a mapping layer between the database and the web API. This way, client applications are isolated from changes to the underlying database schema.
 
 6. Finally, it may not always be possible to map every operation implemented by a web API to a specific resource. Such scenarios, which do not correspond to a resource, can be handled through HTTP requests that invoke a function and return the results as an HTTP response. A web API that implements simple arithmetic operations like addition and subtraction, for example, might provide URIs that expose these operations as pseudo-resources and use the query string to specify the necessary parameters. For example, a GET request to the URI `/add?op1=99&op2=1` returns a response with a body containing the value 100. However, the use of such URI formats is extremely rare and should be limited as much as possible.
+
+### Operations and HTTP Methods
+
+The HTTP protocol defines a series of methods that assign semantic meaning to a request. The HTTP methods used by most RESTful Web APIs are:
+
+- **GET** - Retrieves a representation of the resource at the specified URI. The response body contains the details of the requested resource.
+- **POST** - Can be used to initiate operations that do not actually create resources such as actions.
+- **PUT** - Creates or replaces the resource at the specified URI. The request body specifies the resource to be created or updated.
+- **PATCH** - Performs a partial update of a resource. The request body specifies the set of changes to apply to the resource.
+- **DELETE** - Removes the resource at the specified URI.
+
+The effect of a specific request varies depending on the type of resource (collection or a single item). The table below summarizes common conventions adopted by most RESTful implementations using the example of an e-commerce system. Not all of these requests may be implemented—it depends on the specific scenario.
+
+| HTTP Method | Collection URI (e.g: `https://api.cloud.eu/collection/`) | Element URI (e.g. `https://api.cloud.eu/collection/item1`)          |
+|-------------|----------------------------|---------------------------------------|
+| PUT         | Create - The Collection Resource is created if it does not exist. | The Element Resource and any nested Element Resources are created or replaced with the representations contained in the body of the request   |
+| PATCH       | Update - All representations of the Element Resources contained within the Collection Resource are updated with the instructions in the request. | Update - The Element Resource and any nested Element Resources are updated with the instructions contained in the body of the request. |
+| DELETE       | Removes all representations of the Element Resources from this Collection Resource.            | Removes the Element Resource and any nested Element Resources.  |
+| GET         | The URIs of the collection members are returned in the body of the response | Retrieves the representation of the Element Resource, which will be contained in the body of the response. |
+| POST      | Not Applicable | Performs an action on the Element Resource   |
+
+| Resource | PUT | PATCH | DELETE | GET | POST |
+|-------------|-------------|-------------|-------------|-------------|-------------|
+| /virtualMachines |  405 Method Not Allowed | Perform a bulk update of customers using the instructions contained in the request.  | 405 Method Not Allowed | Retrieve all virtual machines | 405 Method Not Allowed |
+| /virtualMachines/my-vm | Create a new Virtual Machine **my-vm** if does not exists yet | Perform the resource update using the instructions contained in the request  | Remove the virtual machine **my-vm** | Retrieve details of **my-vm** virtual machine | 405 Method Not Allowed |
+| /virtualMachines/my-vm/powerOff | 405 Method Not Allowed | 405 Method Not Allowed  | 405 Method Not Allowed | 405 Method Not Allowed | Stop the virtual machine **my-vm** if makes sense  |
+| /virtualMachines/my-vm/networkInterfaces | 405 Method Not Allowed | 405 Method Not Allowed | 405 Method Not Allowed | Retrieve all network interfaces for the virtual machine **my-vm** | 405 Method Not Allowed |
+| /virtualMachines/my-vm/networkInterfaces/my-nic | Create a new **my-nic** network Interface if does not exist yet | Perform the network interface update, for the vm **my-vm**, using the instructions contained in the request | Remove the network interface **my-nic** of the **my-vm** virtual machine | Retrieve the **my-nic** network interface detail attached to the virtual machine **my-vm** | 405 Method Not Allowed |
+
+**Notes**
+
+- A **PUT** request creates a resource or updates an existing one. The client specifies the URI for the resource. The request body contains a complete representation of the resource. If a resource with that URI already exists, it is replaced. Otherwise, a new resource is created, if this operation is supported by the server. PUT requests are more frequently applied to individual items, like a specific virtual machine, rather than to collection resources. A server might support only updates but not creation through PUT. Whether or not creation via PUT is supported depends on whether the client can assign a meaningful and unique URI to a resource that doesn't yet exist. If the client cannot, POST should be used to create resources, and PUT or PATCH for updates.
+- A **PATCH** request performs a partial update of an existing resource. The client specifies the resource URI, and the request body specifies a set of changes to apply to the resource. PATCH can be more efficient than PUT because the client only sends the changes, not the entire resource representation. Technically, PATCH can also create a new resource by specifying a set of updates for a "null" resource, if the server supports this operation.
+- **PUT** requests must be idempotent. If a client sends the same PUT request multiple times, the results must always be the same, meaning the same resource will be updated with the same values. In contrast, POST and PATCH requests are not guaranteed to be idempotent.
+
+### HTTP Semantics
+This section describes some typical considerations for designing an API that complies with the HTTP specification. However, it does not cover every possible detail or scenario. In case of doubt, consult the HTTP specifications.
+
+#### Media Type
+
+- As mentioned earlier, clients and servers exchange representations of resources. In a POST request, for example, the request body contains a representation of the resource to be created. In a GET request, the response body contains a representation of the retrieved resource.
+
+- In the HTTP protocol, formats are specified using Media Types, also known as MIME types. For non-binary data, most Web APIs support JSON (i.e., the media type application/json) and possibly XML (i.e., the media type application/xml).
+
+- The Content-Type header specifies the format of the representation. Below is an example of a POST request containing JSON data:
+
+```javascript
+PUT https://api.cloud.eu/${scope}/virtualmachines/my-vm HTTP/1.1
+Content-Type: application/json; charset=utf-8
+Content-Length: 47
+
+{"Flavor":"K0063","OS":"Ubuntu24.01"}
+```
+
+If the server does not support the media type, it must return the HTTP status code 415 (Unsupported Media Type).
+
+A client request can include an Accept header containing a list of media types that the client will accept in the server’s response. For example:
+
+```javascript
+GET https://api.cloud.eu/${scope}/virtualMachines/my-vm HTTP/1.1
+Accept: application/json
+```
+
+If the server cannot provide a media type matching those listed, it must return the HTTP status code 406 (Not Acceptable).
+
+#### JSON
+
+##### Casing
+- The casing adopted must be camelCase.
+
+##### Naming
+- The identifier field of an object will be expressed in the following form: id.
+
+##### Type Conversion
+- For those media types where there is no 1:1 conversion between the server-side data type and the one transmitted to clients, we adopt the following convention:
+
+| Native Type | JSON Type | Format Spec | Note |
+|-------------|-------------|-------------|-------------|
+| null| null | | |
+| boolean | bool | | |
+| byte, sbyte, int32, int64, uint32, uint64, float, double | number culture-invariant string | All numbers up to a maximum precision of 64 bits ([IEEE 754](https://en.wikipedia.org/wiki/IEEE_754), [binary64](https://en.wikipedia.org/wiki/Double-precision_floating-point_format)). | { "add": 123.5 }<br/>{ "add": 5 }<br/>{ "add": "136573525573.86576576" }| 
+| decimal/arbitrary precision numbers | culture-invariant string | (?<sign>[+|-])?(?<number>\d+)(?<digits>(?<separator>.)\d+)? | { "add": "136573525573.86576576" }| 
+| string | string | [UTF-8](https://en.wikipedia.org/wiki/UTF-8) | If necessary, [UTF-16](https://en.wikipedia.org/wiki/UTF-16) surrogate pairs should be used for escape sequences of glyphs outside the [Basic Multilingual Plane](https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane) (U+10000 to U+10FFFF)| 
+| guid/uuid/ulid | string | (?<uuid>[0123456789abcdef]{32})| Example: a2b4c746c71745a8ad8f3cf7a1cede9b |
+| blob | string | [base64](https://en.wikipedia.org/wiki/Base64) | |
+| date, time, datetime, duration, time intervals | string | [RFC339](https://datatracker.ietf.org/doc/html/rfc3339) ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) profile) | Time: 09:30,<br/> UtcTime: 09:30Z,<br/> DateTime: 2020-02-26T16:23:11.1196470+01:00,<br/> UtcDateTime: 2020-02-26T15:23:11.1280371Z,<br/> Duration: P3Y6M4DT12H30M5S,<br/> StartAndEndTimeInterval: 2007-03-01T13:00:00Z/2008-05-11T15:30:00Z,<br/> StartAndDurationTimeInterval: 2007-03-01T13:00:00Z/P1Y2M10DT2H30M,<br/> DurationAndEndTimeInterval: P1Y2M10DT2H30M/2008-05-11T15:30:00Z,<br/> DurationOnlyTimeInterval: P1Y2M10DT2H30M``` |
+| enum | string | conversion to string with camelCase |  |
+
+#### GET Method
+- A successful GET method typically returns the HTTP status code 200 (OK). If the resource is not found, the method should return 404 (Not Found)
+
+#### HEAD Method
+- The **HEAD** method requires a response identical to the GET method (using the same semantics as GET), but without returning the response body to the client. It can be used to check the existence of a resource.
+
+#### PUT Method
+- If a **PUT** method creates a new resource, it must return the HTTP status code 201 (Created). The URI of the new resource is included in the Location header of the response. The body will contain a representation of the resource
+- If the method updates an existing resource, it will return 200 (OK) or 204 (No Content). In some cases, it may not be possible to update an existing resource. In such circumstances, consider returning the HTTP status code 409 (Conflict).
+- Consider implementing bulk HTTP PUT operations that can perform batch updates of multiple resources within a collection. The PUT request should specify the URI of the collection, and the request body should specify the details of the resources to be modified. This approach helps reduce fragmentation and improves performance.
+
+#### POST Method
+- When it performs a processing task the method may return the HTTP status code 200 and include the result of the operation in the response body. 
+- If there are no results, the method can return the HTTP status code 204 (No Content) without a response body, or HTTP 202 (Accepted) if an asynchronous process has been initiated.  
+  - In this case, the Location header will contain a reference to a resource that can provide the status of the request's progress.
+
+If the client submits invalid data in the request, the server must return the HTTP status code 400 (Bad Request). The response body should contain additional information about the error or a link to a URI providing more details
+
+#### PATCH Method
+- With a PATCH request, the client sends a set of updates to an existing resource in the form of a patch document. The server processes the patch document to apply the updates, which will not describe the entire resource but only a set of changes to be applied. The specification for the PATCH method ([RFC 5789](https://datatracker.ietf.org/doc/html/rfc5789)) does not define a particular format for patch documents. The format must be inferred from the media type in the request.
+- The most common data format for Web APIs is likely JSON. There are two main JSON-based patch formats, known as "JSON Merge Patch" and "JSON Patch".
+- The **Merge Patch** format is the simpler one: the document follows the same structure as the original JSON resource but includes only the subset of fields to be modified or added.
+- A field can be deleted by specifying null as its value.
+
+For example, let's assume the original resource has the following JSON representation:
+```json
+  {
+    ...
+    "properties": {
+      "flavor": "KA0006R",
+      "os": "Ubuntu22.04LTS",
+      "init": "script.sh"
+    }
+    ...
+  }    
+  ```
+Below is a possible Merge Patch document for that resource:
+```json
+  {
+    "properties": {
+      "os": "Ubuntu24.04LTS",
+      "init": null
+    }
+  }    
+  ```
+In this way, the API is instructed to update the os property, delete the init property, while flavor remains unchanged. For detailed information on Merge Patch, refer to the specification [RFC 7396](https://datatracker.ietf.org/doc/html/rfc7396).
+
+- We can adopt the GET → PATCH model with If- headers to ensure that we send updated values, inclusive of any changes.*
+
+Strategic Merge is useful to avoid the roundtrip of the initial GET.
+
+Below are some typical error conditions that can occur during the processing of a PATCH request, along with the appropriate HTTP status code.
+
+| Error Condition | HTTP Status Code |
+|-----------------| -----------------|
+|The format of the patch document is not supported.|	415 (Unsupported Media Type) |
+|The format of the patch document is not valid.|400 (Bad Request)|
+|The patch document is valid but changes could not be applied with the current state|409 (Conflict)|
+|The patch document is valid but changes could not be applied due to Match Headers failed precondition |409 (Conflict)|
+
+#### DELETE Method
+- If the deletion operation is successful, the API will respond with the HTTP status code 204, indicating that the process was handled correctly and that the response body will not contain further information. If the resource does not exist, the API may return the HTTP status code 404 (Not Found).
+
+#### Conditional Requests
+
+See the dedicated [reference](https://datatracker.ietf.org/doc/html/rfc7232) for further details. In short, it's possible to define precondition needed to consider a request valid.
+
+- These preconditions are usually expressed through specific headers and are used in scenarios where multiple actors are simultaneously modifying a resource. Preconditions (based on an ETag, for example) help prevent the lost update phenomenon.
+
+#### Status Code
+
+##### Group By Category
+
+| Category | Description |
+|----------| ------------|
+|1xx Informational| Not to be used except in experimental conditions, as they are not standardized |
+|2xx Success| This class of status codes indicates that the action requested by the client has been received, understood, and accepted. |
+|3xx Redirection| This class of status codes indicates that the client must take further action to complete the request. Many of these status codes are used for [URL redirection](https://en.wikipedia.org/wiki/URL_redirection). <br/> A user agent may perform the action without user intervention only if the method to be used is GET or HEAD. A user agent may automatically redirect a request. A user agent should detect and prevent any cyclic redirects. |
+|4xx Client Error| This class of status codes is to be used in cases where the client is the cause of the error. Except for HEAD requests, the server should include an entity/representation containing an explanation of the error and whether it is transient or permanent. These status codes are applicable to all methods. User agents should display the information to users. |
+|5xx Server Error| The server was unable to fulfill the request.<br/>
+Status codes that begin with the digit "5" indicate cases where the server encountered an error or was otherwise unable to process the request. Except for HEAD requests, the server should include an entity/representation containing an explanation of the error and whether it is transient or permanent. These status codes are applicable to all methods. User agents should display the information to users. |
+
+##### Status Detail
+
+[Reference](https://httpstatuses.com/)
+
+| Code | Description |
+|----------| ------------|
+|200 OK | Indicates that the client's request has been successfully processed and that there is no more appropriate status code in the 2xx category.<br/><br/> Unlike status code 204, a response with a 200 code should include a body. The information returned depends on the method used in the request, for example: <br/> **GET** - the requested entity. <br/> **HEAD** - the HTTP headers of the requested entity (e.g., ETag, etc.).<br/> **POST** - an entity that describes or contains the result of the request. |
+|201 Created| Typically used when a resource has been created within a Collection Resource, but it would also be appropriate in cases where the resource is created as a result of a controller's action.<br/> The newly created resource can be referenced by one or more URIs returned in the response, with the most specific URI for the resource contained in the Location header.<br/> The server must have created the resource before returning a 201 status code. If the action cannot be completed immediately, the server must respond with a 202 Accepted status code.<br/>|
+|202 Accepted| Typically used for actions that take time to complete. It indicates that the request has been accepted for processing, but the processing is not yet complete. The outcome of the request is therefore not yet known and could be prevented if attempted again before the previous process has finished.<br/> The purpose is to allow the server to accept a request for another process (normally asynchronous/long-running/scheduled) without forcing the user agent to keep a connection open until the procedure is completed.<br/>The entity returned with the response should include an indication of the current status of the request and a pointer to a resource that shows the progress of the task.<br/>The Location header can be used instead of a body.<br/>The response might also include, in its headers, an estimated time for when the asynchronous process will be completed.  |
+|204 No Content| The server has successfully processed the request, and there is no body in the response. |
+|302 Found| The target resource resides temporarily under a different URI. Since the redirection might be altered on occasion, the client ought to continue to use the effective request URI for future requests. |
+|303 See Other| The server is redirecting the user agent to a different resource, as indicated by a URI in the Location header field, which is intended to provide an indirect response to the original request. |
+|400 Bad Request| 400 is the generic client-side error status, used when no other code in the 4xx error category is more appropriate. Request errors (body or parameters) can fall into this category.<br/>The client should not repeat the request without making the appropriate changes, which may be indicated in the response of the previous invalid request. |
+|401 Unauthorized| A 401 error indicates that the client attempted to operate on a resource without providing the necessary credentials. The response must include the WWW-Authenticate header containing a challenge applicable to the requested resource.<br/> The client may repeat the request with the appropriate Authorization header. If the initial request already included the header, the 401 response indicates that authorization was denied for those credentials. |
+|403 Forbidden| A 403 code indicates that the request is formally valid, even from an authentication perspective, but the server refuses to process it because the user lacks the necessary permissions, or the resource's state does not allow this particular operation. A 403 response is not a case of incorrect credentials; that would be the 401 Unauthorized code.<br/> Re-authenticating would not resolve the issue, and the request should not be repeated, as the problem lies with permissions, not credentials. |
+|404 Not Found | The 404 status indicates that the requested resource could not be found by the client via the URI, but it may become available in the future, so further requests from the client are allowed.<br/>No indication is given as to whether the condition is permanent or temporary.|
+|409 Conflict | The request could not be completed due to a conflict with the current state of the target resource. This code is used in situations where the user might be able to resolve the conflict and resubmit the request.|
+|410 Gone | The 410 Gone status should be used, via some configurable internal mechanism, when an old resource is no longer available and no forwarding information to another entity exists. This status is also used by servers to avoid revealing the exact reason the request was denied, or if other status codes are not applicable.|
+|412 Precondition Failed | The 412 code indicates that the preconditions expressed by the client in the request headers could not be met by the server (e.g[If-Match](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Match)|
+|415 Unsupported Media Type| The origin server is refusing to service the request because the payload is in a format not supported by this method on the target resource.|
+|5xx Server Error| 500 is a generic error code. Most web application frameworks return this error when an exception occurs in one of the components handling the requests.<br/>A 500 error is not caused by the client, so it is reasonable for a client to retry the operation to obtain a valid response.|
+
+##### ProblemDetails - Response Body for 4xx and 5xx Categories
+- It is necessary to adopt a shared data model for error responses.
+
+This model is outlined in [RFC 7807 - Problem Details](https://tools.ietf.org/html/rfc7807). Libraries and frameworks for various server-side technologies should provide functionalities to easily adopt this model.
+
+A ProblemDetails object, as specified, can contain the following elements:
+|type (string)| A [URI reference](https://tools.ietf.org/html/rfc3986) that identifies the type of problem. When dereferenced, it should provide human-readable documentation (e.g., using [HTML](https://html.spec.whatwg.org/multipage/)). When this value is not present, it is considered populated with "about:blank"|
+|title (string)|A brief, human-readable description of the problem. It should not change between occurrences of the same problem, except for localization needs (e.g., using proactive content negotiation; see [RFC7231](https://tools.ietf.org/html/rfc7231#section-3.4), Section 3.4). |
+|status (number)|The HTTP status code ([RFC7231 Section 6](https://tools.ietf.org/html/rfc7231#section-6), ) generated by the origin server for this occurrence of the problem. |
+|detail (string)|A human-readable explanation that describes this specific occurrence of the problem.|
+|instance (string)|A URI reference that uniquely identifies this specific occurrence of the problem.<br/>It is useful for tracking the instance of the problem within a structured log.<br/>It may be dereferenced to obtain more information, but this is not mandatory.|
+
+It may also contain a series of elements that provide additional information for the particular type of problem encountered. For example:
+
+```json
+HTTP/1.1 403 Forbidden
+Content-Type: application/problem+json
+Content-Language: en
+ 
+{
+    "type": "https://example.com/probs/out-of-credit",
+    "title": "You do not have enough credit.",
+    "detail": "Your current balance is 30, but that costs 50.",
+    "instance": "/account/12345/msgs/abc",
+    "balance": 30,
+    "accounts": ["/account/12345",
+                 "/account/67890"]
+}
+```
+
+In this case, the fields balance and account are specific to the type of error https://example.com/probs/out-of-credit.
+
+Or, in the case of validation problems with a request:
+
+```json
+HTTP/1.1 400 Bad Request
+Content-Type: application/problem+json
+Content-Language: en
+ 
+{
+   "type": "https://example.net/validation-error",
+   "title": "Your request parameters didn't validate.",
+   "errors": {
+       "age": [ "must be a positive integer" ],
+       "color": [ "must be 'green', 'red' or 'blue'" ]
+   }]
+}
+```
+
+As in the example, the errors contain the validation issues encountered during processing.
+
+The **errors** object is an associative array where the key is the name of the request property, and the value is a list of related error messages.
+
+If it is not possible to identify a single property that caused the error, it is acceptable for the key to be an empty string, for example:
+
+```json
+HTTP/1.1 400 Bad Request
+Content-Type: application/problem+json
+Content-Language: en
+ 
+{
+   "type": "https://example.net/validation-error",
+   "title": "Your request parameters didn't validate.",
+   "errors": {
+       "": [ "this request contains too many errors to list" ]
+   }]
+}
+```
