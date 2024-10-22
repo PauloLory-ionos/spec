@@ -363,3 +363,202 @@ Content-Language: en
    }]
 }
 ```
+
+### Filtering, Sorting and Pagination
+
+- By exposing a collection of resources through a single URI, applications might retrieve large amounts of data when only a subset of information is needed. For example, suppose a client application needs to find all orders with a price above a specific value. It could retrieve all orders from the URI /orders and then filter those orders client-side. This process is clearly inefficient as it wastes bandwidth and processing time on the server hosting the web API.
+- Instead, the API can allow passing a filter in the query string of the URI, for example, /orders?minCost=n. The web API would then be responsible for parsing and handling the minCost parameter in the query string and returning the filtered results server-side.
+- GET requests on collection resources might return a large number of items. It is advisable to design a web API to limit the amount of data returned in each request. Consider supporting query strings that specify the maximum number of items to retrieve and an initial offset in the collection, for example:
+
+```json
+HTTP 
+/orders?limit=25&offset=50
+```
+
+- Consider also the possibility of imposing a maximum limit on the number of returned items to prevent Denial of Service attacks. To assist client applications, GET requests that return paginated data should also include metadata indicating the total number of available resources in the collection.
+
+- The response to a paginated GET request may also include links:
+
+  - first
+  - last
+  - next
+  - prev
+
+```json
+{
+    "self": "https://dogtracker.com/dogs?limit=25&offset=0",
+    "kind": "Page",
+    "pageOf": "https://dogtracker.com/dogs",
+    "next": "https://dogtracker.com/dogs?limit=25&offset=25",
+    "values": [
+        {
+            "self": "https://dogtracker.com/dogs/12344",
+            "kind": "Dog",
+            "name": "Fido",
+            "furColor": "white"
+        },
+        {
+            "self": "https://dogtracker.com/dogs/12345",
+            "kind": "Dog",
+            "name": "Rover",
+            "furColor": "brown"
+        },
+        ... (23 more)
+    ]
+}
+```
+
+It is possible to use a similar strategy to sort the data while retrieving it, by specifying a sort parameter that accepts a field name as a value, for example /orders?sort=productId. However, this approach can have a negative effect on caching because query string parameters are part of the resource identifier, which is used by many caching implementations as a key to store data.
+
+To indicate ascending or descending order, a parameter order (or sortOrder, in case of conflicts with existing naming conventions) can be included with accepted values asc(ending) and desc(ending).
+
+This approach can be extended to limit the fields returned for each item, if each contains a large amount of data. For example, a query string parameter can be used to accept a comma-delimited list of fields, such as /orders?fields=productId,quantity.
+
+Consider assigning meaningful default values to all optional query string parameters. For example, set the limit parameter to 10 and the offset parameter to 0 when implementing pagination, set the sort parameter to the resource’s primary key when implementing sorting, and set the fields parameter to include all resource fields when supporting projections.
+
+You can find additional ways of managing pagination, filtering, and sorting at the following links:
+
+- https://nordicapis.com/4-examples-of-restful-api-pagination-in-production/
+- https://specs.openstack.org/openstack/api-wg/guidelines/pagination_filter_sort.html
+
+#### RPC Requests
+
+Sometimes it can be convenient to name an API with a verb rather than a noun (e.g., Compute, Start, Stop, Create, Convert, etc.). Even in these cases, it is quite likely that an RPC operation on an action can be translated as a REST command on another "surrogate" resource. 
+
+#### OData e GraphQL
+
+[OData](https://www.odata.org/odata-services/) and [GraphQL](https://graphql.org/learn/) are two technologies that, when properly configured, can address specific use cases. They diverge from what is prescribed by REST, as they do not fully or partially adhere to the prescribed constraints.
+
+The adoption of these technologies is subject to a request to the Software Architecture department, accompanied by rationales that outline the pros and cons, along with a strategic implementation plan to mitigate the risks associated with the dynamism offered to clients.
+
+### HATEOS
+
+One of the main motivations behind the REST approach is that it should be possible to navigate the entire set of resources without prior knowledge of the URI schema. Each HTTP GET request should return the necessary information to find related resources directly through hyperlinks included in the response, and at the same time, it should also contain information that describes the available operations for each of these resources. This principle is known as HATEOAS, or Hypertext as the Engine of Application State. The system is essentially a finite state machine, and the response to each request contains the information needed to transition from one state to another. No further information should be required
+
+To manage the relationship between an virtual machine and a network interface, for example, the representation of an order could include links that identify the operations available for the customer of the order. Below is a possible representation:
+
+```json
+{
+  "flavor": "KA0006R",
+  "os": "Ubuntu22.04LTS",
+  "init": "script.sh",  
+  "links": [
+    {
+      "rel": "nic",
+      "href": "https://api.cloud.eu/${scope}/networkInterfaces/my-nic-1",
+      "action": "GET",
+      "types": ["text/xml","application/json"]
+    },
+    {
+        "rel": "nic",
+        "href": "https://api.cloud.eu/${scope}/networkInterfaces/my-nic-1",
+        "action": "PUT",
+        "types": ["application/x-www-form-urlencoded"]
+    },    
+    {
+        "rel": "nic",
+        "href": "https://api.cloud.eu/${scope}/networkInterfaces/my-nic-1",
+        "action": "DLETE",
+        "types": ["application/x-www-form-urlencoded"]
+    },
+    {
+      "rel": "self",
+      "href": "https://api.cloud.eu/${scope}/virtualMachines/my-vm",
+      "action": "GET",
+      "types": ["text/xml","application/json"]
+    },
+    {
+      "rel": "self",
+      "href": "https://api.cloud.eu/${scope}/virtualMachines/my-vm",
+      "action": "PUT",
+      "types": ["application/x-www-form-urlencoded"]
+    },  
+    {
+      "rel": "self",
+      "href": "https://api.cloud.eu/${scope}/virtualMachines/my-vm",
+      "action": "DELETE",
+      "types": []
+    }]
+}
+```
+
+In this example, the links array contains a set of links, each representing an operation on a related entity. The data for each link includes the relation ("customer"), the URI (https://api.cloud.eu/${scope}/networkInterfaces/my-nic-1), the HTTP method, and the supported media types. These are all the necessary details for a client application to invoke the operation.
+
+The links array also includes information about the resource itself, which is the subject of the request. This information represents the self relation.
+
+The set of links returned may vary depending on the state of the resource. This is why it is referred to as "hypertext as the engine of application state."
+
+#### HAL
+
+The [JSON Hypertext Application Language](https://tools.ietf.org/html/draft-kelly-json-hal-07) (HAL) can be used in conjunction with HATEOAS.
+
+For completeness, here is an example of a resource represented using HAL.
+
+```json
+{
+    "_links": {
+        "self": { "href": "/orders" },
+        "curies": [{ "name": "ea", "href": "http://example.com/docs/rels/{rel}", "templated": true }],
+        "next": { "href": "/orders?page=2" },
+        "ea:find": {
+            "href": "/orders{?id}",
+            "templated": true
+        }
+    },
+    "currentlyProcessing": 14,
+    "shippedToday": 20,
+    "_embedded": {
+        "ea:order": [{
+            "_links": {
+                "self": { "href": "/orders/123" },
+                "ea:basket": { "href": "/baskets/98712" },
+                "ea:customer": { "href": "/customers/7809" }
+            },
+            "total": 30.00,
+            "currency": "USD",
+            "status": "shipped"
+        }, {
+            "_links": {
+                "self": { "href": "/orders/124" },
+                "ea:basket": { "href": "/baskets/97213" },
+                "ea:customer": { "href": "/customers/12369" }
+            },
+            "total": 20.00,
+            "currency": "USD",
+            "status": "processing"
+        }]
+    }
+}
+```
+
+### Versioning
+
+It is highly unlikely that a web API will remain static. As business requirements change, new resources may be added, the relationships between them may change, and the data structure within the resources themselves may be modified. While updating a web API to handle new or different requirements is a relatively straightforward process, it is essential to consider the effects of these changes on client applications using the web API. The problem is that, even though the developer designing and implementing a web API has full control over that API, they do not have the same level of control over client applications, which may be created by third-party organizations. The imperative is to allow existing client applications to continue functioning without modifications while enabling new client applications to take advantage of new features and resources.
+
+To be formally correct, services should increment the version number following any breaking change. The following section qualifies the nature of a breaking change. Services may also increment their version in the absence of breaking changes if deemed necessary.
+
+#### Breaking Change Definition
+
+The API represents a contract between parties. Changes that directly or indirectly impact the backward compatibility of an API are to be considered breaking changes.
+
+Services must explicitly define their understanding of breaking changes, especially regarding additive modifications—new fields, new parameters, both potentially with default values.
+
+Services that are colocated behind the same DNS endpoint must be consistent in their definition of the extensibility of a contract.
+
+The definition of backward compatibility also partially depends on technical and business requirements. For some teams, adding a new field may fall under the category of a breaking change. For others, it may be considered an additive modification and therefore not necessarily impactful for existing clients.
+
+##### Examples of additive modifications that are not necessarily breaking:
+- Adding a new feature expressed in terms not previously available (therefore new).
+- Adding an element (property, query string parameters, etc.) without making it mandatory and assigning a default value.
+
+##### Universal examples of breaking changes:
+- Removal, renaming, or alteration of part of a contract in the form of data models, types, paths, parameters, or other elements. Examples:
+- Removing a method.
+- Adding a mandatory parameter to a method without providing a default.
+- Adding a mandatory attribute without providing a default.
+- Removing attributes.
+- Changing the type of an attribute.
+- Expanding or modifying the range of allowed values for a particular element.
+- Changes in behavior even with the same contract/API.
+- Changes in error codes and so-called Fault Contracts, which express the result of an error condition.
+- Anything that violates the principle of least surprise.
