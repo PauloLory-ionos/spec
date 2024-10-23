@@ -58,6 +58,7 @@ Control Plan APIs have all the following template:
 
 ****TO DO****
 | Field | Description |
+|---------- | ----------- |
 | tenenat | what is a tenant?  |
 | region  | what is a region?   |
 | service | what is a service? |
