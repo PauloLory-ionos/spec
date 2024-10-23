@@ -2,16 +2,19 @@
 
 # Table of Contents
 - [Introduction](#introduction)
-- [Resource Manager](#resource-model)
-- [Data Plane](#resource-model)
+- [Architecture](#resource-model)
+  - [Control Plane](#architecture)
+  - [Data Plane](#resource-model)
 - [Resource Model](#resource-model)
+  - [Resource Definition](#resource-definition)
+  - [Resource Lifecycle](#resource-lifecycle)
 - [Advanced Topics](#advanced-topics)
 - [Conclusion](#conclusion)
 
 ## **Introduction**
 The aim of this document is to define guidelines to design resource model for the eurocloud APIs
 
-## **Resource Manager**
+## **Architecture**
 
 Cloud Requests can be divided in two categories:
   - **Control plane** 
