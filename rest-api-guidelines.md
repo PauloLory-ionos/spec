@@ -1,5 +1,44 @@
 # **Api Conventions**
 
+# Table of Contents
+- [Introduction](#introduction)
+- [API Security](#api-security)
+- [API Model](#api-model)
+  - [Entity](#entity)
+  - [Relationship](#relationship)  
+  - [URI Naming Convention](#uri-naming-convention)
+- [Operations and HTTP Methods](#operations-and-http-methods)
+- [HTTP Semantics](#http-semantics)
+  - [Media Type](#media-type)
+    - [JSON](#json)
+      - [Casing](#casing)
+      - [Naming](#naming)
+      - [Type Conversion](#type-conversion)
+  - [GET Method](#get-method)
+  - [HEAD Method](#head-method)
+  - [PUT Method](#put-method)
+  - [POST Method](#post-method)
+  - [PATCH Method](#patch-method)
+  - [DELETE Method](#delete-method)
+  - [Conditional Requests](#conditional-requests)
+  - [Status Code](#status-code)
+    - [Group By Category](#group-by-category)
+    - [Status Detail](#status-detail)
+    - [Problem Details - Response Body for 4xx and 5xx Categories](#problemdetails---response-body-for-4xx-and-5xx-categories)
+- [Filtering, Sorting and Pagination](#filtering-sorting-and-pagination)     
+- [HATEOS](#hateos)
+- [Versioning](#hateos)
+  - [Breaking Change Definition](#breaking-change-definition)
+  - [Examples of additive modifications that are not necessarily breaking](#examples-of-additive-modifications-that-are-not-necessarily-breaking)
+  - [Universal examples of breaking changes](#universal-examples-of-breaking-changes)
+  - [Evolutionary and Support](#evolutionary-and-support)
+- [Asynchronous Operations](#asynchronous-operations)
+  - [Asynchronous Request-Reply Pattern](#asynchronous-request-reply-pattern)
+  - [Solution](#solution)
+  - [Considerations and Issues](#considerations-and-issues)
+  - [When should you use this model?](#when-should-you-use-this-model)
+
+
 ## Introduction
 
 Most modern web applications expose APIs that can be used by clients to interact with the application
@@ -28,7 +67,6 @@ host[:port]
 ```
 ![URI_syntax_diagram.svg](./pic/URI_syntax_diagram.svg.png)
 
-## REST
 
 ## API Security
 
@@ -105,7 +143,7 @@ However, if this model is adopted excessively, its implementation could become c
 
 6. Finally, it may not always be possible to map every operation implemented by a web API to a specific resource. Such scenarios, which do not correspond to a resource, can be handled through HTTP requests that invoke a function and return the results as an HTTP response. A web API that implements simple arithmetic operations like addition and subtraction, for example, might provide URIs that expose these operations as pseudo-resources and use the query string to specify the necessary parameters. For example, a GET request to the URI `/add?op1=99&op2=1` returns a response with a body containing the value 100. However, the use of such URI formats is extremely rare and should be limited as much as possible.
 
-### Operations and HTTP Methods
+## Operations and HTTP Methods
 
 The HTTP protocol defines a series of methods that assign semantic meaning to a request. The HTTP methods used by most RESTful Web APIs are:
 
@@ -139,10 +177,10 @@ The effect of a specific request varies depending on the type of resource (colle
 - A **PATCH** request performs a partial update of an existing resource. The client specifies the resource URI, and the request body specifies a set of changes to apply to the resource. PATCH can be more efficient than PUT because the client only sends the changes, not the entire resource representation. Technically, PATCH can also create a new resource by specifying a set of updates for a "null" resource, if the server supports this operation.
 - **PUT** requests must be idempotent. If a client sends the same PUT request multiple times, the results must always be the same, meaning the same resource will be updated with the same values. In contrast, POST and PATCH requests are not guaranteed to be idempotent.
 
-### HTTP Semantics
+## HTTP Semantics
 This section describes some typical considerations for designing an API that complies with the HTTP specification. However, it does not cover every possible detail or scenario. In case of doubt, consult the HTTP specifications.
 
-#### Media Type
+### Media Type
 
 - As mentioned earlier, clients and servers exchange representations of resources. In a POST request, for example, the request body contains a representation of the resource to be created. In a GET request, the response body contains a representation of the retrieved resource.
 
@@ -185,7 +223,7 @@ If the server cannot provide a media type matching those listed, it must return 
 | null| null | | |
 | boolean | bool | | |
 | byte, sbyte, int32, int64, uint32, uint64, float, double | number culture-invariant string | All numbers up to a maximum precision of 64 bits ([IEEE 754](https://en.wikipedia.org/wiki/IEEE_754), [binary64](https://en.wikipedia.org/wiki/Double-precision_floating-point_format)). | { "add": 123.5 }<br/>{ "add": 5 }<br/>{ "add": "136573525573.86576576" }| 
-| decimal/arbitrary precision numbers | culture-invariant string | (?<sign>[+|-])?(?<number>\d+)(?<digits>(?<separator>.)\d+)? | { "add": "136573525573.86576576" }| 
+| decimal/arbitrary precision numbers | culture-invariant string |(?<sign>[+\|-])?(?<number>\d+)(?<digits>(?<separator>.)\d+)? | { "add": "136573525573.86576576" }|  
 | string | string | [UTF-8](https://en.wikipedia.org/wiki/UTF-8) | If necessary, [UTF-16](https://en.wikipedia.org/wiki/UTF-16) surrogate pairs should be used for escape sequences of glyphs outside the [Basic Multilingual Plane](https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane) (U+10000 to U+10FFFF)| 
 | guid/uuid/ulid | string | (?<uuid>[0123456789abcdef]{32})| Example: a2b4c746c71745a8ad8f3cf7a1cede9b |
 | blob | string | [base64](https://en.wikipedia.org/wiki/Base64) | |
@@ -364,7 +402,7 @@ Content-Language: en
 }
 ```
 
-### Filtering, Sorting and Pagination
+## Filtering, Sorting and Pagination
 
 - By exposing a collection of resources through a single URI, applications might retrieve large amounts of data when only a subset of information is needed. For example, suppose a client application needs to find all orders with a price above a specific value. It could retrieve all orders from the URI /orders and then filter those orders client-side. This process is clearly inefficient as it wastes bandwidth and processing time on the server hosting the web API.
 - Instead, the API can allow passing a filter in the query string of the URI, for example, /orders?minCost=n. The web API would then be responsible for parsing and handling the minCost parameter in the query string and returning the filtered results server-side.
@@ -431,7 +469,7 @@ Sometimes it can be convenient to name an API with a verb rather than a noun (e.
 
 The adoption of these technologies is subject to a request to the Software Architecture department, accompanied by rationales that outline the pros and cons, along with a strategic implementation plan to mitigate the risks associated with the dynamism offered to clients.
 
-### HATEOS
+## HATEOS
 
 One of the main motivations behind the REST approach is that it should be possible to navigate the entire set of resources without prior knowledge of the URI schema. Each HTTP GET request should return the necessary information to find related resources directly through hyperlinks included in the response, and at the same time, it should also contain information that describes the available operations for each of these resources. This principle is known as HATEOAS, or Hypertext as the Engine of Application State. The system is essentially a finite state machine, and the response to each request contains the information needed to transition from one state to another. No further information should be required
 
@@ -488,7 +526,7 @@ The links array also includes information about the resource itself, which is th
 
 The set of links returned may vary depending on the state of the resource. This is why it is referred to as "hypertext as the engine of application state."
 
-#### HAL
+### HAL
 
 The [JSON Hypertext Application Language](https://tools.ietf.org/html/draft-kelly-json-hal-07) (HAL) can be used in conjunction with HATEOAS.
 
@@ -531,13 +569,13 @@ For completeness, here is an example of a resource represented using HAL.
 }
 ```
 
-### Versioning
+## Versioning
 
 It is highly unlikely that a web API will remain static. As business requirements change, new resources may be added, the relationships between them may change, and the data structure within the resources themselves may be modified. While updating a web API to handle new or different requirements is a relatively straightforward process, it is essential to consider the effects of these changes on client applications using the web API. The problem is that, even though the developer designing and implementing a web API has full control over that API, they do not have the same level of control over client applications, which may be created by third-party organizations. The imperative is to allow existing client applications to continue functioning without modifications while enabling new client applications to take advantage of new features and resources.
 
 To be formally correct, services should increment the version number following any breaking change. The following section qualifies the nature of a breaking change. Services may also increment their version in the absence of breaking changes if deemed necessary.
 
-#### Breaking Change Definition
+### Breaking Change Definition
 
 The API represents a contract between parties. Changes that directly or indirectly impact the backward compatibility of an API are to be considered breaking changes.
 
@@ -547,11 +585,11 @@ Services that are colocated behind the same DNS endpoint must be consistent in t
 
 The definition of backward compatibility also partially depends on technical and business requirements. For some teams, adding a new field may fall under the category of a breaking change. For others, it may be considered an additive modification and therefore not necessarily impactful for existing clients.
 
-##### Examples of additive modifications that are not necessarily breaking:
+#### Examples of additive modifications that are not necessarily breaking:
 - Adding a new feature expressed in terms not previously available (therefore new).
 - Adding an element (property, query string parameters, etc.) without making it mandatory and assigning a default value.
 
-##### Universal examples of breaking changes:
+#### Universal examples of breaking changes:
 - Removal, renaming, or alteration of part of a contract in the form of data models, types, paths, parameters, or other elements. Examples:
 - Removing a method.
 - Adding a mandatory parameter to a method without providing a default.
@@ -563,7 +601,7 @@ The definition of backward compatibility also partially depends on technical and
 - Changes in error codes and so-called Fault Contracts, which express the result of an error condition.
 - Anything that violates the principle of least surprise.
 
-#### Evolutionary and Support
+### Evolutionary and Support
 
 Using a new major version to indicate that support for existing clients will be deprecated in the future. When a new major version is introduced, services must provide a straightforward upgrade path for existing clients and develop a deprecation plan consistent with the policies of the respective business line. Services should use a new minor version for all other changes.
 
@@ -584,7 +622,7 @@ Version control allows a Web API to indicate the functionalities and resources i
 
 When it is necessary to maintain particularly outdated versions of an API, because they are used by clients that update slowly or are business-critical, an approach based on lenses, as described in this article: [Project Cambria: Translate your data with lenses (inkandswitch.com)](https://www.inkandswitch.com/cambria.html), is suggested. In summary, it is possible to encode a sequence of transformations that bring an outdated payload to a more recent one—without having to maintain ad hoc plumbing for each individual version.
 
-#### Asynchronous Operations
+## Asynchronous Operations
 
 Sometimes a POST, PUT, PATCH, or DELETE operation may require processing that takes some time to complete. Waiting for the operation to finish before sending a response to the client can cause unacceptable latency. In such cases, consider making the operation asynchronous. Return the HTTP status code 202 (Accepted) to indicate that the request has been accepted for processing but has not yet been completed.
 
@@ -617,7 +655,7 @@ If the asynchronous operation creates a new resource, the status endpoint must r
 
 For more information, see the Asynchronous Request/Reply pattern.
 
-#### Asynchronous Request-Reply Pattern
+### Asynchronous Request-Reply Pattern
 
 Scenario: Executing a long-running server-side process while returning information that allows clients to track its execution without waiting.
 
@@ -642,7 +680,7 @@ Some architectures solve this issue by using a message broker to separate the re
 
 Many of the same considerations mentioned for client applications also apply to REST API calls from server to server in distributed systems—such as in a microservices architecture.
 
-##### Solution
+### Solution
 
 A solution to this problem is to use HTTP polling. Polling is useful for client-side code, as it can be difficult to provide callback endpoints or use long-lived connections. Even when callbacks are possible, the additional libraries and services required can sometimes add too much complexity.
 
@@ -665,7 +703,7 @@ The below picture shows the typical flow:
 - At some point, once the work is completed, the status endpoint will return a 302 (Found) with a redirect to the resource.
 - The client retrieves the resource at the specified URL
 
-##### Considerations and Issues
+### Considerations and Issues
 
 There are several possible ways to implement this model using HTTP, and not all underlying services necessarily have the same semantics.
 
@@ -685,7 +723,7 @@ An HTTP 202 response must indicate a URI and how often the client should poll to
 - Not all solutions will implement this model in the same way, and some services might include additional or alternative headers.
 - In some scenarios, it may also be useful to provide clients with a way to cancel the long-running request. In such cases, the backend service must support a form of cancellation command for the ongoing operation.
 
-##### When should you use this model?
+### When should you use this model?
 
 Use this model for:
 

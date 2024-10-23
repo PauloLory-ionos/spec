@@ -1,5 +1,11 @@
 # **Resource Design**
 
+# Table of Contents
+- [Introduction](#introduction)
+- [Resource Model](#resource-model)
+- [Advanced Topics](#advanced-topics)
+- [Conclusion](#conclusion)
+
 ## **Introduction**
 The aim of this document is to define guidelines to design resource model for the eurocloud APIs
 
@@ -18,3 +24,9 @@ Cloud Requests can be divided in two categories:
     - Data plane returns actual data (e.g., files, query results, or data manipulation responses)
     - Data plane schemas vary widely based on the type of data and the service object (e.g., File, SQL, Key Vault, etc.).
     - These APIs return and operate on actual data rather than metadata or configuration
+
+## **Resource Model**
+
+## **Advanced Topics**
+
+## **Conclusions**
