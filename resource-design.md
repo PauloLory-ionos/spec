@@ -1,11 +1,8 @@
-# **Api Guidelines**
+# **Resource Design**
 
 ## **Introduction**
-The aim of this document is to define guidelines to design and develop european cloud APIs
-- We split the work in two chapters:
-  - describe principles and conventions to design new APIs
-  - describe resource model and a shared glossary to build a european cloud provider.  
-   
+The aim of this document is to define guidelines to design resource model for the eurocloud APIs
+
 Cloud Requests can be divided in two categories:
   - **Control plane** 
     - Those APIs are used to create and manage cloud resources in a specific tenant; the data plane are needed when we want to use capabilities exposed by a single instance of a resource type. 
@@ -21,11 +18,3 @@ Cloud Requests can be divided in two categories:
     - Data plane returns actual data (e.g., files, query results, or data manipulation responses)
     - Data plane schemas vary widely based on the type of data and the service object (e.g., File, SQL, Key Vault, etc.).
     - These APIs return and operate on actual data rather than metadata or configuration
-
-## **Api Conventions**
-
-[Here](./api-conventions.md)
-
-## **Resource Model**
-
-[Here](./resource-model.md)
