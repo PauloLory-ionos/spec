@@ -8,8 +8,6 @@
 - [Resource Model](#resource-model)
   - [Resource Definition](#resource-definition)
   - [Resource Lifecycle](#resource-lifecycle)
-- [Advanced Topics](#advanced-topics)
-- [Conclusion](#conclusion)
 
 ## **Introduction**
 The aim of this document is to define guidelines to design resource model for the eurocloud APIs
@@ -92,7 +90,3 @@ Control Plan APIs have all the following template:
 | Delete |  DELETE|Deletes a specific resource|
 | List   |  GET   |Retrieve the representations of a set of resources. The output set can be determined based on a filter passed on input|
 | Action |  POST  |Control Plan APIs can be extended by Actions (for example PowerOff and Restart for Virtual Machines)|
-
-## **Advanced Topics**
-
-## **Conclusions**
