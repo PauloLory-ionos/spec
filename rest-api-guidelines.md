@@ -26,7 +26,10 @@
     - [Status Detail](#status-detail)
     - [Problem Details - Response Body for 4xx and 5xx Categories](#problemdetails---response-body-for-4xx-and-5xx-categories)
 - [Filtering, Sorting and Pagination](#filtering-sorting-and-pagination)     
+  - [RPC Requests](#rpc-requests)
+  - [OData & GraphQL](#odata-e-graphql)
 - [HATEOS](#hateos)
+  - [HAL](#hal)
 - [Versioning](#hateos)
   - [Breaking Change Definition](#breaking-change-definition)
   - [Examples of additive modifications that are not necessarily breaking](#examples-of-additive-modifications-that-are-not-necessarily-breaking)
@@ -466,8 +469,6 @@ Sometimes it can be convenient to name an API with a verb rather than a noun (e.
 #### OData e GraphQL
 
 [OData](https://www.odata.org/odata-services/) and [GraphQL](https://graphql.org/learn/) are two technologies that, when properly configured, can address specific use cases. They diverge from what is prescribed by REST, as they do not fully or partially adhere to the prescribed constraints.
-
-The adoption of these technologies is subject to a request to the Software Architecture department, accompanied by rationales that outline the pros and cons, along with a strategic implementation plan to mitigate the risks associated with the dynamism offered to clients.
 
 ## HATEOS
 
