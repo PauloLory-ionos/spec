@@ -30,7 +30,8 @@
   - [OData & GraphQL](#odata-e-graphql)
 - [HATEOS](#hateos)
   - [HAL](#hal)
-- [Versioning](#hateos)
+- [Versioning](#versioning)
+  - [Semantic Versioning]
   - [Breaking Change Definition](#breaking-change-definition)
   - [Examples of additive modifications that are not necessarily breaking](#examples-of-additive-modifications-that-are-not-necessarily-breaking)
   - [Universal examples of breaking changes](#universal-examples-of-breaking-changes)
@@ -575,6 +576,26 @@ For completeness, here is an example of a resource represented using HAL.
 It is highly unlikely that a web API will remain static. As business requirements change, new resources may be added, the relationships between them may change, and the data structure within the resources themselves may be modified. While updating a web API to handle new or different requirements is a relatively straightforward process, it is essential to consider the effects of these changes on client applications using the web API. The problem is that, even though the developer designing and implementing a web API has full control over that API, they do not have the same level of control over client applications, which may be created by third-party organizations. The imperative is to allow existing client applications to continue functioning without modifications while enabling new client applications to take advantage of new features and resources.
 
 To be formally correct, services should increment the version number following any breaking change. The following section qualifies the nature of a breaking change. Services may also increment their version in the absence of breaking changes if deemed necessary.
+
+### Semantic Versioning
+
+According to the [definition](https://semver.org/) Semantic Versioning (SemVer) is a versioning scheme for software that conveys meaning about the underlying changes with each new release. It follows the format:
+
+> MAJOR.MINOR.PATCH
+
+**MAJOR** version: Increases when there are incompatible changes that could break backward compatibility. For example, if the new version removes a function or changes its behavior in a way that requires users to modify their code.
+
+**MINOR** version: Increases when functionality is added in a backward-compatible manner, meaning users can upgrade without breaking their existing code. This includes new features or enhancements.
+
+**PATCH** version: Increases when there are backward-compatible bug fixes that do not alter the software's functionality, but resolve issues or improve performance
+
+To sum up, given a version number MAJOR.MINOR.PATCH, you should increment the:
+
+- **MAJOR** version when you make incompatible API changes
+- **MINOR** version when you add functionality in a backward compatible manner
+- **PATCH** version when you make backward compatible bug fixes
+
+Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
 
 ### Breaking Change Definition
 
