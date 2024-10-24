@@ -1,6 +1,6 @@
 # **Api Conventions**
 
-# Table of Contents
+## Table of Contents
 - [Introduction](#introduction)
 - [API Security](#api-security)
 - [API Model](#api-model)
@@ -31,7 +31,7 @@
 - [HATEOS](#hateos)
   - [HAL](#hal)
 - [Versioning](#versioning)
-  - [Semantic Versioning]
+  - [Semantic Versioning](#semantic-versioning)
   - [Breaking Change Definition](#breaking-change-definition)
   - [Examples of additive modifications that are not necessarily breaking](#examples-of-additive-modifications-that-are-not-necessarily-breaking)
   - [Universal examples of breaking changes](#universal-examples-of-breaking-changes)
