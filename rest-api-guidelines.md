@@ -261,13 +261,20 @@ If the client submits invalid data in the request, the server must return the HT
 For example, let's assume the original resource has the following JSON representation:
 ```json
   {
-    ...
+    "metadata": {
+
+    },
     "properties": {
       "flavor": "KA0006R",
       "os": "Ubuntu22.04LTS",
       "init": "script.sh"
+    },
+    "data": {
+
+    },
+    "status": {
+
     }
-    ...
   }    
   ```
 Below is a possible Merge Patch document for that resource:
