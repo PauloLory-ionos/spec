@@ -161,11 +161,11 @@ The effect of a specific request varies depending on the type of resource (colle
 
 | HTTP Method | Collection URI (e.g: `https://api.cloud.eu/collection/`) | Element URI (e.g. `https://api.cloud.eu/collection/item1`)          |
 |-------------|----------------------------|---------------------------------------|
-| PUT         | Create - The Collection Resource is created if it does not exist. | The Element Resource and any nested Element Resources are created or replaced with the representations contained in the body of the request   |
-| PATCH       | Update - All representations of the Element Resources contained within the Collection Resource are updated with the instructions in the request. | Update - The Element Resource and any nested Element Resources are updated with the instructions contained in the body of the request. |
-| DELETE       | Removes all representations of the Element Resources from this Collection Resource.            | Removes the Element Resource and any nested Element Resources.  |
+| PUT         | Not Applicable  | The Element Resource and any nested Element Resources are created or replaced with the representations contained in the body of the request   |
+| PATCH       | Not Applicable  | Update - The Element Resource and any nested Element Resources are updated with the instructions contained in the body of the request. |
+| DELETE      | Not Applicable | Removes the Element Resource and any nested Element Resources.  |
 | GET         | The URIs of the collection members are returned in the body of the response | Retrieves the representation of the Element Resource, which will be contained in the body of the response. |
-| POST      | Not Applicable | Performs an action on the Element Resource   |
+| POST        | Not Applicable | Performs an action on the Element Resource   |
 
 | Resource | PUT | PATCH | DELETE | GET | POST |
 |-------------|-------------|-------------|-------------|-------------|-------------|
