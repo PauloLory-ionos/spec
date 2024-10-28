@@ -27,7 +27,7 @@ Cloud Requests can be divided in two categories:
     - The purpose is to interact with the actual data or service provided by a Cloud Resource (e.g., reading/writing to a object storage, querying a database, etc.).
     - Data plane APIs manage **data**.
     - Data plane returns actual data (e.g., files, query results, or data manipulation responses)
-    - Data plane schemas vary widely based on the type of data and the service object (e.g., File, SQL, Key Vault, etc.).
+    - Data plane schemas vary widely based on the type of data and the service object (e.g., NFS, SQL, Key/Value, Kubernetes API, Vaults, etc.).
     - These APIs return and operate on actual data rather than metadata or configuration
 
 ### **Control Plane**
