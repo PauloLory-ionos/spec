@@ -16,7 +16,7 @@ The aim of this document is to define guidelines to design resource model for th
 
 Cloud Requests can be divided in two categories:
   - **Control plane** 
-    - Those APIs are used to create and manage cloud resources in a specific tenant; the data plane are needed when we want to use capabilities exposed by a single instance of a resource type. 
+    - Those APIs are used to create and manage cloud resources in a specific tenant
     - All requests are sent to a Cloud Resource Manager;
     - Control plane APIs manage **resources**.
     - Control plane returns configurations(e.g., metadata, resource properties, states).
