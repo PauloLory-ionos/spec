@@ -91,7 +91,7 @@ APIs must also apply appropriate authorization schemes for API calls based on th
 
 - Prevent unauthorized calls based on the user’s roles
 - Limit and/or filter the data available based on the user’s roles
-- Provide the ability to enable or disable various flows specifically for each API method (for example, a method is available only for the Client Credentials flow)
+- Provide the ability to enable or disable various flows specifically for each API method (for example based on the token, e.g. a token can have a reduced set of privileges)
 
 
 ## API Model
