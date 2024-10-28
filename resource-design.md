@@ -29,7 +29,7 @@ Cloud Requests can be divided in two categories:
     - Data plane returns actual data (e.g., files, query results, or data manipulation responses)
     - Data plane schemas vary widely based on the type of data and the service object (e.g., NFS, SQL, Key/Value, Kubernetes API, Vaults, etc.).
     - These APIs return and operate on actual data rather than metadata or configuration
-
+- Data plane APIs are differing in capabilities by versions, so instead of APIs the versions and enabled capabilities need to be standardized in form of a minimal set. E.g. PostgreSQL would be the same in all clouds, so one can define the available versions and extensions for that versions. Every cloud provider is free to add more.
 ### **Control Plane**
 
 Control Plan APIs have all the following template:
