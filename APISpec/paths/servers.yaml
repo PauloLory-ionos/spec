@@ -12,6 +12,7 @@
       - $ref: '../schemas/list-parameters.yaml#/parameters/labelSelector'
       - $ref: '../schemas/list-parameters.yaml#/parameters/limitParam'
       - $ref: '../schemas/list-parameters.yaml#/parameters/cursorParam'
+      - $ref: '../schemas/list-parameters.yaml#/parameters/includeDeletedParam'
     responses:
       '200':
         description: Successful response

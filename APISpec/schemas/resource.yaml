@@ -13,6 +13,16 @@ ResourceMetadata:
         - vpc-east-1
         - db.postgres-13-main
         - compute.instance-pool-web
+    version:
+      type: integer
+      description: Monotonically increasing version number, incremented on each update. Starts at 1.
+      readOnly: true
+      minimum: 1
+    deletionTimestamp:
+      type: string
+      format: date-time
+      description: If set, indicates the time when the resource was marked for deletion. Resources with this field set are considered pending deletion.
+      readOnly: true
     labels:
       type: array
       description: User-defined key/value pairs that are mutable and can be used to organize and categorize resources.
@@ -179,7 +189,7 @@ VolumeProfile:
           type: string
           enum: ['available', 'unavailable']
 
-region:
+Region:
   type: object
   properties:
     name:
