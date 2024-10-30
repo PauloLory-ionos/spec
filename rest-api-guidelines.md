@@ -138,7 +138,7 @@ Here’s a breakdown of each and how to represent them effectively in REST API d
 - In a composition relationship, one entity (the parent) strongly owns another (the child), and the child cannot exist independently without the parent. 
 - If the parent entity is deleted, so is the child entity.
 
-Example: SecurityGroup and SecurityGroupRule. A SecurityGroupRule only makes sense within the context of an SecurityGroup and is deleted if the SecurityGroup is deleted.
+Example: SecurityGroup and SecurityGroupRule. A SecurityGroupRule only makes sense within the context of a SecurityGroup and is deleted if the SecurityGroup is deleted.
 
 **Design Considerations**
 - Reflect the dependency by nesting the child resource under the parent.
