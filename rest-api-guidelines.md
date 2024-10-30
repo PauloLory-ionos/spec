@@ -176,8 +176,18 @@ Example: Virtual Machine and Disk. A Disk can exist with or without a VirtualMac
 | Aspect | Composition (Structural) | Aggregation (Weak) |
 |------- |--------------------------|---------------------------------------|
 |Endpoint Structure | Nested within the parent resource | Separate endpoints, linked by reference|
-|Resource Independence |Child depends on parent; no standalone endpoint|
+|Resource Independence |Child depends on parent; no standalone endpoint| Child is independent; standalone endpoint allowed|
+|Lifecycle Dependency | Child is deleted when parent is deleted| Child remains if parent is deleted|
+|Use Case | Strong ownership, e.g., Network and Subnets| Loose association, e.g., VM and Disks|
+|Deletion Behavior |Cascading delete (parent and children)| No cascade; deletion affects only the entity being removed|
 
+##### Additional Design Tips
+
+1. Document Relationship Types Clearly: Explain in API documentation which relationships are compositional (structural) and which are aggregational (weak), so developers know if deleting one entity affects others.
+2. When aggregating, leverage hypermedia links to indicate connections rather than deeply nesting endpoints. For example, in a response for a course, include links to related instructors: { "virtualMachine": "/virtual-machines/{virtualMachineName}" }
+3. Separate Resource Ownership Logic: If the relationship requires logic specific to the parent-child relationship, consider defining an intermediate resource, such as a vm_attachment relationship resource to better manage the association.
+
+Using this approach will help you model these relationships in a way that reflects real-world dependencies and ownership, while keeping the API design clean and intuitive.
 
 #### Cardinalities
 
