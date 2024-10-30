@@ -3,15 +3,28 @@
     summary: List Images
     tags:
       - Organization
+    parameters:
+      - $ref: '../schemas/list-parameters.yaml#/parameters/labelSelector'
+      - $ref: '../schemas/list-parameters.yaml#/parameters/limitParam'
+      - $ref: '../schemas/list-parameters.yaml#/parameters/cursorParam'
     responses:
       '200':
         description: Successful response
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: '../schemas/image.yaml#/Image'
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: '../schemas/image.yaml#/Image'
+                metadata:
+                  type: object
+                  properties:
+                    nextCursor:
+                      type: string
+                      description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
 
 /images/{name}:
   get:

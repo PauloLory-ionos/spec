@@ -9,38 +9,27 @@
         required: true
         schema:
           type: string
+      - $ref: '../schemas/list-parameters.yaml#/parameters/labelSelector'
+      - $ref: '../schemas/list-parameters.yaml#/parameters/limitParam'
+      - $ref: '../schemas/list-parameters.yaml#/parameters/cursorParam'
     responses:
       '200':
         description: Successful response
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: '../schemas/security-group.yaml#/SecurityGroup'
-  # post:
-  #   tags:
-  #     - Security
-  #   summary: Create a new security group in a VPC
-  #   parameters:
-  #     - name: vpc
-  #       in: path
-  #       required: true
-  #       schema:
-  #         type: string
-  #   requestBody:
-  #     required: true
-  #     content:
-  #       application/json:
-  #         schema:
-  #           $ref: '../schemas/security-group.yaml#/SecurityGroup'
-  #   responses:
-  #     '201':
-  #       description: Security group created
-  #       content:
-  #         application/json:
-  #           schema:
-  #             $ref: '../schemas/security-group.yaml#/SecurityGroup'
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: '../schemas/security-group.yaml#/SecurityGroup'
+                metadata:
+                  type: object
+                  properties:
+                    nextCursor:
+                      type: string
+                      description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
 
 /vpc/{vpc}/security-groups/{name}:
   get:
