@@ -78,7 +78,6 @@ Control Plan APIs have all the following template:
 |metadata|Additional data that convey some system information related to the control loop mechanisms that regulate the system’s dynamic equilibrium.<br/> Some of their functions are:<br/> Search, which consists of identifying the existence of a document;<br/>Localization, meaning to trace a specific occurrence of the document;<br/>Selection, achievable by analyzing, evaluating, and filtering a series of documents;<br/> Semantic interoperability, which allows searching across different disciplinary fields through a series of equivalences between descriptors;<br/>Resource management, i.e., managing document collections through the mediation of databases and catalogs;<br/>Availability, which means obtaining information about the actual availability of the document.<br/>|
 |properties|The record of intent that describes the changes to be applied to a resource; in other words, the desired state of the resource|
 |status|The current state of the resource. Resource Controllers use the desired state of the resource as a reference to modify its current state in one or more transitions.<br/>It is possible for the Resource Controller to apply changes to the current state of the resource regardless of the record of intent to realign it with the infrastructure, when necessary.<br/>The data contained in 'status' are structurally symmetrical to those present in 'properties'|
-|data|Private data of the resource that cannot be exposed through properties or status|
 
 ### **Resource Lifecycle**
 
@@ -86,7 +85,7 @@ Control Plan APIs have all the following template:
 |-------------|---------|-------------|
 | Read   |  GET   |Retrieve the representation of a specific resource|
 | Create |  PUT   |creates a resource|
-| Update |  PATCH |updates a resource|
+| Update |  PUT |updates a resource|
 | Delete |  DELETE|Deletes a specific resource|
 | List   |  GET   |Retrieve the representations of a set of resources. The output set can be determined based on a filter passed on input|
 | Action |  POST  |Control Plan APIs can be extended by Actions (for example PowerOff and Restart for Virtual Machines)|

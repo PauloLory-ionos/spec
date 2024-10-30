@@ -5,7 +5,9 @@
 - [API Security](#api-security)
 - [API Model](#api-model)
   - [Entity](#entity)
-  - [Relationship](#relationship)  
+  - [Relationship](#relationship) 
+    - [Composition & Aggregation](#)
+    - [Cardinalities](#) 
   - [URI Naming Convention](#uri-naming-convention)
 - [Operations and HTTP Methods](#operations-and-http-methods)
 - [HTTP Semantics](#http-semantics)
@@ -119,10 +121,65 @@ Such an example, a disk can be created by sending an HTTP PUT request containing
 ### Relationship
 
 It is also important to consider the relationships between different types of resources and how those associations could be exposed. 
-- For example, `/virtualMachines/my-vm/disks` could represent all the disks for the virtual machine my-vm. 
-- It is also possible to go in the opposite direction and represent the association from a disk to a virtualMachine with a URI like `/disks/disk-test/virtualMachines`. 
+- For example, `/virtual-machines/my-vm/disks` **could** represent all the disks for the virtual machine my-vm. 
+- It is also possible to **go in the opposite direction** and represent the association from a disk to a virtualMachine with a URI like `/disks/disk-test/virtual-machines`. 
 
-However, if this model is adopted excessively, its implementation could become complex. It is preferable to provide discoverable links to associated resources in the body of the HTTP response. This mechanism is described in more detail in the **HATEOAS** section to enable navigation to related resources.
+**However, if this model is adopted excessively, its implementation could become complex.**
+
+*Let's describe below the spec for Entity Relationship.*
+
+#### Composition & Aggregation
+
+When designing REST APIs, it’s important to understand and model the type of relationship between entities accurately, especially when considering **composition** (strong) relationships (structural) and **aggregation** (weak) relationships.
+
+Here’s a breakdown of each and how to represent them effectively in REST API design.
+
+##### **Structural Relationship - Composition**
+- In a composition relationship, one entity (the parent) strongly owns another (the child), and the child cannot exist independently without the parent. 
+- If the parent entity is deleted, so is the child entity.
+
+Example: SecurityGroup and SecurityGroupRule. A SecurityGroupRule only makes sense within the context of an SecurityGroup and is deleted if the SecurityGroup is deleted.
+
+**Design Considerations**
+- Reflect the dependency by nesting the child resource under the parent.
+- The child resource’s lifecycle is directly tied to the parent resource.
+- Enforce deletion cascades so that deleting a parent removes all associated children
+
+**API Design**
+- Parent resource: GET /securityGroups/{securityGroupName}
+- Child resources as sub-resources: GET /securityGroups/{securityGroupName}/securityRules and GET /securityGroups/{securityGroupName}/securityGroupRules/{securityGroupRuleName}
+- Create child resource: PUT /securityGroups/{securityGroupName}/securityGroupRules/{securityRuleName}
+- Delete child along with parent: DELETE /securityGroups/{securityGroupName} would delete both the securityGroup and its securityGroupRules.
+
+**Best Practices**:
+- Do not provide a top-level endpoint for the child resource if it makes no sense without the parent, emphasizing the dependency.
+
+##### Aggregation Relationship 
+- In an aggregation relationship, one entity is loosely associated with another, meaning the child can exist independently of the parent. 
+- The parent may reference the child, but if the parent is deleted, the child remains.
+
+Example: Virtual Machine and Disk. A Disk can exist with or without a VirtualMachine, and deleting a VirtualMachine could not affect the Disk entity.
+
+**Design Considerations**
+- Use references or links rather than nesting, as the child can stand alone.
+- Provide separate top-level endpoints for each entity, enabling access to the child independently of the parent.
+- Use relationship or linking endpoints to associate entities instead of tying them together structurally.
+
+**API Design**
+- Separate resources: GET /virtualMachines/{virtualMachineName} and GET /disks/{diskName}
+- Linking endpoints: PUT /virtualMachines/{virtualMachineName}/disks/{diskName} to assign a disk to a virtualMachine.
+- Manage relationships independently: DELETE /virtualMachines/{virtualMachineName} only deletes the virtualMachine without impacting the Disks.
+
+
+##### Differences in API Design for Composition vs. Aggregation
+
+| Aspect | Composition (Structural) | Aggregation (Weak) |
+|------- |--------------------------|---------------------------------------|
+|Endpoint Structure | Nested within the parent resource | Separate endpoints, linked by reference|
+|Resource Independence |Child depends on parent; no standalone endpoint|
+
+
+#### Cardinalities
 
 ### URI Naming Convention
 
