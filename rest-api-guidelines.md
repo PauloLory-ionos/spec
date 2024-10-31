@@ -6,7 +6,7 @@
 - [API Security](#api-security)
   - [Authentication](#authentication)
   - [Authorization](#authorization)
-- [Core API Concepts](#api-model)
+- [Core API Concepts](#core-api-concepts)
   - [Entity](#entity)
   - [Relationship](#relationship) 
     - [Composition & Aggregation](#composition--aggregation)
@@ -116,7 +116,7 @@ We suggest to use a foundational authorization mechanism used in systems like Ku
 
 One of the widely used approach to do so is Role-Based-Access-Control (**RBAC**) model even though there are also other models, such as Attribute-Based Access Control (**ABAC**) and Policy-Based Access Control (**PBAC**), which provide flexibility and can be used in combination with or as alternatives to RBAC depending on the system’s security requirements.
 
-## API Model
+## Core API Concepts
 
 ### Entity
 
