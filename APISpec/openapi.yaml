@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Sovereign European Cloud API
-  version: 0.5.0
+  version: 0.5.1
   license:
     name: "Proprietary - All Rights Reserved"
   description: |
@@ -99,6 +99,8 @@ components:
       $ref: './schemas/error_schemas.yaml#/Error403'
     Error404:
       $ref: './schemas/error_schemas.yaml#/Error404'
+    Error412:
+      $ref: './schemas/error_schemas.yaml#/Error412'
     Error422:
       $ref: './schemas/error_schemas.yaml#/Error422'
     Error500:
@@ -108,18 +110,6 @@ components:
     RoutingTable:
       $ref: './schemas/routing-table.yaml#/RoutingTable'
   responses:
-    Success200:
-      description: Successful operation
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/VPC'
-    Success202VPC:
-      description: Accepted
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/VPC'
     Error400:
       description: Bad Request
       content:
@@ -144,6 +134,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error404'
+    Error412:
+      description: Precondition Failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error412'
     Error422:
       description: Unprocessable Entity
       content:
