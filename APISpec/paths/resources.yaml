@@ -58,6 +58,7 @@
         required: true
         schema:
           type: string
+      - $ref: '../schemas/list-parameters.yaml#/parameters/ifMatchParam'
     requestBody:
       required: true
       content:
