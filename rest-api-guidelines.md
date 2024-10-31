@@ -262,31 +262,30 @@ Using this approach will help you model these relationships in a way that reflec
 
 ## Operations and HTTP Methods
 
-The HTTP protocol defines a series of methods that assign semantic meaning to a request. The HTTP methods used by most RESTful Web APIs are:
+The HTTP protocol defines a series of methods that assign semantic meaning to a request. Below you can find the spec to use the methods and when for the Sovereign European Cloud API.
 
-- **GET** - Retrieves a representation of the resource at the specified URI. The response body contains the details of the requested resource.
-- **POST** - Can be used to initiate operations that do not actually create resources such as actions.
+
 - **PUT** - Creates or replaces the resource at the specified URI. The request body specifies the resource to be created or updated.
-- **PATCH** - Performs a partial update of a resource. The request body specifies the set of changes to apply to the resource.
+- **GET** - Retrieves a representation of the resource at the specified URI. The response body contains the details of the requested resource.
+- **POST** - Used to initiate operations that do not actually create resources such as actions.
 - **DELETE** - Removes the resource at the specified URI.
 
-The effect of a specific request varies depending on the type of resource (collection or a single item). The table below summarizes common conventions adopted by most RESTful implementations using the example of an e-commerce system. Not all of these requests may be implemented—it depends on the specific scenario.
+The effect of a specific request varies depending on the type of resource (collection or a single item). The table below summarizes common conventions adopted by most RESTful implementations. Not all of these requests may be implemented because would depend on the specific scenario.
 
-| HTTP Method | Collection URI (e.g: `https://api.cloud.eu/collection/`) | Element URI (e.g. `https://api.cloud.eu/collection/item1`)          |
+| HTTP Method | Collection URI (e.g: `/virtual-machines`) | Element URI (e.g. `/virtual-machines/my-vm`)          |
 |-------------|----------------------------|---------------------------------------|
-| PUT         | Not Applicable  | The Element Resource and any nested Element Resources are created or replaced with the representations contained in the body of the request   |
-| PATCH       | Not Applicable  | Update - The Element Resource and any nested Element Resources are updated with the instructions contained in the body of the request. |
-| DELETE      | Not Applicable | Removes the Element Resource and any nested Element Resources.  |
-| GET         | The URIs of the collection members are returned in the body of the response | Retrieves the representation of the Element Resource, which will be contained in the body of the response. |
-| POST        | Not Applicable | Performs an action on the Element Resource   |
+| PUT         | Not Applicable  | The Virtual Machine Resource is created or replaced with the representations contained in the body of the request   |
+| DELETE      | Not Applicable | Removes the Virtual Machine Resource and any nested Element Resources.  |
+| GET         | The List of the Virtual Machines Members is returned in the body of the response | Retrieves the representation of the Virtual Machine Resource, which will be contained in the body of the response. |
+| POST        | Not Applicable | Performs an action on the Element Resource. Therefore the action path should be added at the end like **power-on**   |
 
-| Resource | PUT | PATCH | DELETE | GET | POST |
-|-------------|-------------|-------------|-------------|-------------|-------------|
-| /virtualMachines |  405 Method Not Allowed | Perform a bulk update of customers using the instructions contained in the request.  | 405 Method Not Allowed | Retrieve all virtual machines | 405 Method Not Allowed |
-| /virtualMachines/my-vm | Create a new Virtual Machine **my-vm** if does not exists yet | Perform the resource update using the instructions contained in the request  | Remove the virtual machine **my-vm** | Retrieve details of **my-vm** virtual machine | 405 Method Not Allowed |
-| /virtualMachines/my-vm/powerOff | 405 Method Not Allowed | 405 Method Not Allowed  | 405 Method Not Allowed | 405 Method Not Allowed | Stop the virtual machine **my-vm** if makes sense  |
-| /virtualMachines/my-vm/networkInterfaces | 405 Method Not Allowed | 405 Method Not Allowed | 405 Method Not Allowed | Retrieve all network interfaces for the virtual machine **my-vm** | 405 Method Not Allowed |
-| /virtualMachines/my-vm/networkInterfaces/my-nic | Create a new **my-nic** network Interface if does not exist yet | Perform the network interface update, for the vm **my-vm**, using the instructions contained in the request | Remove the network interface **my-nic** of the **my-vm** virtual machine | Retrieve the **my-nic** network interface detail attached to the virtual machine **my-vm** | 405 Method Not Allowed |
+| Resource | PUT | DELETE | GET | POST |
+|-------------|-------------|-------------|-------------|-------------|
+| /virtual-machines |  405 Method Not Allowed |  405 Method Not Allowed | Retrieve all virtual machines | 405 Method Not Allowed |
+| /virtual-machines/my-vm | Create or Replace the Virtual Machine **my-vm** | Remove the virtual machine **my-vm** | Retrieve details of **my-vm** virtual machine | 405 Method Not Allowed |
+| /virtual-machines/my-vm/power-Off | 405 Method Not Allowed | 405 Method Not Allowed  | 405 Method Not Allowed | Stop the virtual machine **my-vm** if makes sense  |
+| /networks/my-net/subnets/my-sub/network-interfaces | 405 Method Not Allowed | 405 Method Not Allowed | Retrieve all network interfaces within network **my-net** in subnet **my-sub** | 405 Method Not Allowed |
+| /networks/my-net/subnets/my-sub/network-interfaces/my-nic | Create or Replace the  network Interface **my-nic**  | Delete the network interface **my-nic** in the subnet my-sub of network my-net | Retrieve the **my-nic** network interface detail attached to the subnet my-sub of network my-net | 405 Method Not Allowed |
 
 **Notes**
 
