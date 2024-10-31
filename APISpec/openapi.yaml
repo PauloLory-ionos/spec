@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Sovereign European Cloud API
-  version: 0.5.1
+  version: 0.5.2
   license:
     name: "Proprietary - All Rights Reserved"
   description: |

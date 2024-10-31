@@ -21,9 +21,15 @@ Volume:
         profile: 
           type: string
           readOnly: true
-        snapshotId:
+        sourceImageRef:
           type: string
-          description: ID of the snapshot to create the volume from
+          readOnly: true
+          description: Reference to the source image used as the base for creating this volume. This cannot be modified.
+        sourceVolumeSnapshotRef:
+          readOnly: true
+          type: string
+          description: Reference to the snapshot used as the base for creating this volume. This cannot be modified.
+
     status:
       type: object
       readOnly: true
@@ -43,10 +49,6 @@ Volume:
               enum: [sata, ide, scsi, usb, nvme]
             deviceName:
               type: string
-        lastSnapshotId:
-          type: string
-          description: ID of the last successful snapshot
-
 VolumeSnapshot:
   type: object
   x-no-put: true
