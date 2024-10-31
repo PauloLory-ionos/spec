@@ -170,7 +170,7 @@ Example: security-group and security-group-rule. A security-group-rule only make
 - Parent resource: GET /security-groups/{securityGroupName}
 - Child resources as sub-resources: 
   - GET /security-groups/{securityGroupName}/security-rules 
-  - GET /security-groups/{securityGroupName}/securityGroupRules/{securityGroupRuleName}
+  - GET /security-groups/{securityGroupName}/security-group-rules/{securityGroupRuleName}
   - Create child resource: 
     - PUT /security-groups/{securityGroupName}/security-group-rules/{securityGroupRuleName}
   - Delete child along with parent: 
@@ -228,9 +228,9 @@ Example: Virtual Machine and Disk. A Disk can exist with or without a VirtualMac
 
 ##### Additional Design Tips
 
-1. Document Relationship Types Clearly: Explain in API documentation which relationships are compositional (structural) and which are aggregational (weak), so developers know if deleting one entity affects others.
+1. Document relationship types clearly: explain in the API documentation which relationships are compositional (structural) and which are aggregational (weak), so developers know if deleting one entity affects others.
 2. When aggregating, leverage hypermedia links to indicate connections rather than deeply nesting endpoints. For example, in a response for a disk, include links to virtualMachine: { "attached_instance": "/virtual-machines/{virtualMachineName}" }
-3. Separate Resource Ownership Logic: If the relationship requires logic specific to the parent-child relationship, consider defining an intermediate resource, such as a vm-attachment relationship resource to better manage the association.
+3. Separate resource ownership logic: if the relationship requires logic specific to the parent-child relationship, consider defining an intermediate resource, such as a vm-attachment relationship resource to better manage the association.
 
 Using this approach will help you model these relationships in a way that reflects real-world dependencies and ownership, while keeping the API design clean and intuitive.
 
@@ -239,19 +239,20 @@ Using this approach will help you model these relationships in a way that reflec
 ### URI Naming Convention
 
 1. It is necessary to adopt a consistent naming convention for URIs. In general, it is useful to use plural nouns for URIs referring to collections. 
-   - when the resource being modeled has a name consisting of multiple words, it is necessary to use **camelCase**
+   - when the resource being modeled has a name consisting of multiple words, it is necessary to use **kebab-case**
    - Resource collections should be all **plurals**
  
    For example:
-    - `/virtualMachines/`
-    - `/securityGroups/`
-    - `/networkInterfaces/`
+    - `/virtual-machines/`
+    - `/security-groups/`
+    - `/network-interfaces/`
 
- 2. It is advisable to organize the URIs for collections and elements in a hierarchy. For example, if `/networks` is the path for the network collection, then `/networks/my-net` will be the path for the network whose name is my-net. This approach helps to keep the web API intuitive. Many web API frameworks can also route requests based on URI paths with parameters, so it is possible to define a route for the path `/networks/{name}`.
+ 2. It is advisable to organize the URIs for collections and elements in a hierarchy. For example, if `/networks` is the path for the network collection, then `/networks/my-net` will be the path for the network whose name is **my-net**. 
+ - This approach helps to keep the web API intuitive. Many web API frameworks can also route requests based on URI paths with parameters, so it is possible to define a route for the path `/networks/{name}`.
 
-
- 3. In more complex systems, there may be a temptation to provide URIs that allow a client to traverse multiple levels of relationships, such as `/virtualMachines/my-vm/disks/disk-00/snapshots`. However, this level of complexity can be difficult to maintain and would likely become overly rigid if the relationships between resources change in the future. 
-    - It is better to try to keep URIs relatively simple. When an entity contains a reference to a resource, it should be possible to use that reference to find the elements related to that resource. The previous query can be replaced with the URI `/virtualMachines/my-vm/disks` to find all disks for virtual machine my-vm, and then `/disks/my-disk/snapshots` to find the snapshots for that disk.
+ 3. In more complex systems, there may be a temptation to provide URIs that allow a client to traverse multiple levels of relationships, such as `/virtual-machines/my-vm/disks/disk-00/snapshots`. However, this level of complexity can be difficult to maintain and would likely become overly rigid if the relationships between resources change in the future. 
+    - It is better to try to keep URIs relatively simple. When an entity contains a reference to a resource, it should be possible to use that reference to find the elements related to that resource. The previous query can be replaced with the URI `/virtual-machines/my-vm/disks` to find all disks for virtual machine my-vm, and then `/disks/my-disk/snapshots` to find the snapshots for that disk.
+    - A rule of thumb is a maximum nesting depth of two. Sometimes a depth of three is also okay
 
 4. Another factor to consider is that all web requests impose a load on the server. The greater the number of requests, the greater the load. Therefore, try to avoid "fragmented" APIs that expose a large number of small resources. Such an API may require a client application to send multiple requests to retrieve all the necessary data. It may be more appropriate to denormalize the data and combine related information into larger resources that can be retrieved with a single request. However, this approach must be balanced against the overhead of retrieving unnecessary data for the client. Retrieving large objects can increase request latency and add bandwidth costs.
 
