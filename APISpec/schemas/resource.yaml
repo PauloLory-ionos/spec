@@ -1,20 +1,59 @@
 ResourceMetadata:
   type: object
+  description: Represents metadata for a resource, including identifying information and classification through labels and annotations
   properties:
     name:
       type: string
+      description: Resource identifier in dash-case (kebab-case) format. Must start and end with an alphanumeric character. Can contain lowercase letters, numbers, and hyphens. Multiple segments can be joined with dots. Each segment follows the same rules.
+      minLength: 1
+      maxLength: 128
+      pattern: '^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$'
+      examples:
+        - primary-load-balancer
+        - vpc-east-1
+        - db.postgres-13-main
+        - compute.instance-pool-web
     labels:
       type: array
+      description: User-defined key/value pairs that are mutable and can be used to organize and categorize resources.
       items:
         $ref: '#/Label'
+      example:
+        - key: cloud:region
+          value: us-east-1
+        - key: billing.cost-center
+          value: platform-eng
+        - key: tier
+          value: production
+    annotations:
+      type: array
+      readOnly: true
+      description: System-managed key/value pairs that store non-identifying metadata about the resource. Annotations are used by system components.
+      items:
+        $ref: '#/Label'
+      example:
+        - key: provisioning.timestamp
+          value: "2024-10-30T15:00:00Z"
+        - key: last.modified.by
+          value: "terraform-controller"
 
 Label:
   type: object
+  description: Represents a key/value pair used for both labels and annotations, providing a consistent structure for metadata tagging
   properties:
     key:
       type: string
+      description: The identifier for the label or annotation. Keys can be optionally namespaced using either a colon or dot notation (e.g., 'monitoring:alert-level' or 'monitoring.alert-level'). The namespace portion follows the same naming rules as the key.
+      minLength: 1
+      maxLength: 63
+      pattern: '^([a-z0-9A-Z][-a-z0-9A-Z_.]*)?[a-z0-9A-Z]$'
     value:
       type: string
+      description: The data content of the label or annotation. For labels, must be 63 characters or less. For annotations, can contain more extensive data.
+      maxLength: 63
+  required:
+    - key
+    - value
 
 Profile:
   type: object
