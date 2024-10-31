@@ -1,4 +1,4 @@
-Volume:
+BlockStorage:
   type: object
   properties:
     metadata:
@@ -11,7 +11,7 @@ Volume:
         attachedTo:
           type: object
           properties:
-            serverRef:
+            instanceRef:
               type: string
             connectionType:
               type: string
@@ -24,11 +24,11 @@ Volume:
         sourceImageRef:
           type: string
           readOnly: true
-          description: Reference to the source image used as the base for creating this volume. This cannot be modified.
-        sourceVolumeSnapshotRef:
+          description: Reference to the source image used as the base for creating this block storage. This cannot be modified.
+        sourceBlockStorageSnapshotRef:
           readOnly: true
           type: string
-          description: Reference to the snapshot used as the base for creating this volume. This cannot be modified.
+          description: Reference to the snapshot used as the base for creating this block storage. This cannot be modified.
 
     status:
       type: object
@@ -42,14 +42,15 @@ Volume:
         attachedTo:
           type: object
           properties:
-            serverRef:
+            instanceRef:
               type: string
             connectionType:
               type: string
               enum: [sata, ide, scsi, usb, nvme]
             deviceName:
               type: string
-VolumeSnapshot:
+
+BlockStorageSnapshot:
   type: object
   x-no-put: true
   properties:
@@ -58,9 +59,9 @@ VolumeSnapshot:
     spec:
       type: object
       properties:
-        volumeRef:
+        blockStorageRef:
           type: string
-          description: ID of the volume to create a snapshot from
+          description: ID of the block storage to create a snapshot from
         description:
           type: string
     status:

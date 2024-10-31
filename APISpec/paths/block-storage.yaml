@@ -1,10 +1,10 @@
-/vpc/{vpc}/servers:
+/workspace/{workspace}/providers/storage/block-storage:
   get:
     tags:
-      - Compute
-    summary: List all servers in a VPC
+      - Storage
+    summary: List all block storage volumes
     parameters:
-      - name: vpc
+      - name: workspace
         in: path
         required: true
         schema:
@@ -24,7 +24,7 @@
                 items:
                   type: array
                   items:
-                    $ref: '../schemas/server.yaml#/Server'
+                    $ref: '../schemas/block-storage.yaml#/BlockStorage'
                 metadata:
                   type: object
                   properties:
@@ -42,13 +42,13 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/vpc/{vpc}/servers/{name}:
+/workspace/{workspace}/providers/storage/block-storage/{name}:
   get:
     tags:
-      - Compute
-    summary: Get a specific server in a VPC
+      - Storage
+    summary: Get a specific block storage volume
     parameters:
-      - name: vpc
+      - name: workspace
         in: path
         required: true
         schema:
@@ -64,7 +64,7 @@
         content:
           application/json:
             schema:
-              $ref: '../schemas/server.yaml#/Server'
+              $ref: '../schemas/block-storage.yaml#/BlockStorage'
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
@@ -77,10 +77,10 @@
         $ref: '../openapi.yaml#/components/responses/Error500'
   put:
     tags:
-      - Compute
-    summary: Create or update a specific server in a VPC
+      - Storage
+    summary: Create or update a specific block storage volume
     parameters:
-      - name: vpc
+      - name: workspace
         in: path
         required: true
         schema:
@@ -96,10 +96,10 @@
       content:
         application/json:
           schema:
-            $ref: '../schemas/server.yaml#/Server'
+            $ref: '../schemas/block-storage.yaml#/BlockStorage'
     responses:
       '202':
-        description: Server updated or created
+        description: Block storage volume updated or created
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
@@ -116,10 +116,10 @@
         $ref: '../openapi.yaml#/components/responses/Error500'
   delete:
     tags:
-      - Compute
-    summary: Delete a specific server in a VPC
+      - Storage
+    summary: Delete a specific block storage volume
     parameters:
-      - name: vpc
+      - name: workspace
         in: path
         required: true
         schema:
@@ -131,7 +131,7 @@
           type: string
     responses:
       '204':
-        description: Server deleted
+        description: Block storage volume deleted
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
@@ -143,13 +143,13 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/vpc/{vpc}/servers/{name}/nics:
+/workspace/{workspace}/providers/storage/block-storage/{name}/snapshots:
   get:
     tags:
-      - Compute
-    summary: List all NICs for a specific server
+      - Storage
+    summary: List all snapshots for a block storage volume
     parameters:
-      - name: vpc
+      - name: workspace
         in: path
         required: true
         schema:
@@ -167,7 +167,7 @@
             schema:
               type: array
               items:
-                $ref: '../schemas/nic.yaml#/NIC'
+                $ref: '../schemas/block-storage.yaml#/BlockStorageSnapshot'
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
@@ -179,13 +179,13 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/vpc/{vpc}/servers/{name}/nics/{nicId}:
+/workspace/{workspace}/providers/storage/block-storage/{name}/snapshots/{snapshotName}:
   get:
     tags:
-      - Compute
-    summary: Get a specific NIC for a server
+      - Storage
+    summary: Get a specific snapshot
     parameters:
-      - name: vpc
+      - name: workspace
         in: path
         required: true
         schema:
@@ -195,7 +195,7 @@
         required: true
         schema:
           type: string
-      - name: nicId
+      - name: snapshotName
         in: path
         required: true
         schema:
@@ -206,7 +206,7 @@
         content:
           application/json:
             schema:
-              $ref: '../schemas/nic.yaml#/NIC'
+              $ref: '../schemas/block-storage.yaml#/BlockStorageSnapshot'
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
@@ -219,10 +219,10 @@
         $ref: '../openapi.yaml#/components/responses/Error500'
   put:
     tags:
-      - Compute
-    summary: Create or update a specific NIC for a server
+      - Storage
+    summary: Create or update a specific snapshot
     parameters:
-      - name: vpc
+      - name: workspace
         in: path
         required: true
         schema:
@@ -232,21 +232,20 @@
         required: true
         schema:
           type: string
-      - name: nicId
+      - name: snapshotName
         in: path
         required: true
         schema:
           type: string
-      - $ref: '../schemas/parameters.yaml#/parameters/ifMatchParam'
     requestBody:
       required: true
       content:
         application/json:
           schema:
-            $ref: '../schemas/nic.yaml#/NIC'
+            $ref: '../schemas/block-storage.yaml#/BlockStorageSnapshot'
     responses:
       '202':
-        description: NIC updated or created
+        description: Snapshot updated or created
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
@@ -263,10 +262,10 @@
         $ref: '../openapi.yaml#/components/responses/Error500'
   delete:
     tags:
-      - Compute
-    summary: Delete a specific NIC for a server
+      - Storage
+    summary: Delete a specific snapshot
     parameters:
-      - name: vpc
+      - name: workspace
         in: path
         required: true
         schema:
@@ -276,14 +275,14 @@
         required: true
         schema:
           type: string
-      - name: nicId
+      - name: snapshotName
         in: path
         required: true
         schema:
           type: string
     responses:
       '204':
-        description: NIC deleted
+        description: Snapshot deleted
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':

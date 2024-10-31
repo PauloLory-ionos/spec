@@ -8,11 +8,7 @@ ResourceMetadata:
       minLength: 1
       maxLength: 128
       pattern: '^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$'
-      examples:
-        - primary-load-balancer
-        - vpc-east-1
-        - db.postgres-13-main
-        - compute.instance-pool-web
+      example: "primary-load-balancer"
     generation:
       type: integer
       description: Monotonically increasing generation number, incremented on each update. Starts at 1.
@@ -110,8 +106,6 @@ StatusConditions:
           A human-readable message indicating details about the transition.
           This field may be empty.
         maxLength: 32768
-
-
 
 Profile:
   type: object

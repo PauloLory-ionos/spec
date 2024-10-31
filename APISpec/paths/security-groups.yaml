@@ -1,9 +1,14 @@
-/vpc/{vpc}/security-groups:
+/workspace/{workspace}/providers/network/vpcs/{vpc}/security-groups:
   get:
     tags:
-      - Security
-    summary: List all security groups in a VPC
+      - Network
+    summary: List all security groups
     parameters:
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
       - name: vpc
         in: path
         required: true
@@ -42,12 +47,17 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/vpc/{vpc}/security-groups/{name}:
+/workspace/{workspace}/providers/network/vpcs/{vpc}/security-groups/{name}:
   get:
     tags:
-      - Security
-    summary: Get a specific security group in a VPC
+      - Network
+    summary: Get a specific security group
     parameters:
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
       - name: vpc
         in: path
         required: true
@@ -77,9 +87,14 @@
         $ref: '../openapi.yaml#/components/responses/Error500'
   put:
     tags:
-      - Security
-    summary: Create or update a specific security group in a VPC
+      - Network
+    summary: Create or update a specific security group
     parameters:
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
       - name: vpc
         in: path
         required: true
@@ -116,9 +131,14 @@
         $ref: '../openapi.yaml#/components/responses/Error500'
   delete:
     tags:
-      - Security
-    summary: Delete a specific security group in a VPC
+      - Network
+    summary: Delete a specific security group
     parameters:
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
       - name: vpc
         in: path
         required: true
