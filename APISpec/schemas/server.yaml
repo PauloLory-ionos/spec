@@ -26,7 +26,14 @@ Server:
             $ref: './nic.yaml#/NIC'
         cloudInitUserData:
           type: string
-          description: Cloud-init user data for server initialization
+          description: |
+            Cloud-init user data for server initialization
+            Example cloud-init user configuration with SSH key:
+            ```yaml
+            #cloud-config
+            ssh_authorized_keys:
+              - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0g+ZTxC7weoIJLUafOgrm+h...
+            ```
         attachedVolumeRef:
           type: array
           items:
