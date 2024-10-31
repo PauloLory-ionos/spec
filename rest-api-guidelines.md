@@ -50,7 +50,7 @@
 
 ## Introduction
 
-This document provides comprehensive guidelines for designing and implementing control plane APIs for the **Sovereign European Cloud API** initiative, establishing a consistent standard to ensure a high-quality developer experience and robust cloud resource management. 
+This document provides comprehensive guidelines for designing and implementing control plane APIs for the **Sovereign European Cloud API (SECA)** initiative, establishing a consistent standard to ensure a high-quality developer experience and robust cloud resource management. 
 
 These standards focus on achieving:
 
@@ -119,8 +119,8 @@ One of the widely used approach to do so is Role-Based-Access-Control (**RBAC**)
 ## Core API Concepts
 
 ### Entity
-
-In a cloud provider domain, for example, some primary entities could be virtual machines and networks. 
+The primary resources or objects within the API, often corresponding to domain-specific nouns. 
+In a cloud provider, for example, some primary entities could be virtual machines and networks. 
 
 Such an example, a disk can be created by sending an HTTP PUT request containing the resource information. 
 - The HTTP response indicates whether the request was successfully submitted. 
@@ -139,23 +139,24 @@ Such an example, a disk can be created by sending an HTTP PUT request containing
 - An HTTP GET request to an element's URI returns the details of that element.
 
 ### Relationship
+Relationships describe how entities connect or interact with each other, helping structure API endpoints for clarity and hierarchy.
 
-It is also important to consider the relationships between different types of resources and how those associations could be exposed. 
+It is important to consider the relationships between different types of resources and how those associations could be exposed. 
 - For example, `/virtual-machines/my-vm/disks` **could** represent all the disks for the virtual machine my-vm. 
 - It is also possible to **go in the opposite direction** and represent the association from a disk to a virtualMachine with a URI like `/disks/disk-test/virtual-machines`. 
 
 **However, if this model is adopted excessively, its implementation could become complex.**
 
-*Let's describe below the spec for Entity Relationship.*
+*Let's describe below the **SECA specifications** for Entity Relationship.*
 
 #### Composition & Aggregation
 
-When designing REST APIs, it’s important to understand and model the type of relationship between entities accurately, especially when considering **composition** (strong) relationships (structural) and **aggregation** (weak) relationships.
+When designing REST APIs, it’s important to understand and model the relationship type between entities accurately, especially when considering **composition** (strong) relationships (structural) and **aggregation** (weak) relationships.
 
 Here’s a breakdown of each and how to represent them effectively in REST API design.
 
 ##### **Structural Relationship - Composition**
-- In a composition relationship, one entity (the parent) strongly owns another (the child), and the child cannot exist independently without the parent. 
+- In a composition relationship, one entity (**the parent**) strongly **owns** another (**the child**), and the child cannot exist independently without the parent. 
 - If the parent entity is deleted, so is the child entity.
 
 Example: security-group and security-group-rule. A security-group-rule only makes sense within the context of a security-group and is deleted if the parent is deleted.
@@ -167,15 +168,19 @@ Example: security-group and security-group-rule. A security-group-rule only make
 
 **API Design**
 - Parent resource: GET /security-groups/{securityGroupName}
-- Child resources as sub-resources: GET /security-groups/{securityGroupName}/security-rules and GET /security-groups/{securityGroupName}/securityGroupRules/{securityGroupRuleName}
-- Create child resource: PUT /securityGroups/{securityGroupName}/securityGroupRules/{securityRuleName}
-- Delete child along with parent: DELETE /securityGroups/{securityGroupName} would delete both the securityGroup and its securityGroupRules.
+- Child resources as sub-resources: 
+  - GET /security-groups/{securityGroupName}/security-rules 
+  - GET /security-groups/{securityGroupName}/securityGroupRules/{securityGroupRuleName}
+  - Create child resource: 
+    - PUT /security-groups/{securityGroupName}/security-group-rules/{securityGroupRuleName}
+  - Delete child along with parent: 
+    - DELETE /security-groups/{securityGroupName} would delete both the securityGroup and its securityGroupRules.
 
 **Best Practices**:
 - Do not provide a top-level endpoint for the child resource if it makes no sense without the parent, emphasizing the dependency.
 
 ##### Aggregation Relationship 
-- In an aggregation relationship, one entity is loosely associated with another, meaning the child can exist independently of the parent. 
+- In an aggregation relationship, one entity is **loosely associated** with another, meaning the child can exist independently of the parent. 
 - The parent may reference the child, but if the parent is deleted, the child remains.
 
 Example: Virtual Machine and Disk. A Disk can exist with or without a VirtualMachine, and deleting a VirtualMachine could not affect the Disk entity.
@@ -186,9 +191,29 @@ Example: Virtual Machine and Disk. A Disk can exist with or without a VirtualMac
 - Use relationship or linking endpoints to associate entities instead of tying them together structurally.
 
 **API Design**
-- Separate resources: GET /virtualMachines/{virtualMachineName} and GET /disks/{diskName}
-- Linking endpoints: PUT /virtualMachines/{virtualMachineName}/disks/{diskName} to assign a disk to a virtualMachine.
-- Manage relationships independently: DELETE /virtualMachines/{virtualMachineName} only deletes the virtualMachine without impacting the Disks.
+- Separate resources: 
+  - GET /virtual-machines/{virtualMachineName}  
+  - GET /disks/{diskName}
+- Linking endpoints: 
+
+```json
+{
+  "type": "ssd",
+  "size_gb": 500,
+  "attached_instance": {
+    "instance": "/virtual-machines/my-instance",
+    "device_name": "/dev/sda1",
+    "mount_point": "/mnt/data"
+  },
+  "encryption": {
+    "enabled": true,
+    "key": "/keys/my-key"
+  }
+}
+```
+
+- Manage relationships independently: 
+  - DELETE /virtual-machines/{virtualMachineName} only deletes the virtualMachine without impacting the Disks.
 
 
 ##### Differences in API Design for Composition vs. Aggregation
@@ -204,8 +229,8 @@ Example: Virtual Machine and Disk. A Disk can exist with or without a VirtualMac
 ##### Additional Design Tips
 
 1. Document Relationship Types Clearly: Explain in API documentation which relationships are compositional (structural) and which are aggregational (weak), so developers know if deleting one entity affects others.
-2. When aggregating, leverage hypermedia links to indicate connections rather than deeply nesting endpoints. For example, in a response for a course, include links to related instructors: { "virtualMachine": "/virtual-machines/{virtualMachineName}" }
-3. Separate Resource Ownership Logic: If the relationship requires logic specific to the parent-child relationship, consider defining an intermediate resource, such as a vm_attachment relationship resource to better manage the association.
+2. When aggregating, leverage hypermedia links to indicate connections rather than deeply nesting endpoints. For example, in a response for a disk, include links to virtualMachine: { "attached_instance": "/virtual-machines/{virtualMachineName}" }
+3. Separate Resource Ownership Logic: If the relationship requires logic specific to the parent-child relationship, consider defining an intermediate resource, such as a vm-attachment relationship resource to better manage the association.
 
 Using this approach will help you model these relationships in a way that reflects real-world dependencies and ownership, while keeping the API design clean and intuitive.
 
