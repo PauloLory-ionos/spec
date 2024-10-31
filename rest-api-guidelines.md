@@ -6,7 +6,7 @@
 - [API Security](#api-security)
   - [Authentication](#authentication)
   - [Authorization](#authorization)
-- [API Model](#api-model)
+- [Core API Concepts](#api-model)
   - [Entity](#entity)
   - [Relationship](#relationship) 
     - [Composition & Aggregation](#composition--aggregation)
