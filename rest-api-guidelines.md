@@ -2,7 +2,10 @@
 
 ## Table of Contents
 - [Introduction](#introduction)
+- [Core Principles](#core-principles)
 - [API Security](#api-security)
+  - [Authentication](#authentication)
+  - [Authorization](#authorization)
 - [API Model](#api-model)
   - [Entity](#entity)
   - [Relationship](#relationship) 
@@ -47,31 +50,38 @@
 
 ## Introduction
 
-Most modern web applications expose APIs that can be used by clients to interact with the application
+This document provides comprehensive guidelines for designing and implementing control plane APIs for the initiative Sovereign European Cloud API, establishing a consistent standard to ensure a high-quality developer experience and robust cloud resource management. 
 
-A properly designed Web API should support:
+These standards focus on achieving:
+
+**Developer-Friendly Interfaces**: By following consistent patterns and widely accepted web standards (HTTP, REST, JSON), these APIs facilitate ease of use and seamless integration.
+
+**Efficient, Reliable Operations**: Built with scalability in mind, these APIs are designed to support reliable, fault-tolerant applications through idempotency, retries, and version control mechanisms.
+
+**Cross-Platform Compatibility**: Designed to be accessible via SDKs in multiple programming languages, enabling a broad range of development environments.
+
+**Future-Proofing and Stability**: Through clear API contracts and versioning practices, these guidelines ensure that customer workloads remain stable and backward-compatible, even as the APIs evolve.
+
+In a rapidly evolving technology landscape, this document serves as a living reference, adaptable to new ideas and ongoing improvements to meet the evolving needs of developers and cloud consumers.
+
+## Core Principles
+
+Cloud providers' APIs enable seamless integration and management of cloud resources through programmable interfaces. 
+These APIs allow developers and system administrators to interact with various cloud services, such as computing power, storage, databases, networking, and machine learning, directly through code or command-line tools. By using these APIs, users can automate workflows, scale resources, and perform tasks like provisioning new instances, configuring virtual networks, or managing user permissions with precision and efficiency. Cloud APIs offer flexibility and control, making it easier to build, deploy, and manage applications in dynamic and scalable environments.
+
+A properly designed REST API should support:
 
 **Platform independence**
-- Any client should be able to call the API regardless of how it is implemented internally. To achieve this, it is necessary to use:
+- Any client should be able to call the API regardless of how it is implemented internally.
 
 **Standard protocols**
-- A mechanism that allows the client and the Web service to agree on the format of the data to be exchanged.
+- No platform independence would be possible without a mechanism that allows the client and the Web service to agree on the format of the data to be exchanged.
 
 **Service evolution**
-- The web API must have the ability to evolve and add functionalities independently from client applications.
-
+- The REST API must have the ability to evolve and add functionalities independently from client applications.
 - With the evolution of the API:
   - Client applications should continue to function without modifications.
   - All functionalities should be discoverable in order to be fully utilized by client applications.
-
-The following URI definition will help us identify the entry points for different modeling and versioning strategies.
-
-```
-URI = scheme:[//authority]path[?query][#fragment]
-authority = [userinfo@]
-host[:port]
-```
-![URI_syntax_diagram.svg](./pic/URI_syntax_diagram.svg.png)
 
 
 ## API Security
@@ -82,19 +92,29 @@ In the context of security by design, these topics are intentionally mentioned b
 
   Often abbreviated as **authn** and **authz**, the authentication process ensures that the presented credentials are correct, while the authorization process checks that the permissions granted to the requesting subject are sufficient for the operation they want to perform on a specific resource.
 
-APIs must support authentication using the OAuth 2.0 protocol family, implementing at least the following flows:
+### Authentication 
 
-- **Authorization Code Flow** for integrations with web frontends
-- **Client Credentials Flow** for server-to-server integrations
+APIs must support authentication using the **JSON Web Token (JWT)** standard. 
 
-In any case, the API implementation should not prevent support for other flows defined by the OAuth 2.0 family.
+Using JSON Web Token (JWT) for authentication provides several advantages, particularly for cloud-based APIs:
 
-APIs must also apply appropriate authorization schemes for API calls based on the roles contained in the claims, mapping granularly which operations are allowed for each role, to:
+- **Stateless and Scalable**: JWTs are self-contained, storing all necessary information within the token itself. This eliminates the need for the server to maintain session data, allowing for more scalable, stateless API architectures.
+- **Enhanced Security**: JWTs are cryptographically signed, which means they can be verified by the server, ensuring that the token has not been tampered with. They can also include claims (additional metadata) that help control and secure access, such as user roles and permissions.
+- **Interoperability**: As an industry standard, JWTs are widely supported across programming languages and frameworks, making them highly compatible and easier to implement across various platforms and devices.
+- **Efficiency**: Since JWTs are compact, they can be passed in headers, minimizing overhead and reducing response times for client-server interactions.
+- **Flexibility with Single Sign-On (SSO)**: JWTs are ideal for SSO implementations, as a token generated by one service can be securely used to access multiple applications, improving the user experience and reducing authentication complexity.
 
-- Prevent unauthorized calls based on the user’s roles
-- Limit and/or filter the data available based on the user’s roles
-- Provide the ability to enable or disable various flows specifically for each API method (for example based on the token, e.g. a token can have a reduced set of privileges)
+JWT’s main function is to authenticate the user’s identity by validating the token, not to directly handle authorization or dictate permissions. Overall, JWT provides a secure, efficient, and flexible authentication solution well-suited for modern API-driven environments.
 
+### Authorization
+
+We suggest to use a foundational authorization mechanism used in systems like Kubernetes to manage permissions at runtime, ensuring that only authorized users or services (**principals**) can perform specific actions on resources.
+
+-  In this model, users or service accounts are associated with predefined roles that encapsulate a set of permissions, such as read, write, or delete
+- When a principal attempts an action, the control plane API consults an authorization provider to evaluate whether the associated roles permit the requested operation.
+- This process, independent of any data in an authentication token like JWT, allows the system to make dynamic, context-aware authorization decisions
+
+One of the widely used approach to do so is Role-Based-Access-Control (**RBAC**) model even though there are also other models, such as Attribute-Based Access Control (**ABAC**) and Policy-Based Access Control (**PBAC**), which provide flexibility and can be used in combination with or as alternatives to RBAC depending on the system’s security requirements.
 
 ## API Model
 
@@ -138,7 +158,7 @@ Here’s a breakdown of each and how to represent them effectively in REST API d
 - In a composition relationship, one entity (the parent) strongly owns another (the child), and the child cannot exist independently without the parent. 
 - If the parent entity is deleted, so is the child entity.
 
-Example: SecurityGroup and SecurityGroupRule. A SecurityGroupRule only makes sense within the context of a SecurityGroup and is deleted if the SecurityGroup is deleted.
+Example: security-group and security-group-rule. A security-group-rule only makes sense within the context of a security-group and is deleted if the parent is deleted.
 
 **Design Considerations**
 - Reflect the dependency by nesting the child resource under the parent.
@@ -146,8 +166,8 @@ Example: SecurityGroup and SecurityGroupRule. A SecurityGroupRule only makes sen
 - Enforce deletion cascades so that deleting a parent removes all associated children
 
 **API Design**
-- Parent resource: GET /securityGroups/{securityGroupName}
-- Child resources as sub-resources: GET /securityGroups/{securityGroupName}/securityRules and GET /securityGroups/{securityGroupName}/securityGroupRules/{securityGroupRuleName}
+- Parent resource: GET /security-groups/{securityGroupName}
+- Child resources as sub-resources: GET /security-groups/{securityGroupName}/security-rules and GET /security-groups/{securityGroupName}/securityGroupRules/{securityGroupRuleName}
 - Create child resource: PUT /securityGroups/{securityGroupName}/securityGroupRules/{securityRuleName}
 - Delete child along with parent: DELETE /securityGroups/{securityGroupName} would delete both the securityGroup and its securityGroupRules.
 
