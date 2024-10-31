@@ -1,6 +1,6 @@
 ResourceMetadata:
   type: object
-  description: Represents metadata for a resource, including identifying information and classification through labels and annotations
+  description: Represents metadata for a resource, including identifying information and classification through labels
   properties:
     name:
       type: string
@@ -35,35 +35,83 @@ ResourceMetadata:
           value: platform-eng
         - key: tier
           value: production
-    annotations:
-      type: array
-      readOnly: true
-      description: System-managed key/value pairs that store non-identifying metadata about the resource. Annotations are used by system components.
-      items:
-        $ref: '#/Label'
-      example:
-        - key: provisioning.timestamp
-          value: "2024-10-30T15:00:00Z"
-        - key: last.modified.by
-          value: "terraform-controller"
 
 Label:
   type: object
-  description: Represents a key/value pair used for both labels and annotations, providing a consistent structure for metadata tagging
+  description: Represents a key/value pair used for labels, providing a consistent structure for metadata tagging
   properties:
     key:
       type: string
-      description: The identifier for the label or annotation. Keys can be optionally namespaced using either a colon or dot notation (e.g., 'monitoring:alert-level' or 'monitoring.alert-level'). The namespace portion follows the same naming rules as the key.
+      description: The identifier for the label. Keys can be optionally namespaced using either a colon or dot notation (e.g., 'monitoring:alert-level' or 'monitoring.alert-level'). The namespace portion follows the same naming rules as the key.
       minLength: 1
-      maxLength: 63
+      maxLength: 256
       pattern: '^([a-z0-9A-Z][-a-z0-9A-Z_.]*)?[a-z0-9A-Z]$'
     value:
       type: string
-      description: The data content of the label or annotation. For labels, must be 63 characters or less. For annotations, can contain more extensive data.
-      maxLength: 63
+      description: The data content of the label.
+      maxLength: 256
   required:
     - key
     - value
+
+StatusConditions:
+  type: array
+  description: |
+    Conditions represent the latest available observations of a resource's current state.
+    Conditions are provider-specific and can represent different states depending on the
+    resource type and provider implementation.
+  items:
+    type: object
+    required:
+      - type
+      - status
+      - lastTransitionTime
+    properties:
+      type:
+        type: string
+        description: |
+          Type of condition. The condition type is provider-specific and should
+          reflect the specific states relevant to your resource.
+        example: "Ready"
+      status:
+        type: string
+        description: Status of the condition, one of True, False, Unknown.
+        enum:
+          - "True"
+          - "False"
+          - "Unknown"
+      observedGeneration:
+        type: integer
+        description: |
+          ObservedGeneration represents the .metadata.generation that the condition
+          was set based upon. For instance, if .metadata.generation is currently 12,
+          but the .status.conditions[x].observedGeneration is 9, the condition is
+          out of date with respect to the current state of the instance.
+        format: int64
+      lastTransitionTime:
+        type: string
+        format: date-time
+        description: |
+          LastTransitionTime is the last time the condition transitioned from one
+          status to another. This should be when the underlying condition changed.
+          If that is not known, then using the time when the API field changed is
+          acceptable.
+      reason:
+        type: string
+        description: |
+          The reason for the condition's last transition in CamelCase.
+          The specific set of reason values is provider-specific and should be
+          documented by the provider.
+        maxLength: 1024
+        pattern: '^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$'
+      message:
+        type: string
+        description: |
+          A human-readable message indicating details about the transition.
+          This field may be empty.
+        maxLength: 32768
+
+
 
 Profile:
   type: object

@@ -65,3 +65,5 @@ Server:
           type: array
           items:
             type: string
+        conditions:
+          $ref: "./resource.yaml#/StatusConditions"

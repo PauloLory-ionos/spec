@@ -39,3 +39,5 @@ RoutingTable:
           type: array
           items:
             $ref: '#/Route'
+        conditions:
+          $ref: "./resource.yaml#/StatusConditions"

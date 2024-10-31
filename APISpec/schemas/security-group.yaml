@@ -61,3 +61,5 @@ SecurityGroup:
                 example: '2001:db8:1234::/48'
               priority:
                 type: integer
+        conditions:
+          $ref: "./resource.yaml#/StatusConditions"

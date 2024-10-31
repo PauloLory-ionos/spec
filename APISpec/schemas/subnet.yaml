@@ -37,3 +37,5 @@ Subnet:
           type: string
         routingTableRef:
           type: string
+        conditions:
+          $ref: "./resource.yaml#/StatusConditions"

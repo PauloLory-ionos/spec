@@ -73,3 +73,5 @@ VolumeSnapshot:
         creationTime:
           type: string
           format: date-time
+        conditions:
+          $ref: "./resource.yaml#/StatusConditions"
