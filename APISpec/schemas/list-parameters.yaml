@@ -47,5 +47,8 @@ parameters:
     schema:
       type: string
     required: false
-    description: Entity tag containing version number for optimistic concurrency control. If resource version does not match If-Match header, request will fail with 412. If parameter ommited, the operation will be executed on the latest version available.
+    description: |
+      Entity tag containing generation number for optimistic concurrency control. 
+      If resource generation number does not match If-Match header, request will fail with 412. 
+      If parameter ommited, the operation will be executed on the latest generation number available.
 

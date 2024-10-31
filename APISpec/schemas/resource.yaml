@@ -13,9 +13,9 @@ ResourceMetadata:
         - vpc-east-1
         - db.postgres-13-main
         - compute.instance-pool-web
-    version:
+    generation:
       type: integer
-      description: Monotonically increasing version number, incremented on each update. Starts at 1.
+      description: Monotonically increasing generation number, incremented on each update. Starts at 1.
       readOnly: true
       minimum: 1
     deletionTimestamp:
