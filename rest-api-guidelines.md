@@ -297,38 +297,38 @@ This section describes some typical considerations for designing an API that com
 
 ### Media Type
 
-- As mentioned earlier, clients and servers exchange representations of resources. In a POST request, for example, the request body contains a representation of the resource to be created. In a GET request, the response body contains a representation of the retrieved resource.
+As mentioned earlier, clients and servers exchange representations of resources. In a PUT request, for example, the request body contains a representation of the resource to be created. In a GET request, the response body contains a representation of the retrieved resource.
 
 - In the HTTP protocol, formats are specified using Media Types, also known as MIME types. For non-binary data, most Web APIs support JSON (i.e., the media type application/json) and possibly XML (i.e., the media type application/xml).
 
-- The Content-Type header specifies the format of the representation. Below is an example of a POST request containing JSON data:
+The Content-Type header specifies the format of the representation. Below is an example of a PUT request containing JSON data:
 
 ```javascript
-PUT https://api.cloud.eu/${scope}/virtualmachines/my-vm HTTP/1.1
+PUT https://api.cloud.eu/${scope}/virtual-machines/my-vm HTTP/1.1
 Content-Type: application/json; charset=utf-8
 Content-Length: 47
 
-{"Flavor":"K0063","OS":"Ubuntu24.01"}
+{"profile":"K0063","OS":"Ubuntu24.01"}
 ```
 
-If the server does not support the media type, it must return the HTTP status code 415 (Unsupported Media Type).
+-  If the server does not support the media type, it must return the HTTP status code 415 (Unsupported Media Type).
 
 A client request can include an Accept header containing a list of media types that the client will accept in the server’s response. For example:
 
 ```javascript
-GET https://api.cloud.eu/${scope}/virtualMachines/my-vm HTTP/1.1
+GET https://api.cloud.eu/${scope}/virtual-machines/my-vm HTTP/1.1
 Accept: application/json
 ```
 
-If the server cannot provide a media type matching those listed, it must return the HTTP status code 406 (Not Acceptable).
+- If the server cannot provide a media type matching those listed, it must return the HTTP status code 406 (Not Acceptable).
 
 #### JSON
 
 ##### Casing
-- The casing adopted must be camelCase.
+- The field casing adopted is **camelCase**.
 
 ##### Naming
-- The identifier field of an object will be expressed in the following form: id.
+- The identifier field of an object will be expressed in the following form: objectId.
 
 ##### Type Conversion
 - For those media types where there is no 1:1 conversion between the server-side data type and the one transmitted to clients, we adopt the following convention:
@@ -354,7 +354,6 @@ If the server cannot provide a media type matching those listed, it must return 
 #### PUT Method
 - If a **PUT** method creates a new resource, it must return the HTTP status code 201 (Created). The URI of the new resource is included in the Location header of the response. The body will contain a representation of the resource
 - If the method updates an existing resource, it will return 200 (OK) or 204 (No Content). In some cases, it may not be possible to update an existing resource. In such circumstances, consider returning the HTTP status code 409 (Conflict).
-- Consider implementing bulk HTTP PUT operations that can perform batch updates of multiple resources within a collection. The PUT request should specify the URI of the collection, and the request body should specify the details of the resources to be modified. This approach helps reduce fragmentation and improves performance.
 
 #### POST Method
 - When it performs a processing task the method may return the HTTP status code 200 and include the result of the operation in the response body. 
@@ -363,57 +362,8 @@ If the server cannot provide a media type matching those listed, it must return 
 
 If the client submits invalid data in the request, the server must return the HTTP status code 400 (Bad Request). The response body should contain additional information about the error or a link to a URI providing more details
 
-#### PATCH Method
-- With a PATCH request, the client sends a set of updates to an existing resource in the form of a patch document. The server processes the patch document to apply the updates, which will not describe the entire resource but only a set of changes to be applied. The specification for the PATCH method ([RFC 5789](https://datatracker.ietf.org/doc/html/rfc5789)) does not define a particular format for patch documents. The format must be inferred from the media type in the request.
-- The most common data format for Web APIs is likely JSON. There are two main JSON-based patch formats, known as "JSON Merge Patch" and "JSON Patch".
-- The **Merge Patch** format is the simpler one: the document follows the same structure as the original JSON resource but includes only the subset of fields to be modified or added.
-- A field can be deleted by specifying null as its value.
-
-For example, let's assume the original resource has the following JSON representation:
-```json
-  {
-    "metadata": {
-
-    },
-    "properties": {
-      "flavor": "KA0006R",
-      "os": "Ubuntu22.04LTS",
-      "init": "script.sh"
-    },
-    "data": {
-
-    },
-    "status": {
-
-    }
-  }    
-  ```
-Below is a possible Merge Patch document for that resource:
-```json
-  {
-    "properties": {
-      "os": "Ubuntu24.04LTS",
-      "init": null
-    }
-  }    
-  ```
-In this way, the API is instructed to update the os property, delete the init property, while flavor remains unchanged. For detailed information on Merge Patch, refer to the specification [RFC 7396](https://datatracker.ietf.org/doc/html/rfc7396).
-
-- We can adopt the GET → PATCH model with If- headers to ensure that we send updated values, inclusive of any changes.*
-
-Strategic Merge is useful to avoid the roundtrip of the initial GET.
-
-Below are some typical error conditions that can occur during the processing of a PATCH request, along with the appropriate HTTP status code.
-
-| Error Condition | HTTP Status Code |
-|-----------------| -----------------|
-|The format of the patch document is not supported.|	415 (Unsupported Media Type) |
-|The format of the patch document is not valid.|400 (Bad Request)|
-|The patch document is valid but changes could not be applied with the current state|409 (Conflict)|
-|The patch document is valid but changes could not be applied due to Match Headers failed precondition |409 (Conflict)|
-
 #### DELETE Method
-- If the deletion operation is successful, the API will respond with the HTTP status code 204, indicating that the process was handled correctly and that the response body will not contain further information. If the resource does not exist, the API may return the HTTP status code 404 (Not Found).
+- The API will respond with the HTTP status code 204 indicating that the process was handled correctly and that the response body will not contain further information.
 
 #### Conditional Requests
 
