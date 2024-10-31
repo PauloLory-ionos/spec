@@ -50,7 +50,7 @@
 
 ## Introduction
 
-This document provides comprehensive guidelines for designing and implementing control plane APIs for the initiative Sovereign European Cloud API, establishing a consistent standard to ensure a high-quality developer experience and robust cloud resource management. 
+This document provides comprehensive guidelines for designing and implementing control plane APIs for the **Sovereign European Cloud API** initiative, establishing a consistent standard to ensure a high-quality developer experience and robust cloud resource management. 
 
 These standards focus on achieving:
 
