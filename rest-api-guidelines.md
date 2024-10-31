@@ -30,11 +30,9 @@
     - [Group By Category](#group-by-category)
     - [Status Detail](#status-detail)
     - [Problem Details - Response Body for 4xx and 5xx Categories](#problemdetails---response-body-for-4xx-and-5xx-categories)
-- [Filtering, Sorting and Pagination](#filtering-sorting-and-pagination)     
-  - [RPC Requests](#rpc-requests)
-  - [OData & GraphQL](#odata-e-graphql)
-- [HATEOS](#hateos)
-  - [HAL](#hal)
+- [API Enhancements](#api-enhancements)
+  - [Filtering](#filtering)
+  - [Pagination](#pagination) 
 - [Versioning](#versioning)
   - [Semantic Versioning](#semantic-versioning)
   - [Breaking Change Definition](#breaking-change-definition)
@@ -128,10 +126,10 @@ Such an example, a disk can be created by sending an HTTP PUT request containing
 
   ```
   // Correct
-  https://mycloud.eu/${scope}/disks
+  https://mycloud.eu/${scope}/storage/block-storages
  
   // Not Correct
-  https://mycloud.eu/${scope}/create-disks
+  https://mycloud.eu/${scope}/create-storage/block-storages
   ```
 
   
@@ -142,8 +140,8 @@ Such an example, a disk can be created by sending an HTTP PUT request containing
 Relationships describe how entities connect or interact with each other, helping structure API endpoints for clarity and hierarchy.
 
 It is important to consider the relationships between different types of resources and how those associations could be exposed. 
-- For example, `/virtual-machines/my-vm/disks` **could** represent all the disks for the virtual machine my-vm. 
-- It is also possible to **go in the opposite direction** and represent the association from a disk to a virtualMachine with a URI like `/disks/disk-test/virtual-machines`. 
+- For example, `/compute/instances/my-vm/storage/block-storages` **could** represent all the storage/block-storages for the virtual machine my-vm. 
+- It is also possible to **go in the opposite direction** and represent the association from a disk to a virtualMachine with a URI like `/storage/block-storages/disk-test/instances`. 
 
 **However, if this model is adopted excessively, its implementation could become complex.**
 
@@ -192,8 +190,8 @@ Example: Virtual Machine and Disk. A Disk can exist with or without a VirtualMac
 
 **API Design**
 - Separate resources: 
-  - GET /virtual-machines/{virtualMachineName}  
-  - GET /disks/{diskName}
+  - GET /compute/instances/{instanceName}  
+  - GET /storage/block-storages/{diskName}
 - Linking endpoints: 
 
 ```json
@@ -201,7 +199,7 @@ Example: Virtual Machine and Disk. A Disk can exist with or without a VirtualMac
   "type": "ssd",
   "size_gb": 500,
   "attached_instance": {
-    "instance": "/virtual-machines/my-instance",
+    "instance": "/compute/instances/my-instance",
     "device_name": "/dev/sda1",
     "mount_point": "/mnt/data"
   },
@@ -213,7 +211,7 @@ Example: Virtual Machine and Disk. A Disk can exist with or without a VirtualMac
 ```
 
 - Manage relationships independently: 
-  - DELETE /virtual-machines/{virtualMachineName} only deletes the virtualMachine without impacting the Disks.
+  - DELETE /virtual-machines/{virtualMachineName} only deletes the virtualMachine without impacting the storage/block-storages.
 
 
 ##### Differences in API Design for Composition vs. Aggregation
@@ -223,7 +221,7 @@ Example: Virtual Machine and Disk. A Disk can exist with or without a VirtualMac
 |Endpoint Structure | Nested within the parent resource | Separate endpoints, linked by reference|
 |Resource Independence |Child depends on parent; no standalone endpoint| Child is independent; standalone endpoint allowed|
 |Lifecycle Dependency | Child is deleted when parent is deleted| Child remains if parent is deleted|
-|Use Case | Strong ownership, e.g., Network and Subnets| Loose association, e.g., VM and Disks|
+|Use Case | Strong ownership, e.g., Network and Subnets| Loose association, e.g., VM and storage/block-storages|
 |Deletion Behavior |Cascading delete (parent and children)| No cascade; deletion affects only the entity being removed|
 
 ##### Additional Design Tips
@@ -243,15 +241,15 @@ Using this approach will help you model these relationships in a way that reflec
    - Resource collections should be all **plurals**
  
    For example:
-    - `/virtual-machines/`
-    - `/security-groups/`
-    - `/network-interfaces/`
+    - `/providers/compute/instances/`
+    - `/providers/network/security-groups/`
+    - `/providers/network/network-interfaces/`
 
  2. It is advisable to organize the URIs for collections and elements in a hierarchy. For example, if `/networks` is the path for the network collection, then `/networks/my-net` will be the path for the network whose name is **my-net**. 
  - This approach helps to keep the web API intuitive. Many web API frameworks can also route requests based on URI paths with parameters, so it is possible to define a route for the path `/networks/{name}`.
 
- 3. In more complex systems, there may be a temptation to provide URIs that allow a client to traverse multiple levels of relationships, such as `/virtual-machines/my-vm/disks/disk-00/snapshots`. However, this level of complexity can be difficult to maintain and would likely become overly rigid if the relationships between resources change in the future. 
-    - It is better to try to keep URIs relatively simple. When an entity contains a reference to a resource, it should be possible to use that reference to find the elements related to that resource. The previous query can be replaced with the URI `/virtual-machines/my-vm/disks` to find all disks for virtual machine my-vm, and then `/disks/my-disk/snapshots` to find the snapshots for that disk.
+ 3. In more complex systems, there may be a temptation to provide URIs that allow a client to traverse multiple levels of relationships, such as `/compute/instances/my-vm/storage/block-storages/disk-00/snapshots`. However, this level of complexity can be difficult to maintain and would likely become overly rigid if the relationships between resources change in the future. 
+    - It is better to try to keep URIs relatively simple. When an entity contains a reference to a resource, it should be possible to use that reference to find the elements related to that resource. The previous query can be replaced with the URI `/compute/instances/my-vm/storage/block-storages` to find all storage/block-storages for virtual machine my-vm, and then `/storage/block-storages/my-disk/snapshots` to find the snapshots for that disk.
     - A rule of thumb is a maximum nesting depth of two. Sometimes a depth of three is also okay
 
 4. Another factor to consider is that all web requests impose a load on the server. The greater the number of requests, the greater the load. Therefore, try to avoid "fragmented" APIs that expose a large number of small resources. Such an API may require a client application to send multiple requests to retrieve all the necessary data. It may be more appropriate to denormalize the data and combine related information into larger resources that can be retrieved with a single request. However, this approach must be balanced against the overhead of retrieving unnecessary data for the client. Retrieving large objects can increase request latency and add bandwidth costs.
@@ -272,7 +270,7 @@ The HTTP protocol defines a series of methods that assign semantic meaning to a 
 
 The effect of a specific request varies depending on the type of resource (collection or a single item). The table below summarizes common conventions adopted by most RESTful implementations. Not all of these requests may be implemented because would depend on the specific scenario.
 
-| HTTP Method | Collection URI (e.g: `/virtual-machines`) | Element URI (e.g. `/virtual-machines/my-vm`)          |
+| HTTP Method | Collection URI (e.g: `/compute/instances`) | Element URI (e.g. `/compute/instances/my-vm`)          |
 |-------------|----------------------------|---------------------------------------|
 | PUT         | Not Applicable  | The Virtual Machine Resource is created or replaced with the representations contained in the body of the request   |
 | DELETE      | Not Applicable | Removes the Virtual Machine Resource and any nested Element Resources.  |
@@ -281,11 +279,11 @@ The effect of a specific request varies depending on the type of resource (colle
 
 | Resource | PUT | DELETE | GET | POST |
 |-------------|-------------|-------------|-------------|-------------|
-| /virtual-machines |  405 Method Not Allowed |  405 Method Not Allowed | Retrieve all virtual machines | 405 Method Not Allowed |
-| /virtual-machines/my-vm | Create or Replace the Virtual Machine **my-vm** | Remove the virtual machine **my-vm** | Retrieve details of **my-vm** virtual machine | 405 Method Not Allowed |
-| /virtual-machines/my-vm/power-Off | 405 Method Not Allowed | 405 Method Not Allowed  | 405 Method Not Allowed | Stop the virtual machine **my-vm** if makes sense  |
-| /networks/my-net/subnets/my-sub/network-interfaces | 405 Method Not Allowed | 405 Method Not Allowed | Retrieve all network interfaces within network **my-net** in subnet **my-sub** | 405 Method Not Allowed |
-| /networks/my-net/subnets/my-sub/network-interfaces/my-nic | Create or Replace the  network Interface **my-nic**  | Delete the network interface **my-nic** in the subnet my-sub of network my-net | Retrieve the **my-nic** network interface detail attached to the subnet my-sub of network my-net | 405 Method Not Allowed |
+| /instances |  405 Method Not Allowed |  405 Method Not Allowed | Retrieve all virtual machines | 405 Method Not Allowed |
+| /instances/my-vm | Create or Replace the Virtual Machine **my-vm** | Remove the virtual machine **my-vm** | Retrieve details of **my-vm** virtual machine | 405 Method Not Allowed |
+| /instances/my-vm/power-Off | 405 Method Not Allowed | 405 Method Not Allowed  | 405 Method Not Allowed | Stop the virtual machine **my-vm** if makes sense  |
+| /network/vpcs/my-net/subnets/my-sub/network-interfaces | 405 Method Not Allowed | 405 Method Not Allowed | Retrieve all network interfaces within network **my-net** in subnet **my-sub** | 405 Method Not Allowed |
+| /network/vpcs/my-net/subnets/my-sub/network-interfaces/my-nic | Create or Replace the  network Interface **my-nic**  | Delete the network interface **my-nic** in the subnet my-sub of network my-net | Retrieve the **my-nic** network interface detail attached to the subnet my-sub of network my-net | 405 Method Not Allowed |
 
 **Notes**
 
@@ -304,7 +302,7 @@ As mentioned earlier, clients and servers exchange representations of resources.
 The Content-Type header specifies the format of the representation. Below is an example of a PUT request containing JSON data:
 
 ```javascript
-PUT https://api.cloud.eu/${scope}/virtual-machines/my-vm HTTP/1.1
+PUT https://api.cloud.eu/${scope}/compute/instances/my-vm HTTP/1.1
 Content-Type: application/json; charset=utf-8
 Content-Length: 47
 
@@ -316,7 +314,7 @@ Content-Length: 47
 A client request can include an Accept header containing a list of media types that the client will accept in the server’s response. For example:
 
 ```javascript
-GET https://api.cloud.eu/${scope}/virtual-machines/my-vm HTTP/1.1
+GET https://api.cloud.eu/${scope}/compute/instances/my-vm HTTP/1.1
 Accept: application/json
 ```
 
@@ -449,170 +447,98 @@ Content-Language: en
     "instance": "/providers/storage/block-storages/my-block"
 }
 ```
-## Filtering, Sorting and Pagination
 
-- By exposing a collection of resources through a single URI, applications might retrieve large amounts of data when only a subset of information is needed. For example, suppose a client application needs to find all orders with a price above a specific value. It could retrieve all orders from the URI /orders and then filter those orders client-side. This process is clearly inefficient as it wastes bandwidth and processing time on the server hosting the web API.
-- Instead, the API can allow passing a filter in the query string of the URI, for example, /orders?minCost=n. The web API would then be responsible for parsing and handling the minCost parameter in the query string and returning the filtered results server-side.
-- GET requests on collection resources might return a large number of items. It is advisable to design a web API to limit the amount of data returned in each request. Consider supporting query strings that specify the maximum number of items to retrieve and an initial offset in the collection, for example:
+## API Enhancements
 
-```json
-HTTP 
-/orders?limit=25&offset=50
-```
+### Filtering
 
-- Consider also the possibility of imposing a maximum limit on the number of returned items to prevent Denial of Service attacks. To assist client applications, GET requests that return paginated data should also include metadata indicating the total number of available resources in the collection.
+By exposing a collection of resources through a single URI, applications might retrieve large amounts of data when only a subset of information is needed. For example, a client application needs to find a resources subset. It could retrieve all resources from the URI collection and then filter. This process is clearly inefficient.
 
-- The response to a paginated GET request may also include links:
+To improve client and server needs the API can allow passing a filter in the query string of the URI. We support to filter out only by labels and therefore clients should define a labelSelector queryParam.
 
-  - first
-  - last
-  - next
-  - prev
+The **labelSelector** parameter allows you to filter resources based on their labels.
 
-```json
-{
-    "self": "https://dogtracker.com/dogs?limit=25&offset=0",
-    "kind": "Page",
-    "pageOf": "https://dogtracker.com/dogs",
-    "next": "https://dogtracker.com/dogs?limit=25&offset=25",
-    "values": [
-        {
-            "self": "https://dogtracker.com/dogs/12344",
-            "kind": "Dog",
-            "name": "Fido",
-            "furColor": "white"
-        },
-        {
-            "self": "https://dogtracker.com/dogs/12345",
-            "kind": "Dog",
-            "name": "Rover",
-            "furColor": "brown"
-        },
-        ... (23 more)
-    ]
-}
-```
+#### Equality-Based Selectors
+Equality-based selectors allow you to filter resources by exact label matches. They support two operators:
 
-It is possible to use a similar strategy to sort the data while retrieving it, by specifying a sort parameter that accepts a field name as a value, for example /orders?sort=productId. However, this approach can have a negative effect on caching because query string parameters are part of the resource identifier, which is used by many caching implementations as a key to store data.
+- = or ==: Selects resources that match the label key-value pair.
+- !=: Excludes resources that match the label key-value pair.
 
-To indicate ascending or descending order, a parameter order (or sortOrder, in case of conflicts with existing naming conventions) can be included with accepted values asc(ending) and desc(ending).
+1. Single Label Match
 
-This approach can be extended to limit the fields returned for each item, if each contains a large amount of data. For example, a query string parameter can be used to accept a comma-delimited list of fields, such as /orders?fields=productId,quantity.
+Selects resources where the label environment is production.
+> labelSelector=environment=production
 
-Consider assigning meaningful default values to all optional query string parameters. For example, set the limit parameter to 10 and the offset parameter to 0 when implementing pagination, set the sort parameter to the resource’s primary key when implementing sorting, and set the fields parameter to include all resource fields when supporting projections.
 
-You can find additional ways of managing pagination, filtering, and sorting at the following links:
+2. Multiple Labels (AND Condition):
 
-- https://nordicapis.com/4-examples-of-restful-api-pagination-in-production/
-- https://specs.openstack.org/openstack/api-wg/guidelines/pagination_filter_sort.html
+Selects resources where app=myapp and environment=production
+> labelSelector=app=myapp,environment=production
 
-#### RPC Requests
+3. Label Exclusion:
 
-Sometimes it can be convenient to name an API with a verb rather than a noun (e.g., Compute, Start, Stop, Create, Convert, etc.). Even in these cases, it is quite likely that an RPC operation on an action can be translated as a REST command on another "surrogate" resource. 
+Selects resources where environment is not production.
+> labelSelector=environment!=production
 
-#### OData e GraphQL
+#### Set-Based Selectors
+Set-based selectors are more advanced and allow you to specify lists of possible values. They use three operators:
 
-[OData](https://www.odata.org/odata-services/) and [GraphQL](https://graphql.org/learn/) are two technologies that, when properly configured, can address specific use cases. They diverge from what is prescribed by REST, as they do not fully or partially adhere to the prescribed constraints.
+- **in**: Selects resources with a label key that matches any value in a given set.
+- **notin**: Selects resources with a label key that does not match any value in a given set.
+- **exists**: Selects resources with a particular label key, regardless of its value.
 
-## HATEOS
+1. Label Value in Set
 
-One of the main motivations behind the REST approach is that it should be possible to navigate the entire set of resources without prior knowledge of the URI schema. Each HTTP GET request should return the necessary information to find related resources directly through hyperlinks included in the response, and at the same time, it should also contain information that describes the available operations for each of these resources. This principle is known as HATEOAS, or Hypertext as the Engine of Application State. The system is essentially a finite state machine, and the response to each request contains the information needed to transition from one state to another. No further information should be required
+Selects resources where environment is either production or staging
+> labelSelector=environment in (production, staging)
 
-To manage the relationship between an virtual machine and a network interface, for example, the representation of an order could include links that identify the operations available for the customer of the order. Below is a possible representation:
+2. Label Value Not in Set:
 
-```json
-{
-  "flavor": "KA0006R",
-  "os": "Ubuntu22.04LTS",
-  "init": "script.sh",  
-  "links": [
-    {
-      "rel": "nic",
-      "href": "https://api.cloud.eu/${scope}/networkInterfaces/my-nic-1",
-      "action": "GET",
-      "types": ["text/xml","application/json"]
-    },
-    {
-        "rel": "nic",
-        "href": "https://api.cloud.eu/${scope}/networkInterfaces/my-nic-1",
-        "action": "PUT",
-        "types": ["application/x-www-form-urlencoded"]
-    },    
-    {
-        "rel": "nic",
-        "href": "https://api.cloud.eu/${scope}/networkInterfaces/my-nic-1",
-        "action": "DLETE",
-        "types": ["application/x-www-form-urlencoded"]
-    },
-    {
-      "rel": "self",
-      "href": "https://api.cloud.eu/${scope}/virtualMachines/my-vm",
-      "action": "GET",
-      "types": ["text/xml","application/json"]
-    },
-    {
-      "rel": "self",
-      "href": "https://api.cloud.eu/${scope}/virtualMachines/my-vm",
-      "action": "PUT",
-      "types": ["application/x-www-form-urlencoded"]
-    },  
-    {
-      "rel": "self",
-      "href": "https://api.cloud.eu/${scope}/virtualMachines/my-vm",
-      "action": "DELETE",
-      "types": []
-    }]
-}
-```
+Selects resources where environment is not development or test.
+> labelSelector=environment notin (development, test)
 
-In this example, the links array contains a set of links, each representing an operation on a related entity. The data for each link includes the relation ("customer"), the URI (https://api.cloud.eu/${scope}/networkInterfaces/my-nic-1), the HTTP method, and the supported media types. These are all the necessary details for a client application to invoke the operation.
+3. Label Key Exists:
 
-The links array also includes information about the resource itself, which is the subject of the request. This information represents the self relation.
+Selects resources that have the app label, regardless of its value.
+> labelSelector=app
 
-The set of links returned may vary depending on the state of the resource. This is why it is referred to as "hypertext as the engine of application state."
 
-### HAL
+#### Combining Selectors
+You can combine equality-based and set-based selectors to create more complex filters. When using multiple conditions, each is treated as an **AND** condition.
 
-The [JSON Hypertext Application Language](https://tools.ietf.org/html/draft-kelly-json-hal-07) (HAL) can be used in conjunction with HATEOAS.
+Example:
+- app=myapp
+- environment is either production or staging
+- tier is not frontend
 
-For completeness, here is an example of a resource represented using HAL.
+> labelSelector=app=myapp,environment in (production, staging),tier!=frontend
 
-```json
-{
-    "_links": {
-        "self": { "href": "/orders" },
-        "curies": [{ "name": "ea", "href": "http://example.com/docs/rels/{rel}", "templated": true }],
-        "next": { "href": "/orders?page=2" },
-        "ea:find": {
-            "href": "/orders{?id}",
-            "templated": true
-        }
-    },
-    "currentlyProcessing": 14,
-    "shippedToday": 20,
-    "_embedded": {
-        "ea:order": [{
-            "_links": {
-                "self": { "href": "/orders/123" },
-                "ea:basket": { "href": "/baskets/98712" },
-                "ea:customer": { "href": "/customers/7809" }
-            },
-            "total": 30.00,
-            "currency": "USD",
-            "status": "shipped"
-        }, {
-            "_links": {
-                "self": { "href": "/orders/124" },
-                "ea:basket": { "href": "/baskets/97213" },
-                "ea:customer": { "href": "/customers/12369" }
-            },
-            "total": 20.00,
-            "currency": "USD",
-            "status": "processing"
-        }]
-    }
-}
-```
+**Notes**
+- **Logical OR is not supported**: Multiple label conditions in a single selector are implicitly combined with AND logic.
+- **URL Encoding**: When using labelSelector in a URL, certain characters (=, !=, ,, in, notin, exists) need URL encoding. For example, labelSelector=app%3Dmyapp.
+
+This flexible labeling structure enables precise filtering of resources like in Kubernetes
+
+### Pagination
+
+Pagination helps manage large data sets by dividing responses into "pages" of data. This prevents overwhelming the API consumer and ensures efficient API performance.
+
+For endpoints returning continuously changing data, cursor-based pagination offers better performance and consistency. A cursor token is used to fetch the next page of data.
+
+We call this param **skipToken**
+
+- It's a query parameter used in API requests to handle pagination in responses for large datasets. The skip token is essentially a marker that tells the API where to continue retrieving results from, allowing clients to navigate through paginated data efficiently.
+- When an API returns a skip token, the client includes it in the next request to retrieve the subsequent set of results; In the response it's included in the metadata structure.
+
+This process is repeated, with each nextLink providing a new skip token, until there are no further results.
+
+**Notes**
+
+Using a skip token for pagination in APIs can introduce consistency challenges, especially in systems where data is frequently updated. This is because data may change between paginated requests, potentially leading to gaps, duplicates, or outdated information in the results. Here’s how consistency issues arise and strategies to manage them when using skip tokens.
+
+- As you retrieve pages of data using a skip token, items may be added, deleted, or modified between requests.
+
+Skip tokens are state-based, meaning they’re associated with a specific snapshot of the data state. As data changes, the relevance of the token might diminish, leading to inconsistencies in paginated responses if not handled well.
 
 ## Versioning
 
