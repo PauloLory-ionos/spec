@@ -390,11 +390,12 @@ See the dedicated [reference](https://datatracker.ietf.org/doc/html/rfc7232) for
 | Code | Description |
 |----------| ------------|
 |200 OK | Indicates that the client's request has been successfully processed and that there is no more appropriate status code in the 2xx category.<br/><br/> Unlike status code 204, a response with a 200 code should include a body. The information returned depends on the method used in the request, for example: <br/> **GET** - the requested entity. <br/> **HEAD** - the HTTP headers of the requested entity (e.g., ETag, etc.).<br/> **POST** - an entity that describes or contains the result of the request. |
-|201 Created| Typically used when a resource has been created within a Collection Resource, but it would also be appropriate in cases where the resource is created as a result of a controller's action.<br/> The newly created resource can be referenced by one or more URIs returned in the response, with the most specific URI for the resource contained in the Location header.<br/> The server must have created the resource before returning a 201 status code. If the action cannot be completed immediately, the server must respond with a 202 Accepted status code.<br/>|
-|202 Accepted| Typically used for actions that take time to complete. It indicates that the request has been accepted for processing, but the processing is not yet complete. The outcome of the request is therefore not yet known and could be prevented if attempted again before the previous process has finished.<br/> The purpose is to allow the server to accept a request for another process (normally asynchronous/long-running/scheduled) without forcing the user agent to keep a connection open until the procedure is completed.<br/>The entity returned with the response should include an indication of the current status of the request and a pointer to a resource that shows the progress of the task.<br/>The Location header can be used instead of a body.<br/>The response might also include, in its headers, an estimated time for when the asynchronous process will be completed.  |
+|201 Created| This status code indicates that the resource has been successfully created. <br/>If the action cannot be completed immediately, the server must respond with a 202 Accepted status code.<br/>|
+|202 Accepted|  This status code signifies that the request has been accepted for processing, but the operation has not been completed yet. This is common for long-running operations.The outcome of the request is therefore not yet known and could be prevented if attempted again before the previous process has finished.<br/> The purpose is to allow the server to accept a request for another process (normally asynchronous/long-running/scheduled) without forcing the user agent to keep a connection open until the procedure is completed.<br/>The entity returned with the response should include an indication of the current status of the request and a pointer to a resource that shows the progress of the task.<br/>The Location header can be used instead of a body.<br/>The response might also include, in its headers, an estimated time for when the asynchronous process will be completed.  |
 |204 No Content| The server has successfully processed the request, and there is no body in the response. |
 |302 Found| The target resource resides temporarily under a different URI. Since the redirection might be altered on occasion, the client ought to continue to use the effective request URI for future requests. |
 |303 See Other| The server is redirecting the user agent to a different resource, as indicated by a URI in the Location header field, which is intended to provide an indirect response to the original request. |
+|304 Not Modified| If the client makes a conditional request (e.g., using the If-Modified-Since or ETag headers), and the resource has not changed. The returned status code indicates that a cached version would be still considered valid |
 |400 Bad Request| 400 is the generic client-side error status, used when no other code in the 4xx error category is more appropriate. Request errors (body or parameters) can fall into this category.<br/>The client should not repeat the request without making the appropriate changes, which may be indicated in the response of the previous invalid request. |
 |401 Unauthorized| A 401 error indicates that the client attempted to operate on a resource without providing the necessary credentials. The response must include the WWW-Authenticate header containing a challenge applicable to the requested resource.<br/> The client may repeat the request with the appropriate Authorization header. If the initial request already included the header, the 401 response indicates that authorization was denied for those credentials. |
 |403 Forbidden| A 403 code indicates that the request is formally valid, even from an authentication perspective, but the server refuses to process it because the user lacks the necessary permissions, or the resource's state does not allow this particular operation. A 403 response is not a case of incorrect credentials; that would be the 401 Unauthorized code.<br/> Re-authenticating would not resolve the issue, and the request should not be repeated, as the problem lies with permissions, not credentials. |
@@ -422,22 +423,17 @@ A ProblemDetails object, as specified, can contain the following elements:
 It may also contain a series of elements that provide additional information for the particular type of problem encountered. For example:
 
 ```json
-HTTP/1.1 403 Forbidden
+HTTP/1.1 404 Not Found
 Content-Type: application/problem+json
 Content-Language: en
  
 {
-    "type": "https://example.com/probs/out-of-credit",
-    "title": "You do not have enough credit.",
-    "detail": "Your current balance is 30, but that costs 50.",
-    "instance": "/account/12345/msgs/abc",
-    "balance": 30,
-    "accounts": ["/account/12345",
-                 "/account/67890"]
+    "type": "https://api.seca.eu/problems/resource-not-existing",
+    "title": "Resource Not Found",
+    "detail": "The resource my-vm does not exist",
+    "instance": "/providers/compute/instances/my-vm"
 }
 ```
-
-In this case, the fields balance and account are specific to the type of error https://example.com/probs/out-of-credit.
 
 Or, in the case of validation problems with a request:
 
@@ -447,35 +443,12 @@ Content-Type: application/problem+json
 Content-Language: en
  
 {
-   "type": "https://example.net/validation-error",
-   "title": "Your request parameters didn't validate.",
-   "errors": {
-       "age": [ "must be a positive integer" ],
-       "color": [ "must be 'green', 'red' or 'blue'" ]
-   }]
+    "type": "https://api.seca.eu/problems/resource-not-valid",
+    "title": "Resource Not Valid",
+    "detail": "The resource field size of my-block cannot be empty",
+    "instance": "/providers/storage/block-storages/my-block"
 }
 ```
-
-As in the example, the errors contain the validation issues encountered during processing.
-
-The **errors** object is an associative array where the key is the name of the request property, and the value is a list of related error messages.
-
-If it is not possible to identify a single property that caused the error, it is acceptable for the key to be an empty string, for example:
-
-```json
-HTTP/1.1 400 Bad Request
-Content-Type: application/problem+json
-Content-Language: en
- 
-{
-   "type": "https://example.net/validation-error",
-   "title": "Your request parameters didn't validate.",
-   "errors": {
-       "": [ "this request contains too many errors to list" ]
-   }]
-}
-```
-
 ## Filtering, Sorting and Pagination
 
 - By exposing a collection of resources through a single URI, applications might retrieve large amounts of data when only a subset of information is needed. For example, suppose a client application needs to find all orders with a price above a specific value. It could retrieve all orders from the URI /orders and then filter those orders client-side. This process is clearly inefficient as it wastes bandwidth and processing time on the server hosting the web API.
