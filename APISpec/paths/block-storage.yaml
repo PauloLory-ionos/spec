@@ -1,4 +1,4 @@
-/workspace/{workspace}/providers/storage/block-storage:
+/workspaces/{workspace}/providers/storage/block-storages:
   get:
     tags:
       - Storage
@@ -42,7 +42,7 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/workspace/{workspace}/providers/storage/block-storage/{name}:
+/workspaces/{workspace}/providers/storage/block-storages/{name}:
   get:
     tags:
       - Storage
@@ -143,7 +143,7 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/workspace/{workspace}/providers/storage/block-storage/{name}/snapshots:
+/workspaces/{workspace}/providers/storage/block-storages/{name}/snapshots:
   get:
     tags:
       - Storage
@@ -179,7 +179,7 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/workspace/{workspace}/providers/storage/block-storage/{name}/snapshots/{snapshotName}:
+/workspaces/{workspace}/providers/storage/block-storages/{name}/snapshots/{snapshotName}:
   get:
     tags:
       - Storage

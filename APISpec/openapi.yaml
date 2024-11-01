@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Sovereign European Cloud API
-  version: 0.5.3
+  version: 0.5.4
   license:
     name: "Proprietary - All Rights Reserved"
   description: |
@@ -16,47 +16,47 @@ info:
     ![API Diagram](https://x.frei-services.net/api-diagram.png)
 paths:
   # regions
-  /v1beta/regions:
+  /v1beta1/regions:
     $ref: './paths/regions.yaml#/~1regions'
 
   # Network resources - VPC and its resources
   /v1beta1/workspaces/{workspace}/providers/network/vpcs:
-    $ref: './paths/vpc.yaml#/~1workspace~1{workspace}~1providers~1network~1vpcs'
+    $ref: './paths/vpc.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs'
   /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}:
-    $ref: './paths/vpc.yaml#/~1workspace~1{workspace}~1providers~1network~1vpcs~1{vpc}'
+    $ref: './paths/vpc.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}'
   /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/subnets:
-    $ref: './paths/subnets.yaml#/~1workspace~1{workspace}~1providers~1network~1vpcs~1{vpc}~1subnets'
+    $ref: './paths/subnets.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1subnets'
   /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/subnets/{name}:
-    $ref: './paths/subnets.yaml#/~1workspace~1{workspace}~1providers~1network~1vpcs~1{vpc}~1subnets~1{name}'
+    $ref: './paths/subnets.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1subnets~1{name}'
   /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/routing-tables:
-    $ref: './paths/routing-tables.yaml#/~1workspace~1{workspace}~1providers~1network~1vpcs~1{vpc}~1routing-tables'
+    $ref: './paths/routing-tables.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1routing-tables'
   /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/routing-tables/{name}:
-    $ref: './paths/routing-tables.yaml#/~1workspace~1{workspace}~1providers~1network~1vpcs~1{vpc}~1routing-tables~1{name}'
+    $ref: './paths/routing-tables.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1routing-tables~1{name}'
   /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/security-groups:
-    $ref: './paths/security-groups.yaml#/~1workspace~1{workspace}~1providers~1network~1vpcs~1{vpc}~1security-groups'
+    $ref: './paths/security-groups.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1security-groups'
   /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/security-groups/{name}:
-    $ref: './paths/security-groups.yaml#/~1workspace~1{workspace}~1providers~1network~1vpcs~1{vpc}~1security-groups~1{name}'
+    $ref: './paths/security-groups.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1security-groups~1{name}'
 
   # Workspace resources with provider namespace
   /v1beta1/workspaces/{workspace}/providers/compute/instances:
-    $ref: './paths/instances.yaml#/~1workspace~1{workspace}~1providers~1compute~1instances'
+    $ref: './paths/instances.yaml#/~1workspaces~1{workspace}~1providers~1compute~1instances'
   /v1beta1/workspaces/{workspace}/providers/compute/instances/{name}:
-    $ref: './paths/instances.yaml#/~1workspace~1{workspace}~1providers~1compute~1instances~1{name}'
-  /v1beta1/workspaces/{workspace}/providers/storage/block-storage:
-    $ref: './paths/block-storage.yaml#/~1workspace~1{workspace}~1providers~1storage~1block-storage'
+    $ref: './paths/instances.yaml#/~1workspaces~1{workspace}~1providers~1compute~1instances~1{name}'
+  /v1beta1/workspaces/{workspace}/providers/storage/block-storages:
+    $ref: './paths/block-storage.yaml#/~1workspaces~1{workspace}~1providers~1storage~1block-storages'
   /v1beta1/workspaces/{workspace}/providers/storage/block-storages/{name}:
-    $ref: './paths/block-storage.yaml#/~1workspace~1{workspace}~1providers~1storage~1block-storage~1{name}'
+    $ref: './paths/block-storage.yaml#/~1workspaces~1{workspace}~1providers~1storage~1block-storages~1{name}'
   
   # Block storage snapshots
   /v1beta1/workspaces/{workspace}/providers/storage/block-storages/{name}/snapshots:
-    $ref: './paths/block-storage.yaml#/~1workspace~1{workspace}~1providers~1storage~1block-storage~1{name}~1snapshots'
+    $ref: './paths/block-storage.yaml#/~1workspaces~1{workspace}~1providers~1storage~1block-storages~1{name}~1snapshots'
   /v1beta1/workspaces/{workspace}/providers/storage/block-storages/{name}/snapshots/{snapshotName}:
-    $ref: './paths/block-storage.yaml#/~1workspace~1{workspace}~1providers~1storage~1block-storage~1{name}~1snapshots~1{snapshotName}'
+    $ref: './paths/block-storage.yaml#/~1workspaces~1{workspace}~1providers~1storage~1block-storages~1{name}~1snapshots~1{snapshotName}'
 
   # Additional resources (not under workspace)
-  /v1beta/images:
+  /v1beta1/images:
     $ref: './paths/images.yaml#/~1images'
-  /v1beta/images/{name}:
+  /v1beta1/images/{name}:
     $ref: './paths/images.yaml#/~1images~1{name}'
 
 components:
