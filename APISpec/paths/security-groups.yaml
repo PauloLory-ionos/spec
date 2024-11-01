@@ -1,4 +1,4 @@
-/workspace/{workspace}/providers/network/vpcs/{vpc}/security-groups:
+/workspaces/{workspace}/providers/network/vpcs/{vpc}/security-groups:
   get:
     tags:
       - Network
@@ -47,7 +47,7 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/workspace/{workspace}/providers/network/vpcs/{vpc}/security-groups/{name}:
+/workspaces/{workspace}/providers/network/vpcs/{vpc}/security-groups/{name}:
   get:
     tags:
       - Network

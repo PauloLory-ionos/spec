@@ -1,4 +1,4 @@
-/workspace/{workspace}/providers/compute/instances:
+/workspaces/{workspace}/providers/compute/instances:
   get:
     tags:
       - Compute
@@ -42,7 +42,7 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/workspace/{workspace}/providers/compute/instances/{name}:
+/workspaces/{workspace}/providers/compute/instances/{name}:
   get:
     tags:
       - Compute

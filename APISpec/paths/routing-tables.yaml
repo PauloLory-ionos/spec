@@ -1,4 +1,4 @@
-/workspace/{workspace}/providers/network/vpcs/{vpc}/routing-tables:
+/workspaces/{workspace}/providers/network/vpcs/{vpc}/routing-tables:
   get:
     tags:
       - Network
@@ -47,7 +47,7 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/workspace/{workspace}/providers/network/vpcs/{vpc}/routing-tables/{name}:
+/workspaces/{workspace}/providers/network/vpcs/{vpc}/routing-tables/{name}:
   get:
     tags:
       - Network

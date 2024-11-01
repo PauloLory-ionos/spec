@@ -1,4 +1,4 @@
-/workspace/{workspace}/providers/network/vpcs:
+/workspaces/{workspace}/providers/network/vpcs:
   get:
     tags:
       - Network
@@ -32,7 +32,7 @@
                       type: string
                       description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
 
-/workspace/{workspace}/providers/network/vpcs/{vpc}:
+/workspaces/{workspace}/providers/network/vpcs/{vpc}:
   get:
     tags:
       - Network
