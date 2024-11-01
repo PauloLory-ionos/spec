@@ -50,7 +50,7 @@ paths:
   # Block storage snapshots
   /v1beta1/workspaces/{workspace}/providers/storage/block-storages/{name}/snapshots:
     $ref: './paths/block-storage.yaml#/~1workspace~1{workspace}~1providers~1storage~1block-storage~1{name}~1snapshots'
-  /v1beta/workspaces/{workspace}/providers/storage/block-storage/{name}/snapshots/{snapshotName}:
+  /v1beta1/workspaces/{workspace}/providers/storage/block-storages/{name}/snapshots/{snapshotName}:
     $ref: './paths/block-storage.yaml#/~1workspace~1{workspace}~1providers~1storage~1block-storage~1{name}~1snapshots~1{snapshotName}'
 
   # Additional resources (not under workspace)
