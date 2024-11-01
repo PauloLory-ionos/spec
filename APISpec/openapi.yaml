@@ -38,7 +38,7 @@ paths:
     $ref: './paths/security-groups.yaml#/~1workspace~1{workspace}~1providers~1network~1vpcs~1{vpc}~1security-groups~1{name}'
 
   # Workspace resources with provider namespace
-  /v1beta/workspaces/{workspace}/providers/compute/instances:
+  /v1beta1/workspaces/{workspace}/providers/compute/instances:
     $ref: './paths/instances.yaml#/~1workspace~1{workspace}~1providers~1compute~1instances'
   /v1beta/workspaces/{workspace}/providers/compute/instances/{name}:
     $ref: './paths/instances.yaml#/~1workspace~1{workspace}~1providers~1compute~1instances~1{name}'
