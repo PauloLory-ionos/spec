@@ -1,20 +1,24 @@
 openapi: 3.0.3
 info:
   title: Sovereign European Cloud API
-  version: 0.5.4
+  version: v1beta0
   license:
     name: "Proprietary - All Rights Reserved"
   description: |
     API for managing cloud resources
 
-    For this intermediate version, the scope 
-    * the focus is on IaaS Layer 3 Network
-    * does not include rights management or rbac - every provider can use its own authentication/authorization protocol 
-    * does not include PaaS features
-    * does not include loadbalancers, nat, vpn, and other network features
+    A foundational API for managing cloud infrastructure components, 
+    providing control over compute, storage, network resources, and access management in a sovereign European cloud environment. 
+    The API focuses on essential IaaS services. Implements security through integrated RBAC.
 
     ![API Diagram](https://x.frei-services.net/api-diagram.png)
+security:
+  - bearerAuth: []
 paths:
+  # Workspaces
+  /v1beta1/workspaces/{name}:
+    $ref: './paths/workspaces.yaml#/~1workspaces~1{name}'
+
   # regions
   /v1beta1/regions:
     $ref: './paths/regions.yaml#/~1regions'
@@ -36,6 +40,16 @@ paths:
     $ref: './paths/security-groups.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1security-groups'
   /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/security-groups/{name}:
     $ref: './paths/security-groups.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1security-groups~1{name}'
+
+  # Security resources - RBAC
+  /v1beta1/workspaces/{workspace}/providers/security/roles:
+    $ref: './paths/rbac.yaml#/~1workspaces~1{workspace}~1providers~1security~1roles'
+  /v1beta1/workspaces/{workspace}/providers/security/roles/{name}:
+    $ref: './paths/rbac.yaml#/~1workspaces~1{workspace}~1providers~1security~1roles~1{name}'
+  /v1beta1/workspaces/{workspace}/providers/security/role-assignments:
+    $ref: './paths/rbac.yaml#/~1workspaces~1{workspace}~1providers~1security~1role-assignments'
+  /v1beta1/workspaces/{workspace}/providers/security/role-assignments/{principalId}:
+    $ref: './paths/rbac.yaml#/~1workspaces~1{workspace}~1providers~1security~1role-assignments~1{principalId}'
 
   # Workspace resources with provider namespace
   /v1beta1/workspaces/{workspace}/providers/compute/instances:
@@ -60,6 +74,12 @@ paths:
     $ref: './paths/images.yaml#/~1images~1{name}'
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token for authentication
   schemas:
     VPC:
       $ref: './schemas/vpc.yaml#/VPC'
@@ -77,6 +97,12 @@ components:
       $ref: './schemas/block-storage.yaml#/BlockStorageSnapshot'
     Image:
       $ref: './schemas/image.yaml#/Image'
+    SystemRole:
+      $ref: './schemas/rbac.yaml#/SystemRole'
+    Role:
+      $ref: './schemas/rbac.yaml#/Role'
+    RoleAssignment:
+      $ref: './schemas/rbac.yaml#/RoleAssignment'
     Error:
       $ref: './schemas/error_schemas.yaml#/Error'
     ErrorDetail:

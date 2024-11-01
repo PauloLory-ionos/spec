@@ -1,0 +1,227 @@
+/workspaces/{workspace}/providers/security/roles:
+  get:
+    tags:
+      - Security
+    summary: List all roles
+    parameters:
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
+      - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/cursorParam'
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: '../schemas/rbac.yaml#/Role'
+                metadata:
+                  type: object
+                  properties:
+                    nextCursor:
+                      type: string
+                      description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+      '400':
+        $ref: '../openapi.yaml#/components/responses/Error400'
+      '401':
+        $ref: '../openapi.yaml#/components/responses/Error401'
+      '403':
+        $ref: '../openapi.yaml#/components/responses/Error403'
+      '404':
+        $ref: '../openapi.yaml#/components/responses/Error404'
+      '500':
+        $ref: '../openapi.yaml#/components/responses/Error500'
+
+/workspaces/{workspace}/providers/security/roles/{name}:
+  get:
+    tags:
+      - Security
+    summary: Get a specific role
+    parameters:
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/rbac.yaml#/Role'
+      '400':
+        $ref: '../openapi.yaml#/components/responses/Error400'
+      '401':
+        $ref: '../openapi.yaml#/components/responses/Error401'
+      '403':
+        $ref: '../openapi.yaml#/components/responses/Error403'
+      '404':
+        $ref: '../openapi.yaml#/components/responses/Error404'
+      '500':
+        $ref: '../openapi.yaml#/components/responses/Error500'
+  put:
+    tags:
+      - Security
+    summary: Create or update a specific role
+    description: System roles (ADMIN, WORKSPACE_ADMIN, WORKSPACE_EDITOR, WORKSPACE_VIEWER) cannot be modified.
+    parameters:
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '../schemas/parameters.yaml#/parameters/ifMatchParam'
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/rbac.yaml#/Role'
+    responses:
+      '200':
+        description: Role successfully updated
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/rbac.yaml#/Role'
+      '201':
+        description: Role successfully created
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/rbac.yaml#/Role'
+      '400':
+        $ref: '../openapi.yaml#/components/responses/Error400'
+      '401':
+        $ref: '../openapi.yaml#/components/responses/Error401'
+      '403':
+        $ref: '../openapi.yaml#/components/responses/Error403'
+      '404':
+        $ref: '../openapi.yaml#/components/responses/Error404'
+      '412':
+        $ref: '../openapi.yaml#/components/responses/Error412'
+      '422':
+        $ref: '../openapi.yaml#/components/responses/Error422'
+      '500':
+        $ref: '../openapi.yaml#/components/responses/Error500'
+
+/workspaces/{workspace}/providers/security/role-assignments:
+  get:
+    tags:
+      - Security
+    summary: List all role assignments
+    parameters:
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: principalId
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter assignments by principal ID
+      - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/cursorParam'
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: '../schemas/rbac.yaml#/RoleAssignment'
+                metadata:
+                  type: object
+                  properties:
+                    nextCursor:
+                      type: string
+                      description: Opaque cursor to get the next page
+      '400':
+        $ref: '../openapi.yaml#/components/responses/Error400'
+      '401':
+        $ref: '../openapi.yaml#/components/responses/Error401'
+      '403':
+        $ref: '../openapi.yaml#/components/responses/Error403'
+      '404':
+        $ref: '../openapi.yaml#/components/responses/Error404'
+      '500':
+        $ref: '../openapi.yaml#/components/responses/Error500'
+
+/workspaces/{workspace}/providers/security/role-assignments/{principalId}:
+  put:
+    tags:
+      - Security
+    summary: Create or update role assignments for a principal
+    description: Replaces all role assignments for the principal within the workspace. At least one role must be assigned.
+    parameters:
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: principalId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the user, group or service account
+      - $ref: '../schemas/parameters.yaml#/parameters/ifMatchParam'
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/rbac.yaml#/RoleAssignment'
+    responses:
+      '200':
+        description: Role assignments successfully updated
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/rbac.yaml#/RoleAssignment'
+      '201':
+        description: Role assignments successfully created
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/rbac.yaml#/RoleAssignment'
+      '400':
+        $ref: '../openapi.yaml#/components/responses/Error400'
+      '401':
+        $ref: '../openapi.yaml#/components/responses/Error401'
+      '403':
+        $ref: '../openapi.yaml#/components/responses/Error403'
+      '404':
+        $ref: '../openapi.yaml#/components/responses/Error404'
+      '412':
+        $ref: '../openapi.yaml#/components/responses/Error412'
+      '422':
+        $ref: '../openapi.yaml#/components/responses/Error422'
+      '500':
+        $ref: '../openapi.yaml#/components/responses/Error500'

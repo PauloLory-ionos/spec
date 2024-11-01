@@ -1,0 +1,53 @@
+/workspaces/{name}:
+  put:
+    tags:
+      - Workspaces
+    summary: Create or update a workspace
+    description: Create or update a workspace. Can only be performed by users with ADMIN role.
+    parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Name of the workspace
+    responses:
+      '200':
+        description: Workspace successfully updated
+      '201':
+        description: Workspace successfully created
+      '400':
+        $ref: '../openapi.yaml#/components/responses/Error400'
+      '401':
+        $ref: '../openapi.yaml#/components/responses/Error401'
+      '403':
+        $ref: '../openapi.yaml#/components/responses/Error403'
+      '404':
+        $ref: '../openapi.yaml#/components/responses/Error404'
+      '500':
+        $ref: '../openapi.yaml#/components/responses/Error500'
+  delete:
+    tags:
+      - Workspaces
+    summary: Delete a workspace
+    description: Delete a workspace and all its resources. Can only be performed by users with ADMIN role.
+    parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Name of the workspace
+    responses:
+      '204':
+        description: Workspace successfully deleted
+      '400':
+        $ref: '../openapi.yaml#/components/responses/Error400'
+      '401':
+        $ref: '../openapi.yaml#/components/responses/Error401'
+      '403':
+        $ref: '../openapi.yaml#/components/responses/Error403'
+      '404':
+        $ref: '../openapi.yaml#/components/responses/Error404'
+      '500':
+        $ref: '../openapi.yaml#/components/responses/Error500'
