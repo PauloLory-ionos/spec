@@ -30,7 +30,7 @@ paths:
     $ref: './paths/subnets.yaml#/~1workspace~1{workspace}~1providers~1network~1vpcs~1{vpc}~1subnets~1{name}'
   /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/routing-tables:
     $ref: './paths/routing-tables.yaml#/~1workspace~1{workspace}~1providers~1network~1vpcs~1{vpc}~1routing-tables'
-  /v1beta/workspace/{workspace}/providers/network/vpcs/{vpc}/routing-tables/{name}:
+  /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/routing-tables/{name}:
     $ref: './paths/routing-tables.yaml#/~1workspace~1{workspace}~1providers~1network~1vpcs~1{vpc}~1routing-tables~1{name}'
   /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/security-groups:
     $ref: './paths/security-groups.yaml#/~1workspace~1{workspace}~1providers~1network~1vpcs~1{vpc}~1security-groups'
