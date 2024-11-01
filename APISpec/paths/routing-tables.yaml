@@ -1,11 +1,16 @@
-/vpcs/{vpc}/routing-tables:
+/workspace/{workspace}/providers/network/vpcs/{vpc}/routing-tables:
   get:
     tags:
       - Network
     summary: List all routing tables for a VPC
     parameters:
-      - in: path
-        name: vpc
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: vpc
+        in: path
         required: true
         schema:
           type: string
@@ -42,19 +47,24 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/vpcs/{vpc}/routing-tables/{name}:
+/workspace/{workspace}/providers/network/vpcs/{vpc}/routing-tables/{name}:
   get:
     tags:
       - Network
     summary: Get a specific routing table
     parameters:
-      - in: path
-        name: vpc
+      - name: workspace
+        in: path
         required: true
         schema:
           type: string
-      - in: path
-        name: name
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
         required: true
         schema:
           type: string
@@ -82,13 +92,18 @@
     summary: Create or update a routing table
     description: Create a new routing table or update an existing one, including its routes. Routes are manipulated by updating the entire routing table object.
     parameters:
-      - in: path
-        name: vpc
+      - name: workspace
+        in: path
         required: true
         schema:
           type: string
-      - in: path
-        name: name
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
         required: true
         schema:
           type: string
@@ -122,13 +137,18 @@
       - Network
     summary: Delete a routing table
     parameters:
-      - in: path
-        name: vpc
+      - name: workspace
+        in: path
         required: true
         schema:
           type: string
-      - in: path
-        name: name
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
         required: true
         schema:
           type: string

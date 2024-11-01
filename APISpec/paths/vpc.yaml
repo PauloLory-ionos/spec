@@ -1,9 +1,14 @@
-/vpcs:
+/workspace/{workspace}/providers/network/vpcs:
   get:
     tags:
       - Network
     summary: List all VPCs
     parameters:
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
       - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
       - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
       - $ref: '../schemas/parameters.yaml#/parameters/cursorParam'
@@ -27,12 +32,17 @@
                       type: string
                       description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
 
-/vpcs/{vpc}:
+/workspace/{workspace}/providers/network/vpcs/{vpc}:
   get:
     tags:
       - Network
     summary: Get a specific VPC
     parameters:
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
       - name: vpc
         in: path
         required: true
@@ -60,6 +70,11 @@
       - Network
     summary: Create or update a specific VPC
     parameters:
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
       - name: vpc
         in: path
         required: true
@@ -94,6 +109,11 @@
       - Network
     summary: Delete a specific VPC
     parameters:
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
       - name: vpc
         in: path
         required: true
