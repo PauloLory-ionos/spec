@@ -40,7 +40,7 @@ paths:
   # Workspace resources with provider namespace
   /v1beta1/workspaces/{workspace}/providers/compute/instances:
     $ref: './paths/instances.yaml#/~1workspace~1{workspace}~1providers~1compute~1instances'
-  /v1beta/workspaces/{workspace}/providers/compute/instances/{name}:
+  /v1beta1/workspaces/{workspace}/providers/compute/instances/{name}:
     $ref: './paths/instances.yaml#/~1workspace~1{workspace}~1providers~1compute~1instances~1{name}'
   /v1beta1/workspaces/{workspace}/providers/storage/block-storage:
     $ref: './paths/block-storage.yaml#/~1workspace~1{workspace}~1providers~1storage~1block-storage'
