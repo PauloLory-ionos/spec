@@ -26,7 +26,7 @@ paths:
     $ref: './paths/vpc.yaml#/~1workspace~1{workspace}~1providers~1network~1vpcs~1{vpc}'
   /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/subnets:
     $ref: './paths/subnets.yaml#/~1workspace~1{workspace}~1providers~1network~1vpcs~1{vpc}~1subnets'
-  /v1beta/workspace/{workspace}/providers/network/vpcs/{vpc}/subnets/{name}:
+  /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/subnets/{name}:
     $ref: './paths/subnets.yaml#/~1workspace~1{workspace}~1providers~1network~1vpcs~1{vpc}~1subnets~1{name}'
   /v1beta/workspace/{workspace}/providers/network/vpcs/{vpc}/routing-tables:
     $ref: './paths/routing-tables.yaml#/~1workspace~1{workspace}~1providers~1network~1vpcs~1{vpc}~1routing-tables'
