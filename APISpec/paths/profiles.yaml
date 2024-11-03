@@ -1,6 +1,9 @@
 /vpc/{vpc}/server-profiles:
   get:
     summary: Get the server profiles for a VPC
+    operationId: listServerProfiles
+    x-brac:
+      permissions: core/server-profile:read
     tags:
       - Catalogues
     parameters:
@@ -22,6 +25,9 @@
 /vpc/{vpc}/volume-profiles:
   get:
     summary: Get the volume profiles for a VPC
+    operationId: listVolumeProfiles
+    x-brac:
+      permissions: core/volume-profile:read
     tags:
       - Catalogues
     parameters:

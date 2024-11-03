@@ -3,6 +3,9 @@
     tags:
       - Network
     summary: List all security groups
+    operationId: listSecurityGroups
+    x-brac:
+      permissions: network/security-group:read
     parameters:
       - name: workspace
         in: path
@@ -52,6 +55,9 @@
     tags:
       - Network
     summary: Get a specific security group
+    operationId: getSecurityGroup
+    x-brac:
+      permissions: network/security-group:read
     parameters:
       - name: workspace
         in: path
@@ -89,6 +95,9 @@
     tags:
       - Network
     summary: Create or update a specific security group
+    operationId: createOrUpdateSecurityGroup
+    x-brac:
+      permissions: network/security-group:write
     parameters:
       - name: workspace
         in: path
@@ -133,6 +142,9 @@
     tags:
       - Network
     summary: Delete a specific security group
+    operationId: deleteSecurityGroup
+    x-brac:
+      permissions: network/security-group:write
     parameters:
       - name: workspace
         in: path

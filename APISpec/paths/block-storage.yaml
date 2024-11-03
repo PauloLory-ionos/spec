@@ -3,6 +3,9 @@
     tags:
       - Storage
     summary: List all block storage volumes
+    operationId: listBlockStorages
+    x-brac:
+      permissions: storage/block-storage:read
     parameters:
       - name: workspace
         in: path
@@ -47,6 +50,9 @@
     tags:
       - Storage
     summary: Get a specific block storage volume
+    operationId: getBlockStorage
+    x-brac:
+      permissions: storage/block-storage:read
     parameters:
       - name: workspace
         in: path
@@ -79,6 +85,9 @@
     tags:
       - Storage
     summary: Create or update a specific block storage volume
+    operationId: createOrUpdateBlockStorage
+    x-brac:
+      permissions: storage/block-storage:write
     parameters:
       - name: workspace
         in: path
@@ -118,6 +127,9 @@
     tags:
       - Storage
     summary: Delete a specific block storage volume
+    operationId: deleteBlockStorage
+    x-brac:
+      permissions: storage/block-storage:write
     parameters:
       - name: workspace
         in: path
@@ -148,6 +160,9 @@
     tags:
       - Storage
     summary: List all snapshots for a block storage volume
+    operationId: listBlockStorageSnapshots
+    x-brac:
+      permissions: storage/block-storage:read
     parameters:
       - name: workspace
         in: path
@@ -184,6 +199,9 @@
     tags:
       - Storage
     summary: Get a specific snapshot
+    operationId: getBlockStorageSnapshot
+    x-brac:
+      permissions: storage/block-storage:read
     parameters:
       - name: workspace
         in: path
@@ -221,6 +239,9 @@
     tags:
       - Storage
     summary: Create or update a specific snapshot
+    operationId: createOrUpdateBlockStorageSnapshot
+    x-brac:
+      permissions: storage/block-storage:write
     parameters:
       - name: workspace
         in: path
@@ -264,6 +285,9 @@
     tags:
       - Storage
     summary: Delete a specific snapshot
+    operationId: deleteBlockStorageSnapshot
+    x-brac:
+      permissions: storage/block-storage:write
     parameters:
       - name: workspace
         in: path

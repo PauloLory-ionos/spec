@@ -3,6 +3,9 @@
     tags:
       - Organization
     summary: List all regions
+    operationId: listRegions
+    x-brac:
+      permissions: core/region:read
     responses:
       '200':
         description: Successful response

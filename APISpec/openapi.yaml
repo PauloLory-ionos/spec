@@ -1,7 +1,10 @@
 openapi: 3.0.3
+servers:
+  - url: https://secapi.cloud
+    description: API Definition Environment
 info:
   title: Sovereign European Cloud API
-  version: v1beta0
+  version: v1beta0a
   license:
     name: "Proprietary - All Rights Reserved"
   description: |
@@ -14,6 +17,19 @@ info:
     ![API Diagram](https://x.frei-services.net/api-diagram.png)
 security:
   - bearerAuth: []
+tags:
+  - name: Network
+    description: Network resources including VPCs, NICs, security groups, subnets, and routing tables
+  - name: Compute
+    description: Compute resources including virtual machines and instance management
+  - name: Storage
+    description: Storage resources including block storage volumes and snapshots
+  - name: Security
+    description: Security resources including RBAC roles and role assignments
+  - name: Organization
+    description: Organization-wide resources including workspaces, images, regions, and general resources
+  - name: Catalogues
+    description: Resource catalogues including server and volume profiles
 paths:
   # Workspaces
   /v1beta1/workspaces/{name}:

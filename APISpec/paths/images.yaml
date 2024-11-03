@@ -1,6 +1,9 @@
 /images:
   get:
     summary: List Images
+    operationId: listImages
+    x-brac:
+      permissions: compute/image:read
     tags:
       - Organization
     parameters:
@@ -40,6 +43,9 @@
 /images/{name}:
   get:
     summary: Get Image
+    operationId: getImage
+    x-brac:
+      permissions: compute/image:read
     tags:
       - Organization
     parameters:
@@ -67,6 +73,9 @@
         $ref: '../openapi.yaml#/components/responses/Error500'
   delete:
     summary: Delete Image
+    operationId: deleteImage
+    x-brac:
+      permissions: compute/image:write
     tags:
       - Organization
     parameters:

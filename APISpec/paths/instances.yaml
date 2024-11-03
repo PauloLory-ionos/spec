@@ -3,6 +3,9 @@
     tags:
       - Compute
     summary: List all instances
+    operationId: listInstances
+    x-brac:
+      permissions: compute/instance:read
     parameters:
       - name: workspace
         in: path
@@ -47,6 +50,9 @@
     tags:
       - Compute
     summary: Get a specific instance
+    operationId: getInstance
+    x-brac:
+      permissions: compute/instance:read
     parameters:
       - name: workspace
         in: path
@@ -79,6 +85,9 @@
     tags:
       - Compute
     summary: Create or update a specific instance
+    operationId: createOrUpdateInstance
+    x-brac:
+      permissions: compute/instance:write
     parameters:
       - name: workspace
         in: path
@@ -118,6 +127,9 @@
     tags:
       - Compute
     summary: Delete a specific instance
+    operationId: deleteInstance
+    x-brac:
+      permissions: compute/instance:write
     parameters:
       - name: workspace
         in: path

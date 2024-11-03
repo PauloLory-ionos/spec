@@ -3,6 +3,9 @@
     tags:
       - Security
     summary: List all roles
+    operationId: listRoles
+    x-brac:
+      permissions: security/role:read
     parameters:
       - name: workspace
         in: path
@@ -46,6 +49,9 @@
     tags:
       - Security
     summary: Get a specific role
+    operationId: getRole
+    x-brac:
+      permissions: security/role:read
     parameters:
       - name: workspace
         in: path
@@ -79,6 +85,9 @@
       - Security
     summary: Create or update a specific role
     description: System roles (ADMIN, WORKSPACE_ADMIN, WORKSPACE_EDITOR, WORKSPACE_VIEWER) cannot be modified.
+    operationId: createOrUpdateRole
+    x-brac:
+      permissions: security/role:write
     parameters:
       - name: workspace
         in: path
@@ -130,6 +139,9 @@
     tags:
       - Security
     summary: List all role assignments
+    operationId: listRoleAssignments
+    x-brac:
+      permissions: security/role-assignment:read
     parameters:
       - name: workspace
         in: path
@@ -179,6 +191,9 @@
       - Security
     summary: Create or update role assignments for a principal
     description: Replaces all role assignments for the principal within the workspace. At least one role must be assigned.
+    operationId: createOrUpdateRoleAssignment
+    x-brac:
+      permissions: security/role-assignment:write
     parameters:
       - name: workspace
         in: path

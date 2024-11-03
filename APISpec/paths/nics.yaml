@@ -3,6 +3,9 @@
     tags:
       - Network
     summary: List all NICs in a VPC
+    operationId: listNICs
+    x-brac:
+      permissions: network/nic:read
     parameters:
       - name: vpc
         in: path
@@ -32,6 +35,9 @@
     tags:
       - Network
     summary: Create a new NIC in a VPC
+    operationId: createNIC
+    x-brac:
+      permissions: network/nic:write
     parameters:
       - name: vpc
         in: path
@@ -69,6 +75,9 @@
     tags:
       - Network
     summary: Get a specific NIC in a VPC
+    operationId: getNIC
+    x-brac:
+      permissions: network/nic:read
     parameters:
       - name: vpc
         in: path
@@ -101,6 +110,9 @@
     tags:
       - Network
     summary: Update a specific NIC in a VPC
+    operationId: createOrUpdateNIC
+    x-brac:
+      permissions: network/nic:write
     parameters:
       - name: vpc
         in: path
@@ -140,6 +152,9 @@
     tags:
       - Network
     summary: Delete a specific NIC in a VPC
+    operationId: deleteNIC
+    x-brac:
+      permissions: network/nic:write
     parameters:
       - name: vpc
         in: path
