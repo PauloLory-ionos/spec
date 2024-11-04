@@ -7,6 +7,9 @@
   - [Data Plane](#resource-model)
 - [Resource Model](#resource-model)
   - [Resource Definition](#resource-definition)
+    - [Metadata](#metadata)
+    - [Properties](#properties)
+    - [Status](#status)
   - [Resource Lifecycle](#resource-lifecycle)
 
 ## **Introduction**
@@ -78,6 +81,31 @@ Control Plan APIs have all the following template:
 |metadata|Additional data that convey some system information related to the control loop mechanisms that regulate the system’s dynamic equilibrium.<br/> Some of their functions are:<br/> Search, which consists of identifying the existence of a document;<br/>Localization, meaning to trace a specific occurrence of the document;<br/>Selection, achievable by analyzing, evaluating, and filtering a series of documents;<br/> Semantic interoperability, which allows searching across different disciplinary fields through a series of equivalences between descriptors;<br/>Resource management, i.e., managing document collections through the mediation of databases and catalogs;<br/>Availability, which means obtaining information about the actual availability of the document.<br/>|
 |properties|The record of intent that describes the changes to be applied to a resource; in other words, the desired state of the resource|
 |status|The current state of the resource. Resource Controllers use the desired state of the resource as a reference to modify its current state in one or more transitions.<br/>It is possible for the Resource Controller to apply changes to the current state of the resource regardless of the record of intent to realign it with the infrastructure, when necessary.<br/>The data contained in 'status' are structurally symmetrical to those present in 'properties'|
+
+#### **Metadata**
+
+#### **Properties**
+
+#### **Status**
+The purpose of this section is to provide insights into the current state of a resource. Customers,by examining this status information, can assess resource health, troubleshoot issues, and confirm successful deployments or configurations.
+
+What do we include in the status object is below described:
+
+- **Conditions** 
+  - **Type** - the condition type (e.g Ready, Available, Progressing)
+  - **Status** - wheter the condition is met (True, False, or Unknown)
+  - **Last Transition Time** - When the condition last changed
+  - **Reason** - Details about the current condition status, helpful for debugging or understanding issues.
+- **Phase** - indicates the resource lifecycle phase, like Pending, Succeeded, Failed or Unknown.
+- **Resource-Specific Status Fields** - each cloud resource type has unique status fields tailored to its function
+  - **Compute Instance**
+    - **hostIp** - IP addresses assigned to the Virtual Machine
+  - **Kubernetes NodePool**
+    - **availableReplicas** - number of nodes currently available and running
+    - **updatedReplicas** - number of nodes with the latest resource version
+    - **replicas** - desired node replicas as per the spec
+    - **unavailableReplicas** - number of node replicas not available due to issues
+
 
 ### **Resource Lifecycle**
 
