@@ -15,6 +15,10 @@
   - [Tenant](#tenant)
   - [Workspace](#workspace)
 - [Resource Authorization](#resource-authorization)
+  - [Role](#role)
+  - [RoleBinding](#rolebinding)
+  - [TenantRole](#tenantrole)
+  - [TenantRoleBinding](#tenantrolebinding)
 
 ## **Introduction**
 The aim of this document is to define guidelines to design resource model for the eurocloud APIs
@@ -160,3 +164,26 @@ Key Aspects of this concept are described below:
 - **Configuration and State Management**: Workspaces may include settings, variables, and secrets specific to the resources they contain, allowing consistent configurations across different environments (e.g., development, testing, production).
 
 ## **Resource Authorization**
+
+Resource Authorization Model makes sure users or applications have the right to invoke Control Plane APIs. <br/>We need a specific service within the cloud environment being responsible for managing access controls and enforcing permissions for other resources
+- according to the Control Plane API organization we have a  provider namespace for every resource type.
+- we define an **authorization** provider namespace to take care of authorization concepts.
+
+ This model centralizes authorization logic, making it scalable, consistent, and easier to manage across a wide range of resources.
+
+ The Key Elements of this model are listed below:
+
+ - **Dedicated Resource Provider** - This is a centralized service that acts as the authority for all authorization decisions. Instead of each resource handling its own access controls, the dedicated provider manages policies, roles, and permissions for all resources
+ - **Authorization Policies** - Policies define the permissions granted to users, groups, or services. These policies are managed by the dedicated provider and applied consistently across resources. Policies typically define **who** (identity) has access to **what** (resource) and **how** (permissions, such as read, write, or delete).
+- **Roles and Role-Based Access Control (RBAC)**: The provider offers a way to define roles that encapsulate a set of permissions. Roles can be applied to users, groups, or other identities. For example, roles might include "Viewer," "Editor," or "Administrator," each with different levels of access. RBAC simplifies authorization management by assigning roles instead of individual permissions.
+- **Access Control Enforcement**: Once policies and roles are defined, the cloud API enforces them consistently across resources. When a user or service tries to access a resource, the dedicated provider validates the request based on the permissions associated with the user’s role or policies.
+
+A resource authorization model with a dedicated resource provider centralizes access control across resources, offering an efficient, consistent, and secure way to manage permissions and enforce policies at scale in a cloud environment. This model enhances security by reducing complexity and enabling centralized governance over resource access.
+
+### Role
+
+### RoleBinding
+
+### TenantRole
+
+### TenantRoleBinding
