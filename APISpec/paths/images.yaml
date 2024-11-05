@@ -2,7 +2,7 @@
   get:
     summary: List Images
     operationId: listImages
-    x-brac:
+    x-rbac:
       permissions: compute/image:read
     tags:
       - Organization
@@ -44,7 +44,7 @@
   get:
     summary: Get Image
     operationId: getImage
-    x-brac:
+    x-rbac:
       permissions: compute/image:read
     tags:
       - Organization
@@ -74,7 +74,7 @@
   delete:
     summary: Delete Image
     operationId: deleteImage
-    x-brac:
+    x-rbac:
       permissions: compute/image:write
     tags:
       - Organization

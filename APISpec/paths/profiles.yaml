@@ -2,7 +2,7 @@
   get:
     summary: Get the server profiles for a VPC
     operationId: listServerProfiles
-    x-brac:
+    x-rbac:
       permissions: core/server-profile:read
     tags:
       - Catalogues
@@ -26,7 +26,7 @@
   get:
     summary: Get the volume profiles for a VPC
     operationId: listVolumeProfiles
-    x-brac:
+    x-rbac:
       permissions: core/volume-profile:read
     tags:
       - Catalogues

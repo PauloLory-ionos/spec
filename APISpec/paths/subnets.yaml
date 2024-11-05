@@ -4,7 +4,7 @@
       - Network
     summary: List all subnets in a VPC
     operationId: listSubnets
-    x-brac:
+    x-rbac:
       permissions: network/subnet:read
     parameters:
       - name: workspace
@@ -56,7 +56,7 @@
       - Network
     summary: Get a specific subnet in a VPC
     operationId: getSubnet
-    x-brac:
+    x-rbac:
       permissions: network/subnet:read
     parameters:
       - name: workspace
@@ -96,7 +96,7 @@
       - Network
     summary: Create or update a specific subnet in a VPC
     operationId: createOrUpdateSubnet
-    x-brac:
+    x-rbac:
       permissions: network/subnet:write
     parameters:
       - name: workspace
@@ -143,7 +143,7 @@
       - Network
     summary: Delete a specific subnet in a VPC
     operationId: deleteSubnet
-    x-brac:
+    x-rbac:
       permissions: network/subnet:write
     parameters:
       - name: workspace

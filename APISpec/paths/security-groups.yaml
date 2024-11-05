@@ -4,7 +4,7 @@
       - Network
     summary: List all security groups
     operationId: listSecurityGroups
-    x-brac:
+    x-rbac:
       permissions: network/security-group:read
     parameters:
       - name: workspace
@@ -56,7 +56,7 @@
       - Network
     summary: Get a specific security group
     operationId: getSecurityGroup
-    x-brac:
+    x-rbac:
       permissions: network/security-group:read
     parameters:
       - name: workspace
@@ -96,7 +96,7 @@
       - Network
     summary: Create or update a specific security group
     operationId: createOrUpdateSecurityGroup
-    x-brac:
+    x-rbac:
       permissions: network/security-group:write
     parameters:
       - name: workspace
@@ -143,7 +143,7 @@
       - Network
     summary: Delete a specific security group
     operationId: deleteSecurityGroup
-    x-brac:
+    x-rbac:
       permissions: network/security-group:write
     parameters:
       - name: workspace

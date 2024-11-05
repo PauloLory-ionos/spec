@@ -4,7 +4,7 @@
       - Network
     summary: List all VPCs
     operationId: listVPCs
-    x-brac:
+    x-rbac:
       permissions: network/vpc:read
     parameters:
       - name: workspace
@@ -41,7 +41,7 @@
       - Network
     summary: Get a specific VPC
     operationId: getVPC
-    x-brac:
+    x-rbac:
       permissions: network/vpc:read
     parameters:
       - name: workspace
@@ -76,7 +76,7 @@
       - Network
     summary: Create or update a specific VPC
     operationId: createOrUpdateVPC
-    x-brac:
+    x-rbac:
       permissions: network/vpc:write
     parameters:
       - name: workspace
@@ -118,7 +118,7 @@
       - Network
     summary: Delete a specific VPC
     operationId: deleteVPC
-    x-brac:
+    x-rbac:
       permissions: network/vpc:write
     parameters:
       - name: workspace

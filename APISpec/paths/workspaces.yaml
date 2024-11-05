@@ -5,7 +5,7 @@
     summary: Create or update a workspace
     description: Create or update a workspace. Can only be performed by users with ADMIN role.
     operationId: createOrUpdateWorkspace
-    x-brac:
+    x-rbac:
       permissions: core/workspace:write
     parameters:
       - name: name
@@ -35,7 +35,7 @@
     summary: Delete a workspace
     description: Delete a workspace and all its resources. Can only be performed by users with ADMIN role.
     operationId: deleteWorkspace
-    x-brac:
+    x-rbac:
       permissions: core/workspace:write
     parameters:
       - name: name

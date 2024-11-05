@@ -4,7 +4,7 @@
       - Compute
     summary: List all instances
     operationId: listInstances
-    x-brac:
+    x-rbac:
       permissions: compute/instance:read
     parameters:
       - name: workspace
@@ -51,7 +51,7 @@
       - Compute
     summary: Get a specific instance
     operationId: getInstance
-    x-brac:
+    x-rbac:
       permissions: compute/instance:read
     parameters:
       - name: workspace
@@ -86,7 +86,7 @@
       - Compute
     summary: Create or update a specific instance
     operationId: createOrUpdateInstance
-    x-brac:
+    x-rbac:
       permissions: compute/instance:write
     parameters:
       - name: workspace
@@ -128,7 +128,7 @@
       - Compute
     summary: Delete a specific instance
     operationId: deleteInstance
-    x-brac:
+    x-rbac:
       permissions: compute/instance:write
     parameters:
       - name: workspace

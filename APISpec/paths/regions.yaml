@@ -4,7 +4,7 @@
       - Organization
     summary: List all regions
     operationId: listRegions
-    x-brac:
+    x-rbac:
       permissions: core/region:read
     responses:
       '200':

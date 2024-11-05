@@ -4,7 +4,7 @@
       - Network
     summary: List all routing tables for a VPC
     operationId: listRoutingTables
-    x-brac:
+    x-rbac:
       permissions: network/routing-table:read
     parameters:
       - name: workspace
@@ -56,7 +56,7 @@
       - Network
     summary: Get a specific routing table
     operationId: getRoutingTable
-    x-brac:
+    x-rbac:
       permissions: network/routing-table:read
     parameters:
       - name: workspace
@@ -98,7 +98,7 @@
     summary: Create or update a routing table
     description: Create a new routing table or update an existing one, including its routes. Routes are manipulated by updating the entire routing table object.
     operationId: createOrUpdateRoutingTable
-    x-brac:
+    x-rbac:
       permissions: network/routing-table:write
     parameters:
       - name: workspace
@@ -146,7 +146,7 @@
       - Network
     summary: Delete a routing table
     operationId: deleteRoutingTable
-    x-brac:
+    x-rbac:
       permissions: network/routing-table:write
     parameters:
       - name: workspace

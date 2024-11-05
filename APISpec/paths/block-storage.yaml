@@ -4,7 +4,7 @@
       - Storage
     summary: List all block storage volumes
     operationId: listBlockStorages
-    x-brac:
+    x-rbac:
       permissions: storage/block-storage:read
     parameters:
       - name: workspace
@@ -51,7 +51,7 @@
       - Storage
     summary: Get a specific block storage volume
     operationId: getBlockStorage
-    x-brac:
+    x-rbac:
       permissions: storage/block-storage:read
     parameters:
       - name: workspace
@@ -86,7 +86,7 @@
       - Storage
     summary: Create or update a specific block storage volume
     operationId: createOrUpdateBlockStorage
-    x-brac:
+    x-rbac:
       permissions: storage/block-storage:write
     parameters:
       - name: workspace
@@ -128,7 +128,7 @@
       - Storage
     summary: Delete a specific block storage volume
     operationId: deleteBlockStorage
-    x-brac:
+    x-rbac:
       permissions: storage/block-storage:write
     parameters:
       - name: workspace
@@ -161,7 +161,7 @@
       - Storage
     summary: List all snapshots for a block storage volume
     operationId: listBlockStorageSnapshots
-    x-brac:
+    x-rbac:
       permissions: storage/block-storage:read
     parameters:
       - name: workspace
@@ -200,7 +200,7 @@
       - Storage
     summary: Get a specific snapshot
     operationId: getBlockStorageSnapshot
-    x-brac:
+    x-rbac:
       permissions: storage/block-storage:read
     parameters:
       - name: workspace
@@ -240,7 +240,7 @@
       - Storage
     summary: Create or update a specific snapshot
     operationId: createOrUpdateBlockStorageSnapshot
-    x-brac:
+    x-rbac:
       permissions: storage/block-storage:write
     parameters:
       - name: workspace
@@ -286,7 +286,7 @@
       - Storage
     summary: Delete a specific snapshot
     operationId: deleteBlockStorageSnapshot
-    x-brac:
+    x-rbac:
       permissions: storage/block-storage:write
     parameters:
       - name: workspace
