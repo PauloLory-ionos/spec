@@ -12,6 +12,8 @@
     - [Status](#status)
   - [Resource Lifecycle](#resource-lifecycle)
 - [Resource Organization](#resource-organization)
+  - [Tenant](#tenant)
+  - [Workspace](#workspace)
 - [Resource Authorization](#resource-authorization)
 
 ## **Introduction**
@@ -76,6 +78,15 @@ Some of their functions are:
 - **Semantic Interoperability** - which allows searching across different disciplinary fields through a series of equivalences between descriptors;
 - **Availability** -  meta information such as the region and availability zone where a resource is hosted
 
+The fields we are currently providing are the below listed:
+
+- **id** - Resource Id
+- **region** - In which region the resource is hosted within the cloud provider’s infrastructure. Available with both regional and zonal resources
+- **zone** - In which availabilityZone the resource is hosted within the cloud provider’s infrastructure. Available only with zonal resources
+- **creationTimestamp** -  cloud resource metadata to provide information about the resource’s lifecycle, specifically when it was created .
+- **deletionTimestamp** - cloud resource metadata to provide information about when it’s scheduled for deletion
+- **lastModifiedTimestamp** - cloud resource metadata to provide information about when occured the last update
+- **labels** - key-value pair mechanism used for organizing, categorizing, and identifying resources based on user-defined attributes. 
 
 
 #### **Properties**
@@ -96,8 +107,10 @@ What do we include in the status object is below described:
   - **lastTransitionTime** - When the condition last changed
   - **reason** - Details about the current condition status, helpful for debugging or understanding issues.
   - **message** - Human-readable message indicating details about the last status transition
-- **phase** - indicates the resource lifecycle phase, like Pending, Succeeded, Failed or Unknown.
-- **properties**  - Resource-Specific Status Fields; each cloud resource type has unique status fields tailored to its function
+- **state** - indicates the resource lifecycle phase, like Pending, Succeeded, Failed or Unknown.
+
+In addition we can have Resource-Specific Status Fields; each cloud resource type has unique status fields tailored to its function;
+such an example:
   - **hostIp** - IP addresses assigned to the Virtual Machine (E.g Compute Instance)
   - **availableReplicas** - number of nodes currently available and running (E.g KaaS Node Pool)
   - **updatedReplicas** - number of nodes with the latest resource version (E.g KaaS Node Pool)
@@ -108,18 +121,42 @@ What do we include in the status object is below described:
 ### **Resource Lifecycle**
 
 | Operation | HTTP Verb | Description |
-|-------------|---------|-------------|
-| Read   |  GET   |Retrieve the representation of a specific resource|
-| Create |  PUT   |creates a resource|
-| Update |  PUT |updates a resource|
-| Delete |  DELETE|Deletes a specific resource|
-| List   |  GET   |Retrieve the representations of a set of resources. The output set can be determined based on a filter passed on input|
-| Action |  POST  |Control Plan APIs can be extended by Actions (for example PowerOff and Restart for Virtual Machines)|
+|---------- |---------|-------------|
+| Read      |  GET    | Retrieve the representation of a specific resource|
+| Create    |  PUT    | Creates a resource|
+| Update    |  PUT    | Updates a resource|
+| Delete    |  DELETE | Deletes a specific resource|
+| List      |  GET    | Retrieve the representations of a set of resources. The output set can be determined based on a filter passed on input|
+| Action    |  POST   | Control Plan APIs can be extended by Actions (for example PowerOff and Restart for Virtual Machines)|
 
 ## **Resource Organization**
 
 A cloud organization model is a framework that defines how an organization structures, manages, and governs its resources, users, and permissions within a cloud environment
 
 ![Resource Organization Model](./pic/resource_organization.drawio.png)
+
+
+### **Tenant**
+
+A tenant refers to a logical, isolated space created within the cloud environment that is dedicated to a specific organization, user, or customer. This isolation allows multiple customers (tenants) to share the cloud provider’s infrastructure while maintaining security, privacy, and data separation.
+
+Key Aspects of this concept are described below:
+- **Isolation**: Each tenant has a distinct, segregated environment that separates their resources and data from those of other tenants.
+- **Resource Ownership and Management**: Within a tenant, an organization has ownership over the resources they provision, such as virtual machines, databases, networks, and storage. Tenants are responsible for managing these resources within the confines of their isolated environment.
+- **Multi-Tenancy Model**: Public clouds operate on a multi-tenancy model, where multiple tenants (e.g., businesses, individual users, or organizations) share the same underlying hardware and infrastructure, allowing the cloud provider to optimize resource utilization and costs.
+- **Security and Compliance**: Tenants have their own security policies, access controls, and 
+compliance settings, which prevent unauthorized access and maintain data privacy even in a shared environment.
+- **Billing and Usage Tracking**: Each tenant has separate billing, with usage tracking that enables the cloud provider to charge tenants based on their resource consumption.
+
+### **Workspace**
+
+A workspace is a specific, scoped environment within a tenant that groups related resources for collaborative or organizational purposes. Workspaces are often designed to help organize resources for distinct projects, teams, or applications, and they simplify management within a larger tenant.
+
+Key Aspects of this concept are described below:
+- **Scoped Environment**: A workspace provides a bounded environment within a tenant where resources, configurations, and settings are applied to a specific set of workloads, applications, or team needs. This allows focused management and separation within the broader tenant context.
+- **Resource Grouping**: Workspaces allow related resources—such as virtual machines, storage, applications, and configurations to be grouped together for easier organization, lifecycle management, and monitoring.
+- **Collaboration and Permissions**: Workspaces often have configurable access controls, enabling teams to manage permissions specific to the workspace. This is useful for collaborative environments where different teams or users work within the same tenant but require specific access.
+- **Billing and Usage Tracking**: Many cloud providers allow resource usage within a workspace to be tracked separately, making it easier to allocate costs to specific projects or teams.
+- **Configuration and State Management**: Workspaces may include settings, variables, and secrets specific to the resources they contain, allowing consistent configurations across different environments (e.g., development, testing, production).
 
 ## **Resource Authorization**
