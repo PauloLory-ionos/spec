@@ -118,4 +118,8 @@ What do we include in the status object is below described:
 
 ## **Resource Organization**
 
+A cloud organization model is a framework that defines how an organization structures, manages, and governs its resources, users, and permissions within a cloud environment
+
+![Resource Organization Model](./pic/resource_organization.drawio.png)
+
 ## **Resource Authorization**
