@@ -11,6 +11,8 @@
     - [Properties](#properties)
     - [Status](#status)
   - [Resource Lifecycle](#resource-lifecycle)
+- [Resource Organization](#resource-organization)
+- [Resource Authorization](#resource-authorization)
 
 ## **Introduction**
 The aim of this document is to define guidelines to design resource model for the eurocloud APIs
@@ -113,3 +115,7 @@ What do we include in the status object is below described:
 | Delete |  DELETE|Deletes a specific resource|
 | List   |  GET   |Retrieve the representations of a set of resources. The output set can be determined based on a filter passed on input|
 | Action |  POST  |Control Plan APIs can be extended by Actions (for example PowerOff and Restart for Virtual Machines)|
+
+## **Resource Organization**
+
+## **Resource Authorization**
