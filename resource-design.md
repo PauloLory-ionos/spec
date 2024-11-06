@@ -5,20 +5,24 @@
 - [Architecture](#resource-model)
   - [Control Plane](#architecture)
   - [Data Plane](#resource-model)
+- [Resource Organization](#resource-organization)
+  - [Tenant](#tenant)
+  - [Workspace](#workspace)
+- [API Access Control](#api-access-control)
+  - [Authentication](#authentication)
+  - [Authorization](#authorization)
+    - [Role](#role)
+    - [RoleBinding](#rolebinding)
+    - [TenantRole](#tenantrole)
+    - [TenantRoleBinding](#tenantrolebinding)
+  - [Admission Control](#admission-controller)
 - [Resource Model](#resource-model)
   - [Resource Definition](#resource-definition)
     - [Metadata](#metadata)
     - [Properties](#properties)
     - [Status](#status)
   - [Resource Lifecycle](#resource-lifecycle)
-- [Resource Organization](#resource-organization)
-  - [Tenant](#tenant)
-  - [Workspace](#workspace)
-- [Resource Authorization](#resource-authorization)
-  - [Role](#role)
-  - [RoleBinding](#rolebinding)
-  - [TenantRole](#tenantrole)
-  - [TenantRoleBinding](#tenantrolebinding)
+
 
 ## **Introduction**
 The aim of this document is to define guidelines to design resource model for the eurocloud APIs
@@ -38,7 +42,7 @@ Cloud Requests can be divided in two categories:
     - The purpose is to interact with the actual data or service provided by a Cloud Resource (e.g., reading/writing to a object storage, querying a database, etc.).
     - Data plane APIs manage **data**.
     - Data plane returns actual data (e.g., files, query results, or data manipulation responses)
-    - Data plane schemas vary widely based on the type of data and the service object (e.g., NFS, SQL, Key/Value, Kubernetes API, Vaults, etc.).
+    - Data plane schemas vary widely based on the type of data and the service object (e.g., NFS, SQL, Key/Value, SECA API, Vaults, etc.).
     - These APIs return and operate on actual data rather than metadata or configuration
 - Data plane APIs are differing in capabilities by versions, so instead of APIs the versions and enabled capabilities need to be standardized in form of a minimal set. E.g. PostgreSQL would be the same in all clouds, so one can define the available versions and extensions for that versions. Every cloud provider is free to add more.
 
@@ -47,7 +51,7 @@ Cloud Requests can be divided in two categories:
 Control Plan APIs have all the following template:
 
 ```bash
-`https://{service}.{domain}/{scope}/providers/{resourceProviderNamespace}/{resourceType}[/{resourceName}][/{action}]?api-version={api-version}[&{queryStringParameters}]`
+`https://{service}.{domain}/{scope}/providers/{resourceProviderworkspace}/{resourceType}[/{resourceName}][/{action}]?api-version={api-version}[&{queryStringParameters}]`
 ```
 
 
@@ -56,10 +60,135 @@ Control Plan APIs have all the following template:
 | service   | Name of the cloud service, ”api” in our case |
 | domain    | Cloud Service Provider domain name (ad es. aruba.it, arubacloud.com, etc.) |
 | scope    | A hierarchical set of key-value pairs that identify the origin of the resource. <br/> Scopes answer questions like: “What cloud account contains this resource?<br/>"Which department or organizational unit this resource belongs to ?"<br/>"What logical group this resource belongs to ?"<br/>|
-| resourceProviderNamespace    | The namespace and type of a resource. These are defined together because resource types are usually two segments - a vendor namespace and a type name. For example Aruba.Compute. Each Resource is managed by a Resource Provider. The implementation of Resource Provider is CSP specific. A single Resource Provider can manage multiple resource types|
+| resourceProviderworkspace    | The workspace and type of a resource. These are defined together because resource types are usually two segments - a vendor workspace and a type name. For example Aruba.Compute. Each Resource is managed by a Resource Provider. The implementation of Resource Provider is CSP specific. A single Resource Provider can manage multiple resource types|
 | resourceType    | The type of Resource|
 | resourceName    | The name of the Resource. Sub-resources are allowed. They follow the parent resource in the URL path|
 
+## **Resource Organization**
+
+A cloud organization model is a framework that defines how an organization structures, manages, and governs its resources, users, and permissions within a cloud environment
+
+![Resource Organization Model](./pic/resource_organization.drawio.png)
+
+
+### **Tenant**
+
+A tenant refers to a logical, isolated space created within the cloud environment that is dedicated to a specific organization, user, or customer. This isolation allows multiple customers (tenants) to share the cloud provider’s infrastructure while maintaining security, privacy, and data separation.
+
+Key Aspects of this concept are described below:
+- **Isolation**: Each tenant has a distinct, segregated environment that separates their resources and data from those of other tenants.
+- **Resource Ownership and Management**: Within a tenant, an organization has ownership over the resources they provision, such as virtual machines, databases, networks, and storage. Tenants are responsible for managing these resources within the confines of their isolated environment.
+- **Multi-Tenancy Model**: Public clouds operate on a multi-tenancy model, where multiple tenants (e.g., businesses, individual users, or organizations) share the same underlying hardware and infrastructure, allowing the cloud provider to optimize resource utilization and costs.
+- **Security and Compliance**: Tenants have their own security policies, access controls, and 
+compliance settings, which prevent unauthorized access and maintain data privacy even in a shared environment.
+- **Billing and Usage Tracking**: Each tenant has separate billing, with usage tracking that enables the cloud provider to charge tenants based on their resource consumption.
+
+### **Workspace**
+
+A workspace is a specific, scoped environment within a tenant that groups related resources for collaborative or organizational purposes. Workspaces are often designed to help organize resources for distinct projects, teams, or applications, and they simplify management within a larger tenant.
+
+Key Aspects of this concept are described below:
+- **Scoped Environment**: A workspace provides a bounded environment within a tenant where resources, configurations, and settings are applied to a specific set of workloads, applications, or team needs. This allows focused management and separation within the broader tenant context.
+- **Resource Grouping**: Workspaces allow related resources—such as virtual machines, storage, applications, and configurations to be grouped together for easier organization, lifecycle management, and monitoring.
+- **Collaboration and Permissions**: Workspaces often have configurable access controls, enabling teams to manage permissions specific to the workspace. This is useful for collaborative environments where different teams or users work within the same tenant but require specific access.
+- **Billing and Usage Tracking**: Many cloud providers allow resource usage within a workspace to be tracked separately, making it easier to allocate costs to specific projects or teams.
+- **Configuration and State Management**: Workspaces may include settings, variables, and secrets specific to the resources they contain, allowing consistent configurations across different environments (e.g., development, testing, production).
+
+
+## **API Access Control**
+
+API access control refers to the mechanisms and policies that manage and restrict access to APIs, ensuring that only authorized users or systems can access specific resources and perform certain actions. At its core, API access control is about maintaining data security, preventing unauthorized access, and ensuring compliance with regulatory standards.
+
+In essence, API access control defines **who** can interact with an API, **what** they are allowed to do, and under what circumstances(**how**). This control process usually involves authentication (verifying identity) and authorization (determining access levels), each implemented with specific tools, protocols, and frameworks.
+
+The significance of API access control has grown alongside the increasing reliance on APIs for business operations and customer interactions. A robust access control strategy is essential to:
+- **Data Protection**: APIs often expose endpoints that allow access to critical or sensitive information. Effective access control prevents unauthorized entities from reaching this data.
+- **System Integrity**: By controlling access, organizations can safeguard their APIs from malicious actors who might attempt to misuse API endpoints for unauthorized actions or attacks, such as DDoS (Distributed Denial of Service).
+- **Compliance**: Regulatory standards often require strict access control mechanisms to be in place to protect personal data and ensure auditability.
+- **Enhance Customer Trust** - When users know their data is secure and only authorized entities can access it, trust is built, fostering stronger relationships and potentially improving business outcomes.
+
+Based on **SECA Standard API Server** we adopted the below architecture:
+
+![API Access Control](./pic/API%20Access%20Control.png)
+
+- More in detail, every custom request (coming from both user or client app) goes to the Control Plane API Server. 
+  - first check is **identify** who is the customer
+  - after authentication we need to verify if the customer has the **privilege** to perform the requst
+  - afterwards we can **validate** and/or **manipulate** the request to fullfill domain requirements
+
+### **Authentication**
+
+As stated in the [REST API Guidelines](./rest-api-guidelines.md), we identify the user based on a **JSON Web Token (JWT)** transmitted by the client in every request.
+- This is included in a **Authorization Header** as Bearer Token.
+
+In order to perform and fullfill the authentication step of the CSP Control Plane the customer should get the JWT Token.
+- **TODO** (describe here how to get that if defined a common API URI or not)
+
+
+### **Authorization**
+
+Resource Authorization Model makes sure users or applications have the right to invoke Control Plane APIs. <br/>We need a specific service within the cloud environment being responsible for managing access controls and enforcing permissions for other resources
+- according to the Control Plane API organization we have a  provider workspace for every resource type.
+- we define an **authorization** provider workspace to take care of authorization concepts.
+
+ This model centralizes authorization logic, making it scalable, consistent, and easier to manage across a wide range of resources.
+
+ The Key Elements of this model are listed below:
+
+ - **Dedicated Resource Provider** - This is a centralized service that acts as the authority for all authorization decisions. Instead of each resource handling its own access controls, the dedicated provider manages policies, roles, and permissions for all resources
+ - **Authorization Policies** - Policies define the permissions granted to users, groups, or services. These policies are managed by the dedicated provider and applied consistently across resources. Policies typically define **who** (identity) has access to **what** (resource) and **how** (permissions, such as read, write, or delete).
+- **Roles and Role-Based Access Control (RBAC)**: The provider offers a way to define roles that encapsulate a set of permissions. Roles can be applied to users, groups, or other identities. For example, roles might include "Viewer," "Editor," or "Administrator," each with different levels of access. RBAC simplifies authorization management by assigning roles instead of individual permissions.
+- **Access Control Enforcement**: Once policies and roles are defined, the cloud API enforces them consistently across resources. When a user or service tries to access a resource, the dedicated provider validates the request based on the permissions associated with the user’s role or policies.
+
+A resource authorization model with a dedicated resource provider centralizes access control across resources, offering an efficient, consistent, and secure way to manage permissions and enforce policies at scale in a cloud environment. This model enhances security by reducing complexity and enabling centralized governance over resource access.
+
+#### Role
+
+A **Role** is a resource that defines a set of permissions within a specific workspace, allowing controlled access to resources within that workspace. Roles are a key part of **SECA RBAC (Role-Based Access Control)** mechanism, which provides fine-grained access control for users and customer applications interacting with cloud resources.
+
+Key Concepts of a SECA Role:
+- **workspace-scoped**: A Role is confined to a single workspace, meaning it grants permissions to resources within that specific workspace only. For tenant-wide permissions, a TenantRole would be used instead.
+
+- **Permissions (Rules)**: A Role contains rules that specify which actions are permitted on particular resources. These rules are defined using:
+  - **Resources** (e.g., instance, subnets, security-group) that the role can access.
+  - **Verbs** (e.g., get, list, create, delete) that indicate what actions can be taken on the resources.
+  - **Resource Names** (optional) to specify individual resources by name for more precise control.
+
+- **Least Privilege Principle**: Roles enable Tenant Administrators to grant minimal permissions necessary for a user or application to perform its tasks, enhancing tenant security by limiting access to only what is needed.
+
+This is essential for applying granular access control within a workspace, aligning with the principle of least privilege to keep CSP tenants secure and manageable.
+
+#### RoleBinding
+
+A **RoleBinding** is a resource used to associate a Role with specific users, groups, or customer applications, granting them the permissions defined in the role. RoleBindings are a fundamental part of SECA RBAC (Role-Based Access Control) system, as they are the mechanism through which permissions are actually applied to subjects.
+
+Key Concepts of a RoleBinding
+- **Workspace-Specific**: A RoleBinding grants access within a single Workspace. It binds a Role (which is also Workspace-scoped) to specific subjects within that Workspace. For granting tenant-wide permissions, a TenantRoleBinding is used instead, which can apply to resources across all Workspaces.
+
+- **Subjects**: RoleBindings specify the subjects (such as users, groups, or customer applications) that will receive the permissions defined in the Role. These subjects can be:
+  - **Users**: Individual user accounts.
+  - **Groups**: Collections of users.
+  - **customer applications**: Accounts used by applications or other processes running within the SECA tenant.
+- **Reference to a Role**: A RoleBinding references an existing Role to grant permissions within a single Workspace.
+- **Applying Permissions**: RoleBindings do not contain permissions themselves; they simply bind a set of permissions (defined in a Role) to one or more subjects.
+
+#### TenantRole
+
+A **TenantRole** is a resource that defines a set of permissions across the entire tenant, not limited to a single workspace. Unlike a Role, which is workspace-scoped, a TenantRole can apply to resources across all workspaces or to tenant-level resources that do not belong to any workspace.
+
+#### TenantRoleBinding
+
+A **TenantRoleBinding** is a resource used to associate a TenantRole with specific users, groups, or customer applications across the entire tenant. TenantRoleBindings are crucial in SECA Role-Based Access Control (RBAC) system because they apply permissions globally, enabling administrators to manage access across all workspaces or to tenant-wide resources.
+
+### **Admission Control**
+
+**Admission control** in the SECA API Access Control is a mechanism that intercepts requests to the Control Plane before they are persisted in the database, allowing the SECA CSP to enforce policies, apply security rules, and manage resource allocation. Admission controllers act as "gatekeepers" that can accept, modify, or deny requests based on custom or predefined policies, helping ensure a consistent and secure tenant environment.
+
+Key Concepts of Admission Control are the below listed:
+- **Request Interception**: When a user or application sends a request to create, update, delete, or connect to a cloud resource, the Control Plane Cloud API processes it through a sequence of admission controllers. These controllers evaluate the request before it is applied to the cluster.
+- **Types of Admission Controllers**:
+  - **Validating Controllers**: Validate requests according to certain rules. For example, they might check that a cloud resource requests are within limits defined in the tenant subscription.
+  - **Mutating Controllers**: Modify requests as needed. For example, they may inject some metadata or other mandatory fields if they would be skip by the user but are needed in the Resource API specification.
 
 ## **Resource Model**
 
@@ -133,57 +262,3 @@ such an example:
 | List      |  GET    | Retrieve the representations of a set of resources. The output set can be determined based on a filter passed on input|
 | Action    |  POST   | Control Plan APIs can be extended by Actions (for example PowerOff and Restart for Virtual Machines)|
 
-## **Resource Organization**
-
-A cloud organization model is a framework that defines how an organization structures, manages, and governs its resources, users, and permissions within a cloud environment
-
-![Resource Organization Model](./pic/resource_organization.drawio.png)
-
-
-### **Tenant**
-
-A tenant refers to a logical, isolated space created within the cloud environment that is dedicated to a specific organization, user, or customer. This isolation allows multiple customers (tenants) to share the cloud provider’s infrastructure while maintaining security, privacy, and data separation.
-
-Key Aspects of this concept are described below:
-- **Isolation**: Each tenant has a distinct, segregated environment that separates their resources and data from those of other tenants.
-- **Resource Ownership and Management**: Within a tenant, an organization has ownership over the resources they provision, such as virtual machines, databases, networks, and storage. Tenants are responsible for managing these resources within the confines of their isolated environment.
-- **Multi-Tenancy Model**: Public clouds operate on a multi-tenancy model, where multiple tenants (e.g., businesses, individual users, or organizations) share the same underlying hardware and infrastructure, allowing the cloud provider to optimize resource utilization and costs.
-- **Security and Compliance**: Tenants have their own security policies, access controls, and 
-compliance settings, which prevent unauthorized access and maintain data privacy even in a shared environment.
-- **Billing and Usage Tracking**: Each tenant has separate billing, with usage tracking that enables the cloud provider to charge tenants based on their resource consumption.
-
-### **Workspace**
-
-A workspace is a specific, scoped environment within a tenant that groups related resources for collaborative or organizational purposes. Workspaces are often designed to help organize resources for distinct projects, teams, or applications, and they simplify management within a larger tenant.
-
-Key Aspects of this concept are described below:
-- **Scoped Environment**: A workspace provides a bounded environment within a tenant where resources, configurations, and settings are applied to a specific set of workloads, applications, or team needs. This allows focused management and separation within the broader tenant context.
-- **Resource Grouping**: Workspaces allow related resources—such as virtual machines, storage, applications, and configurations to be grouped together for easier organization, lifecycle management, and monitoring.
-- **Collaboration and Permissions**: Workspaces often have configurable access controls, enabling teams to manage permissions specific to the workspace. This is useful for collaborative environments where different teams or users work within the same tenant but require specific access.
-- **Billing and Usage Tracking**: Many cloud providers allow resource usage within a workspace to be tracked separately, making it easier to allocate costs to specific projects or teams.
-- **Configuration and State Management**: Workspaces may include settings, variables, and secrets specific to the resources they contain, allowing consistent configurations across different environments (e.g., development, testing, production).
-
-## **Resource Authorization**
-
-Resource Authorization Model makes sure users or applications have the right to invoke Control Plane APIs. <br/>We need a specific service within the cloud environment being responsible for managing access controls and enforcing permissions for other resources
-- according to the Control Plane API organization we have a  provider namespace for every resource type.
-- we define an **authorization** provider namespace to take care of authorization concepts.
-
- This model centralizes authorization logic, making it scalable, consistent, and easier to manage across a wide range of resources.
-
- The Key Elements of this model are listed below:
-
- - **Dedicated Resource Provider** - This is a centralized service that acts as the authority for all authorization decisions. Instead of each resource handling its own access controls, the dedicated provider manages policies, roles, and permissions for all resources
- - **Authorization Policies** - Policies define the permissions granted to users, groups, or services. These policies are managed by the dedicated provider and applied consistently across resources. Policies typically define **who** (identity) has access to **what** (resource) and **how** (permissions, such as read, write, or delete).
-- **Roles and Role-Based Access Control (RBAC)**: The provider offers a way to define roles that encapsulate a set of permissions. Roles can be applied to users, groups, or other identities. For example, roles might include "Viewer," "Editor," or "Administrator," each with different levels of access. RBAC simplifies authorization management by assigning roles instead of individual permissions.
-- **Access Control Enforcement**: Once policies and roles are defined, the cloud API enforces them consistently across resources. When a user or service tries to access a resource, the dedicated provider validates the request based on the permissions associated with the user’s role or policies.
-
-A resource authorization model with a dedicated resource provider centralizes access control across resources, offering an efficient, consistent, and secure way to manage permissions and enforce policies at scale in a cloud environment. This model enhances security by reducing complexity and enabling centralized governance over resource access.
-
-### Role
-
-### RoleBinding
-
-### TenantRole
-
-### TenantRoleBinding
