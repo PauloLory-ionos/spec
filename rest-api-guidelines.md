@@ -605,14 +605,13 @@ The definition of backward compatibility also partially depends on technical and
 
 ## Asynchronous Operations
 
-Sometimes a POST, PUT, PATCH, or DELETE operation may require processing that takes some time to complete. Waiting for the operation to finish before sending a response to the client can cause unacceptable latency. In such cases, consider making the operation asynchronous. Return the HTTP status code 202 (Accepted) to indicate that the request has been accepted for processing but has not yet been completed.
+Sometimes a POST, PUT, or DELETE operation may require processing that takes some time to complete. Waiting for the operation to finish before sending a response to the client can cause unacceptable latency. In such cases, consider making the operation asynchronous. Return the HTTP status code 202 (Accepted) to indicate that the request has been accepted for processing but has not yet been completed.
 
 It is recommended to expose an endpoint that returns the status of an asynchronous request, allowing the client to monitor the status by performing polling. Include the URI of the status endpoint in the Location header of the 202 response, for example:
 
 
-
     HTTP/1.1 202 Accepted
-    Location: /api/status/12345
+    Location: /v1beta1/workspaces/my-workspace/providers/network/vpcs/my-vpc/status
 
 If the client sends a GET request to this endpoint, the response must contain the current status of the request. Optionally, it can also include the estimated time for completion or a link to cancel the operation.
 
@@ -623,18 +622,20 @@ If the client sends a GET request to this endpoint, the response must contain th
     Content-Type: application/json
      
     {
-        "status":"In progress",
-        "link": { "rel":"cancel", "method":"delete", "href":"/api/status/12345" }
+
+        "status": {
+            "state": "Creating",
+            "conditions": [
+                {
+                  "type:": "VPCScheduled",
+                  "status: "True",
+                  "lastTransitionTime": ""2024-11-06T14:25:18Z",
+                  "reason": "VPCInitialized",
+                  "message": "The VPC has been initialized successfully"
+                }
+            ]
+        }
     }
-
-If the asynchronous operation creates a new resource, the status endpoint must return the 303 (See Other) status code when the operation is complete. In the 303 response, include a Location header containing the URI of the new resource:
-
-
-
-    HTTP/1.1 303 See Other
-    Location: /api/orders/12345
-
-For more information, see the Asynchronous Request/Reply pattern.
 
 ### Asynchronous Request-Reply Pattern
 
