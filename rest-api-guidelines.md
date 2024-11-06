@@ -542,37 +542,49 @@ Skip tokens are state-based, meaning they’re associated with a specific snapsh
 
 ## Versioning
 
-It is highly unlikely that a web API will remain static. As business requirements change, new resources may be added, the relationships between them may change, and the data structure within the resources themselves may be modified. While updating a web API to handle new or different requirements is a relatively straightforward process, it is essential to consider the effects of these changes on client applications using the web API. The problem is that, even though the developer designing and implementing a web API has full control over that API, they do not have the same level of control over client applications, which may be created by third-party organizations. The imperative is to allow existing client applications to continue functioning without modifications while enabling new client applications to take advantage of new features and resources.
+We need to implement API versioning to manage changes and maintain compatibility across their services. SECA's approach to API versioning is guided by principles that ensure stability and flexibility for developers.
 
-To be formally correct, services should increment the version number following any breaking change. The following section qualifies the nature of a breaking change. Services may also increment their version in the absence of breaking changes if deemed necessary.
+**SECA API versioning** helps manage changes and compatibility within the API as SECA evolves. Each API resource in SECA (like Compute.Instance, Network.VPC, Authorization.Role) is versioned to ensure stability, consistency, and backward compatibility. SECA API versions, inspired by Kubernetes, are  denoted by **vXalphaY**, **vXbetaY**, or **vX**, where:
 
-### Semantic Versioning
+- **Alpha (vXalphaY)** - Represents early-stage features that are experimental.
+  - APIs in this stage are subject to breaking changes, meaning they may change or be removed entirely.
+  - X is the major version number (e.g., v1alpha1).
 
-According to the [definition](https://semver.org/) Semantic Versioning (SemVer) is a versioning scheme for software that conveys meaning about the underlying changes with each new release. It follows the format:
+- **Beta (vXbetaY)** - Considered stable enough for more extensive testing but may still have breaking changes.
 
-> MAJOR.MINOR.PATCH
+  - Beta features are expected to stay around for at least a few releases, though feedback may lead to further changes before they’re marked as stable.
 
-**MAJOR** version: Increases when there are incompatible changes that could break backward compatibility. For example, if the new version removes a function or changes its behavior in a way that requires users to modify their code.
+- **Stable (vX)** - Represents APIs that are considered production-ready and highly stable.
+  - Changes here are rare, non-breaking, and backward-compatible.
+  - Once an API reaches v1 or another stable version, breaking changes are avoided, though deprecation policies apply to manage the gradual removal of older API versions.
+  - When using the SECA Cloud Service Provider, selecting the correct version for each resource is essential for ensuring stability and compatibility.
 
-**MINOR** version: Increases when functionality is added in a backward-compatible manner, meaning users can upgrade without breaking their existing code. This includes new features or enhancements.
+### Usage
 
-**PATCH** version: Increases when there are backward-compatible bug fixes that do not alter the software's functionality, but resolve issues or improve performance
+The SECA Resource Versioning is specified as part of the URL path when making API calls.
 
-To sum up, given a version number MAJOR.MINOR.PATCH, you should increment the:
+```bash
+GET /v1beta1/workspaces/my-workspace/providers/network/vpcs
+```
 
-- **MAJOR** version when you make incompatible API changes
-- **MINOR** version when you add functionality in a backward compatible manner
-- **PATCH** version when you make backward compatible bug fixes
+However, when referencing resources within API responses or configurations, the version is omitted from the resource name. This approach ensures that resource identifiers remain consistent and unaffected by version changes, promoting stability and ease of use.
 
-Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
+```json
+{
+  "metadata": {
+    "name": "primary-load-balancer",
+    "labels": []
+  },
+  "spec": {
+    "routingTableRef": "/providers/network/routing-tables/default"
+  }
+```
 
 ### Breaking Change Definition
 
 The API represents a contract between parties. Changes that directly or indirectly impact the backward compatibility of an API are to be considered breaking changes.
-
-Services must explicitly define their understanding of breaking changes, especially regarding additive modifications—new fields, new parameters, both potentially with default values.
-
-Services that are colocated behind the same DNS endpoint must be consistent in their definition of the extensibility of a contract.
+- Services must explicitly define their understanding of breaking changes, especially regarding additive modifications—new fields, new parameters, both potentially with default values.
+- Services must be consistent in their definition of the extensibility of a contract.
 
 The definition of backward compatibility also partially depends on technical and business requirements. For some teams, adding a new field may fall under the category of a breaking change. For others, it may be considered an additive modification and therefore not necessarily impactful for existing clients.
 
@@ -591,27 +603,6 @@ The definition of backward compatibility also partially depends on technical and
 - Changes in behavior even with the same contract/API.
 - Changes in error codes and so-called Fault Contracts, which express the result of an error condition.
 - Anything that violates the principle of least surprise.
-
-### Evolutionary and Support
-
-Using a new major version to indicate that support for existing clients will be deprecated in the future. When a new major version is introduced, services must provide a straightforward upgrade path for existing clients and develop a deprecation plan consistent with the policies of the respective business line. Services should use a new minor version for all other changes.
-
-The documentation of versioned services must indicate the level of support for previous versions and provide an upgrade path to the most recent version.
-
-Version control allows a Web API to indicate the functionalities and resources it exposes, and for a client application to send requests directed to a specific version of a feature or resource. The following sections describe several different approaches, each with its own pros and cons.
-
-
-
-    It is possible to distinguish the concepts of version and release.
-    
-    The version can be considered the public version of the service, and it should change according to the criteria indicated in this document.
-    
-    The release is the actual version of the software that is deployed.
-    
-    Example: Assuming the APIs are structured correctly, they could be exposed as version 1, while the web service itself might be at release 1.1.
-
-
-When it is necessary to maintain particularly outdated versions of an API, because they are used by clients that update slowly or are business-critical, an approach based on lenses, as described in this article: [Project Cambria: Translate your data with lenses (inkandswitch.com)](https://www.inkandswitch.com/cambria.html), is suggested. In summary, it is possible to encode a sequence of transformations that bring an outdated payload to a more recent one—without having to maintain ad hoc plumbing for each individual version.
 
 ## Asynchronous Operations
 
