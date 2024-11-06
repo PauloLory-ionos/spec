@@ -3,8 +3,6 @@
 # Table of Contents
 - [Introduction](#introduction)
 - [Architecture](#resource-model)
-  - [Control Plane](#architecture)
-  - [Data Plane](#resource-model)
 - [Resource Organization](#resource-organization)
   - [Tenant](#tenant)
   - [Workspace](#workspace)
