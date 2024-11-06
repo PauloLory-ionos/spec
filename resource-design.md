@@ -6,6 +6,7 @@
 - [Resource Organization](#resource-organization)
   - [Tenant](#tenant)
   - [Workspace](#workspace)
+  - [Cloud Resource](#cloud-resource)
 - [API Access Control](#api-access-control)
   - [Authentication](#authentication)
   - [Authorization](#authorization)
