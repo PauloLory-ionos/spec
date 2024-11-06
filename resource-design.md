@@ -101,7 +101,7 @@ In essence, API access control defines **who** can interact with an API, **what*
 
 The significance of API access control has grown alongside the increasing reliance on APIs for business operations and customer interactions. A robust access control strategy is essential to:
 - **Data Protection**: APIs often expose endpoints that allow access to critical or sensitive information. Effective access control prevents unauthorized entities from reaching this data.
-- **System Integrity**: By controlling access, organizations can safeguard their APIs from malicious actors who might attempt to misuse API endpoints for unauthorized actions or attacks, such as DDoS (Distributed Denial of Service).
+- **System Integrity**: By controlling access, organizations can safeguard their APIs from malicious actors who might attempt to misuse API endpoints for unauthorized actions.
 - **Compliance**: Regulatory standards often require strict access control mechanisms to be in place to protect personal data and ensure auditability.
 - **Enhance Customer Trust** - When users know their data is secure and only authorized entities can access it, trust is built, fostering stronger relationships and potentially improving business outcomes.
 
