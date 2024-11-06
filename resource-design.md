@@ -3,6 +3,7 @@
 # Table of Contents
 - [Introduction](#introduction)
 - [Architecture](#resource-model)
+- [Control Plane Specification](#control-plane-specification)
 - [Resource Organization](#resource-organization)
   - [Tenant](#tenant)
   - [Workspace](#workspace)
@@ -45,7 +46,7 @@ Cloud Requests can be divided in two categories:
     - These APIs return and operate on actual data rather than metadata or configuration
 - Data plane APIs are differing in capabilities by versions, so instead of APIs the versions and enabled capabilities need to be standardized in form of a minimal set. E.g. PostgreSQL would be the same in all clouds, so one can define the available versions and extensions for that versions. Every cloud provider is free to add more.
 
-### **Control Plane**
+## **Control Plane Specification**
 
 Control Plan APIs have all the following template:
 
