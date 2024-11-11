@@ -1,4 +1,4 @@
-Server:
+Instance:
   type: object
   properties:
     metadata:
@@ -26,8 +26,15 @@ Server:
             $ref: './nic.yaml#/NIC'
         cloudInitUserData:
           type: string
-          description: Cloud-init user data for server initialization
-        attachedVolumeRef:
+          description: |
+            Cloud-init user data for instance initialization
+            Example cloud-init user configuration with SSH key:
+            ```yaml
+            #cloud-config
+            ssh_authorized_keys:
+              - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0g+ZTxC7weoIJLUafOgrm+h...
+            ```
+        attachedBlockStorageRef:
           type: array
           items:
             type: string
@@ -54,7 +61,9 @@ Server:
           type: array
           items:
             $ref: './nic.yaml#/NIC'
-        attachedVolumes:
+        attachedBlockStorage:
           type: array
           items:
             type: string
+        conditions:
+          $ref: "./resource.yaml#/StatusConditions"

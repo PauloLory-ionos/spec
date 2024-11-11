@@ -11,4 +11,4 @@
             schema:
               type: array
               items:
-                $ref: '../schemas/resource.yaml#/region'
+                $ref: '../schemas/resource.yaml#/Region'

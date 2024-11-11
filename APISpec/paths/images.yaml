@@ -3,15 +3,39 @@
     summary: List Images
     tags:
       - Organization
+    parameters:
+      - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
+      - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/cursorParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/includeDeletedParam'
     responses:
       '200':
         description: Successful response
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: '../schemas/image.yaml#/Image'
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: '../schemas/image.yaml#/Image'
+                metadata:
+                  type: object
+                  properties:
+                    nextCursor:
+                      type: string
+                      description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+      '400':
+        $ref: '../openapi.yaml#/components/responses/Error400'
+      '401':
+        $ref: '../openapi.yaml#/components/responses/Error401'
+      '403':
+        $ref: '../openapi.yaml#/components/responses/Error403'
+      '404':
+        $ref: '../openapi.yaml#/components/responses/Error404'
+      '500':
+        $ref: '../openapi.yaml#/components/responses/Error500'
 
 /images/{name}:
   get:
@@ -31,6 +55,16 @@
           application/json:
             schema:
               $ref: '../schemas/image.yaml#/Image'
+      '400':
+        $ref: '../openapi.yaml#/components/responses/Error400'
+      '401':
+        $ref: '../openapi.yaml#/components/responses/Error401'
+      '403':
+        $ref: '../openapi.yaml#/components/responses/Error403'
+      '404':
+        $ref: '../openapi.yaml#/components/responses/Error404'
+      '500':
+        $ref: '../openapi.yaml#/components/responses/Error500'
   delete:
     summary: Delete Image
     tags:
@@ -43,4 +77,14 @@
           type: string
     responses:
       '204':
-        description: Successful response
+        description: Image deleted
+      '400':
+        $ref: '../openapi.yaml#/components/responses/Error400'
+      '401':
+        $ref: '../openapi.yaml#/components/responses/Error401'
+      '403':
+        $ref: '../openapi.yaml#/components/responses/Error403'
+      '404':
+        $ref: '../openapi.yaml#/components/responses/Error404'
+      '500':
+        $ref: '../openapi.yaml#/components/responses/Error500'

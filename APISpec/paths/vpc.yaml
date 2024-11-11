@@ -1,41 +1,48 @@
-/vpcs:
+/workspaces/{workspace}/providers/network/vpcs:
   get:
     tags:
       - Network
     summary: List all VPCs
+    parameters:
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
+      - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/cursorParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/includeDeletedParam'
     responses:
       '200':
-        $ref: '../openapi.yaml#/components/responses/Success200'
-  # post:
-  #   tags:
-  #     - Network
-  #   summary: Create a new VPC
-  #   requestBody:
-  #     required: true
-  #     content:
-  #       application/json:
-  #         schema:
-  #           $ref: '../schemas/vpc.yaml#/VPC'
-  #   responses:
-  #     '202':
-  #       $ref: '../openapi.yaml#/components/responses/Success202VPC'
-  #     '400':
-  #       $ref: '../openapi.yaml#/components/responses/Error400'
-  #     '401':
-  #       $ref: '../openapi.yaml#/components/responses/Error401'
-  #     '403':
-  #       $ref: '../openapi.yaml#/components/responses/Error403'
-  #     '422':
-  #       $ref: '../openapi.yaml#/components/responses/Error422'
-  #     '500':
-  #       $ref: '../openapi.yaml#/components/responses/Error500'
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: '../schemas/vpc.yaml#/VPC'
+                metadata:
+                  type: object
+                  properties:
+                    nextCursor:
+                      type: string
+                      description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
 
-/vpcs/{vpc}:
+/workspaces/{workspace}/providers/network/vpcs/{vpc}:
   get:
     tags:
       - Network
     summary: Get a specific VPC
     parameters:
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
       - name: vpc
         in: path
         required: true
@@ -43,7 +50,11 @@
           type: string
     responses:
       '200':
-        $ref: '../openapi.yaml#/components/responses/Success200'
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/vpc.yaml#/VPC'
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
@@ -59,11 +70,17 @@
       - Network
     summary: Create or update a specific VPC
     parameters:
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
       - name: vpc
         in: path
         required: true
         schema:
           type: string
+      - $ref: '../schemas/parameters.yaml#/parameters/ifMatchParam'
     requestBody:
       required: true
       content:
@@ -72,7 +89,7 @@
             $ref: '../schemas/vpc.yaml#/VPC'
     responses:
       '202':
-        $ref: '../openapi.yaml#/components/responses/Success202VPC'
+        description: VPC updated or created
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
@@ -81,6 +98,8 @@
         $ref: '../openapi.yaml#/components/responses/Error403'
       '404':
         $ref: '../openapi.yaml#/components/responses/Error404'
+      '412':
+        $ref: '../openapi.yaml#/components/responses/Error412'
       '422':
         $ref: '../openapi.yaml#/components/responses/Error422'
       '500':
@@ -90,14 +109,19 @@
       - Network
     summary: Delete a specific VPC
     parameters:
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
       - name: vpc
         in: path
         required: true
         schema:
           type: string
     responses:
-      '202':
-        $ref: '../openapi.yaml#/components/responses/Success202VPC'
+      '204':
+        description: VPC deleted
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':

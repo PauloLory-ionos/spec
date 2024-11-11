@@ -1,7 +1,9 @@
-openapi: 3.0.0
+openapi: 3.0.3
 info:
   title: Sovereign European Cloud API
-  version: 0.4.2
+  version: 0.5.4
+  license:
+    name: "Proprietary - All Rights Reserved"
   description: |
     API for managing cloud resources
 
@@ -12,61 +14,50 @@ info:
     * does not include loadbalancers, nat, vpn, and other network features
 
     ![API Diagram](https://x.frei-services.net/api-diagram.png)
-    
 paths:
   # regions
-  /regions:
+  /v1beta1/regions:
     $ref: './paths/regions.yaml#/~1regions'
 
-  # Network resources
-  /vpcs:
-    $ref: './paths/vpc.yaml#/~1vpcs'
-  /vpcs/{vpc}:
-    $ref: './paths/vpc.yaml#/~1vpcs~1{vpc}'
-  /vpcs/{vpc}/subnets:
-    $ref: './paths/subnets.yaml#/~1vpc~1{vpc}~1subnets'
-  /vpcs/{vpc}/subnets/{name}:
-    $ref: './paths/subnets.yaml#/~1vpc~1{vpc}~1subnets~1{name}'
-  /vpcs/{vpc}/security-groups:
-    $ref: './paths/security-groups.yaml#/~1vpc~1{vpc}~1security-groups'
-  /vpcs/{vpc}/security-groups/{name}:
-    $ref: './paths/security-groups.yaml#/~1vpc~1{vpc}~1security-groups~1{name}'
-  /vpcs/{vpc}/servers:
-    $ref: './paths/servers.yaml#/~1vpc~1{vpc}~1servers'
-  /vpcs/{vpc}/servers/{name}:
-    $ref: './paths/servers.yaml#/~1vpc~1{vpc}~1servers~1{name}'
-#  /vpcs/{vpc}/servers/{name}/nics:
-#    $ref: './paths/servers.yaml#/~1vpc~1{vpc}~1servers~1{name}~1nics'
-#  /vpcs/{vpc}/servers/{name}/nics/{nicId}:
-#    $ref: './paths/servers.yaml#/~1vpc~1{vpc}~1servers~1{name}~1nics~1{nicId}'
-  /vpcs/{vpc}/volumes:
-    $ref: './paths/volumes.yaml#/~1vpc~1{vpc}~1volumes'
-  /vpcs/{vpc}/volumes/{name}:
-    $ref: './paths/volumes.yaml#/~1vpc~1{vpc}~1volumes~1{name}'
-  
-  # New paths for volume snapshots
-  /vpcs/{vpc}/volumes/{name}/snapshots:
-    $ref: './paths/volumes.yaml#/~1vpc~1{vpc}~1volumes~1{name}~1snapshots'
-  /vpcs/{vpc}/volumes/{name}/snapshots/{snapshotName}:
-    $ref: './paths/volumes.yaml#/~1vpc~1{vpc}~1volumes~1{name}~1snapshots~1{snapshotName}'
-  
-  # New paths for server-profile and volume-profile
-  /vpcs/{vpc}/server-profile:
-    $ref: './paths/profiles.yaml#/~1vpc~1{vpc}~1server-profiles'
-  /vpcs/{vpc}/volume-profile:
-    $ref: './paths/profiles.yaml#/~1vpc~1{vpc}~1volume-profiles'
+  # Network resources - VPC and its resources
+  /v1beta1/workspaces/{workspace}/providers/network/vpcs:
+    $ref: './paths/vpc.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs'
+  /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}:
+    $ref: './paths/vpc.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}'
+  /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/subnets:
+    $ref: './paths/subnets.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1subnets'
+  /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/subnets/{name}:
+    $ref: './paths/subnets.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1subnets~1{name}'
+  /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/routing-tables:
+    $ref: './paths/routing-tables.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1routing-tables'
+  /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/routing-tables/{name}:
+    $ref: './paths/routing-tables.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1routing-tables~1{name}'
+  /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/security-groups:
+    $ref: './paths/security-groups.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1security-groups'
+  /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/security-groups/{name}:
+    $ref: './paths/security-groups.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1security-groups~1{name}'
 
-  # Additional resources (not under vpc)
-  /images:
+  # Workspace resources with provider namespace
+  /v1beta1/workspaces/{workspace}/providers/compute/instances:
+    $ref: './paths/instances.yaml#/~1workspaces~1{workspace}~1providers~1compute~1instances'
+  /v1beta1/workspaces/{workspace}/providers/compute/instances/{name}:
+    $ref: './paths/instances.yaml#/~1workspaces~1{workspace}~1providers~1compute~1instances~1{name}'
+  /v1beta1/workspaces/{workspace}/providers/storage/block-storages:
+    $ref: './paths/block-storage.yaml#/~1workspaces~1{workspace}~1providers~1storage~1block-storages'
+  /v1beta1/workspaces/{workspace}/providers/storage/block-storages/{name}:
+    $ref: './paths/block-storage.yaml#/~1workspaces~1{workspace}~1providers~1storage~1block-storages~1{name}'
+  
+  # Block storage snapshots
+  /v1beta1/workspaces/{workspace}/providers/storage/block-storages/{name}/snapshots:
+    $ref: './paths/block-storage.yaml#/~1workspaces~1{workspace}~1providers~1storage~1block-storages~1{name}~1snapshots'
+  /v1beta1/workspaces/{workspace}/providers/storage/block-storages/{name}/snapshots/{snapshotName}:
+    $ref: './paths/block-storage.yaml#/~1workspaces~1{workspace}~1providers~1storage~1block-storages~1{name}~1snapshots~1{snapshotName}'
+
+  # Additional resources (not under workspace)
+  /v1beta1/images:
     $ref: './paths/images.yaml#/~1images'
-  /images/{name}:
+  /v1beta1/images/{name}:
     $ref: './paths/images.yaml#/~1images~1{name}'
-
-  # Routing Table paths
-  /vpcs/{vpc}/routing-tables:
-    $ref: './paths/routing-tables.yaml#/~1vpcs~1{vpc}~1routing-tables'
-  /vpcs/{vpc}/routing-tables/{name}:
-    $ref: './paths/routing-tables.yaml#/~1vpcs~1{vpc}~1routing-tables~1{name}'
 
 components:
   schemas:
@@ -78,18 +69,14 @@ components:
       $ref: './schemas/nic.yaml#/NIC'
     SecurityGroup:
       $ref: './schemas/security-group.yaml#/SecurityGroup'
-    Server:
-      $ref: './schemas/server.yaml#/Server'
-    Volume:
-      $ref: './schemas/volume.yaml#/Volume'
-    VolumeSnapshot:
-      $ref: './schemas/volume.yaml#/VolumeSnapshot'
+    Instance:
+      $ref: './schemas/instance.yaml#/Instance'
+    BlockStorage:
+      $ref: './schemas/block-storage.yaml#/BlockStorage'
+    BlockStorageSnapshot:
+      $ref: './schemas/block-storage.yaml#/BlockStorageSnapshot'
     Image:
       $ref: './schemas/image.yaml#/Image'
-    ServerProfile:
-      $ref: './schemas/resource.yaml#/ServerProfile'
-    VolumeProfile:
-      $ref: './schemas/resource.yaml#/VolumeProfile'
     Error:
       $ref: './schemas/error_schemas.yaml#/Error'
     ErrorDetail:
@@ -102,6 +89,8 @@ components:
       $ref: './schemas/error_schemas.yaml#/Error403'
     Error404:
       $ref: './schemas/error_schemas.yaml#/Error404'
+    Error412:
+      $ref: './schemas/error_schemas.yaml#/Error412'
     Error422:
       $ref: './schemas/error_schemas.yaml#/Error422'
     Error500:
@@ -111,18 +100,6 @@ components:
     RoutingTable:
       $ref: './schemas/routing-table.yaml#/RoutingTable'
   responses:
-    Success200:
-      description: Successful operation
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/VPC'
-    Success202VPC:
-      description: Accepted
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/VPC'
     Error400:
       description: Bad Request
       content:
@@ -147,6 +124,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error404'
+    Error412:
+      description: Precondition Failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error412'
     Error422:
       description: Unprocessable Entity
       content:

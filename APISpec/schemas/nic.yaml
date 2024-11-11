@@ -37,4 +37,5 @@ NIC:
           type: string
         securityGroupRef:
           type: string
-
+        conditions:
+          $ref: "./resource.yaml#/StatusConditions"

@@ -1,23 +1,41 @@
-/vpcs/{vpc}/routing-tables:
+/workspaces/{workspace}/providers/network/vpcs/{vpc}/routing-tables:
   get:
     tags:
       - Network
     summary: List all routing tables for a VPC
     parameters:
-      - in: path
-        name: vpc
+      - name: workspace
+        in: path
         required: true
         schema:
           type: string
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
+      - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/cursorParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/includeDeletedParam'
     responses:
       '200':
         description: Successful response
         content:
           application/json:    
             schema:
-              type: array
-              items:
-                $ref: '../schemas/routing-table.yaml#/RoutingTable'
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: '../schemas/routing-table.yaml#/RoutingTable'
+                metadata:
+                  type: object
+                  properties:
+                    nextCursor:
+                      type: string
+                      description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
@@ -28,54 +46,25 @@
         $ref: '../openapi.yaml#/components/responses/Error404'
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
-  
-  # post:
-  #   summary: Create a new routing table in a VPC
-  #   parameters:
-  #     - in: path
-  #       name: vpc
-  #       required: true
-  #       schema:
-  #         type: string
-  #   requestBody:
-  #     required: true
-  #     content:
-  #       application/json:
-  #         schema:
-  #           $ref: '../schemas/routing-table.yaml#/RoutingTable'
-  #   responses:
-  #     '201':
-  #       description: Created
-  #       content:
-  #         application/json:    
-  #           schema:
-  #             $ref: '../schemas/routing-table.yaml#/RoutingTable'
-  #     '400':
-  #       $ref: '../openapi.yaml#/components/responses/Error400'
-  #     '401':
-  #       $ref: '../openapi.yaml#/components/responses/Error401'
-  #     '403':
-  #       $ref: '../openapi.yaml#/components/responses/Error403'
-  #     '404':
-  #       $ref: '../openapi.yaml#/components/responses/Error404'
-  #     '422':
-  #       $ref: '../openapi.yaml#/components/responses/Error422'
-  #     '500':
-  #       $ref: '../openapi.yaml#/components/responses/Error500'
 
-/vpcs/{vpc}/routing-tables/{name}:
+/workspaces/{workspace}/providers/network/vpcs/{vpc}/routing-tables/{name}:
   get:
     tags:
       - Network
     summary: Get a specific routing table
     parameters:
-      - in: path
-        name: vpc
+      - name: workspace
+        in: path
         required: true
         schema:
           type: string
-      - in: path
-        name: name
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
         required: true
         schema:
           type: string
@@ -103,16 +92,22 @@
     summary: Create or update a routing table
     description: Create a new routing table or update an existing one, including its routes. Routes are manipulated by updating the entire routing table object.
     parameters:
-      - in: path
-        name: vpc
+      - name: workspace
+        in: path
         required: true
         schema:
           type: string
-      - in: path
-        name: name
+      - name: vpc
+        in: path
         required: true
         schema:
           type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '../schemas/parameters.yaml#/parameters/ifMatchParam'
     requestBody:
       required: true
       content:
@@ -120,18 +115,8 @@
           schema:
             $ref: '../schemas/routing-table.yaml#/RoutingTable'
     responses:
-      '200':
-        description: Routing table updated
-        content:
-          application/json:    
-            schema:
-              $ref: '../schemas/routing-table.yaml#/RoutingTable'
-      '201':
-        description: Routing table created
-        content:
-          application/json:    
-            schema:
-              $ref: '../schemas/routing-table.yaml#/RoutingTable'
+      '202':
+        description: Routing table updated or created
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
@@ -140,6 +125,8 @@
         $ref: '../openapi.yaml#/components/responses/Error403'
       '404':
         $ref: '../openapi.yaml#/components/responses/Error404'
+      '412':
+        $ref: '../openapi.yaml#/components/responses/Error412'
       '422':
         $ref: '../openapi.yaml#/components/responses/Error422'
       '500':
@@ -150,19 +137,24 @@
       - Network
     summary: Delete a routing table
     parameters:
-      - in: path
-        name: vpc
+      - name: workspace
+        in: path
         required: true
         schema:
           type: string
-      - in: path
-        name: name
+      - name: vpc
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
         required: true
         schema:
           type: string
     responses:
       '204':
-        description: Successful deletion
+        description: Routing table deleted
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':

@@ -85,6 +85,17 @@ Error404:
             title: "Not Found"
             detail: "The requested resource could not be found."
 
+Error412:
+  allOf:
+    - $ref: '#/Error'
+    - type: object
+      example:
+        errors:
+          - status: "412"
+            code: "PRECONDITION_FAILED"
+            title: "Precondition Failed"
+            detail: "The precondition given in the If-Match header failed."
+
 Error422:
   allOf:
     - $ref: '#/Error'

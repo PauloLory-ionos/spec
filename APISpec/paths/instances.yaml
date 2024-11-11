@@ -1,15 +1,10 @@
-/workspaces/{workspace}/providers/network/vpcs/{vpc}/subnets:
+/workspaces/{workspace}/providers/compute/instances:
   get:
     tags:
-      - Network
-    summary: List all subnets in a VPC
+      - Compute
+    summary: List all instances
     parameters:
       - name: workspace
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: vpc
         in: path
         required: true
         schema:
@@ -29,7 +24,7 @@
                 items:
                   type: array
                   items:
-                    $ref: '../schemas/subnet.yaml#/Subnet'
+                    $ref: '../schemas/instance.yaml#/Instance'
                 metadata:
                   type: object
                   properties:
@@ -47,18 +42,13 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/workspaces/{workspace}/providers/network/vpcs/{vpc}/subnets/{name}:
+/workspaces/{workspace}/providers/compute/instances/{name}:
   get:
     tags:
-      - Network
-    summary: Get a specific subnet in a VPC
+      - Compute
+    summary: Get a specific instance
     parameters:
       - name: workspace
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: vpc
         in: path
         required: true
         schema:
@@ -74,7 +64,7 @@
         content:
           application/json:
             schema:
-              $ref: '../schemas/subnet.yaml#/Subnet'
+              $ref: '../schemas/instance.yaml#/Instance'
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
@@ -87,15 +77,10 @@
         $ref: '../openapi.yaml#/components/responses/Error500'
   put:
     tags:
-      - Network
-    summary: Create or update a specific subnet in a VPC
+      - Compute
+    summary: Create or update a specific instance
     parameters:
       - name: workspace
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: vpc
         in: path
         required: true
         schema:
@@ -111,10 +96,10 @@
       content:
         application/json:
           schema:
-            $ref: '../schemas/subnet.yaml#/Subnet'
+            $ref: '../schemas/instance.yaml#/Instance'
     responses:
       '202':
-        description: Subnet updated or created
+        description: Instance updated or created
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
@@ -131,15 +116,10 @@
         $ref: '../openapi.yaml#/components/responses/Error500'
   delete:
     tags:
-      - Network
-    summary: Delete a specific subnet in a VPC
+      - Compute
+    summary: Delete a specific instance
     parameters:
       - name: workspace
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: vpc
         in: path
         required: true
         schema:
@@ -151,7 +131,7 @@
           type: string
     responses:
       '204':
-        description: Subnet deleted
+        description: Instance deleted
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
