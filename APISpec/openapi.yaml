@@ -24,70 +24,68 @@ tags:
     description: Compute resources including virtual machines and instance management
   - name: Storage
     description: Storage resources including block storage volumes and snapshots
-  - name: Security
-    description: Security resources including RBAC roles and role assignments
+  - name: Authorization
+    description: Authorization resources including RBAC roles and role assignments
   - name: Organization
     description: Organization-wide resources including workspaces, images, regions, and general resources
   - name: Catalogues
     description: Resource catalogues including server and volume profiles
 paths:
   # Workspaces
-  /v1beta1/workspaces/{name}:
+  /v1beta1/tenant/{id}/v1beta1/workspaces/{name}:
     $ref: './paths/workspaces.yaml#/~1workspaces~1{name}'
 
-  # regions
-  /v1beta1/regions:
+  # Platform resources (regions and images)
+  /v1beta1/providers/seca.platform/regions:
     $ref: './paths/regions.yaml#/~1regions'
+  /v1beta1/providers/seca.platform/images:
+    $ref: './paths/images.yaml#/~1images'
+  /v1beta1/providers/seca.platform/images/{name}:
+    $ref: './paths/images.yaml#/~1images~1{name}'
 
   # Network resources - VPC and its resources
-  /v1beta1/workspaces/{workspace}/providers/network/vpcs:
+  /v1beta1/tenant/{id}/v1beta1/workspaces/{workspace}/providers/seca.network/vpcs:
     $ref: './paths/vpc.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs'
-  /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}:
+  /v1beta1/tenant/{id}/v1beta1/workspaces/{workspace}/providers/seca.network/vpcs/{vpc}:
     $ref: './paths/vpc.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}'
-  /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/subnets:
+  /v1beta1/tenant/{id}/v1beta1/workspaces/{workspace}/providers/seca.network/vpcs/{vpc}/subnets:
     $ref: './paths/subnets.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1subnets'
-  /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/subnets/{name}:
+  /v1beta1/tenant/{id}/v1beta1/workspaces/{workspace}/providers/seca.network/vpcs/{vpc}/subnets/{name}:
     $ref: './paths/subnets.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1subnets~1{name}'
-  /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/routing-tables:
+  /v1beta1/tenant/{id}/v1beta1/workspaces/{workspace}/providers/seca.network/vpcs/{vpc}/routing-tables:
     $ref: './paths/routing-tables.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1routing-tables'
-  /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/routing-tables/{name}:
+  /v1beta1/tenant/{id}/v1beta1/workspaces/{workspace}/providers/seca.network/vpcs/{vpc}/routing-tables/{name}:
     $ref: './paths/routing-tables.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1routing-tables~1{name}'
-  /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/security-groups:
+  /v1beta1/tenant/{id}/v1beta1/workspaces/{workspace}/providers/seca.network/vpcs/{vpc}/security-groups:
     $ref: './paths/security-groups.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1security-groups'
-  /v1beta1/workspaces/{workspace}/providers/network/vpcs/{vpc}/security-groups/{name}:
+  /v1beta1/tenant/{id}/v1beta1/workspaces/{workspace}/providers/seca.network/vpcs/{vpc}/security-groups/{name}:
     $ref: './paths/security-groups.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1security-groups~1{name}'
 
-  # Security resources - RBAC
-  /v1beta1/workspaces/{workspace}/providers/security/roles:
+  # Authorization resources - RBAC
+  /v1beta1/tenant/{id}/v1beta1/workspaces/{workspace}/providers/seca.authorization/roles:
     $ref: './paths/rbac.yaml#/~1workspaces~1{workspace}~1providers~1security~1roles'
-  /v1beta1/workspaces/{workspace}/providers/security/roles/{name}:
+  /v1beta1/tenant/{id}/v1beta1/workspaces/{workspace}/providers/seca.authorization/roles/{name}:
     $ref: './paths/rbac.yaml#/~1workspaces~1{workspace}~1providers~1security~1roles~1{name}'
-  /v1beta1/workspaces/{workspace}/providers/security/role-assignments:
+  /v1beta1/tenant/{id}/v1beta1/workspaces/{workspace}/providers/seca.authorization/role-assignments:
     $ref: './paths/rbac.yaml#/~1workspaces~1{workspace}~1providers~1security~1role-assignments'
-  /v1beta1/workspaces/{workspace}/providers/security/role-assignments/{principalId}:
+  /v1beta1/tenant/{id}/v1beta1/workspaces/{workspace}/providers/seca.authorization/role-assignments/{principalId}:
     $ref: './paths/rbac.yaml#/~1workspaces~1{workspace}~1providers~1security~1role-assignments~1{principalId}'
 
   # Workspace resources with provider namespace
-  /v1beta1/workspaces/{workspace}/providers/compute/instances:
+  /v1beta1/tenant/{id}/v1beta1/workspaces/{workspace}/providers/seca.compute/instances:
     $ref: './paths/instances.yaml#/~1workspaces~1{workspace}~1providers~1compute~1instances'
-  /v1beta1/workspaces/{workspace}/providers/compute/instances/{name}:
+  /v1beta1/tenant/{id}/v1beta1/workspaces/{workspace}/providers/seca.compute/instances/{name}:
     $ref: './paths/instances.yaml#/~1workspaces~1{workspace}~1providers~1compute~1instances~1{name}'
-  /v1beta1/workspaces/{workspace}/providers/storage/block-storages:
+  /v1beta1/tenant/{id}/v1beta1/workspaces/{workspace}/providers/seca.storage/block-storages:
     $ref: './paths/block-storage.yaml#/~1workspaces~1{workspace}~1providers~1storage~1block-storages'
-  /v1beta1/workspaces/{workspace}/providers/storage/block-storages/{name}:
+  /v1beta1/tenant/{id}/v1beta1/workspaces/{workspace}/providers/seca.storage/block-storages/{name}:
     $ref: './paths/block-storage.yaml#/~1workspaces~1{workspace}~1providers~1storage~1block-storages~1{name}'
   
   # Block storage snapshots
-  /v1beta1/workspaces/{workspace}/providers/storage/block-storages/{name}/snapshots:
+  /v1beta1/tenant/{id}/v1beta1/workspaces/{workspace}/providers/seca.storage/block-storages/{name}/snapshots:
     $ref: './paths/block-storage.yaml#/~1workspaces~1{workspace}~1providers~1storage~1block-storages~1{name}~1snapshots'
-  /v1beta1/workspaces/{workspace}/providers/storage/block-storages/{name}/snapshots/{snapshotName}:
+  /v1beta1/tenant/{id}/v1beta1/workspaces/{workspace}/providers/seca.storage/block-storages/{name}/snapshots/{snapshotName}:
     $ref: './paths/block-storage.yaml#/~1workspaces~1{workspace}~1providers~1storage~1block-storages~1{name}~1snapshots~1{snapshotName}'
-
-  # Additional resources (not under workspace)
-  /v1beta1/images:
-    $ref: './paths/images.yaml#/~1images'
-  /v1beta1/images/{name}:
-    $ref: './paths/images.yaml#/~1images~1{name}'
 
 components:
   securitySchemes:

@@ -14,7 +14,7 @@
           type: string
       - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
       - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
-      - $ref: '../schemas/parameters.yaml#/parameters/cursorParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/skipTokenParam'
     responses:
       '200':
         description: Successful response
@@ -155,7 +155,7 @@
           type: string
         description: Filter assignments by principal ID
       - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
-      - $ref: '../schemas/parameters.yaml#/parameters/cursorParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/skipTokenParam'
     responses:
       '200':
         description: Successful response

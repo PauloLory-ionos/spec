@@ -49,6 +49,8 @@ BlockStorage:
               enum: [sata, ide, scsi, usb, nvme]
             deviceName:
               type: string
+        conditions:
+          $ref: "./resource.yaml#/StatusConditions"
 
 BlockStorageSnapshot:
   type: object
