@@ -1,7 +1,7 @@
 /workspaces/{workspace}/providers/security/roles:
   get:
     tags:
-      - Security
+      - Authorization
     summary: List all roles
     operationId: listRoles
     x-rbac:
@@ -53,7 +53,7 @@
 /workspaces/{workspace}/providers/security/roles/{name}:
   get:
     tags:
-      - Security
+      - Authorization
     summary: Get a specific role
     operationId: getRole
     x-rbac:
@@ -94,7 +94,7 @@
         $ref: '../openapi.yaml#/components/responses/Error500'
   put:
     tags:
-      - Security
+      - Authorization
     summary: Create or update a specific role
     description: System roles (ADMIN, WORKSPACE_ADMIN, WORKSPACE_EDITOR, WORKSPACE_VIEWER) cannot be modified.
     operationId: createOrUpdateRole
@@ -153,7 +153,7 @@
         $ref: '../openapi.yaml#/components/responses/Error500'
   delete:
     tags:
-      - Security
+      - Authorization
     summary: Delete a specific role
     description: >
       Deletes the specified role. When a role is deleted:
@@ -204,7 +204,7 @@
 /workspaces/{workspace}/providers/security/role-assignments:
   get:
     tags:
-      - Security
+      - Authorization
     summary: List all role assignments
     operationId: listRoleAssignments
     x-rbac:
@@ -261,7 +261,7 @@
 /workspaces/{workspace}/providers/security/role-assignments/{principalId}:
   put:
     tags:
-      - Security
+      - Authorization
     summary: Create or update role assignments for a principal
     description: >
       Replaces all role assignments for the principal within the workspace. 
