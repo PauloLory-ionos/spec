@@ -11,15 +11,15 @@ Instance:
         placement:
           type: object
           properties:
-            strategy:
-              type: string
-              enum: ['zone', 'auto', 'anti-affinity']
+#            strategy:
+#              type: string
+#              enum: ['zone', 'auto', 'anti-affinity']
             zone:
               type: string
-            antiAffinityGroup:
-              type: string
+ #           antiAffinityGroup:
+ #             type: string
           required:
-            - strategy
+            - zone
         nics:
           type: array
           items:
