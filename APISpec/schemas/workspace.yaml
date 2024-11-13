@@ -1,0 +1,36 @@
+Workspace:
+  type: object
+  description: Represents a workspace resource in the Sovereign European Cloud API
+  allOf:
+    - $ref: './resource.yaml#/ResourceMetadata'
+    - type: object
+      properties:
+        spec:
+          type: object
+          description: Desired state of the workspace
+          properties:
+            name:
+              type: string
+              description: Unique name of the workspace within the tenant
+            description:
+              type: string
+              description: Optional description of the workspace
+          required:
+            - name
+        status:
+          type: object
+          description: Current state of the workspace
+          properties:
+            phase:
+              type: string
+              description: Current lifecycle phase of the workspace
+              enum:
+                - Pending
+                - Ready
+                - Deleting
+            resourceCount:
+              type: integer
+              description: Number of resources currently in the workspace
+              minimum: 0
+          required:
+            - phase
