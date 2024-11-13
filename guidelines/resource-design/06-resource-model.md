@@ -9,7 +9,7 @@
 | Section | Description |
 |-------------|---------|
 |metadata| a set of standard fields included in every SECA Resource Object, which provides essential information for identifying, categorizing, and managing that resource within the CSP|
-|properties| specific settings that define the desired state of a SECA Resource Object. These properties vary depending on the type of resource and determine how the resource behaves in the CSP.|
+|spec| specific settings that define the desired state of a SECA Resource Object. These properties vary depending on the type of resource and determine how the resource behaves in the CSP.|
 |status| reflects the current observed state of the object within the CSP. This field is typically managed and updated automatically by the CSP system and provides insight into the resource's actual state versus its desired configuration|
 
 #### **Metadata**
@@ -25,8 +25,8 @@ The fields we are currently providing are the below listed:
 - **region** - In which region the resource is hosted within the cloud provider’s infrastructure. Available with both regional and zonal resources
 - **zone** - In which availabilityZone the resource is hosted within the cloud provider’s infrastructure. Available only with zonal resources
 - **creationTimestamp** -  cloud resource metadata to provide information about the resource’s lifecycle, specifically when it was created .
-- **deletionTimestamp** - cloud resource metadata to provide information about when it’s scheduled for deletion
-- **lastModifiedTimestamp** - cloud resource metadata to provide information about when occured the last update
+- **deletionTimestamp** - cloud resource metadata to provide information about when it was scheduled for deletion
+- **lastModifiedTimestamp** - cloud resource metadata to provide information about when occured the last update, also used for multiversion concurrency control (mvcc) - see "if-match". 
 - **labels** - key-value pair mechanism used for organizing, categorizing, and identifying resources based on user-defined attributes. 
 
 

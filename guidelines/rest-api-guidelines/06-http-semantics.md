@@ -56,6 +56,7 @@ Accept: application/json
 
 #### HEAD Method
 - The **HEAD** method requires a response identical to the GET method (using the same semantics as GET), but without returning the response body to the client. It can be used to check the existence of a resource.
+The HEAD method is not standardized by the SECA API.
 
 #### PUT Method
 - If a **PUT** method creates a new resource, it must return the HTTP status code 201 (Created). The URI of the new resource is included in the Location header of the response. The body will contain a representation of the resource
@@ -95,7 +96,7 @@ See the dedicated [reference](https://datatracker.ietf.org/doc/html/rfc7232) for
 
 | Code | Description |
 |----------| ------------|
-|200 OK | Indicates that the client's request has been successfully processed and that there is no more appropriate status code in the 2xx category.<br/><br/> Unlike status code 204, a response with a 200 code should include a body. The information returned depends on the method used in the request, for example: <br/> **GET** - the requested entity. <br/> **HEAD** - the HTTP headers of the requested entity (e.g., ETag, etc.).<br/> **POST** - an entity that describes or contains the result of the request. |
+|200 OK | Indicates that the client's request has been successfully processed and that there is no more appropriate status code in the 2xx category.<br/><br/> Unlike status code 204, a response with a 200 code should include a body. The information returned depends on the method used in the request, for example: <br/> **GET** - the requested entity. <br/> **HEAD** - the HTTP headers of the requested entity.<br/> **POST** - an entity that describes or contains the result of the request. |
 |201 Created| This status code indicates that the resource has been successfully created. <br/>If the action cannot be completed immediately, the server must respond with a 202 Accepted status code.<br/>|
 |202 Accepted|  This status code signifies that the request has been accepted for processing, but the operation has not been completed yet. This is common for long-running operations.The outcome of the request is therefore not yet known and could be prevented if attempted again before the previous process has finished.<br/> The purpose is to allow the server to accept a request for another process (normally asynchronous/long-running/scheduled) without forcing the user agent to keep a connection open until the procedure is completed.<br/>The entity returned with the response should include an indication of the current status of the request and a pointer to a resource that shows the progress of the task.<br/>The Location header can be used instead of a body.<br/>The response might also include, in its headers, an estimated time for when the asynchronous process will be completed.  |
 |204 No Content| The server has successfully processed the request, and there is no body in the response. |
