@@ -24,20 +24,34 @@ Instance:
           type: array
           items:
             $ref: './nic.yaml#/NIC'
-        cloudInitUserData:
-          type: string
-          description: |
-            Cloud-init user data for instance initialization
-            Example cloud-init user configuration with SSH key:
-            ```yaml
-            #cloud-config
-            ssh_authorized_keys:
-              - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0g+ZTxC7weoIJLUafOgrm+h...
-            ```
-        attachedBlockStorageRef:
+        cloudInitData:
+          type: object
+          properties:
+            userData:
+              type: string
+              description: |
+                Cloud-init user data for instance initialization
+                Example cloud-init user configuration with SSH key:
+                ```yaml
+                #cloud-config
+                ssh_authorized_keys:
+                  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0g+ZTxC7weoIJLUafOgrm+h...
+                ```
+            sshKeyExternalRef:
+              type: array
+              items:
+                type: string
+              description: |
+                Provider-specific references to SSH keys used in cloud-init vendorData.
+                These references are used to inject SSH public keys during instance initialization 
+                through cloud-init's vendor data configuration.
+        dataBlockStorageRef:
           type: array
           items:
             type: string
+        osBlockStorageRef:
+          type: string
+          description: Reference to primary block storage for operating system initialization
     status:
       type: object
       readOnly: true
