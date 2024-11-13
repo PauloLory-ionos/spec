@@ -31,7 +31,14 @@ ResourceMetadata:
           value: platform-eng
         - key: tier
           value: production
-
+    location:
+      type: object
+      properties:
+        region:
+          type: string
+        zone:
+          type: string
+          description: zone must only be filled for zone related resource types.
 Label:
   type: object
   description: Represents a key/value pair used for labels, providing a consistent structure for metadata tagging
