@@ -7,6 +7,12 @@
     x-rbac:
       permissions: storage/block-storage:read
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true
@@ -54,6 +60,12 @@
     x-rbac:
       permissions: storage/block-storage:read
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true
@@ -89,6 +101,12 @@
     x-rbac:
       permissions: storage/block-storage:write
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true
@@ -131,6 +149,12 @@
     x-rbac:
       permissions: storage/block-storage:write
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true
@@ -164,6 +188,12 @@
     x-rbac:
       permissions: storage/block-storage:read
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true
@@ -203,6 +233,12 @@
     x-rbac:
       permissions: storage/block-storage:read
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true
@@ -243,6 +279,12 @@
     x-rbac:
       permissions: storage/block-storage:write
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true
@@ -289,6 +331,12 @@
     x-rbac:
       permissions: storage/block-storage:write
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true

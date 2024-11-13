@@ -7,6 +7,12 @@
     x-rbac:
       permissions: network/vpc:read
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true
@@ -44,6 +50,12 @@
     x-rbac:
       permissions: network/vpc:read
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true
@@ -79,6 +91,12 @@
     x-rbac:
       permissions: network/vpc:write
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true
@@ -121,6 +139,12 @@
     x-rbac:
       permissions: network/vpc:write
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true

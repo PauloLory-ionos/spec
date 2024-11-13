@@ -7,6 +7,12 @@
     x-rbac:
       permissions: network/routing-table:read
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true
@@ -59,6 +65,12 @@
     x-rbac:
       permissions: network/routing-table:read
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true
@@ -101,6 +113,12 @@
     x-rbac:
       permissions: network/routing-table:write
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true
@@ -149,6 +167,12 @@
     x-rbac:
       permissions: network/routing-table:write
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true

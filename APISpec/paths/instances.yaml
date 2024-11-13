@@ -7,6 +7,12 @@
     x-rbac:
       permissions: compute/instance:read
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true
@@ -54,6 +60,12 @@
     x-rbac:
       permissions: compute/instance:read
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true
@@ -89,6 +101,12 @@
     x-rbac:
       permissions: compute/instance:write
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true
@@ -131,6 +149,12 @@
     x-rbac:
       permissions: compute/instance:write
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true

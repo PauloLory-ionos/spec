@@ -8,6 +8,12 @@
     x-rbac:
       permissions: core/workspace:write
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: name
         in: path
         required: true
@@ -38,6 +44,12 @@
     x-rbac:
       permissions: core/workspace:write
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: name
         in: path
         required: true
