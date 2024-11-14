@@ -40,14 +40,23 @@ Role:
 RoleAssignment:
   type: object
   required:
-    - principalId
+    - name
+    - subs
     - roles
   properties:
-    principalId:
+    name:
       type: string
-      description: sub ID of the user, group or service account, read from JWT
+      description: Descriptive name for the role assignment group
+      example: "admin-users"
+    subs:
+      type: array
+      items:
+        type: string
+      description: List of subject IDs (from JWT) to whom the roles are assigned
+      example: ["user1@example.com", "service-account-1"]
     roles:
       type: array
       items:
         type: string
       description: List of assigned role names
+      example: ["project-manager", "workspace-viewer"]
