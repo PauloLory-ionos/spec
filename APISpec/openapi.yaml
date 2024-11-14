@@ -4,7 +4,7 @@ servers:
     description: API Definition Environment
 info:
   title: Sovereign European Cloud API
-  version: v1beta0b
+  version: v1beta0c
   license:
     name: "Proprietary - All Rights Reserved"
   description: |
@@ -13,6 +13,9 @@ info:
     A foundational API for managing cloud infrastructure components, 
     providing control over compute, storage, network resources, and access management in a sovereign European cloud environment. 
     The API focuses on essential IaaS services. Implements security through integrated RBAC.
+    
+    Current state: 
+    Basic api to drive lowest level of service: compute resources, block disks and network.
 
     ![API Diagram](https://x.frei-services.net/api-diagram.png)
 security:
@@ -52,10 +55,6 @@ paths:
     $ref: './paths/subnets.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1subnets'
   /v1beta1/tenants/{id}/workspaces/{workspace}/providers/seca.network/vpcs/{vpc}/subnets/{name}:
     $ref: './paths/subnets.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1subnets~1{name}'
-  /v1beta1/tenants/{id}/workspaces/{workspace}/providers/seca.network/vpcs/{vpc}/routing-tables:
-    $ref: './paths/routing-tables.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1routing-tables'
-  /v1beta1/tenants/{id}/workspaces/{workspace}/providers/seca.network/vpcs/{vpc}/routing-tables/{name}:
-    $ref: './paths/routing-tables.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1routing-tables~1{name}'
   /v1beta1/tenants/{id}/workspaces/{workspace}/providers/seca.network/vpcs/{vpc}/security-groups:
     $ref: './paths/security-groups.yaml#/~1workspaces~1{workspace}~1providers~1network~1vpcs~1{vpc}~1security-groups'
   /v1beta1/tenants/{id}/workspaces/{workspace}/providers/seca.network/vpcs/{vpc}/security-groups/{name}:
@@ -87,6 +86,12 @@ paths:
   /v1beta1/tenants/{id}/workspaces/{workspace}/providers/seca.storage/block-storages/{name}/snapshots/{snapshotName}:
     $ref: './paths/block-storage.yaml#/~1workspaces~1{workspace}~1providers~1storage~1block-storages~1{name}~1snapshots~1{snapshotName}'
 
+  # New PublicIp Resource
+  /v1beta1/tenants/{id}/workspaces/{workspace}/providers/seca.network/public-ips:
+    $ref: './paths/public-ips.yaml#/~1workspaces~1{workspace}~1providers~1network~1public-ips'
+  /v1beta1/tenants/{id}/workspaces/{workspace}/providers/seca.network/public-ips/{name}:
+    $ref: './paths/public-ips.yaml#/~1workspaces~1{workspace}~1providers~1network~1public-ips~1{name}'
+
 components:
   securitySchemes:
     bearerAuth:
@@ -101,6 +106,8 @@ components:
       $ref: './schemas/subnet.yaml#/Subnet'
     NIC:
       $ref: './schemas/nic.yaml#/NIC'
+    PublicIp:
+      $ref: './schemas/public-ip.yaml#/PublicIp'
     SecurityGroup:
       $ref: './schemas/security-group.yaml#/SecurityGroup'
     Instance:
@@ -135,10 +142,6 @@ components:
       $ref: './schemas/error_schemas.yaml#/Error422'
     Error500:
       $ref: './schemas/error_schemas.yaml#/Error500'
-    Route:
-      $ref: './schemas/routing-table.yaml#/Route'
-    RoutingTable:
-      $ref: './schemas/routing-table.yaml#/RoutingTable'
   responses:
     Error400:
       description: Bad Request

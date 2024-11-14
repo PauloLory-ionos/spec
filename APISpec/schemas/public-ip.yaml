@@ -1,0 +1,80 @@
+PublicIp:
+  type: object
+  description: Represents a public IP address that can be assigned to network resources
+  properties:
+    apiVersion:
+      type: string
+      description: API version of the resource
+      default: v1beta1
+      readOnly: true
+    kind:
+      type: string
+      description: Type of the resource
+      default: PublicIp
+      readOnly: true
+    metadata:
+      $ref: './resource.yaml#/ResourceMetadata'
+    spec:
+      type: object
+      description: Specification of the public IP
+      properties:
+        ipAddress:
+          type: string
+          description: The public IP address, can be IPv4 or IPv6
+          format: ipv4-or-ipv6
+        ipVersion:
+          type: string
+          description: IP version of the address
+          enum:
+            - IPv4
+            - IPv6
+        type:
+          type: string
+          description: Type of public IP allocation
+          enum:
+            - Static
+            - Dynamic
+          default: Static
+        assignedTo:
+          type: array
+          description: References to resources this IP is assigned to
+          items:
+            type: object
+            properties:
+              kind:
+                type: string
+                description: Kind of resource the IP is assigned to
+              name:
+                type: string
+                description: Name of the resource the IP is assigned to
+    status:
+      type: object
+      description: Current status of the public IP
+      properties:
+        phase:
+          type: string
+          description: Current phase of the public IP
+          enum:
+            - Pending
+            - Available
+            - Assigned
+            - Error
+        conditions:
+          type: array
+          description: Detailed conditions of the public IP
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              status:
+                type: string
+              reason:
+                type: string
+              message:
+                type: string
+  required:
+    - apiVersion
+    - kind
+    - metadata
+    - spec

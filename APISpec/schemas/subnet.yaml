@@ -9,6 +9,7 @@ Subnet:
         ipv4Range:
           type: string
           format: CIDR
+          description: must have different IPRange than all other subnets in the same VPC. This field cannot be updated.
         ipv6Range:
           type: string
           format: CIDR
