@@ -1,7 +1,7 @@
 # Glossary SEC-API
 
 Cloud Server (CS) = a fully virtualized os running over a fully virtualized hardware; similar to EC2/Azure Virtual Machines/Google Compute Engine
-Isolated Network Environment (INE) = similar concept as the VPC in AWS, and Google Cloud; represents a logical environment, isolated from the other INE, which can contain one or more network.
+Isolated Network Environment (INE) or SNE (Segregated Network Environment) = similar concept as the VPC in AWS, and Google Cloud; represents a logical environment, isolated from the other INE, which can contain one or more network.
 Network = is contained inside an INE and is a sum of technology and configurations put together to provide network connectivity to your SCS
 Virtual Network Card = a pieace of virtualized hardware which will be created every time an Cloud Server is assigned to a Network
 Security Group (SG) = a logical container for Security Group Rules; to be assigned to a Virtual Network Card or a SCS
