@@ -10,10 +10,10 @@ NIC:
     kind:
       type: string
       description: Type of the resource
-      default: NIC
+      enum: [ NIC ]
       readOnly: true
     metadata:
-      $ref: './resource.yaml#/ResourceMetadata'
+      $ref: './resource.yaml#/ZonalResourceMetadata'
     spec:
       type: object
       description: Specification of the Network Interface Card

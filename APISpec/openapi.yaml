@@ -4,7 +4,7 @@ servers:
     description: API Definition Environment
 info:
   title: Sovereign European Cloud API
-  version: v1beta0c
+  version: v1beta0d
   license:
     name: "Proprietary - All Rights Reserved"
   description: |
