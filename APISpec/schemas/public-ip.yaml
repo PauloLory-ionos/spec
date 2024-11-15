@@ -13,7 +13,7 @@ PublicIp:
       default: PublicIp
       readOnly: true
     metadata:
-      $ref: './resource.yaml#/ResourceMetadata'
+      $ref: './resource.yaml#/RegionalResourceMetadata'
     spec:
       type: object
       description: Specification of the public IP

@@ -2,7 +2,7 @@ Workspace:
   type: object
   description: Represents a workspace resource in the Sovereign European Cloud API
   allOf:
-    - $ref: './resource.yaml#/ResourceMetadata'
+    - $ref: './resource.yaml#/GlobalResourceMetadata'
     - type: object
       properties:
         spec:

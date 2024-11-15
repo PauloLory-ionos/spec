@@ -1,6 +1,6 @@
 ResourceMetadata:
   type: object
-  description: Represents metadata for a resource, including identifying information and classification through labels
+  description: Base metadata for all resources, with optional location references
   properties:
     name:
       type: string
@@ -31,14 +31,57 @@ ResourceMetadata:
           value: platform-eng
         - key: tier
           value: production
-    location:
+
+GlobalResourceMetadata:
+  allOf:
+    - $ref: '#/ResourceMetadata'
+  description: Metadata for global resources with no location constraints
+
+RegionalResourceMetadata:
+  allOf:
+    - $ref: '#/ResourceMetadata'
+  description: Metadata for regional resources
+  properties:
+    regionRef:
       type: object
+      description: Reference to the region where the resource is located
       properties:
-        region:
+        name:
           type: string
-        zone:
+      required:
+        - name
+
+ZonalResourceMetadata:
+  allOf:
+    - $ref: '#/ResourceMetadata'
+  description: Metadata for zonal resources
+  properties:
+    locationRef:
+      type: object
+      description: Reference to the specific location (region/zone) where the resource is located
+      properties:
+        name:
           type: string
-          description: zone must only be filled for zone related resource types.
+      required:
+        - name
+
+Location:
+  type: object
+  description: Represents a specific geographic location combining region and zone
+  properties:
+    metadata:
+      $ref: '#/ResourceMetadata'
+    name:
+      type: string
+      description: Composite name in the format 'region/zone'
+    region:
+      type: string
+    zone:
+      type: string
+      description: Optional zone within the region
+
+# Rest of the existing schema remains the same (Label, StatusConditions, Profile, Setting, Constraint, Connector, etc.)
+
 Label:
   type: object
   description: Represents a key/value pair used for labels, providing a consistent structure for metadata tagging
@@ -183,52 +226,6 @@ Connector:
     targetResource:
       $ref: '#/ResourceMetadata'
 
-ServerProfile:
-  type: object
-  properties:
-    metadata:
-      $ref: '#/ResourceMetadata'
-    spec:
-      type: object
-      properties:
-        cpuType:
-          type: string
-        cores:
-          type: integer
-          minimum: 1
-        ramGB:
-          type: number
-          multipleOf: 0.25
-      required:
-        - cpuType
-        - cores
-        - ramGB
-    status:
-      type: object
-      properties:
-        state:
-          type: string
-          enum: ['available', 'unavailable']
-
-VolumeProfile:
-  type: object
-  properties:
-    metadata:
-      $ref: '#/ResourceMetadata'
-    spec:
-      type: object
-      properties:
-        IOPs:
-          type: integer
-          minimum: 1
-      required:
-        - IOPs
-    status:
-      type: object
-      properties:
-        state:
-          type: string
-          enum: ['available', 'unavailable']
 
 Region:
   type: object

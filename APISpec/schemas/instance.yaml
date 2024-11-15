@@ -2,7 +2,7 @@ Instance:
   type: object
   properties:
     metadata:
-      $ref: './resource.yaml#/ResourceMetadata'
+      $ref: './resource.yaml#/ZonalResourceMetadata'
     spec:
       type: object
       properties:

@@ -15,3 +15,27 @@
               type: array
               items:
                 $ref: '../schemas/resource.yaml#/Region'
+
+/regions/{name}:
+  get:
+    tags:
+      - Organization
+    summary: Get a specific region by name
+    operationId: getRegion
+    x-rbac:
+      permissions: core/region:read
+    parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/resource.yaml#/Region'
+      '404':
+        $ref: '../openapi.yaml#/components/responses/Error404'

@@ -2,7 +2,7 @@ BlockStorage:
   type: object
   properties:
     metadata:
-      $ref: './resource.yaml#/ResourceMetadata'
+      $ref: './resource.yaml#/ZonalResourceMetadata'
     spec:
       type: object
       properties:
@@ -57,7 +57,7 @@ BlockStorageSnapshot:
   x-no-put: true
   properties:
     metadata:
-      $ref: './resource.yaml#/ResourceMetadata'
+      $ref: './resource.yaml#/ZonalResourceMetadata'
     spec:
       type: object
       properties:

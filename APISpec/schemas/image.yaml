@@ -2,7 +2,7 @@ Image:
   type: object
   properties:
     metadata:
-      $ref: './resource.yaml#/ResourceMetadata'
+      $ref: './resource.yaml#/RegionalResourceMetadata'
     spec:
       type: object
       properties:

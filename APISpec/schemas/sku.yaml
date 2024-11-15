@@ -7,6 +7,8 @@ Sku:
     These can be used for searching with the the appropriate namespace "properties.", "capabilities.", and "extentions.".
     Example: filter=extentions.hasGPU=true" 
   properties:
+    metadata:
+      $ref: './resource.yaml#/RegionalResourceMetadata'
     name:
       type: string
       description: Unique identifier for the SKU
@@ -36,6 +38,7 @@ Sku:
         type: string
       example: []
   required:
+    - metadata
     - name
     - provider
     - tier
