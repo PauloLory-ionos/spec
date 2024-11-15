@@ -2,6 +2,10 @@ Sku:
   type: object
   description: |
     Represents a Stock Keeping Unit (SKU) for compute instances.
+
+    Properties, capabilites and extentions can also be found in the metadata.labels sections.
+    These can be used for searching with the the appropriate namespace "properties.", "capabilities.", and "extentions.".
+    Example: filter=extentions.hasGPU=true" 
   properties:
     name:
       type: string

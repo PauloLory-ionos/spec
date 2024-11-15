@@ -22,6 +22,11 @@
         required: true
         schema:
           type: string
+        description: Tenant ID
+      - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
+      - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/skipTokenParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/includeDeletedParam'
     responses:
       '200':
         description: Successful response with list of SKUs
@@ -34,6 +39,22 @@
                   type: array
                   items:
                     $ref: '../schemas/sku.yaml#/Sku'
+                metadata:
+                  type: object
+                  properties:
+                    nextCursor:
+                      type: string
+                      description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+      '400':
+        $ref: '../openapi.yaml#/components/responses/Error400'
+      '401':
+        $ref: '../openapi.yaml#/components/responses/Error401'
+      '403':
+        $ref: '../openapi.yaml#/components/responses/Error403'
+      '404':
+        $ref: '../openapi.yaml#/components/responses/Error404'
+      '500':
+        $ref: '../openapi.yaml#/components/responses/Error500'
 
 /skus/{name}:
   get:
@@ -48,6 +69,7 @@
         required: true
         schema:
           type: string
+        description: Tenant ID
       - name: name
         in: path
         required: true
@@ -60,9 +82,13 @@
           application/json:
             schema:
               $ref: '../schemas/sku.yaml#/Sku'
+      '400':
+        $ref: '../openapi.yaml#/components/responses/Error400'
+      '401':
+        $ref: '../openapi.yaml#/components/responses/Error401'
+      '403':
+        $ref: '../openapi.yaml#/components/responses/Error403'
       '404':
-        description: SKU not found
-        content:
-          application/json:
-            schema:
-              $ref: '../schemas/error_schemas.yaml#/Error404'
+        $ref: '../openapi.yaml#/components/responses/Error404'
+      '500':
+        $ref: '../openapi.yaml#/components/responses/Error500'
