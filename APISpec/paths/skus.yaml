@@ -6,15 +6,16 @@
     description: |
       Retrieves a list of available SKU (Stock Keeping Unit) configurations for compute instances.
 
-      ## Available SECA SKUs with their capabilities and mandatory parameters and extensions.
+      ## Available SECA SKUs with their capabilities.
+      Seca-Resources don't have mandatory parameters and extensions.
       (Provider may have more SKUs available.)
 
-      | provider | tier | vCPU | ramGB | geekbenchPoints | mandatoryParameters | extensions |
-      | ---------|------|-------|----------|-----------------|-----------------| --------- |
-      | SECA | seca.s | 2 | 4 | 3000 | - | - |
-      | SECA | seca.m | 4 | 8 | 6000 | - | - |
-      | SECA | seca.l | 8 | 16 | 12000 | - | - |
-      | SECA | seca.xl | 16 | 32 | 24000 | - | - |
+      | provider | tier | vCPU | ramGB | geekbenchPoints |
+      | ---------|------|-------|----------|-----------------|
+      | SECA | seca.s | 2 | 4 | min 3000 |
+      | SECA | seca.m | 4 | 8 | min 6000 |
+      | SECA | seca.l | 8 | 16 | min 12000 |
+      | SECA | seca.xl | 16 | 32 | min 24000 |
     operationId: listSkus
     parameters:
       - name: id
