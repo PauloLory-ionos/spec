@@ -1,0 +1,40 @@
+Sku:
+  type: object
+  description: |
+    Represents a Stock Keeping Unit (SKU) for compute instances.
+  properties:
+    name:
+      type: string
+      description: Unique identifier for the SKU
+    provider:
+      type: string
+      description: Provider of the SKU specification
+    tier:
+      type: string
+      description: Size tier of the SKU
+    capabilities:
+      type: array
+      description: List of capabilities for this SKU
+      items:
+        type: string
+      example: 
+        - "1500 geekbench points per vCPU"
+    extensions:
+      type: array
+      description: List of possible extensions for this SKU
+      items:
+        type: string
+      example: []
+    mandatoryParameters:
+      type: array
+      description: List of mandatory parameters for this SKU
+      items:
+        type: string
+      example: []
+  required:
+    - name
+    - provider
+    - tier
+    - capabilities
+    - extensions
+    - mandatoryParameters

@@ -1,0 +1,68 @@
+/skus:
+  get:
+    tags:
+      - Catalogues
+    summary: List available SKUs for compute instances
+    description: |
+      Retrieves a list of available SKU (Stock Keeping Unit) configurations for compute instances.
+
+      ## Available SECA SKUs with their capabilities and mandatory parameters and extensions.
+      (Provider may have more SKUs available.)
+
+      | provider | tier | vCPU | ramGB | geekbenchPoints | mandatoryParameters | extensions |
+      | ---------|------|-------|----------|-----------------|-----------------| --------- |
+      | SECA | seca.s | 2 | 4 | 3000 | - | - |
+      | SECA | seca.m | 4 | 8 | 6000 | - | - |
+      | SECA | seca.l | 8 | 16 | 12000 | - | - |
+      | SECA | seca.xl | 16 | 32 | 24000 | - | - |
+    operationId: listSkus
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response with list of SKUs
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: '../schemas/sku.yaml#/Sku'
+
+/skus/{name}:
+  get:
+    tags:
+      - Catalogues
+    summary: Get details of a specific SKU
+    description: Retrieves details for a specific SKU by its name
+    operationId: getSku
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response with SKU details
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/sku.yaml#/Sku'
+      '404':
+        description: SKU not found
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/error_schemas.yaml#/Error404'

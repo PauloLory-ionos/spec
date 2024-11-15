@@ -6,14 +6,33 @@ Instance:
     spec:
       type: object
       properties:
-        profile:
+        skuRef:
           type: string
+          description: Reference to the SKU used for this instance
+        skuMandatoryParameters:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              value:
+                type: string
+        skuExtentions:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              value:
+                type: string
         placement:
           type: object
           properties:
-#            strategy:
-#              type: string
-#              enum: ['zone', 'auto', 'anti-affinity']
+            strategy:
+              type: string
+              enum: ['zone']
             zone:
               type: string
  #           antiAffinityGroup:
@@ -59,8 +78,6 @@ Instance:
         state:
           type: string
           enum: ['provisioning', 'running', 'terminating']
-        profile:
-          type: string
         placement:
           type: object
           properties:
@@ -75,7 +92,7 @@ Instance:
           type: array
           items:
             $ref: './nic.yaml#/NIC'
-        attachedBlockStorage:
+        dataBlockStorageRef:
           type: array
           items:
             type: string

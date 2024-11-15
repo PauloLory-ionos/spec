@@ -38,6 +38,12 @@ paths:
   /v1beta1/tenants/{id}/workspaces/{name}:
     $ref: './paths/workspaces.yaml#/~1workspaces~1{name}'
 
+  # Tenants SKUs Resource
+  /v1beta1/tenants/{id}/providers/seca.compute/skus:
+    $ref: './paths/skus.yaml#/~1skus'
+  /v1beta1/tenants/{id}/providers/seca.compute/skus/{name}:
+    $ref: './paths/skus.yaml#/~1skus~1{name}'
+
   # Platform resources (regions and images)
   /v1beta1/providers/seca.platform/regions:
     $ref: './paths/regions.yaml#/~1regions'
@@ -142,6 +148,8 @@ components:
       $ref: './schemas/error_schemas.yaml#/Error422'
     Error500:
       $ref: './schemas/error_schemas.yaml#/Error500'
+    Sku:
+      $ref: './schemas/sku.yaml#/Sku'
   responses:
     Error400:
       description: Bad Request
