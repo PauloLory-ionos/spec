@@ -5,7 +5,7 @@
     x-rbac:
       permissions: compute/image:read
     tags:
-      - Organization
+      - Catalogues
     parameters:
       - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
       - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
@@ -47,7 +47,7 @@
     x-rbac:
       permissions: compute/image:read
     tags:
-      - Organization
+      - Catalogues
     parameters:
       - name: name
         in: path
@@ -77,7 +77,7 @@
     x-rbac:
       permissions: compute/image:write
     tags:
-      - Organization
+      - Catalogues
     parameters:
       - name: name
         in: path
