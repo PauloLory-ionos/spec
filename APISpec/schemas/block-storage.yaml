@@ -16,6 +16,9 @@ BlockStorage:
     spec:
       type: object
       properties:
+        blockStorageSkuRef:
+          type: string
+          description: Reference to the SKU used for this block-storage
         sizeGB:
           type: integer
         attachedTo:

@@ -39,7 +39,7 @@
                 items:
                   type: array
                   items:
-                    $ref: '../schemas/sku.yaml#/Sku'
+                    $ref: '../schemas/instance-sku.yaml#/InstanceSku'
                 metadata:
                   type: object
                   properties:
@@ -82,7 +82,7 @@
         content:
           application/json:
             schema:
-              $ref: '../schemas/sku.yaml#/Sku'
+              $ref: '../schemas/instance-sku.yaml#/InstanceSku'
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':

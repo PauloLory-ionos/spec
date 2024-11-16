@@ -23,9 +23,10 @@ Subnet:
         ipv6Range:
           type: string
           format: CIDR
-        bandWidth:
+        networkSkuRef:
           type: string
-          enum: ['100MBit', '1GBit', '10GBit']
+          description: Reference to a network SKU defining bandwidth performance
+          pattern: '^seca\.(10|100|1000)$'
         routingTableRef:
           type: string
     status:
@@ -41,9 +42,6 @@ Subnet:
         ipv6Range:
           type: string
           format: CIDR
-        bandWidth:
-          type: string
-          enum: ['100MBit', '1GBit', '10GBit']
         zone:
           type: string
         routingTableRef:

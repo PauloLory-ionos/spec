@@ -1,0 +1,73 @@
+BlockStorageSku:
+  type: object
+  description: |
+    Represents a Stock Keeping Unit (SKU) for block storage resources.
+
+    Block Storage SKUs define performance tiers for storage IOPS and characteristics.
+    Properties, capabilities, and extensions can be found in the metadata.labels sections.
+    Searchable with namespaces like "properties.", "capabilities.", and "extensions.".
+  properties:
+    metadata:
+      type: object
+      properties:
+        labels:
+          type: object
+          properties:
+            iops:
+              type: string
+              description: "Guaranteed IOPS performance"
+              enum: 
+                - "10"
+                - "50"
+                - "100"
+            uptimePercentage:
+              type: string
+              description: "Percentage of time IOPS is guaranteed"
+              enum: [ "99" ]
+            measurementPeriod:
+              type: string
+              description: "Period over which IOPS is measured"
+              enum: [ "24h" ]
+            minimumSize:
+              type: string
+              description: "Minimum volume size required for guaranteed performance"
+              enum: [ "50GB" ]
+    provider:
+      type: string
+      enum: [ seca.storage ]
+      description: Provider namespace for block storage SKUs
+    tier:
+      type: string
+      enum:
+        - seca.10
+        - seca.50
+        - seca.100
+      description: Block storage performance tier
+    capabilities:
+      type: array
+      description: Block storage performance capabilities
+      items:
+        type: string
+      enum:
+        - "10 IOPS guaranteed, 99% within 24h, minimum 50GB"
+        - "50 IOPS guaranteed, 99% within 24h, minimum 50GB"
+        - "100 IOPS guaranteed, 99% within 24h, minimum 50GB"
+    extensions:
+      type: array
+      items:
+        type: string
+      description: Additional block storage feature extensions
+    mandatoryParameters:
+      type: array
+      items:
+        type: string
+      description: Mandatory parameters for block storage resources
+      enum: 
+        - "size"
+        - "type"
+  required:
+    - provider
+    - tier
+    - capabilities
+    - extensions
+    - mandatoryParameters

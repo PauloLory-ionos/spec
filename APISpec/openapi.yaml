@@ -38,11 +38,23 @@ paths:
   /v1beta1/tenants/{id}/workspaces/{name}:
     $ref: './paths/workspaces.yaml#/~1workspaces~1{name}'
 
-  # Tenants SKUs Resource
+  # Tenants Instance SKUs Resource
   /v1beta1/tenants/{id}/providers/seca.compute/skus:
-    $ref: './paths/skus.yaml#/~1skus'
+    $ref: './paths/instance-skus.yaml#/~1skus'
   /v1beta1/tenants/{id}/providers/seca.compute/skus/{name}:
-    $ref: './paths/skus.yaml#/~1skus~1{name}'
+    $ref: './paths/instance-skus.yaml#/~1skus~1{name}'
+
+  # Network SKUs Resource
+  /v1beta1/tenants/{id}/providers/seca.network/skus:
+    $ref: './paths/network-skus.yaml#/~1skus'
+  /v1beta1/tenants/{id}/providers/seca.network/skus/{name}:
+    $ref: './paths/network-skus.yaml#/~1skus~1{name}'
+
+  # Block Storage SKUs Resource
+  /v1beta1/tenants/{id}/providers/seca.storage/skus:
+    $ref: './paths/block-storage-skus.yaml#/~1skus'
+  /v1beta1/tenants/{id}/providers/seca.storage/skus/{name}:
+    $ref: './paths/block-storage-skus.yaml#/~1skus~1{name}'
 
   # Platform resources (regions and images)
   /v1beta1/providers/seca.platform/regions:
@@ -148,8 +160,12 @@ components:
       $ref: './schemas/error_schemas.yaml#/Error422'
     Error500:
       $ref: './schemas/error_schemas.yaml#/Error500'
-    Sku:
-      $ref: './schemas/sku.yaml#/Sku'
+    InstanceSku:
+      $ref: './schemas/instance-sku.yaml#/InstanceSku'
+    NetworkSku:
+      $ref: './schemas/network-sku.yaml#/NetworkSku'
+    BlockStorageSku:
+      $ref: './schemas/block-storage-sku.yaml#/BlockStorageSku'
   responses:
     Error400:
       description: Bad Request

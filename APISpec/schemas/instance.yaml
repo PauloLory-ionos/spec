@@ -16,7 +16,7 @@ Instance:
     spec:
       type: object
       properties:
-        skuRef:
+        instanceSkuRef:
           type: string
           description: Reference to the SKU used for this instance
         skuMandatoryParameters:

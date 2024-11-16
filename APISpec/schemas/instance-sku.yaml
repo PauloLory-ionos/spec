@@ -1,4 +1,4 @@
-Sku:
+InstanceSku:
   type: object
   description: |
     Represents a Stock Keeping Unit (SKU) for compute instances.
@@ -15,7 +15,7 @@ Sku:
     kind:
       type: string
       description: Type of the resource
-      enum: [ sku ]
+      enum: [ instanceSku ]
       readOnly: true
     metadata:
       allOf:
@@ -83,4 +83,3 @@ Sku:
     - capabilities
     - extensions
     - mandatoryParameters
-
