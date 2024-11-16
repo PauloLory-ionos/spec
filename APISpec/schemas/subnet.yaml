@@ -29,6 +29,11 @@ Subnet:
           pattern: '^seca\.(10|100|1000)$'
         routingTableRef:
           type: string
+        defaultGateway:
+          type: string
+          description: Default gateway for the subnet
+          default: "auto"
+          enum: [ auto ] # cannot be changed by now
     status:
       type: object
       readOnly: true
@@ -46,5 +51,10 @@ Subnet:
           type: string
         routingTableRef:
           type: string
+        defaultGateway:
+          type: string
+          description: Default gateway for the subnet
+          default: "auto"
+          enum: [ auto ] # cannot be changed by now
         conditions:
           $ref: "./resource.yaml#/StatusConditions"
