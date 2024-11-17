@@ -1,5 +1,24 @@
 SecurityGroup:
   type: object
+  description: |
+    A Security Group defines network access rules for a group of compute instances.
+    
+    Key Concepts:
+    - Rules define bi-directional or uni-directional network communication
+    - Supports routing between security groups
+    - Enables granular control over public internet access
+    - Implements stateful connection tracking
+    
+    Connection Tracking:
+    When a connection is initiated from an allowed source, return traffic is automatically permitted,
+    even if not explicitly defined in the rules. This ensures seamless, bi-directional communication
+    for established connections.
+    
+    Routing and Communication Patterns:
+    - Group-to-Group Rules: Define explicit communication paths between security groups
+    - PublicInternet Target: Allows precise control over internet-facing traffic
+    - Ingress/Egress Control: Fine-grained rules for incoming and outgoing traffic
+  
   properties:
     apiVersion:
       type: string
@@ -18,28 +37,69 @@ SecurityGroup:
       properties:
         rules:
           type: array
+          description: |
+            Network access rules defining communication between security groups and external networks.
+            
+            Rule Evaluation:
+            - Rules are processed in order of priority (lower number = higher priority)
+            - First matching rule determines the action (allow/deny)
+            - Default behavior is to deny all traffic not explicitly allowed
+          
           items:
             type: object
             properties:
+              description:
+                type: string
+                description: Human-readable description of the rule's purpose
+              direction:
+                type: string
+                enum: ['ingress', 'egress', 'bidirectional']
+                description: |
+                  - ingress: Only incoming traffic is allowed
+                  - egress: Only outgoing traffic is allowed
+                  - bidirectional: Traffic can flow both ways
               protocol:
                 type: string
+                enum: ['tcp', 'udp', 'icmp', 'all']
+                description: Network protocol for the rule
               portRange:
                 type: object
+                description: Specific port or port range for the rule
                 properties:
                   from: 
                     type: integer
+                    minimum: 1
+                    maximum: 65535
                   to:
                     type: integer
-              ipv4Filter:
-                type: string
-                format: CIDR
-                example: '203.0.113.0/24'
-              ipv6Filter:
-                type: string
-                format: CIDR
-                example: '2001:db8:1234::/48'
+                    minimum: 1
+                    maximum: 65535
+              source:
+                type: object
+                description: |
+                  Source of the traffic. Can be a security group, CIDR range, or 'publicInternet'.
+                  'publicInternet' allows explicit control over internet-facing traffic.
+                properties:
+                  type:
+                    type: string
+                    enum: ['securityGroup', 'cidr', 'publicInternet']
+                  value:
+                    type: string
+                    description: |
+                      - For securityGroup: name of the source security group
+                      - For cidr: IPv4 or IPv6 CIDR range
+                      - For publicInternet: always 'any'
               priority:
                 type: integer
+                description: Rule priority (lower number = higher priority)
+                minimum: 1
+                maximum: 10000
+              action:
+                type: string
+                enum: ['allow', 'deny']
+                default: 'allow'
+                description: Action to take when rule matches
+    
     status:
       type: object
       readOnly: true
@@ -50,26 +110,45 @@ SecurityGroup:
         rules:
           type: array
           items:
-            type: object
-            properties:
-              protocol:
-                type: string
-              portRange:
-                type: object
-                properties:
-                  from: 
-                    type: integer
-                  to:
-                    type: integer
-              ipv4Filter:
-                type: string
-                format: CIDR
-                example: '203.0.113.0/24'
-              ipv6Filter:
-                type: string
-                format: CIDR
-                example: '2001:db8:1234::/48'
-              priority:
-                type: integer
+            $ref: '#/SecurityGroup/properties/spec/properties/rules/items'
         conditions:
           $ref: "./resource.yaml#/StatusConditions"
+  
+  example:
+    - description: Allow web servers to access database servers
+      value:
+        apiVersion: v1beta1
+        kind: security-group
+        metadata:
+          name: webserver-group
+        spec:
+          rules:
+            - description: Allow outbound database connections
+              direction: egress
+              protocol: tcp
+              portRange: 
+                from: 5432
+                to: 5432
+              source:
+                type: securityGroup
+                value: database-group
+              priority: 100
+    
+    - description: Restrict public internet access
+      value:
+        apiVersion: v1beta1
+        kind: security-group
+        metadata:
+          name: restricted-group
+        spec:
+          rules:
+            - description: Allow HTTP/HTTPS outbound
+              direction: egress
+              protocol: tcp
+              portRange:
+                from: 80
+                to: 443
+              source:
+                type: publicInternet
+                value: any
+              priority: 200

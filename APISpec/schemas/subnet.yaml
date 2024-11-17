@@ -1,5 +1,21 @@
 Subnet:
   type: object
+  description: |
+    A Subnet represents a logical subdivision of a VPC's IP address space.
+    
+    Key Network Routing Concepts:
+    - Defines a range of IP addresses for compute instances
+    - Supports custom default gateway configuration
+    - Enables network segmentation and isolation
+    
+    Default Gateway Behavior:
+    - 'auto': Automatically selects the first usable IP in the subnet range
+    - Custom configuration allows routing through specific instances or IPs
+    - Useful for implementing advanced network topologies like:
+      * Application-level firewalls
+      * Custom routing through network appliances
+      * Multi-tier network architectures
+  
   properties:
     apiVersion:
       type: string
@@ -18,22 +34,45 @@ Subnet:
       properties:
         ipv4Range:
           type: string
-          format: CIDR
-          description: must have different IPRange than all other subnets in the same VPC. This field cannot be updated.
+          format: ipv4
+          description: |
+            IPv4 address range for the subnet.
+            Must be unique within the VPC and cannot be modified after creation.
+            Example: '192.168.1.0/24'
         ipv6Range:
           type: string
-          format: CIDR
+          format: ipv6
+          description: |
+            Optional IPv6 address range for the subnet.
+            Must be unique within the VPC.
+            Example: '2001:db8::/64'
         networkSkuRef:
           type: string
-          description: Reference to a network SKU defining bandwidth performance
-          pattern: '^seca\.(10|100|1000)$'
+          description: |
+            Reference to a network SKU defining bandwidth performance.
+            Allows selection of network performance tier.
+            Pattern: '^seca\.(10|100|1000)$'
         routingTableRef:
           type: string
+          description: |
+            Optional reference to a custom routing table.
+            Enables advanced routing configurations beyond the default gateway.
         defaultGateway:
-          type: string
-          description: Default gateway for the subnet
-          default: "auto"
-          enum: [ auto ] # cannot be changed by now
+          type: object
+          description: |
+            Configuration for the subnet's default gateway.
+            Provides flexibility in routing traffic.
+          properties:
+            type:
+              type: string
+              enum: ['auto', 'instanceRef', 'internalIp']
+              default: 'auto'
+            value:
+              type: string
+              description: |
+                - For 'instanceRef': Name of the compute instance acting as gateway
+                - For 'internalIp': Specific IP address to use as gateway
+    
     status:
       type: object
       readOnly: true
@@ -52,9 +91,36 @@ Subnet:
         routingTableRef:
           type: string
         defaultGateway:
-          type: string
-          description: Default gateway for the subnet
-          default: "auto"
-          enum: [ auto ] # cannot be changed by now
+          type: object
+          description: Actual default gateway configuration
+          properties:
+            type:
+              type: string
+              enum: ['auto', 'instanceRef', 'internalIp']
+            value:
+              type: string
         conditions:
           $ref: "./resource.yaml#/StatusConditions"
+  
+  example:
+    - description: Standard subnet with auto gateway
+      value:
+        apiVersion: v1beta1
+        kind: subnet
+        metadata:
+          name: standard-subnet
+        spec:
+          ipv4Range: '192.168.1.0/24'
+          networkSkuRef: 'seca.100'
+    
+    - description: Custom gateway through network appliance
+      value:
+        apiVersion: v1beta1
+        kind: subnet
+        metadata:
+          name: firewall-subnet
+        spec:
+          ipv4Range: '10.0.0.0/24'
+          defaultGateway:
+            type: instanceRef
+            value: 'network-firewall-01'
