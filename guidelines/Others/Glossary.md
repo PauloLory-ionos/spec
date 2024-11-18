@@ -6,7 +6,7 @@ A geographical area containing a set of data centers, often isolated from other 
 A set of data centers within a region, each designed to be isolated from failures in other zones, but connected to them via low-latency links to provide high availability, fault tolerance, and scalability
 ## Seca Cloud Server (SCS)/Cloud Server (CS)/Instance (I)
 A fully virtualized os running over a fully virtualized hardware; similar to EC2/Azure Virtual Machines/Google Compute Engine
-## Isolated Compute Network (ICN)/Isolated Network Environment (INE)/Segregated Network Environment (SNE))/Virtual Private Network (VPN)
+## Isolated Compute Network (ICN)/Isolated Network Environment (INE)/Segregated Network Environment (SNE))
 Similar concept as the VPC in AWS, and Google Cloud; represents a logical environment, isolated from the other INE, which can contain one or more network.
 ## Network/Subnet
 Contained inside an INE and is a sum of technology and configurations put together to provide network connectivity to your SCS
