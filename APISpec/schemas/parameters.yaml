@@ -24,10 +24,10 @@ parameters:
       maximum: 10000
       default: 1000
   
-  cursorParam:
+  skipTokenParam:
     in: query
-    name: cursor
-    description: Opaque cursor for pagination. Use the cursor from the previous response to get the next page of results. Note that cursors do not guarantee consistency across pages if the underlying data changes between requests
+    name: skipToken
+    description: Opaque cursor for pagination. Use the skipToken from the previous response to get the next page of results. Note that skipTokens do not guarantee consistency across pages if the underlying data changes between requests
     required: false
     schema:
       type: string
@@ -51,4 +51,3 @@ parameters:
       Entity tag containing generation number for optimistic concurrency control. 
       If resource generation number does not match If-Match header, request will fail with 412. 
       If parameter ommited, the operation will be executed on the latest generation number available.
-

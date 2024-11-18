@@ -1,22 +1,73 @@
 Subnet:
   type: object
+  description: |
+    A Subnet represents a logical subdivision of a VPC's IP address space.
+    
+    Key Network Routing Concepts:
+    - Defines a range of IP addresses for compute instances
+    - Supports custom default gateway configuration
+    - Enables network segmentation and isolation
+    
+    Default Gateway Behavior:
+    - 'auto': Automatically selects the first usable IP in the subnet range
+    - Custom configuration allows routing through specific instances or IPs
+    - Useful for implementing advanced network topologies like:
+      * Application-level firewalls
+      * Custom routing through network appliances
+      * Multi-tier network architectures
+  
   properties:
+    apiVersion:
+      type: string
+      description: API version of the resource
+      default: v1beta1
+      readOnly: true
+    kind:
+      type: string
+      description: Type of the resource
+      enum: [ subnet ]
+      readOnly: true
     metadata:
-      $ref: './resource.yaml#/ResourceMetadata'
+      $ref: './resource.yaml#/ZonalResourceMetadata'
     spec:
       type: object
       properties:
         ipv4Range:
           type: string
-          format: CIDR
+          format: ipv4
+          description: |
+            IPv4 address range for the subnet.
+            Must be unique within the VPC and cannot be modified after creation.
+            Example: '192.168.1.0/24'
         ipv6Range:
           type: string
-          format: CIDR
-        bandWidth:
+          format: ipv6
+          description: |
+            Optional IPv6 address range for the subnet.
+            Must be unique within the VPC.
+            Example: '2001:db8::/64'
+        networkSkuRef:
           type: string
-          enum: ['100MBit', '1GBit', '10GBit']
-        routingTableRef:
-          type: string
+          description: |
+            Reference to a network SKU defining bandwidth performance.
+            Allows selection of network performance tier.
+            Pattern: '^seca\.(10|100|1000)$'
+        defaultGateway:
+          type: object
+          description: |
+            Configuration for the subnet's default gateway.
+            Provides flexibility in routing traffic.
+          properties:
+            type:
+              type: string
+              enum: ['auto', 'instanceRef', 'internalIp']
+              default: 'auto'
+            value:
+              type: string
+              description: |
+                - For 'instanceRef': Name of the compute instance acting as gateway
+                - For 'internalIp': Specific IP address to use as gateway
+    
     status:
       type: object
       readOnly: true
@@ -30,12 +81,39 @@ Subnet:
         ipv6Range:
           type: string
           format: CIDR
-        bandWidth:
-          type: string
-          enum: ['100MBit', '1GBit', '10GBit']
         zone:
           type: string
-        routingTableRef:
-          type: string
+        defaultGateway:
+          type: object
+          description: Actual default gateway configuration
+          properties:
+            type:
+              type: string
+              enum: ['auto', 'instanceRef', 'internalIp']
+            value:
+              type: string
         conditions:
           $ref: "./resource.yaml#/StatusConditions"
+  
+  example:
+    - description: Standard subnet with auto gateway
+      value:
+        apiVersion: v1beta1
+        kind: subnet
+        metadata:
+          name: standard-subnet
+        spec:
+          ipv4Range: '192.168.1.0/24'
+          networkSkuRef: 'seca.100'
+    
+    - description: Custom gateway through network appliance
+      value:
+        apiVersion: v1beta1
+        kind: subnet
+        metadata:
+          name: firewall-subnet
+        spec:
+          ipv4Range: '10.0.0.0/24'
+          defaultGateway:
+            type: instanceRef
+            value: 'network-firewall-01'
