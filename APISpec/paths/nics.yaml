@@ -1,4 +1,4 @@
-/vpc/{vpc}/nics:
+/lan/{lan}/nics:
   get:
     tags:
       - Network
@@ -7,7 +7,7 @@
     x-rbac:
       permissions: network/nic:read
     parameters:
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:
@@ -39,7 +39,7 @@
     x-rbac:
       permissions: network/nic:write
     parameters:
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:
@@ -70,7 +70,7 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/vpc/{vpc}/nics/{nicId}:
+/lan/{lan}/nics/{nicId}:
   get:
     tags:
       - Network
@@ -79,7 +79,7 @@
     x-rbac:
       permissions: network/nic:read
     parameters:
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:
@@ -114,7 +114,7 @@
     x-rbac:
       permissions: network/nic:write
     parameters:
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:
@@ -156,7 +156,7 @@
     x-rbac:
       permissions: network/nic:write
     parameters:
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:

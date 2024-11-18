@@ -38,7 +38,7 @@ RegionalResourceMetadata:
     - $ref: '#/ResourceMetadata'
   description: Metadata for regional resources
   properties:
-    regionRef:
+    region:
       type: object
       description: Reference to the region where the resource is located
       properties:
@@ -52,7 +52,7 @@ ZonalResourceMetadata:
     - $ref: '#/ResourceMetadata'
   description: Metadata for zonal resources
   properties:
-    locationRef:
+    location:
       type: object
       description: Reference to the specific location (region/zone) where the resource is located
       properties:

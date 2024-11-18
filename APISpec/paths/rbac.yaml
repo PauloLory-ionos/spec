@@ -36,7 +36,7 @@
                 metadata:
                   type: object
                   properties:
-                    nextCursor:
+                    skipToken:
                       type: string
                       description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
       '400':
@@ -240,7 +240,7 @@
                 metadata:
                   type: object
                   properties:
-                    nextCursor:
+                    skipToken:
                       type: string
                       description: Opaque cursor to get the next page
       '400':

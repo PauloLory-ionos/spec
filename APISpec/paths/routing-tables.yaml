@@ -1,4 +1,4 @@
-/workspaces/{workspace}/providers/network/vpcs/{vpc}/routing-tables:
+/workspaces/{workspace}/providers/network/lans/{lan}/routing-tables:
   get:
     tags:
       - Network
@@ -18,7 +18,7 @@
         required: true
         schema:
           type: string
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:
@@ -42,7 +42,7 @@
                 metadata:
                   type: object
                   properties:
-                    nextCursor:
+                    skipToken:
                       type: string
                       description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
       '400':
@@ -56,7 +56,7 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/workspaces/{workspace}/providers/network/vpcs/{vpc}/routing-tables/{name}:
+/workspaces/{workspace}/providers/network/lans/{lan}/routing-tables/{name}:
   get:
     tags:
       - Network
@@ -76,7 +76,7 @@
         required: true
         schema:
           type: string
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:
@@ -124,7 +124,7 @@
         required: true
         schema:
           type: string
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:
@@ -178,7 +178,7 @@
         required: true
         schema:
           type: string
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:

@@ -1,4 +1,4 @@
-/workspaces/{workspace}/providers/network/vpcs/{vpc}/subnets:
+/workspaces/{workspace}/providers/network/lans/{lan}/subnets:
   get:
     tags:
       - Network
@@ -18,7 +18,7 @@
         required: true
         schema:
           type: string
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:
@@ -42,7 +42,7 @@
                 metadata:
                   type: object
                   properties:
-                    nextCursor:
+                    skipToken:
                       type: string
                       description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
       '400':
@@ -56,7 +56,7 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/workspaces/{workspace}/providers/network/vpcs/{vpc}/subnets/{name}:
+/workspaces/{workspace}/providers/network/lans/{lan}/subnets/{name}:
   get:
     tags:
       - Network
@@ -76,7 +76,7 @@
         required: true
         schema:
           type: string
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:
@@ -122,7 +122,7 @@
         required: true
         schema:
           type: string
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:
@@ -175,7 +175,7 @@
         required: true
         schema:
           type: string
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:

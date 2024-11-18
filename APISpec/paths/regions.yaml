@@ -39,3 +39,22 @@
               $ref: '../schemas/resource.yaml#/Region'
       '404':
         $ref: '../openapi.yaml#/components/responses/Error404'
+
+/locations:
+  get:
+    tags:
+      - Organization
+    summary: List all locations
+    operationId: listLocations
+    x-rbac:
+      permissions: core/location:read
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/resource.yaml#/Location'
+

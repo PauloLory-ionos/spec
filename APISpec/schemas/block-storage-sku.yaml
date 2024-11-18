@@ -9,65 +9,45 @@ BlockStorageSku:
   properties:
     metadata:
       type: object
+      additionalProperties: true
       properties:
         labels:
+          $ref: "#/BlockStorageSku/properties/spec/properties/capabilities"
+    spec:
+      type: object
+      properties:
+        provider:
+          type: string
+          enum: [ seca.storage ]
+          description: Provider namespace for block storage SKUs
+        tier:
+          type: string
+          enum:
+            - seca.10
+            - seca.50
+            - seca.100
+          description: Block storage performance tier
+        capabilities:
+          additionalProperties: true
           type: object
+          description: Block storage performance capabilities
           properties:
-            iops:
+            seca.iops:
               type: string
-              description: "Guaranteed IOPS performance"
+              description: "Guaranteed IOPS performance, 99% of time, measured within 24 hours, when size > 50GB."
               enum: 
-                - "10"
-                - "50"
-                - "100"
-            uptimePercentage:
-              type: string
-              description: "Percentage of time IOPS is guaranteed"
-              enum: [ "99" ]
-            measurementPeriod:
-              type: string
-              description: "Period over which IOPS is measured"
-              enum: [ "24h" ]
-            minimumSize:
-              type: string
-              description: "Minimum volume size required for guaranteed performance"
-              enum: [ "50GB" ]
-    provider:
-      type: string
-      enum: [ seca.storage ]
-      description: Provider namespace for block storage SKUs
-    tier:
-      type: string
-      enum:
-        - seca.10
-        - seca.50
-        - seca.100
-      description: Block storage performance tier
-    capabilities:
-      type: array
-      description: Block storage performance capabilities
-      items:
-        type: string
-      enum:
-        - "10 IOPS guaranteed, 99% within 24h, minimum 50GB"
-        - "50 IOPS guaranteed, 99% within 24h, minimum 50GB"
-        - "100 IOPS guaranteed, 99% within 24h, minimum 50GB"
-    extensions:
-      type: array
-      items:
-        type: string
-      description: Additional block storage feature extensions
-    mandatoryParameters:
-      type: array
-      items:
-        type: string
-      description: Mandatory parameters for block storage resources
-      enum: 
-        - "size"
-        - "type"
-  required:
-    - provider
-    - tier
-    - capabilities
-    - extensions
-    - mandatoryParameters
+                - ">10"
+                - ">50"
+                - ">100"
+        extensions:
+          type: object
+          additionalProperties: true
+          description: Additional block storage feature extensions
+        mandatoryParameters:
+          type: array
+          description: Mandatory parameters for block storage resources
+          items:
+            type: string
+            enum: 
+              - "size"
+              - "type"

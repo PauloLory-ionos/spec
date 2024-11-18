@@ -9,7 +9,7 @@ VPC:
     kind:
       type: string
       description: Type of the resource
-      enum: [ vpc ]
+      enum: [ lan ]
       readOnly: true
     metadata:
       $ref: './resource.yaml#/RegionalResourceMetadata'
@@ -27,9 +27,5 @@ VPC:
         state:
           type: string
           enum: ['provisioning', 'running', 'terminating']
-        region:
-          type: string
-        routingTableRef:
-          type: string
         conditions:
           $ref: "./resource.yaml#/StatusConditions"

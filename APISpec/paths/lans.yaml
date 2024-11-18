@@ -1,11 +1,11 @@
-/workspaces/{workspace}/providers/network/vpcs:
+/workspaces/{workspace}/providers/network/lans:
   get:
     tags:
       - Network
     summary: List all VPCs
     operationId: listVPCs
     x-rbac:
-      permissions: network/vpc:read
+      permissions: network/lan:read
     parameters:
       - name: id
         in: path
@@ -33,22 +33,22 @@
                 items:
                   type: array
                   items:
-                    $ref: '../schemas/vpc.yaml#/VPC'
+                    $ref: '../schemas/lan.yaml#/VPC'
                 metadata:
                   type: object
                   properties:
-                    nextCursor:
+                    skipToken:
                       type: string
                       description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
 
-/workspaces/{workspace}/providers/network/vpcs/{vpc}:
+/workspaces/{workspace}/providers/network/lans/{lan}:
   get:
     tags:
       - Network
     summary: Get a specific VPC
     operationId: getVPC
     x-rbac:
-      permissions: network/vpc:read
+      permissions: network/lan:read
     parameters:
       - name: id
         in: path
@@ -61,7 +61,7 @@
         required: true
         schema:
           type: string
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:
@@ -72,7 +72,7 @@
         content:
           application/json:
             schema:
-              $ref: '../schemas/vpc.yaml#/VPC'
+              $ref: '../schemas/lan.yaml#/VPC'
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
@@ -89,7 +89,7 @@
     summary: Create or update a specific VPC
     operationId: createOrUpdateVPC
     x-rbac:
-      permissions: network/vpc:write
+      permissions: network/lan:write
     parameters:
       - name: id
         in: path
@@ -102,7 +102,7 @@
         required: true
         schema:
           type: string
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:
@@ -113,7 +113,7 @@
       content:
         application/json:
           schema:
-            $ref: '../schemas/vpc.yaml#/VPC'
+            $ref: '../schemas/lan.yaml#/VPC'
     responses:
       '202':
         description: VPC updated or created
@@ -137,7 +137,7 @@
     summary: Delete a specific VPC
     operationId: deleteVPC
     x-rbac:
-      permissions: network/vpc:write
+      permissions: network/lan:write
     parameters:
       - name: id
         in: path
@@ -150,7 +150,7 @@
         required: true
         schema:
           type: string
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:

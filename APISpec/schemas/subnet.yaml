@@ -52,11 +52,6 @@ Subnet:
             Reference to a network SKU defining bandwidth performance.
             Allows selection of network performance tier.
             Pattern: '^seca\.(10|100|1000)$'
-        routingTableRef:
-          type: string
-          description: |
-            Optional reference to a custom routing table.
-            Enables advanced routing configurations beyond the default gateway.
         defaultGateway:
           type: object
           description: |
@@ -87,8 +82,6 @@ Subnet:
           type: string
           format: CIDR
         zone:
-          type: string
-        routingTableRef:
           type: string
         defaultGateway:
           type: object
