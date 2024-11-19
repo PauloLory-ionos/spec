@@ -30,108 +30,54 @@ Image:
           additionalProperties: true
           properties:
             labels:
-              type: object
-              description: "Custom labels for the Image to describe read-only attributes the customer can filter out"
-              properties:
-                tier:
-                  type: string
-                  description: "SECA keyword to identify the product tier"
-                  example: ubuntu-24.04
-                provider:
-                  type: string
-                  description: "SECA keyword to identify the provider"
-                  example: seca
-    name:
-      type: string
-      description: Unique identifier for the Image
-    provider:
-      type: string
-      description: Provider of the Image specification
-      enum: ['SECA']
-      default: 'SECA'
-    tier:
-      type: string
-      description: Size tier of the Image
-      enum: ['ubuntu-24.04', 'redhat-9.3', 'debian-12']
-    capabilities:
-      type: array
-      description: List of capabilities for this Image
-      items:
-        type: string
-      example: 
-        - "OS=Linux"
-        - "flavor=Ubuntu"
-        - "majorVersion=24.04"
-        - "EndOfLife=2029-04-01"
-        - "cpuType=AMD64"
-        - "UEFI-boot"
-        - "cloud-init-version=22.01"
-    extensions:
-      type: array
-      description: List of possible extensions for this Image
-      items:
-        type: string
-      example: []
-    mandatoryParameters:
-      type: array
-      description: List of mandatory parameters for this Image
-      items:
-        type: string
-      example: 
-        - "OS"
-        - "flavor"
-        - "majorVersion"
-        - "EndOfLife"
-        - "cpuType"
+              $ref: '#/Image/properties/spec/properties/capabilities'
     spec:
       type: object
       properties:
-        osType:
+        provider:
           type: string
-          description: Operating System type
-        version:
+          description: Provider of the Image specification
+          enum: ['SECA']
+          default: 'SECA'
+        tier:
           type: string
-          description: Specific version of the image
-        volumeSnapshotRef:
-          type: string
-          description: Reference to the snapshot used to create this image
-        visibility:
-          type: string
-          enum: ['private', 'public']
-          description: Image visibility scope
-        cloudInitSupport:
+          description: Size tier of the Image
+          enum: ['ubuntu-24.04', 'redhat-9.3', 'debian-12']
+        capabilities:
           type: object
+          description: "Custom labels for the Image to describe read-only attributes the customer can filter out"
           properties:
-            supported:
-              type: boolean
-              default: true
-            version:
+            tier:
               type: string
-              default: '22.01'
-          description: Cloud-init support details
-    status:
-      type: object
-      readOnly: true
-      properties:
-        state:
-          type: string
-          enum: ['available', 'unavailable']
-        osType:
-          type: string
-        version:
-          type: string
-        cloudInitSupport:
-          type: object
-          properties:
-            supported:
-              type: boolean
-            version:
+              description: "SECA keyword to identify the product tier"
+              example: ubuntu-24.04
+            provider:
               type: string
-  required:
-    - metadata
-    - name
-    - provider
-    - tier
-    - capabilities
-    - extensions
-    - mandatoryParameters
+              description: "SECA keyword to identify the provider"
+              example: seca
+          example:
+            properties: 
+              OS: Linux
+              flavor: Ubuntu
+              majorVersion: 24.04
+              EndOfLife: 2029-04-01
+              cpuType: AMD64
+              boot: UEFI
+              cloudInitVersion: 22.01
+        extensions:
+          type: array
+          description: List of possible extensions for this Image
+          items:
+            type: string
+          example: []
+        mandatoryParameters:
+          type: array
+          description: List of mandatory parameters for this Image
+          items:
+            type: string
+          example: 
+            - "OS"
+            - "flavor"
+            - "majorVersion"
+            - "EndOfLife"
+            - "cpuType"

@@ -10,7 +10,7 @@ PublicIp:
     kind:
       type: string
       description: Type of the resource
-      default: PublicIp
+      enum: [ public-ip ]
       readOnly: true
     metadata:
       $ref: './resource.yaml#/RegionalResourceMetadata'

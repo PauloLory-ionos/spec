@@ -1,7 +1,7 @@
 Subnet:
   type: object
   description: |
-    A Subnet represents a logical subdivision of a VPC's IP address space.
+    A Subnet represents a logical subdivision of a LAN's IP address space.
     
     Key Network Routing Concepts:
     - Defines a range of IP addresses for compute instances
@@ -37,14 +37,14 @@ Subnet:
           format: ipv4
           description: |
             IPv4 address range for the subnet.
-            Must be unique within the VPC and cannot be modified after creation.
+            Must be unique within the LAN and cannot be modified after creation.
             Example: '192.168.1.0/24'
         ipv6Range:
           type: string
           format: ipv6
           description: |
             Optional IPv6 address range for the subnet.
-            Must be unique within the VPC.
+            Must be unique within the LAN.
             Example: '2001:db8::/64'
         networkSkuRef:
           type: string

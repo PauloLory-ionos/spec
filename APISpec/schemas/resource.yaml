@@ -63,18 +63,28 @@ ZonalResourceMetadata:
 
 Location:
   type: object
-  description: Represents a specific geographic location combining region and zone
+  description: Represents a specific geographic location combining region and zone. Composite name in the format 'region/zone'
   properties:
+    apiVersion:
+      type: string
+      description: API version of the resource
+      default: v1beta1
+      readOnly: true
+    kind:
+      type: string
+      description: Type of the resource
+      enum: [ location ]
+      readOnly: true
     metadata:
-      $ref: '#/ResourceMetadata'
-    name:
-      type: string
-      description: Composite name in the format 'region/zone'
-    region:
-      type: string
-    zone:
-      type: string
-      description: Optional zone within the region
+      $ref: './resource.yaml#/GlobalResourceMetadata'
+    spec:
+      type: object
+      properties:
+        region:
+          type: string
+        zone:
+          type: string
+          description: Optional zone within the region
 
 # Rest of the existing schema remains the same (Label, StatusConditions, Profile, Setting, Constraint, Connector, etc.)
 
@@ -210,25 +220,25 @@ Constraint:
     - type
     - value
 
-Connector:
-  type: object
-  properties:
-    id:
-      type: string
-    name:
-      type: string
-    sourceResource:
-      $ref: '#/ResourceMetadata'
-    targetResource:
-      $ref: '#/ResourceMetadata'
-
-
 Region:
   type: object
   properties:
-    name:
+    apiVersion:
       type: string
-    availableZones:
-      type: array
-      items:
-        type: string
+      description: API version of the resource
+      default: v1beta1
+      readOnly: true
+    kind:
+      type: string
+      description: Type of the resource
+      enum: [ region ]
+      readOnly: true
+    metadata:
+      $ref: './resource.yaml#/GlobalResourceMetadata'
+    spec:
+      type: object
+      properties:
+        availableZones:
+          type: array
+          items:
+            type: string

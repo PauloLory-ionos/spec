@@ -15,7 +15,7 @@ InstanceSku:
     kind:
       type: string
       description: Type of the resource
-      enum: [ instanceSku ]
+      enum: [ instance-sku ]
       readOnly: true
     metadata:
       allOf:
@@ -30,7 +30,7 @@ InstanceSku:
                 tier:
                   type: string
                   description: "SECA keyword to identify the product in relation to a request for minimum specifications defined in the standard"
-                  example: XL
+                  example: seca.XL
                 provider:
                   type: string
                   description: "SECA keyword to identify the provider identification of the tier label"

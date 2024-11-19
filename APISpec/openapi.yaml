@@ -22,7 +22,7 @@ security:
   - bearerAuth: []
 tags:
   - name: Network
-    description: Network resources including VPCs, NICs, security groups, subnets, and routing tables
+    description: Network resources including LANs, NICs, security groups, subnets, and routing tables
   - name: Compute
     description: Compute resources including virtual machines and instance management
   - name: Storage
@@ -66,7 +66,7 @@ paths:
   /v1beta1/providers/seca.storage/images/{name}:
     $ref: './paths/images.yaml#/~1images~1{name}'
 
-  # Network resources - VPC and its resources
+  # Network resources - LAN and its resources
   /v1beta1/tenants/{id}/workspaces/{workspace}/providers/seca.network/lans:
     $ref: './paths/lans.yaml#/~1workspaces~1{workspace}~1providers~1network~1lans'
   /v1beta1/tenants/{id}/workspaces/{workspace}/providers/seca.network/lans/{lan}:
@@ -120,8 +120,8 @@ components:
       bearerFormat: JWT
       description: JWT token for authentication
   schemas:
-    VPC:
-      $ref: './schemas/lan.yaml#/VPC'
+    LAN:
+      $ref: './schemas/lan.yaml#/LAN'
     Subnet:
       $ref: './schemas/subnet.yaml#/Subnet'
     NIC:

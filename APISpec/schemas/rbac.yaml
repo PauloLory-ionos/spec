@@ -14,49 +14,56 @@ SystemRole:
 
 Role:
   type: object
-  required:
-    - name
-    - permissions
   properties:
-    name:
+    apiVersion:
       type: string
-      description: Unique name of the role within the workspace
-      example: "project-manager"
-    description:
-      type: string
-      description: Optional description of the role
-      example: "Can manage project resources"
-    isSystem:
-      type: boolean
-      description: Indicates if this is a system role
+      description: API version of the resource
+      default: v1beta1
       readOnly: true
-    permissions:
-      type: array
-      items:
-        type: string
-      description: List of permissions granted by this role
-      example: ["compute/instance:read", "network/*:write"]
+    kind:
+      type: string
+      description: Type of the resource
+      enum: [ role ]
+      readOnly: true
+    metadata:
+      $ref: './resource.yaml#/GlobalResourceMetadata'
+    spec: 
+      type: object
+      properties:
+        permissions:
+          type: array
+          items:
+            type: string
+          description: List of permissions granted by this role
+          example: ["compute/instance:read", "network/*:write"]
 
 RoleAssignment:
   type: object
-  required:
-    - name
-    - subs
-    - roles
   properties:
-    name:
+    apiVersion:
       type: string
-      description: Descriptive name for the role assignment group
-      example: "admin-users"
-    subs:
-      type: array
-      items:
-        type: string
-      description: List of subject IDs (from JWT) to whom the roles are assigned
-      example: ["user1@example.com", "service-account-1"]
-    roles:
-      type: array
-      items:
-        type: string
-      description: List of assigned role names
-      example: ["project-manager", "workspace-viewer"]
+      description: API version of the resource
+      default: v1beta1
+      readOnly: true
+    kind:
+      type: string
+      description: Type of the resource
+      enum: [ role-assignment ]
+      readOnly: true
+    metadata:
+      $ref: './resource.yaml#/GlobalResourceMetadata'
+    spec:
+      type: object
+      properties:
+        subs:
+          type: array
+          items:
+            type: string
+          description: List of subject IDs (from JWT) to whom the roles are assigned
+          example: ["user1@example.com", "service-account-1"]
+        roles:
+          type: array
+          items:
+            type: string
+          description: List of assigned role names
+          example: ["project-manager", "workspace-viewer"]

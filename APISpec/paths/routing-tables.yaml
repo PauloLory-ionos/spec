@@ -2,7 +2,7 @@
   get:
     tags:
       - Network
-    summary: List all routing tables for a VPC
+    summary: List all routing tables for a LAN
     operationId: listRoutingTables
     x-rbac:
       permissions: network/routing-table:read

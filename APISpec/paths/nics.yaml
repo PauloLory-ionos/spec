@@ -2,7 +2,7 @@
   get:
     tags:
       - Network
-    summary: List all NICs in a VPC
+    summary: List all NICs in a LAN
     operationId: listNICs
     x-rbac:
       permissions: network/nic:read
@@ -34,7 +34,7 @@
   post:
     tags:
       - Network
-    summary: Create a new NIC in a VPC
+    summary: Create a new NIC in a LAN
     operationId: createNIC
     x-rbac:
       permissions: network/nic:write
@@ -74,7 +74,7 @@
   get:
     tags:
       - Network
-    summary: Get a specific NIC in a VPC
+    summary: Get a specific NIC in a LAN
     operationId: getNIC
     x-rbac:
       permissions: network/nic:read
@@ -109,7 +109,7 @@
   put:
     tags:
       - Network
-    summary: Update a specific NIC in a VPC
+    summary: Update a specific NIC in a LAN
     operationId: createOrUpdateNIC
     x-rbac:
       permissions: network/nic:write
@@ -151,7 +151,7 @@
   delete:
     tags:
       - Network
-    summary: Delete a specific NIC in a VPC
+    summary: Delete a specific NIC in a LAN
     operationId: deleteNIC
     x-rbac:
       permissions: network/nic:write
