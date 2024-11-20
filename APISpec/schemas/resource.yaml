@@ -1,6 +1,6 @@
 ResourceMetadata:
   type: object
-  description: Represents metadata for a resource, including identifying information and classification through labels
+  description: Base metadata for all resources, with optional location references
   properties:
     name:
       type: string
@@ -20,17 +20,63 @@ ResourceMetadata:
       description: If set, indicates the time when the resource was marked for deletion. Resources with this field set are considered pending deletion.
       readOnly: true
     labels:
-      type: array
+      type: object
       description: User-defined key/value pairs that are mutable and can be used to organize and categorize resources.
-      items:
-        $ref: '#/Label'
+      additionalProperties: true
       example:
-        - key: cloud:region
-          value: us-east-1
-        - key: billing.cost-center
-          value: platform-eng
-        - key: tier
-          value: production
+        language: en
+        billing.cost-center: platform-eng
+        env: production
+
+GlobalResourceMetadata:
+  allOf:
+    - $ref: '#/ResourceMetadata'
+  description: Metadata for global resources with no location constraints
+
+RegionalResourceMetadata:
+  allOf:
+    - $ref: '#/ResourceMetadata'
+  description: Metadata for regional resources
+  properties:
+    region:
+      type: object
+      description: Reference to the region where the resource is located
+      properties:
+        name:
+          type: string
+      required:
+        - name
+
+ZonalResourceMetadata:
+  allOf:
+    - $ref: '#/ResourceMetadata'
+  description: Metadata for zonal resources
+  properties:
+    location:
+      type: object
+      description: Reference to the specific location (region/zone) where the resource is located
+      properties:
+        name:
+          type: string
+      required:
+        - name
+
+Location:
+  type: object
+  description: Represents a specific geographic location combining region and zone
+  properties:
+    metadata:
+      $ref: '#/ResourceMetadata'
+    name:
+      type: string
+      description: Composite name in the format 'region/zone'
+    region:
+      type: string
+    zone:
+      type: string
+      description: Optional zone within the region
+
+# Rest of the existing schema remains the same (Label, StatusConditions, Profile, Setting, Constraint, Connector, etc.)
 
 Label:
   type: object
@@ -76,14 +122,6 @@ StatusConditions:
           - "True"
           - "False"
           - "Unknown"
-      observedGeneration:
-        type: integer
-        description: |
-          ObservedGeneration represents the .metadata.generation that the condition
-          was set based upon. For instance, if .metadata.generation is currently 12,
-          but the .status.conditions[x].observedGeneration is 9, the condition is
-          out of date with respect to the current state of the instance.
-        format: int64
       lastTransitionTime:
         type: string
         format: date-time
@@ -184,52 +222,6 @@ Connector:
     targetResource:
       $ref: '#/ResourceMetadata'
 
-ServerProfile:
-  type: object
-  properties:
-    metadata:
-      $ref: '#/ResourceMetadata'
-    spec:
-      type: object
-      properties:
-        cpuType:
-          type: string
-        cores:
-          type: integer
-          minimum: 1
-        ramGB:
-          type: number
-          multipleOf: 0.25
-      required:
-        - cpuType
-        - cores
-        - ramGB
-    status:
-      type: object
-      properties:
-        state:
-          type: string
-          enum: ['available', 'unavailable']
-
-VolumeProfile:
-  type: object
-  properties:
-    metadata:
-      $ref: '#/ResourceMetadata'
-    spec:
-      type: object
-      properties:
-        IOPs:
-          type: integer
-          minimum: 1
-      required:
-        - IOPs
-    status:
-      type: object
-      properties:
-        state:
-          type: string
-          enum: ['available', 'unavailable']
 
 Region:
   type: object

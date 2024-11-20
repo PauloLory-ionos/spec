@@ -1,0 +1,62 @@
+SystemRole:
+  type: string
+  enum:
+    - ADMIN
+    - WORKSPACE_ADMIN
+    - WORKSPACE_EDITOR
+    - WORKSPACE_VIEWER
+  description: |
+    Predefined system roles that cannot be modified:
+    * ADMIN - Full system access, can manage workspaces
+    * WORKSPACE_ADMIN - Full access within a workspace
+    * WORKSPACE_EDITOR - Can edit all resources in workspace
+    * WORKSPACE_VIEWER - Can view all resources in workspace
+
+Role:
+  type: object
+  required:
+    - name
+    - permissions
+  properties:
+    name:
+      type: string
+      description: Unique name of the role within the workspace
+      example: "project-manager"
+    description:
+      type: string
+      description: Optional description of the role
+      example: "Can manage project resources"
+    isSystem:
+      type: boolean
+      description: Indicates if this is a system role
+      readOnly: true
+    permissions:
+      type: array
+      items:
+        type: string
+      description: List of permissions granted by this role
+      example: ["compute/instance:read", "network/*:write"]
+
+RoleAssignment:
+  type: object
+  required:
+    - name
+    - subs
+    - roles
+  properties:
+    name:
+      type: string
+      description: Descriptive name for the role assignment group
+      example: "admin-users"
+    subs:
+      type: array
+      items:
+        type: string
+      description: List of subject IDs (from JWT) to whom the roles are assigned
+      example: ["user1@example.com", "service-account-1"]
+    roles:
+      type: array
+      items:
+        type: string
+      description: List of assigned role names
+      example: ["project-manager", "workspace-viewer"]

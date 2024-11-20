@@ -1,43 +1,86 @@
 Instance:
   type: object
   properties:
+    apiVersion:
+      type: string
+      description: API version of the resource
+      default: v1beta1
+      readOnly: true
+    kind:
+      type: string
+      description: Type of the resource
+      enum: [ instance ]
+      readOnly: true
     metadata:
-      $ref: './resource.yaml#/ResourceMetadata'
+      $ref: './resource.yaml#/ZonalResourceMetadata'
     spec:
       type: object
       properties:
-        profile:
+        instanceSkuRef:
           type: string
+          description: Reference to the SKU used for this instance
+        skuMandatoryParameters:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              value:
+                type: string
+        skuExtentions:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              value:
+                type: string
         placement:
           type: object
           properties:
             strategy:
               type: string
-              enum: ['zone', 'auto', 'anti-affinity']
+              enum: ['zone']
             zone:
               type: string
-            antiAffinityGroup:
-              type: string
+ #           antiAffinityGroup:
+ #             type: string
           required:
-            - strategy
+            - zone
         nics:
           type: array
           items:
             $ref: './nic.yaml#/NIC'
-        cloudInitUserData:
-          type: string
-          description: |
-            Cloud-init user data for instance initialization
-            Example cloud-init user configuration with SSH key:
-            ```yaml
-            #cloud-config
-            ssh_authorized_keys:
-              - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0g+ZTxC7weoIJLUafOgrm+h...
-            ```
-        attachedBlockStorageRef:
+        cloudInitData:
+          type: object
+          properties:
+            userData:
+              type: string
+              description: |
+                Cloud-init user data for instance initialization
+                Example cloud-init user configuration with SSH key:
+                ```yaml
+                #cloud-config
+                ssh_authorized_keys:
+                  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0g+ZTxC7weoIJLUafOgrm+h...
+                ```
+            sshKeyExternalRef:
+              type: array
+              items:
+                type: string
+              description: |
+                Provider-specific references to SSH keys used in cloud-init vendorData.
+                These references are used to inject SSH public keys during instance initialization 
+                through cloud-init's vendor data configuration.
+        dataBlockStorageRef:
           type: array
           items:
             type: string
+        osBlockStorageRef:
+          type: string
+          description: Reference to primary block storage for operating system initialization
     status:
       type: object
       readOnly: true
@@ -45,8 +88,6 @@ Instance:
         state:
           type: string
           enum: ['provisioning', 'running', 'terminating']
-        profile:
-          type: string
         placement:
           type: object
           properties:
@@ -61,7 +102,7 @@ Instance:
           type: array
           items:
             $ref: './nic.yaml#/NIC'
-        attachedBlockStorage:
+        dataBlockStorageRef:
           type: array
           items:
             type: string

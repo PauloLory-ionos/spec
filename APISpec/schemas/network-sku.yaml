@@ -1,0 +1,64 @@
+NetworkSku:
+  type: object
+  description: |
+    Represents a Stock Keeping Unit (SKU) for network resources.
+
+    Network SKUs define performance tiers for network bandwidth and characteristics.
+    Properties, capabilities, and extensions can be found in the metadata.labels sections.
+    Searchable with namespaces like "properties.", "capabilities.", and "extensions.".
+  properties:
+    metadata:
+      type: object
+      properties:
+        labels:
+          type: object
+          properties:
+            bandwidth:
+              type: string
+              description: "Guaranteed network bandwidth in Mbps"
+              enum: 
+                - "10"
+                - "100"
+                - "1000"
+            uptimePercentage:
+              type: string
+              description: "Percentage of time bandwidth is guaranteed"
+              enum: [ "95" ]
+            measurementPeriod:
+              type: string
+              description: "Period over which bandwidth is measured"
+              enum: [ "24h" ]
+    provider:
+      type: string
+      example: seca.network
+      description: Provider namespace for network SKUs
+    tier:
+      type: string
+      enum:
+        - seca.10
+        - seca.100
+        - seca.1000
+      description: Network performance tier
+    capabilities:
+      type: array
+      description: Network performance capabilities
+      items:
+        type: string
+        enum:
+          - "10 Mbps guaranteed bandwidth, 95% within 24h"
+    extensions:
+      type: array
+      description: Additional network feature extensions
+      items:
+        type: string
+    mandatoryParameters:
+      type: array
+      description: Mandatory parameters for network resources
+      items:
+        type: string
+  required:
+    - provider
+    - tier
+    - capabilities
+    - extensions
+    - mandatoryParameters

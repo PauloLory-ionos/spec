@@ -1,10 +1,13 @@
-/vpc/{vpc}/nics:
+/lan/{lan}/nics:
   get:
     tags:
       - Network
     summary: List all NICs in a VPC
+    operationId: listNICs
+    x-rbac:
+      permissions: network/nic:read
     parameters:
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:
@@ -32,8 +35,11 @@
     tags:
       - Network
     summary: Create a new NIC in a VPC
+    operationId: createNIC
+    x-rbac:
+      permissions: network/nic:write
     parameters:
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:
@@ -64,13 +70,16 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/vpc/{vpc}/nics/{nicId}:
+/lan/{lan}/nics/{nicId}:
   get:
     tags:
       - Network
     summary: Get a specific NIC in a VPC
+    operationId: getNIC
+    x-rbac:
+      permissions: network/nic:read
     parameters:
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:
@@ -101,8 +110,11 @@
     tags:
       - Network
     summary: Update a specific NIC in a VPC
+    operationId: createOrUpdateNIC
+    x-rbac:
+      permissions: network/nic:write
     parameters:
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:
@@ -140,8 +152,11 @@
     tags:
       - Network
     summary: Delete a specific NIC in a VPC
+    operationId: deleteNIC
+    x-rbac:
+      permissions: network/nic:write
     parameters:
-      - name: vpc
+      - name: lan
         in: path
         required: true
         schema:

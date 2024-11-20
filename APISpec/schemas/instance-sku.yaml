@@ -1,0 +1,85 @@
+InstanceSku:
+  type: object
+  description: |
+    Represents a Stock Keeping Unit (SKU) for compute instances.
+
+    Properties, capabilites and extentions can also be found in the metadata.labels sections.
+    These can be used for searching with the the appropriate namespace "properties.", "capabilities.", and "extentions.".
+    Example: filter=extentions.hasGPU=true" 
+  properties:
+    apiVersion:
+      type: string
+      description: API version of the resource
+      default: v1beta1
+      readOnly: true
+    kind:
+      type: string
+      description: Type of the resource
+      enum: [ instanceSku ]
+      readOnly: true
+    metadata:
+      allOf:
+        - $ref: './resource.yaml#/RegionalResourceMetadata'
+        - type: object
+          additionalProperties: true
+          properties:
+            labels:
+              type: object
+              description: "Custom labels for the SKU to describe read-only attributes the customer can filter out"
+              properties:
+                tier:
+                  type: string
+                  description: "SECA keyword to identify the product in relation to a request for minimum specifications defined in the standard"
+                  example: XL
+                provider:
+                  type: string
+                  description: "SECA keyword to identify the provider identification of the tier label"
+                  example: seca
+                vCPU:
+                  type: string
+                  description: "Additional label which represents the product attribute"
+                  example: "16"
+                memory:
+                  type: string
+                  description: "Additional label which represents the product attribute"
+                  example: "32"
+                geekbenchPoint:
+                  type: string
+                  description: "Additional label which represents the product attribute"
+                  example: "24000"
+    name:
+      type: string
+      description: Unique identifier for the SKU
+    provider:
+      type: string
+      description: Provider of the SKU specification
+    tier:
+      type: string
+      description: Size tier of the SKU
+    capabilities:
+      type: array
+      description: List of capabilities for this SKU
+      items:
+        type: string
+      example: 
+        - "1500 geekbench points per vCPU"
+    extensions:
+      type: array
+      description: List of possible extensions for this SKU
+      items:
+        type: string
+      example: []
+    mandatoryParameters:
+      type: array
+      description: List of mandatory parameters for this SKU
+      items:
+        type: string
+      example: []
+  required:
+    - metadata
+    - name
+    - provider
+    - tier
+    - capabilities
+    - extensions
+    - mandatoryParameters

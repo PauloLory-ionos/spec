@@ -1,23 +1,46 @@
 NIC:
   type: object
+  description: Network Interface Card (NIC) representing a network interface for a compute resource
   properties:
+    apiVersion:
+      type: string
+      description: API version of the resource
+      default: v1beta1
+      readOnly: true
+    kind:
+      type: string
+      description: Type of the resource
+      enum: [ NIC ]
+      readOnly: true
     metadata:
-      $ref: './resource.yaml#/ResourceMetadata'
+      $ref: './resource.yaml#/ZonalResourceMetadata'
     spec:
       type: object
+      description: Specification of the Network Interface Card
       properties:
-        ipv4Address:
-          type: string
-          format: ipv4 
-        ipv6Address:
-          type: string
-          format: ipv6
-        publicIP:
-          type: boolean
         subnetRef:
           type: string
-        securityGroupRef:
-          type: string
+          description: Subnet this NIC is connected to
+        privateIPs:
+          type: array
+          description: List of private IP addresses for this NIC. Each IP must be available and match the IP ranges in the Subnet.
+          items:
+            type: object
+            properties:
+              adressType:
+                type: string
+                enum: [ 'IPv4', 'IPv6' ]
+              provisioningStrategy:
+                type: string
+                description: Type of IP allocation - for now only "dhcp" is allowed
+                enum:
+                  - DHCP
+                default: DHCP
+        publicIPRef:
+          type: array
+          description: References to public IP addresses associated with this NIC. For now maximal one IP allowed.
+          items:
+            type: string
     status:
       type: object
       readOnly: true
@@ -25,14 +48,20 @@ NIC:
         state:
           type: string
           enum: ['connecting', 'connected', 'disconnecting']
-        ipv4Address:
-          type: string
-          format: ipv4
-        ipv6Address:
-          type: string
-          format: ipv6
-        publicIP:
-          type: boolean
+        privateIPs:
+          type: array
+          items:
+            type: object
+            properties:
+              adressType:
+                type: string
+                enum: [ 'IPv4', 'IPv6' ]
+              ipAddress:
+                type: string
+        publicIPRef:
+          type: array
+          items:
+            type: string
         subnetRef:
           type: string
         securityGroupRef:

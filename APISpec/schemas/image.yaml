@@ -1,31 +1,114 @@
 Image:
   type: object
+  description: |
+    Represents an Image Stock Keeping Unit (SKU) for cloud instances.
+
+    | Provider | Tier | Description |
+    |----------|------|-------------|
+    | SECA | ubuntu-24.04 | Ubuntu 24.04 LTS Image |
+    | SECA | redhat-9.3 | Red Hat Enterprise Linux 9.3 Image |
+    | SECA | debian-12 | Debian 12 (Bookworm) Image |
+
+    Properties, capabilities, and extensions can also be found in the metadata.labels sections.
+    These can be used for searching with the appropriate namespace "properties.", "capabilities.", and "extensions.".
+    Example: filter="capabilities.OS=Linux"
   properties:
+    apiVersion:
+      type: string
+      description: API version of the resource
+      default: v1beta1
+      readOnly: true
+    kind:
+      type: string
+      description: Type of the resource
+      enum: [ image ]
+      readOnly: true
     metadata:
-      $ref: './resource.yaml#/ResourceMetadata'
+      allOf:
+        - $ref: './resource.yaml#/RegionalResourceMetadata'
+        - type: object
+          additionalProperties: true
+          properties:
+            labels:
+              type: object
+              description: "Custom labels for the Image to describe read-only attributes the customer can filter out"
+              properties:
+                tier:
+                  type: string
+                  description: "SECA keyword to identify the product tier"
+                  example: ubuntu-24.04
+                provider:
+                  type: string
+                  description: "SECA keyword to identify the provider"
+                  example: seca
+    name:
+      type: string
+      description: Unique identifier for the Image
+    provider:
+      type: string
+      description: Provider of the Image specification
+      enum: ['SECA']
+      default: 'SECA'
+    tier:
+      type: string
+      description: Size tier of the Image
+      enum: ['ubuntu-24.04', 'redhat-9.3', 'debian-12']
+    capabilities:
+      type: array
+      description: List of capabilities for this Image
+      items:
+        type: string
+      example: 
+        - "OS=Linux"
+        - "flavor=Ubuntu"
+        - "majorVersion=24.04"
+        - "EndOfLife=2029-04-01"
+        - "cpuType=AMD64"
+        - "UEFI-boot"
+        - "cloud-init-version=22.01"
+    extensions:
+      type: array
+      description: List of possible extensions for this Image
+      items:
+        type: string
+      example: []
+    mandatoryParameters:
+      type: array
+      description: List of mandatory parameters for this Image
+      items:
+        type: string
+      example: 
+        - "OS"
+        - "flavor"
+        - "majorVersion"
+        - "EndOfLife"
+        - "cpuType"
     spec:
       type: object
       properties:
         osType:
           type: string
+          description: Operating System type
         version:
           type: string
+          description: Specific version of the image
         volumeSnapshotRef:
           type: string
           description: Reference to the snapshot used to create this image
-        visiblity:
+        visibility:
           type: string
           enum: ['private', 'public']
-          description: TODO - that can be done more sophisticated
+          description: Image visibility scope
         cloudInitSupport:
           type: object
           properties:
             supported:
               type: boolean
+              default: true
             version:
               type: string
-          description: |
-            Indicates cloud-init support for this image. We support cloud-init version 22.4 or newer.
+              default: '22.01'
+          description: Cloud-init support details
     status:
       type: object
       readOnly: true
@@ -44,3 +127,11 @@ Image:
               type: boolean
             version:
               type: string
+  required:
+    - metadata
+    - name
+    - provider
+    - tier
+    - capabilities
+    - extensions
+    - mandatoryParameters

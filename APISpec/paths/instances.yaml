@@ -3,7 +3,16 @@
     tags:
       - Compute
     summary: List all instances
+    operationId: listInstances
+    x-rbac:
+      permissions: compute/instance:read
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true
@@ -11,7 +20,7 @@
           type: string
       - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
       - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
-      - $ref: '../schemas/parameters.yaml#/parameters/cursorParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/skipTokenParam'
       - $ref: '../schemas/parameters.yaml#/parameters/includeDeletedParam'
     responses:
       '200':
@@ -28,7 +37,7 @@
                 metadata:
                   type: object
                   properties:
-                    nextCursor:
+                    skipToken:
                       type: string
                       description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
       '400':
@@ -47,7 +56,16 @@
     tags:
       - Compute
     summary: Get a specific instance
+    operationId: getInstance
+    x-rbac:
+      permissions: compute/instance:read
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true
@@ -79,7 +97,16 @@
     tags:
       - Compute
     summary: Create or update a specific instance
+    operationId: createOrUpdateInstance
+    x-rbac:
+      permissions: compute/instance:write
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true
@@ -118,7 +145,16 @@
     tags:
       - Compute
     summary: Delete a specific instance
+    operationId: deleteInstance
+    x-rbac:
+      permissions: compute/instance:write
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
       - name: workspace
         in: path
         required: true

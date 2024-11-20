@@ -3,6 +3,9 @@
     tags:
       - Organization
     summary: List all regions
+    operationId: listRegions
+    x-rbac:
+      permissions: core/region:read
     responses:
       '200':
         description: Successful response
@@ -12,3 +15,46 @@
               type: array
               items:
                 $ref: '../schemas/resource.yaml#/Region'
+
+/regions/{name}:
+  get:
+    tags:
+      - Organization
+    summary: Get a specific region by name
+    operationId: getRegion
+    x-rbac:
+      permissions: core/region:read
+    parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/resource.yaml#/Region'
+      '404':
+        $ref: '../openapi.yaml#/components/responses/Error404'
+
+/locations:
+  get:
+    tags:
+      - Organization
+    summary: List all locations
+    operationId: listLocations
+    x-rbac:
+      permissions: core/location:read
+    responses:
+      '200':
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/resource.yaml#/Location'
+
