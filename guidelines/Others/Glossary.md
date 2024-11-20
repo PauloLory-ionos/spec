@@ -1,12 +1,13 @@
 # Glossary SEC-API
 
-# Scope
+## Scope
 ### Region
 A geographical area containing a set of data centers, often isolated from other regions for purposes of fault tolerance, redundancy, and availability.
 
 ### Zone
 A set of data centers within a region, each designed to be isolated from failures in other zones, but connected to them via low-latency links to provide high availability, fault tolerance, and scalability
 
+## Concepts
 ### Seca Compute Instance (SCI) - Scope: Zone
 A fully virtualized os running over a fully virtualized hardware; similar to EC2/Azure Virtual Machines/Google Compute Engine
 
