@@ -28,6 +28,7 @@ Workspace:
         - name
     status:
       type: object
+      readOnly: true
       description: Current state of the workspace
       properties:
         phase:
@@ -41,5 +42,5 @@ Workspace:
           type: integer
           description: Number of resources currently in the workspace
           minimum: 0
-      required:
-        - phase
+        conditions:
+          $ref: "./resource.yaml#/StatusConditions"

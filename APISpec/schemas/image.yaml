@@ -27,57 +27,55 @@ Image:
       allOf:
         - $ref: './resource.yaml#/RegionalResourceMetadata'
         - type: object
-          additionalProperties: true
           properties:
             labels:
-              $ref: '#/Image/properties/spec/properties/capabilities'
+              $ref: '#/Image/properties/spec/allOf/1/properties/capabilities'
     spec:
-      type: object
-      properties:
-        provider:
-          type: string
-          description: Provider of the Image specification
-          enum: ['SECA']
-          default: 'SECA'
-        tier:
-          type: string
-          description: Size tier of the Image
-          enum: ['ubuntu-24.04', 'redhat-9.3', 'debian-12']
-        capabilities:
-          type: object
-          description: "Custom labels for the Image to describe read-only attributes the customer can filter out"
+      example:
+        - { provider: 'SECA', tier: 'ubuntu-24.04', cpuArchitecture: 'AMD64', boot: 'UEFI', cloudInitVersion: '22.01', endOfLife: '2029-03-31' }
+        - { provider: 'SECA', tier: 'redhat-9.3', cpuArchitecture: 'AMD64', boot: 'UEFI', cloudInitVersion: '22.01', endOfLife: '2026-12-31' }
+        - { provider: 'SECA', tier: 'debian-12', cpuArchitecture: 'AMD64', boot: 'UEFI', cloudInitVersion: '22.01', endOfLife: '2025-05-31' }
+      allOf:
+        - type: object
+          enum:
+            - { provider: 'SECA', tier: 'ubuntu-24.04', cpuArchitecture: 'AMD64', boot: 'UEFI', cloudInitVersion: '22.01', endOfLife: '2029-03-31' }
+            - { provider: 'SECA', tier: 'redhat-9.3', cpuArchitecture: 'AMD64', boot: 'UEFI', cloudInitVersion: '22.01', endOfLife: '2026-12-31' }
+            - { provider: 'SECA', tier: 'debian-12', cpuArchitecture: 'AMD64', boot: 'UEFI', cloudInitVersion: '22.01', endOfLife: '2025-05-31' }
+        - type: object
           properties:
-            tier:
-              type: string
-              description: "SECA keyword to identify the product tier"
-              example: ubuntu-24.04
             provider:
               type: string
-              description: "SECA keyword to identify the provider"
-              example: seca
-          example:
-            properties: 
-              OS: Linux
-              flavor: Ubuntu
-              majorVersion: 24.04
-              EndOfLife: 2029-04-01
-              cpuType: AMD64
-              boot: UEFI
-              cloudInitVersion: 22.01
-        extensions:
-          type: array
-          description: List of possible extensions for this Image
-          items:
-            type: string
-          example: []
-        mandatoryParameters:
-          type: array
-          description: List of mandatory parameters for this Image
-          items:
-            type: string
-          example: 
-            - "OS"
-            - "flavor"
-            - "majorVersion"
-            - "EndOfLife"
-            - "cpuType"
+              description: Provider of the Image specification
+            tier:
+              type: string
+              description: Tier of the Image
+            capabilities:
+              type: object
+              additionalProperties: true
+              properties:
+                tier:
+                  type: string
+                  description: "keyword to identify the product tier"
+                  example: ubuntu-24.04
+                provider:
+                  type: string
+                  description: "keyword to identify the provider"
+                  example: SECA
+            extensions:
+              type: array
+              description: List of possible extensions for this Image
+              items:
+                type: string
+            mandatoryParameters:
+              type: array
+              description: List of mandatory parameters for this Image
+              items:
+                type: string
+            description:
+                  type: string
+    status:
+      type: object
+      readOnly: true
+      properties:
+        conditions:
+          $ref: "./resource.yaml#/StatusConditions"

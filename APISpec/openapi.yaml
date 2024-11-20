@@ -4,20 +4,11 @@ servers:
     description: API Definition Environment
 info:
   title: Sovereign European Cloud API
-  version: v1beta0e
+  version: v1beta0f
   license:
     name: "Proprietary - All Rights Reserved"
-  description: |
-    API for managing cloud resources
-
-    A foundational API for managing cloud infrastructure components, 
-    providing control over compute, storage, network resources, and access management in a sovereign European cloud environment. 
-    The API focuses on essential IaaS services. Implements security through integrated RBAC.
-    
-    Current state: 
-    Basic api to drive lowest level of service: compute resources, block disks and network.
-
-    ![API Diagram](https://x.frei-services.net/api-diagram.png)
+  description:
+    $ref: './starter.yaml#/Starter'
 security:
   - bearerAuth: []
 tags:

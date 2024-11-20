@@ -21,45 +21,49 @@ BlockStorageSku:
       allOf:
         - $ref: './resource.yaml#/RegionalResourceMetadata'
         - type: object
-          additionalProperties: true
           properties:
             labels:
-              $ref: "#/BlockStorageSku/properties/spec/properties/capabilities"
+              $ref: "#/BlockStorageSku/properties/spec/allOf/1/properties/capabilities"
     spec:
-      type: object
-      properties:
-        provider:
-          type: string
-          enum: [ seca.storage ]
-          description: Provider namespace for block storage SKUs
-        tier:
-          type: string
+      example:
+        - { provider: 'SECA', tier: 'seca.general', description: 'a storage with no guaranteed throughput for normal usage' }
+        - { provider: 'SECA', tier: 'seca.100', description: 'minimal 100 iops, 99% of time, when >50GB' }
+        - { provider: 'SECA', tier: 'seca.250', description: 'minimal 250 iops, 99% of time, when >50GB' }
+        - { provider: 'SECA', tier: 'seca.500', description: 'minimal 500 iops, 99% of time, when >50GB' }
+      allOf:
+        - type: object
           enum:
-            - seca.10
-            - seca.50
-            - seca.100
-          description: Block storage performance tier
-        capabilities:
-          additionalProperties: true
-          type: object
-          description: Block storage performance capabilities
+            - { provider: 'SECA', tier: 'seca.general', description: 'a storage with no guaranteed throughput for normal usage' }
+            - { provider: 'SECA', tier: 'seca.100', description: 'minimal 100 iops, 99% of time, when >50GB' }
+            - { provider: 'SECA', tier: 'seca.250', description: 'minimal 250 iops, 99% of time, when >50GB' }
+            - { provider: 'SECA', tier: 'seca.500', description: 'minimal 500 iops, 99% of time, when >50GB' }
+        - type: object
           properties:
-            seca.iops:
+            provider:
               type: string
-              description: "Guaranteed IOPS performance, 99% of time, measured within 24 hours, when size > 50GB."
-              enum: 
-                - ">10"
-                - ">50"
-                - ">100"
-        extensions:
-          type: object
-          additionalProperties: true
-          description: Additional block storage feature extensions
-        mandatoryParameters:
-          type: array
-          description: Mandatory parameters for block storage resources
-          items:
-            type: string
-            enum: 
-              - "size"
-              - "type"
+              description: Provider namespace for block storage SKUs
+            tier:
+              type: string
+              description: Block storage performance tier
+            capabilities:
+              additionalProperties: true
+              type: object
+              description: Block storage performance capabilities
+            extensions:
+              type: array
+              description: Additional block storage feature extensions
+              items:
+                type: string
+            mandatoryParameters:
+              type: array
+              description: Mandatory parameters for block storage resources
+              items:
+                type: string
+            description:
+              type: string
+    status:
+      type: object
+      readOnly: true
+      properties:
+        conditions:
+          $ref: "./resource.yaml#/StatusConditions"

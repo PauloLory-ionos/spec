@@ -49,6 +49,7 @@ PublicIp:
                 description: Name of the resource the IP is assigned to
     status:
       type: object
+      readOnly: true
       description: Current status of the public IP
       properties:
         phase:
@@ -60,21 +61,4 @@ PublicIp:
             - Assigned
             - Error
         conditions:
-          type: array
-          description: Detailed conditions of the public IP
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-              status:
-                type: string
-              reason:
-                type: string
-              message:
-                type: string
-  required:
-    - apiVersion
-    - kind
-    - metadata
-    - spec
+          $ref: "./resource.yaml#/StatusConditions"

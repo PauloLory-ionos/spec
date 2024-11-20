@@ -36,7 +36,12 @@ Role:
             type: string
           description: List of permissions granted by this role
           example: ["compute/instance:read", "network/*:write"]
-
+    status:
+      type: object
+      readOnly: true
+      properties:
+        conditions:
+          $ref: "./resource.yaml#/StatusConditions"
 RoleAssignment:
   type: object
   properties:
@@ -67,3 +72,9 @@ RoleAssignment:
             type: string
           description: List of assigned role names
           example: ["project-manager", "workspace-viewer"]
+    status:
+      type: object
+      readOnly: true
+      properties:
+        conditions:
+          $ref: "./resource.yaml#/StatusConditions"

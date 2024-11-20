@@ -26,7 +26,7 @@
       - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
       - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
       - $ref: '../schemas/parameters.yaml#/parameters/skipTokenParam'
-      - $ref: '../schemas/parameters.yaml#/parameters/includeDeletedParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/acceptHeader'
     responses:
       '200':
         description: Successful response
@@ -134,7 +134,7 @@
         required: true
         schema:
           type: string
-      - $ref: '../schemas/parameters.yaml#/parameters/ifMatchParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
     requestBody:
       required: true
       content:
