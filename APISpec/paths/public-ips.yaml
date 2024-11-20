@@ -18,33 +18,10 @@
         schema:
           type: string
         description: Name of the workspace
-      - in: query
-        name: labels
-        description: |
-          Filter resources by their labels. Multiple filters are combined with comma.
-          Filter syntax:
-            - Equals: key=value
-            - Not equals: key!=value
-            - Namespaced key examples: 'monitoring:alert-level=high' or 'billing:team=platform'
-        required: false
-        schema:
-          type: string
-          example: "cloud:region=us-east-1,billing:team=platform,tier!=dev"
-      - in: query
-        name: limit
-        description: Maximum number of resources to return in the response
-        required: false
-        schema:
-          type: integer
-          minimum: 1
-          maximum: 10000
-          default: 1000
-      - in: query
-        name: skipToken
-        description: Opaque cursor for pagination. Use the skipToken from the previous response to get the next page of results. Note that skipTokens do not guarantee consistency across pages if the underlying data changes between requests
-        required: false
-        schema:
-          type: string
+      - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
+      - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/skipTokenParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/acceptHeader'
     responses:
       '200':
         description: Successful response
@@ -57,6 +34,12 @@
                   type: array
                   items:
                     $ref: '../schemas/public-ip.yaml#/PublicIp'
+                metadata:
+                  type: object
+                  properties:
+                    skipToken:
+                      type: string
+                      description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
@@ -183,15 +166,7 @@
         schema:
           type: string
         description: Name of the public IP
-      - in: header
-        name: if-match
-        schema:
-          type: string
-        required: false
-        description: |
-          Entity tag containing generation number for optimistic concurrency control. 
-          If resource generation number does not match If-Match header, request will fail with 412. 
-          If parameter omitted, the operation will be executed on the latest generation number available.
+      - $ref: '../schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
     responses:
       '202':
         description: Public IP deletion accepted

@@ -6,15 +6,37 @@
     operationId: listRegions
     x-rbac:
       permissions: core/region:read
+    parameters:
+      - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
+      - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/skipTokenParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/acceptHeader'
     responses:
       '200':
         description: Successful response
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: '../schemas/resource.yaml#/Region'
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: '../schemas/resource.yaml#/Region'
+                metadata:
+                  type: object
+                  properties:
+                    skipToken:
+                      type: string
+                      description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+      '400':
+        $ref: '../openapi.yaml#/components/responses/Error400'
+      '401':
+        $ref: '../openapi.yaml#/components/responses/Error401'
+      '403':
+        $ref: '../openapi.yaml#/components/responses/Error403'
+      '500':
+        $ref: '../openapi.yaml#/components/responses/Error500'
 
 /regions/{name}:
   get:
@@ -48,13 +70,34 @@
     operationId: listLocations
     x-rbac:
       permissions: core/location:read
+    parameters:
+      - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
+      - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/skipTokenParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/acceptHeader'
     responses:
       '200':
         description: Successful response
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: '../schemas/resource.yaml#/Location'
-
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: '../schemas/resource.yaml#/Location'
+                metadata:
+                  type: object
+                  properties:
+                    skipToken:
+                      type: string
+                      description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+      '400':
+        $ref: '../openapi.yaml#/components/responses/Error400'
+      '401':
+        $ref: '../openapi.yaml#/components/responses/Error401'
+      '403':
+        $ref: '../openapi.yaml#/components/responses/Error403'
+      '500':
+        $ref: '../openapi.yaml#/components/responses/Error500'
