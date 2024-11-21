@@ -8,7 +8,7 @@ info:
   license:
     name: "Proprietary - All Rights Reserved"
   description:
-    $ref: './starter.yaml#/Starter'
+    $ref: './usage.md'
 security:
   - bearerAuth: []
 tags:
