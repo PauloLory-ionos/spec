@@ -4,25 +4,16 @@ servers:
     description: API Definition Environment
 info:
   title: Sovereign European Cloud API
-  version: v1beta0e
+  version: v1beta0f
   license:
     name: "Proprietary - All Rights Reserved"
-  description: |
-    API for managing cloud resources
-
-    A foundational API for managing cloud infrastructure components, 
-    providing control over compute, storage, network resources, and access management in a sovereign European cloud environment. 
-    The API focuses on essential IaaS services. Implements security through integrated RBAC.
-    
-    Current state: 
-    Basic api to drive lowest level of service: compute resources, block disks and network.
-
-    ![API Diagram](https://x.frei-services.net/api-diagram.png)
+  description:
+    $ref: './starter.yaml#/Starter'
 security:
   - bearerAuth: []
 tags:
   - name: Network
-    description: Network resources including VPCs, NICs, security groups, subnets, and routing tables
+    description: Network resources including LANs, NICs, security groups, subnets, and routing tables
   - name: Compute
     description: Compute resources including virtual machines and instance management
   - name: Storage
@@ -66,7 +57,7 @@ paths:
   /v1beta1/providers/seca.storage/images/{name}:
     $ref: './paths/images.yaml#/~1images~1{name}'
 
-  # Network resources - VPC and its resources
+  # Network resources - LAN and its resources
   /v1beta1/tenants/{id}/workspaces/{workspace}/providers/seca.network/lans:
     $ref: './paths/lans.yaml#/~1workspaces~1{workspace}~1providers~1network~1lans'
   /v1beta1/tenants/{id}/workspaces/{workspace}/providers/seca.network/lans/{lan}:
@@ -120,8 +111,8 @@ components:
       bearerFormat: JWT
       description: JWT token for authentication
   schemas:
-    VPC:
-      $ref: './schemas/lan.yaml#/VPC'
+    LAN:
+      $ref: './schemas/lan.yaml#/LAN'
     Subnet:
       $ref: './schemas/subnet.yaml#/Subnet'
     NIC:

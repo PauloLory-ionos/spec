@@ -21,6 +21,7 @@
       - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
       - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
       - $ref: '../schemas/parameters.yaml#/parameters/skipTokenParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/acceptHeader'
     responses:
       '200':
         description: Successful response
@@ -117,7 +118,7 @@
         required: true
         schema:
           type: string
-      - $ref: '../schemas/parameters.yaml#/parameters/ifMatchParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
     requestBody:
       required: true
       content:
@@ -180,7 +181,7 @@
         required: true
         schema:
           type: string
-      - $ref: '../schemas/parameters.yaml#/parameters/ifMatchParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
     responses:
       '204':
         description: Role deletion accepted
@@ -223,8 +224,10 @@
         schema:
           type: string
         description: Filter assignments by role assignment group name
+      - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
       - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
       - $ref: '../schemas/parameters.yaml#/parameters/skipTokenParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/acceptHeader'
     responses:
       '200':
         description: Successful response
@@ -329,7 +332,7 @@
         schema:
           type: string
         description: Name of the role assignment group
-      - $ref: '../schemas/parameters.yaml#/parameters/ifMatchParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
     requestBody:
       required: true
       content:
@@ -391,7 +394,7 @@
         schema:
           type: string
         description: Name of the role assignment group to delete
-      - $ref: '../schemas/parameters.yaml#/parameters/ifMatchParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
     responses:
       '204':
         description: Role assignment group successfully deleted

@@ -2,7 +2,7 @@
   get:
     tags:
       - Network
-    summary: List all subnets in a VPC
+    summary: List all subnets in a LAN
     operationId: listSubnets
     x-rbac:
       permissions: network/subnet:read
@@ -26,7 +26,7 @@
       - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
       - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
       - $ref: '../schemas/parameters.yaml#/parameters/skipTokenParam'
-      - $ref: '../schemas/parameters.yaml#/parameters/includeDeletedParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/acceptHeader'
     responses:
       '200':
         description: Successful response
@@ -60,7 +60,7 @@
   get:
     tags:
       - Network
-    summary: Get a specific subnet in a VPC
+    summary: Get a specific subnet in a LAN
     operationId: getSubnet
     x-rbac:
       permissions: network/subnet:read
@@ -106,7 +106,7 @@
   put:
     tags:
       - Network
-    summary: Create or update a specific subnet in a VPC
+    summary: Create or update a specific subnet in a LAN
     operationId: createOrUpdateSubnet
     x-rbac:
       permissions: network/subnet:write
@@ -132,7 +132,7 @@
         required: true
         schema:
           type: string
-      - $ref: '../schemas/parameters.yaml#/parameters/ifMatchParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
     requestBody:
       required: true
       content:
@@ -159,7 +159,7 @@
   delete:
     tags:
       - Network
-    summary: Delete a specific subnet in a VPC
+    summary: Delete a specific subnet in a LAN
     operationId: deleteSubnet
     x-rbac:
       permissions: network/subnet:write

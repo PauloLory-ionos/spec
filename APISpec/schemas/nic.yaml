@@ -10,7 +10,7 @@ NIC:
     kind:
       type: string
       description: Type of the resource
-      enum: [ NIC ]
+      enum: [ nic ]
       readOnly: true
     metadata:
       $ref: './resource.yaml#/ZonalResourceMetadata'

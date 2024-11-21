@@ -32,22 +32,26 @@ parameters:
     schema:
       type: string
 
-  includeDeletedParam:
-    in: query
-    name: include-deleted
-    description: If set to true, includes resources marked for deletion in the response. Defaults to false.
-    required: false
-    schema:
-      type: boolean
-      default: false
+  ifUnmodifiedSince:
+      in: header
+      name: if-unmodified-since
+      schema:
+        type: string
+        format: date-time
+      required: false
+      description: |
+        Returns resources only if they have not been modified since the specified time.
+        Uses metadata.lastUpdatedTimestamp for comparison.
 
-  ifMatchParam:
+  acceptHeader:
     in: header
-    name: if-match  
+    name: Accept
     schema:
       type: string
-    required: false
+      default: application/json
+      example: "application/json; deleted=true"
     description: |
-      Entity tag containing generation number for optimistic concurrency control. 
-      If resource generation number does not match If-Match header, request will fail with 412. 
-      If parameter ommited, the operation will be executed on the latest generation number available.
+      Controls whether deleted resources are included:
+      - application/json: Returns only non-deleted resources
+      - application/json; deleted=true: Returns both deleted and non-deleted resources
+      - application/json; deleted=only: Returns only deleted resources

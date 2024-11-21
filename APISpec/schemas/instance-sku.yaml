@@ -3,9 +3,7 @@ InstanceSku:
   description: |
     Represents a Stock Keeping Unit (SKU) for compute instances.
 
-    Properties, capabilites and extentions can also be found in the metadata.labels sections.
-    These can be used for searching with the the appropriate namespace "properties.", "capabilities.", and "extentions.".
-    Example: filter=extentions.hasGPU=true" 
+    Properties, capabilites and extensions can also be found in the metadata.labels sections for filtering.
   properties:
     apiVersion:
       type: string
@@ -15,71 +13,62 @@ InstanceSku:
     kind:
       type: string
       description: Type of the resource
-      enum: [ instanceSku ]
+      enum: [ instance-sku ]
       readOnly: true
     metadata:
       allOf:
         - $ref: './resource.yaml#/RegionalResourceMetadata'
         - type: object
-          additionalProperties: true
           properties:
             labels:
+              $ref: '#/InstanceSku/properties/spec/allOf/1/properties/capabilities'
+    spec:
+      example:
+        - { provider: 'SECA', tier: 'seca.s',  vCPU:  2, ramGB:  4, benchmarkPoints:  3000 }
+        - { provider: 'SECA', tier: 'seca.m',  vCPU:  4, ramGB:  8, benchmarkPoints:  6000 }
+        - { provider: 'SECA', tier: 'seca.l',  vCPU:  8, ramGB: 16, benchmarkPoints: 12000 }
+        - { provider: 'SECA', tier: 'seca.xl', vCPU: 16, ramGB: 32, benchmarkPoints: 24000 }
+      allOf:
+        - type: object
+          enum:
+            - { provider: 'SECA', tier: 'seca.s',  vCPU:  2, ramGB:  4, benchmarkPoints:  3000 }
+            - { provider: 'SECA', tier: 'seca.m',  vCPU:  4, ramGB:  8, benchmarkPoints:  6000 }
+            - { provider: 'SECA', tier: 'seca.l',  vCPU:  8, ramGB: 16, benchmarkPoints: 12000 }
+            - { provider: 'SECA', tier: 'seca.xl', vCPU: 16, ramGB: 32, benchmarkPoints: 24000 }
+        - type: object
+          properties:
+            provider:
+              type: string
+              description: Provider namespace for instance SKUs
+            tier:
+              type: string
+            capabilities:
+              additionalProperties: true
               type: object
-              description: "Custom labels for the SKU to describe read-only attributes the customer can filter out"
+              description: Instance performance capabilities
               properties:
-                tier:
-                  type: string
-                  description: "SECA keyword to identify the product in relation to a request for minimum specifications defined in the standard"
-                  example: XL
-                provider:
-                  type: string
-                  description: "SECA keyword to identify the provider identification of the tier label"
-                  example: seca
+                benchmarkPoints:
+                  type: integer
                 vCPU:
-                  type: string
-                  description: "Additional label which represents the product attribute"
-                  example: "16"
-                memory:
-                  type: string
-                  description: "Additional label which represents the product attribute"
-                  example: "32"
-                geekbenchPoint:
-                  type: string
-                  description: "Additional label which represents the product attribute"
-                  example: "24000"
-    name:
-      type: string
-      description: Unique identifier for the SKU
-    provider:
-      type: string
-      description: Provider of the SKU specification
-    tier:
-      type: string
-      description: Size tier of the SKU
-    capabilities:
-      type: array
-      description: List of capabilities for this SKU
-      items:
-        type: string
-      example: 
-        - "1500 geekbench points per vCPU"
-    extensions:
-      type: array
-      description: List of possible extensions for this SKU
-      items:
-        type: string
-      example: []
-    mandatoryParameters:
-      type: array
-      description: List of mandatory parameters for this SKU
-      items:
-        type: string
-      example: []
-  required:
-    - metadata
-    - name
-    - provider
-    - tier
-    - capabilities
-    - extensions
-    - mandatoryParameters
+                  type: integer
+                ramGB:
+                  type: integer
+            extensions:
+              type: array
+              description: Additional instance feature extensions
+              items:
+                type: string
+            mandatoryParameters:
+              type: array
+              description: Mandatory parameters for block storage resources
+              items:
+                type: string
+            description:
+              type: string
+
+    status:
+      type: object
+      readOnly: true
+      properties:
+        conditions:
+          $ref: "./resource.yaml#/StatusConditions"

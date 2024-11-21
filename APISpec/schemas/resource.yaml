@@ -9,16 +9,19 @@ ResourceMetadata:
       maxLength: 128
       pattern: '^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$'
       example: "primary-load-balancer"
-    generation:
-      type: integer
-      description: Monotonically increasing generation number, incremented on each update. Starts at 1.
-      readOnly: true
-      minimum: 1
     deletionTimestamp:
       type: string
       format: date-time
       description: If set, indicates the time when the resource was marked for deletion. Resources with this field set are considered pending deletion.
       readOnly: true
+    lastModifiedTimestamp:
+      type: string
+      format: date-time
+      description: Indicates the time when the resource was created or last modified. Field is used for "If-Unmodified-Since" logic for concurrency control. The provider guarantees that a modification on a single resource can happen only once every millisecond.
+      readOnly: true
+    description:
+      type: string
+      description: user can add a description for other humans to understand why this resource exists
     labels:
       type: object
       description: User-defined key/value pairs that are mutable and can be used to organize and categorize resources.
@@ -60,41 +63,6 @@ ZonalResourceMetadata:
           type: string
       required:
         - name
-
-Location:
-  type: object
-  description: Represents a specific geographic location combining region and zone
-  properties:
-    metadata:
-      $ref: '#/ResourceMetadata'
-    name:
-      type: string
-      description: Composite name in the format 'region/zone'
-    region:
-      type: string
-    zone:
-      type: string
-      description: Optional zone within the region
-
-# Rest of the existing schema remains the same (Label, StatusConditions, Profile, Setting, Constraint, Connector, etc.)
-
-Label:
-  type: object
-  description: Represents a key/value pair used for labels, providing a consistent structure for metadata tagging
-  properties:
-    key:
-      type: string
-      description: The identifier for the label. Keys can be optionally namespaced using either a colon or dot notation (e.g., 'monitoring:alert-level' or 'monitoring.alert-level'). The namespace portion follows the same naming rules as the key.
-      minLength: 1
-      maxLength: 256
-      pattern: '^([a-z0-9A-Z][-a-z0-9A-Z_.]*)?[a-z0-9A-Z]$'
-    value:
-      type: string
-      description: The data content of the label.
-      maxLength: 256
-  required:
-    - key
-    - value
 
 StatusConditions:
   type: array
@@ -145,90 +113,63 @@ StatusConditions:
           This field may be empty.
         maxLength: 32768
 
-Profile:
-  type: object
-  properties:
-    name:
-      type: string
-    labels:
-      type: array
-      items:
-        $ref: '#/Label'
-    privateSettings:
-      type: array
-      items:
-        $ref: '#/Setting'
-    protectedSettings:
-      type: array
-      items:
-        $ref: '#/Setting'
-    publicSettings:
-      type: array
-      items:
-        $ref: '#/Setting'
-    parentRef:
-      type: object
-      properties:
-        type:
-          type: string
-          enum: [ "Profile" ]
-        name:
-          type: string
-
-Setting:
-  type: object
-  properties:
-    name:
-      type: string
-    value:
-      type: string
-    constraints:
-      type: array
-      items:
-        $ref: '#/Constraint'
-
-Constraint:
-  type: object
-  properties:
-    type:
-      type: string
-      enum: ['MIN', 'MAX', 'LIST', 'REGEX', 'RANGE', 'LENGTH', 'ENUM', 'CHARSET', 'DATE_FORMAT', 'EMAIL', 'URL', 'PRECISION', 'MULTIPLE_OF']
-    value:
-      oneOf:
-        - type: string  # For MIN, MAX, REGEX, LIST, ENUM, CHARSET, DATE_FORMAT, EMAIL, URL
-        - type: array   # For LIST, ENUM
-          items:
-            type: string
-        - type: object  # For RANGE, LENGTH, PRECISION
-          properties:
-            min:
-              type: number
-            max:
-              type: number
-        - type: number  # For MULTIPLE_OF
-  required:
-    - type
-    - value
-
-Connector:
-  type: object
-  properties:
-    id:
-      type: string
-    name:
-      type: string
-    sourceResource:
-      $ref: '#/ResourceMetadata'
-    targetResource:
-      $ref: '#/ResourceMetadata'
-
-
 Region:
   type: object
   properties:
-    name:
+    apiVersion:
       type: string
-    availableZones:
-      type: array
-      items:
-        type: string
+      description: API version of the resource
+      default: v1beta1
+      readOnly: true
+    kind:
+      type: string
+      description: Type of the resource
+      enum: [ region ]
+      readOnly: true
+    metadata:
+      $ref: './resource.yaml#/GlobalResourceMetadata'
+    spec:
+      type: object
+      properties:
+        availableZones:
+          type: array
+          items:
+            type: string
+    status:
+      type: object
+      readOnly: true
+      properties:
+        conditions:
+          $ref: "./resource.yaml#/StatusConditions"
+
+Location:
+  type: object
+  description: Represents a specific geographic location combining region and zone. Composite name in the format 'region/zone'
+  properties:
+    apiVersion:
+      type: string
+      description: API version of the resource
+      default: v1beta1
+      readOnly: true
+    kind:
+      type: string
+      description: Type of the resource
+      enum: [ location ]
+      readOnly: true
+    metadata:
+      $ref: './resource.yaml#/GlobalResourceMetadata'
+    spec:
+      type: object
+      properties:
+        region:
+          type: string
+        zone:
+          type: string
+          description: Optional zone within the region
+    status:
+      type: object
+      readOnly: true
+      properties:
+        conditions:
+          $ref: "./resource.yaml#/StatusConditions"
+

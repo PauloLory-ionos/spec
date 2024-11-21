@@ -27,111 +27,55 @@ Image:
       allOf:
         - $ref: './resource.yaml#/RegionalResourceMetadata'
         - type: object
-          additionalProperties: true
           properties:
             labels:
+              $ref: '#/Image/properties/spec/allOf/1/properties/capabilities'
+    spec:
+      example:
+        - { provider: 'SECA', tier: 'ubuntu-24.04', cpuArchitecture: 'AMD64', boot: 'UEFI', cloudInitVersion: '22.01', endOfLife: '2029-03-31' }
+        - { provider: 'SECA', tier: 'redhat-9.3', cpuArchitecture: 'AMD64', boot: 'UEFI', cloudInitVersion: '22.01', endOfLife: '2026-12-31' }
+        - { provider: 'SECA', tier: 'debian-12', cpuArchitecture: 'AMD64', boot: 'UEFI', cloudInitVersion: '22.01', endOfLife: '2025-05-31' }
+      allOf:
+        - type: object
+          enum:
+            - { provider: 'SECA', tier: 'ubuntu-24.04', cpuArchitecture: 'AMD64', boot: 'UEFI', cloudInitVersion: '22.01', endOfLife: '2029-03-31' }
+            - { provider: 'SECA', tier: 'redhat-9.3', cpuArchitecture: 'AMD64', boot: 'UEFI', cloudInitVersion: '22.01', endOfLife: '2026-12-31' }
+            - { provider: 'SECA', tier: 'debian-12', cpuArchitecture: 'AMD64', boot: 'UEFI', cloudInitVersion: '22.01', endOfLife: '2025-05-31' }
+        - type: object
+          properties:
+            provider:
+              type: string
+              description: Provider of the Image specification
+            tier:
+              type: string
+              description: Tier of the Image
+            capabilities:
               type: object
-              description: "Custom labels for the Image to describe read-only attributes the customer can filter out"
+              additionalProperties: true
               properties:
                 tier:
                   type: string
-                  description: "SECA keyword to identify the product tier"
+                  description: "keyword to identify the product tier"
                   example: ubuntu-24.04
                 provider:
                   type: string
-                  description: "SECA keyword to identify the provider"
-                  example: seca
-    name:
-      type: string
-      description: Unique identifier for the Image
-    provider:
-      type: string
-      description: Provider of the Image specification
-      enum: ['SECA']
-      default: 'SECA'
-    tier:
-      type: string
-      description: Size tier of the Image
-      enum: ['ubuntu-24.04', 'redhat-9.3', 'debian-12']
-    capabilities:
-      type: array
-      description: List of capabilities for this Image
-      items:
-        type: string
-      example: 
-        - "OS=Linux"
-        - "flavor=Ubuntu"
-        - "majorVersion=24.04"
-        - "EndOfLife=2029-04-01"
-        - "cpuType=AMD64"
-        - "UEFI-boot"
-        - "cloud-init-version=22.01"
-    extensions:
-      type: array
-      description: List of possible extensions for this Image
-      items:
-        type: string
-      example: []
-    mandatoryParameters:
-      type: array
-      description: List of mandatory parameters for this Image
-      items:
-        type: string
-      example: 
-        - "OS"
-        - "flavor"
-        - "majorVersion"
-        - "EndOfLife"
-        - "cpuType"
-    spec:
-      type: object
-      properties:
-        osType:
-          type: string
-          description: Operating System type
-        version:
-          type: string
-          description: Specific version of the image
-        volumeSnapshotRef:
-          type: string
-          description: Reference to the snapshot used to create this image
-        visibility:
-          type: string
-          enum: ['private', 'public']
-          description: Image visibility scope
-        cloudInitSupport:
-          type: object
-          properties:
-            supported:
-              type: boolean
-              default: true
-            version:
-              type: string
-              default: '22.01'
-          description: Cloud-init support details
+                  description: "keyword to identify the provider"
+                  example: SECA
+            extensions:
+              type: array
+              description: List of possible extensions for this Image
+              items:
+                type: string
+            mandatoryParameters:
+              type: array
+              description: List of mandatory parameters for this Image
+              items:
+                type: string
+            description:
+                  type: string
     status:
       type: object
       readOnly: true
       properties:
-        state:
-          type: string
-          enum: ['available', 'unavailable']
-        osType:
-          type: string
-        version:
-          type: string
-        cloudInitSupport:
-          type: object
-          properties:
-            supported:
-              type: boolean
-            version:
-              type: string
-  required:
-    - metadata
-    - name
-    - provider
-    - tier
-    - capabilities
-    - extensions
-    - mandatoryParameters
+        conditions:
+          $ref: "./resource.yaml#/StatusConditions"

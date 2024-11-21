@@ -1,4 +1,4 @@
-VPC:
+LAN:
   type: object
   properties:
     apiVersion:

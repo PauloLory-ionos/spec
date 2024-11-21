@@ -2,8 +2,8 @@
   get:
     tags:
       - Network
-    summary: List all VPCs
-    operationId: listVPCs
+    summary: List all LANs
+    operationId: listLANs
     x-rbac:
       permissions: network/lan:read
     parameters:
@@ -21,7 +21,7 @@
       - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
       - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
       - $ref: '../schemas/parameters.yaml#/parameters/skipTokenParam'
-      - $ref: '../schemas/parameters.yaml#/parameters/includeDeletedParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/acceptHeader'
     responses:
       '200':
         description: Successful response
@@ -33,7 +33,7 @@
                 items:
                   type: array
                   items:
-                    $ref: '../schemas/lan.yaml#/VPC'
+                    $ref: '../schemas/lan.yaml#/LAN'
                 metadata:
                   type: object
                   properties:
@@ -45,8 +45,8 @@
   get:
     tags:
       - Network
-    summary: Get a specific VPC
-    operationId: getVPC
+    summary: Get a specific LAN
+    operationId: getLAN
     x-rbac:
       permissions: network/lan:read
     parameters:
@@ -72,7 +72,7 @@
         content:
           application/json:
             schema:
-              $ref: '../schemas/lan.yaml#/VPC'
+              $ref: '../schemas/lan.yaml#/LAN'
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
@@ -86,8 +86,8 @@
   put:
     tags:
       - Network
-    summary: Create or update a specific VPC
-    operationId: createOrUpdateVPC
+    summary: Create or update a specific LAN
+    operationId: createOrUpdateLAN
     x-rbac:
       permissions: network/lan:write
     parameters:
@@ -107,16 +107,16 @@
         required: true
         schema:
           type: string
-      - $ref: '../schemas/parameters.yaml#/parameters/ifMatchParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
     requestBody:
       required: true
       content:
         application/json:
           schema:
-            $ref: '../schemas/lan.yaml#/VPC'
+            $ref: '../schemas/lan.yaml#/LAN'
     responses:
       '202':
-        description: VPC updated or created
+        description: LAN updated or created
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
@@ -134,8 +134,8 @@
   delete:
     tags:
       - Network
-    summary: Delete a specific VPC
-    operationId: deleteVPC
+    summary: Delete a specific LAN
+    operationId: deleteLAN
     x-rbac:
       permissions: network/lan:write
     parameters:
@@ -157,7 +157,7 @@
           type: string
     responses:
       '204':
-        description: VPC deleted
+        description: LAN deleted
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':

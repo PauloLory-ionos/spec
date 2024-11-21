@@ -55,7 +55,7 @@
         required: true
         schema:
           type: string
-      - $ref: '../schemas/parameters.yaml#/parameters/ifMatchParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
     requestBody:
       required: true
       content:
@@ -109,7 +109,7 @@
         required: true
         schema:
           type: string
-      - $ref: '../schemas/parameters.yaml#/parameters/ifMatchParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
     responses:
       '202':
         description: Workspace deletion accepted

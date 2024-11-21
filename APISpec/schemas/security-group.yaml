@@ -84,54 +84,75 @@ SecurityGroup:
 SecurityGroupRule:
   type: object
   properties:
-    description:
+    apiVersion:
       type: string
-      description: Human-readable description of the rule's purpose
-    direction:
+      description: API version of the resource
+      default: v1beta1
+      readOnly: true
+    kind:
       type: string
-      enum: ['ingress', 'egress', 'bidirectional']
-      description: |
-        - ingress: Only incoming traffic is allowed
-        - egress: Only outgoing traffic is allowed
-        - bidirectional: Traffic can flow both ways
-    protocol:
-      type: string
-      enum: ['tcp', 'udp', 'icmp', 'all']
-      description: Network protocol for the rule
-    portRange:
+      description: Type of the resource
+      enum: [ security-group-rule ]
+      readOnly: true
+    metadata:
+      $ref: './resource.yaml#/RegionalResourceMetadata'
+    spec:
       type: object
-      description: Specific port or port range for the rule
       properties:
-        from: 
-          type: integer
-          minimum: 1
-          maximum: 65535
-        to:
-          type: integer
-          minimum: 1
-          maximum: 65535
-    source:
-      type: object
-      description: |
-        Source of the traffic. Can be a security group, CIDR range, or 'publicInternet'.
-        'publicInternet' allows explicit control over internet-facing traffic.
-      properties:
-        type:
+        description:
           type: string
-          enum: ['securityGroup', 'cidr', 'publicInternet']
-        value:
+          description: Human-readable description of the rule's purpose
+        direction:
           type: string
+          enum: ['ingress', 'egress', 'bidirectional']
           description: |
-            - For securityGroup: name of the source security group
-            - For cidr: IPv4 or IPv6 CIDR range
-            - For publicInternet: always 'any'
-    priority:
-      type: integer
-      description: Rule priority (lower number = higher priority)
-      minimum: 1
-      maximum: 10000
-    action:
-      type: string
-      enum: ['allow', 'deny']
-      default: 'allow'
-      description: Action to take when rule matches
+            - ingress: Only incoming traffic is allowed
+            - egress: Only outgoing traffic is allowed
+            - bidirectional: Traffic can flow both ways
+        protocol:
+          type: string
+          enum: ['tcp', 'udp', 'icmp', 'all']
+          description: Network protocol for the rule
+        portRange:
+          type: object
+          description: Specific port or port range for the rule
+          properties:
+            from: 
+              type: integer
+              minimum: 1
+              maximum: 65535
+            to:
+              type: integer
+              minimum: 1
+              maximum: 65535
+        source:
+          type: object
+          description: |
+            Source of the traffic. Can be a security group, CIDR range, or 'publicInternet'.
+            'publicInternet' allows explicit control over internet-facing traffic.
+          properties:
+            type:
+              type: string
+              enum: ['securityGroup', 'cidr', 'publicInternet']
+            value:
+              type: string
+              description: |
+                - For securityGroup: name of the source security group
+                - For cidr: IPv4 or IPv6 CIDR range
+                - For publicInternet: always 'any'
+        priority:
+          type: integer
+          description: Rule priority (lower number = higher priority)
+          minimum: 1
+          maximum: 10000
+        action:
+          type: string
+          enum: ['allow', 'deny']
+          default: 'allow'
+          description: Action to take when rule matches
+    status:
+      type: object
+      readOnly: true
+      properties:
+        conditions:
+          $ref: "./resource.yaml#/StatusConditions"      
