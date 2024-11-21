@@ -15,6 +15,8 @@
       | SECA | seca.100 | 100 Mbps | Medium-bandwidth network tier |
       | SECA | seca.1000 | 1000 Mbps | High-bandwidth network tier |
     operationId: listNetworkSkus
+    x-rbac:
+      permissions: catalog/network-sku:read
     parameters:
       - name: id
         in: path
@@ -62,6 +64,8 @@
     summary: Get details of a specific network SKU
     description: Retrieves details for a specific network SKU by its name
     operationId: getNetworkSku
+    x-rbac:
+      permissions: catalog/network-sku:read
     parameters:
       - name: id
         in: path

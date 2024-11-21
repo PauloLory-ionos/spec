@@ -16,6 +16,8 @@
       | SECA | seca.50 | 50 IOPS | Medium-performance block storage tier |
       | SECA | seca.100 | 100 IOPS | High-performance block storage tier |
     operationId: listBlockStorageSkus
+    x-rbac:
+      permissions: catalog/storage-sku:read
     parameters:
       - name: id
         in: path
@@ -63,6 +65,8 @@
     summary: Get details of a specific block storage SKU
     description: Retrieves details for a specific block storage SKU by its name
     operationId: getBlockStorageSku
+    x-rbac:
+      permissions: catalog/storage-sku:read
     parameters:
       - name: id
         in: path
