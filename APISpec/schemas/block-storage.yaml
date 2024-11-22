@@ -16,9 +16,12 @@ BlockStorage:
     spec:
       type: object
       properties:
-        blockStorageSkuRef:
-          type: string
-          description: Reference to the SKU used for this block-storage
+        profile:
+          type: object
+          properties:
+            blockStorageSkuRef:
+              type: string
+              description: Reference to the SKU used for this block-storage
         sizeGB:
           type: integer
         attachedTo:
@@ -31,17 +34,17 @@ BlockStorage:
               enum: [sata, ide, scsi, usb, nvme]
             deviceName:
               type: string
-        profile: 
-          type: string
-          readOnly: true
-        sourceImageRef:
-          type: string
-          readOnly: true
-          description: Reference to the source image used as the base for creating this block storage. This cannot be modified.
-        sourceBlockStorageSnapshotRef:
-          readOnly: true
-          type: string
-          description: Reference to the snapshot used as the base for creating this block storage. This cannot be modified.
+        origin:
+          type: object
+          properties:
+            sourceImageRef:
+              type: string
+              readOnly: true
+              description: Reference to the source image used as the base for creating this block storage. This cannot be modified.
+            sourceBlockStorageSnapshotRef:
+              readOnly: true
+              type: string
+              description: Reference to the snapshot used as the base for creating this block storage. This cannot be modified.
 
     status:
       type: object
