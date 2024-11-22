@@ -41,14 +41,14 @@ RegionalResourceMetadata:
     - $ref: '#/ResourceMetadata'
   description: Metadata for regional resources
   properties:
-    region:
+    location:
       type: object
       description: Reference to the region where the resource is located
       properties:
-        name:
+        region:
           type: string
       required:
-        - name
+        - region
 
 ZonalResourceMetadata:
   allOf:
@@ -59,10 +59,13 @@ ZonalResourceMetadata:
       type: object
       description: Reference to the specific location (region/zone) where the resource is located
       properties:
-        name:
+        region:
+          type: string
+        zone:
           type: string
       required:
-        - name
+        - region
+        - zone
 
 StatusConditions:
   type: array

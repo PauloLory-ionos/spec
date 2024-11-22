@@ -37,18 +37,6 @@ Instance:
                 type: string
               value:
                 type: string
-        placement:
-          type: object
-          properties:
-            strategy:
-              type: string
-              enum: ['zone']
-            zone:
-              type: string
- #           antiAffinityGroup:
- #             type: string
-          required:
-            - zone
         nics:
           type: array
           items:
