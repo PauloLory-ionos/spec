@@ -71,29 +71,3 @@
         $ref: '../openapi.yaml#/components/responses/Error404'
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
-  delete:
-    summary: Delete Image
-    operationId: deleteImage
-    x-rbac:
-      permissions: compute/image:write
-    tags:
-      - Catalogues
-    parameters:
-      - name: name
-        in: path
-        required: true
-        schema:
-          type: string
-    responses:
-      '204':
-        description: Image deleted
-      '400':
-        $ref: '../openapi.yaml#/components/responses/Error400'
-      '401':
-        $ref: '../openapi.yaml#/components/responses/Error401'
-      '403':
-        $ref: '../openapi.yaml#/components/responses/Error403'
-      '404':
-        $ref: '../openapi.yaml#/components/responses/Error404'
-      '500':
-        $ref: '../openapi.yaml#/components/responses/Error500'
