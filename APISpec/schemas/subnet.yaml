@@ -32,26 +32,32 @@ Subnet:
     spec:
       type: object
       properties:
-        ipv4Range:
-          type: string
-          format: ipv4
-          description: |
-            IPv4 address range for the subnet.
-            Must be unique within the LAN and cannot be modified after creation.
-            Example: '192.168.1.0/24'
-        ipv6Range:
-          type: string
-          format: ipv6
-          description: |
-            Optional IPv6 address range for the subnet.
-            Must be unique within the LAN.
-            Example: '2001:db8::/64'
-        networkSkuRef:
-          type: string
-          description: |
-            Reference to a network SKU defining bandwidth performance.
-            Allows selection of network performance tier.
-            Pattern: '^seca\.(10|100|1000)$'
+        profile:
+          type: object
+          properties:
+            networkSkuRef:
+              type: string
+              description: |
+                Reference to a network SKU defining bandwidth performance.
+                Allows selection of network performance tier.
+                Pattern: '^seca\.(10|100|1000)$'
+        cidr:
+          type: object
+          properties:
+            ipv4Range:
+              type: string
+              format: ipv4
+              description: |
+                IPv4 address range for the subnet.
+                Must be unique within the LAN and cannot be modified after creation.
+                Example: '192.168.1.0/24'
+            ipv6Range:
+              type: string
+              format: ipv6
+              description: |
+                Optional IPv6 address range for the subnet.
+                Must be unique within the LAN.
+                Example: '2001:db8::/64'
         defaultGateway:
           type: object
           description: |
