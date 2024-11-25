@@ -81,6 +81,23 @@
     summary: Get details of a specific block storage SKU
     description: Retrieves details for a specific block storage SKU by its name
     operationId: getBlockStorageSku
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.storage/skus"]
+          verbs: ["get"]
+### FUTURE EVOLUTIONS          
+#        - type: ABAC  
+#          attributes:
+#            - name: workspace
+#              description: Workspace in the request must match user's allowed namespaces.
+#            - name: user-roles
+#              description: User must have a role allowing access to the resource.
+#            - name: request-time
+#              description: Access allowed only during specific time windows. 
+
     x-rbac:
       permissions: storage/sku:read
     parameters:
