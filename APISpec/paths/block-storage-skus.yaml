@@ -15,7 +15,25 @@
       | SECA | seca.10 | 10 IOPS | Low-performance block storage tier |
       | SECA | seca.50 | 50 IOPS | Medium-performance block storage tier |
       | SECA | seca.100 | 100 IOPS | High-performance block storage tier |
+    security:
+      - bearerAuth: []  # JWT required for authentication
     operationId: listBlockStorageSkus
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["*"]
+          resources: ["seca.storage/skus"]
+          verbs: ["list"]
+### FUTURE EVOLUTIONS          
+#        - type: ABAC  
+#          attributes:
+#            - name: workspace
+#              description: Workspace in the request must match user's allowed namespaces.
+#            - name: user-roles
+#              description: User must have a role allowing access to the resource.
+#            - name: request-time
+#              description: Access allowed only during specific time windows. 
     parameters:
       - name: id
         in: path
@@ -63,6 +81,8 @@
     summary: Get details of a specific block storage SKU
     description: Retrieves details for a specific block storage SKU by its name
     operationId: getBlockStorageSku
+    x-rbac:
+      permissions: storage/sku:read
     parameters:
       - name: id
         in: path

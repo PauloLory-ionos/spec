@@ -17,6 +17,8 @@
       | SECA | seca.l | 8 | 16 | min 12000 |
       | SECA | seca.xl | 16 | 32 | min 24000 |
     operationId: listSkus
+    x-rbac:
+      permissions: compute/sku:read
     parameters:
       - name: id
         in: path
@@ -64,6 +66,8 @@
     summary: Get details of a specific SKU
     description: Retrieves details for a specific SKU by its name
     operationId: getSku
+    x-rbac:
+      permissions: compute/sku:read
     parameters:
       - name: id
         in: path

@@ -107,7 +107,9 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      description: JWT token for authentication
+      description: |
+        Use a JWT token for authentication. The token identifies the user, 
+        and policies (RBAC, ABAC, or hybrid) determine authorization.
   schemas:
     LAN:
       $ref: './schemas/lan.yaml#/LAN'
