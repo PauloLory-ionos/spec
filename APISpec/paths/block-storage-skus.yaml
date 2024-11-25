@@ -82,7 +82,7 @@
     description: Retrieves details for a specific block storage SKU by its name
     operationId: getBlockStorageSku
     x-rbac:
-      permissions: catalog/storage-sku:read
+      permissions: storages/sku:read
     parameters:
       - name: id
         in: path
