@@ -110,8 +110,8 @@ components:
       scheme: bearer
       bearerFormat: JWT
       description: |
-        Use a JWT token for authentication. The token is used to identify the user, 
-        and authorization is determined dynamically based on roles/permissions.
+        Use a JWT token for authentication. The token identifies the user, 
+        and policies (RBAC, ABAC, or hybrid) determine authorization.
   schemas:
     LAN:
       $ref: './schemas/lan.yaml#/LAN'
