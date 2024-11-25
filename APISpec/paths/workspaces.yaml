@@ -4,8 +4,13 @@
       - Organization
     summary: List workspaces
     operationId: listWorkspaces
-    x-rbac:
-      permissions: organization/workspace:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.core/workspaces"]
+          verbs: ["list"]
     parameters:
       - name: id
         in: path
@@ -50,8 +55,13 @@
       - Organization
     summary: Get a specific workspace
     operationId: getWorkspace
-    x-rbac:
-      permissions: organization/workspace:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.core/workspaces/{workspaceName}"]
+          verbs: ["get"]
     parameters:
       - name: id
         in: path

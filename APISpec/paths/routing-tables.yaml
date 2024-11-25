@@ -4,8 +4,13 @@
       - Network
     summary: List all routing tables for a LAN
     operationId: listRoutingTables
-    x-rbac:
-      permissions: network/routing-table:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/routing-tables"]
+          verbs: ["list"]
     parameters:
       - name: id
         in: path
@@ -62,8 +67,13 @@
       - Network
     summary: Get a specific routing table
     operationId: getRoutingTable
-    x-rbac:
-      permissions: network/routing-table:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/routing-tables/{routingTableName}"]
+          verbs: ["get"]
     parameters:
       - name: id
         in: path

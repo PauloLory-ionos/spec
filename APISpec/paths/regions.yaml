@@ -4,8 +4,13 @@
       - Organization
     summary: List all regions
     operationId: listRegions
-    x-rbac:
-      permissions: core/region:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.core/regions"]
+          verbs: ["list"]
     parameters:
       - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
       - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
@@ -44,8 +49,13 @@
       - Organization
     summary: Get a specific region by name
     operationId: getRegion
-    x-rbac:
-      permissions: core/region:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.core/regions/{regionName}"]
+          verbs: ["list"]
     parameters:
       - name: name
         in: path
@@ -68,8 +78,13 @@
       - Organization
     summary: List all locations
     operationId: listLocations
-    x-rbac:
-      permissions: core/location:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.core/locations"]
+          verbs: ["list"]
     parameters:
       - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
       - $ref: '../schemas/parameters.yaml#/parameters/limitParam'

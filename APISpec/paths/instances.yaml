@@ -4,8 +4,13 @@
       - Compute
     summary: List all instances
     operationId: listInstances
-    x-rbac:
-      permissions: compute/instance:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.compute/instances"]
+          verbs: ["list"]
     parameters:
       - name: id
         in: path
@@ -57,8 +62,13 @@
       - Compute
     summary: Get a specific instance
     operationId: getInstance
-    x-rbac:
-      permissions: compute/instance:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.compute/instances/{instanceName}"]
+          verbs: ["get"]
     parameters:
       - name: id
         in: path

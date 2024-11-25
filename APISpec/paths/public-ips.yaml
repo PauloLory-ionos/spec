@@ -5,8 +5,13 @@
     summary: List Public IPs
     description: Retrieve a list of public IP addresses in the workspace
     operationId: listPublicIPs
-    x-rbac:
-      permissions: network/public-ip:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/public-ips"]
+          verbs: ["list"]
     parameters:
       - name: id
         in: path
@@ -109,8 +114,13 @@
     summary: Get Public IP
     description: Retrieve a specific public IP address
     operationId: getPublicIP
-    x-rbac:
-      permissions: network/public-ip:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/public-ips/{publicIpName}"]
+          verbs: ["get"]
     parameters:
       - name: id
         in: path

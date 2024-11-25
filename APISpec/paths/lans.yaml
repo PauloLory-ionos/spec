@@ -4,8 +4,13 @@
       - Network
     summary: List all LANs
     operationId: listLANs
-    x-rbac:
-      permissions: network/lan:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/lans"]
+          verbs: ["list"]
     parameters:
       - name: id
         in: path
@@ -47,8 +52,13 @@
       - Network
     summary: Get a specific LAN
     operationId: getLAN
-    x-rbac:
-      permissions: network/lan:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/lans/{lanName}"]
+          verbs: ["get"]
     parameters:
       - name: id
         in: path

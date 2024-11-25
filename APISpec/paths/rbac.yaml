@@ -4,8 +4,13 @@
       - Authorization
     summary: List all roles
     operationId: listRoles
-    x-rbac:
-      permissions: authorization/role:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.authorization/roles"]
+          verbs: ["list"]
     parameters:
       - name: id
         in: path
@@ -57,8 +62,13 @@
       - Authorization
     summary: Get a specific role
     operationId: getRole
-    x-rbac:
-      permissions: authorization/role:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.authorization/roles/{roleName}"]
+          verbs: ["get"]
     parameters:
       - name: id
         in: path
@@ -204,8 +214,13 @@
       - Authorization
     summary: List all role assignments
     operationId: listRoleAssignments
-    x-rbac:
-      permissions: authorization/role-assignment:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.authorization/role-assignments"]
+          verbs: ["list"]
     parameters:
       - name: id
         in: path
@@ -264,8 +279,13 @@
     summary: Get a specific role assignment group
     description: Retrieves the details of a specific role assignment group by its name
     operationId: getRoleAssignment
-    x-rbac:
-      permissions: authorization/role-assignment:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.authorization/role-assignments/{roleAssignmentName}"]
+          verbs: ["get"]
     parameters:
       - name: id
         in: path

@@ -4,8 +4,13 @@
       - Network
     summary: List all NICs in a LAN
     operationId: listNICs
-    x-rbac:
-      permissions: network/nic:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/lans/{lanName}/nics"]
+          verbs: ["list"]
     parameters:
       - name: lan
         in: path
@@ -70,21 +75,26 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/lan/{lan}/nics/{nicId}:
+/lan/{lan}/nics/{nicName}:
   get:
     tags:
       - Network
     summary: Get a specific NIC in a LAN
     operationId: getNIC
-    x-rbac:
-      permissions: network/nic:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/lans/{lanName}/nics/{nicName}"]
+          verbs: ["get"]
     parameters:
       - name: lan
         in: path
         required: true
         schema:
           type: string
-      - name: nicId
+      - name: nicName
         in: path
         required: true
         schema:
