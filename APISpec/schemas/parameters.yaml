@@ -7,6 +7,8 @@ parameters:
       Filter syntax:
         - Equals: key=value
         - Not equals: key!=value
+        - Wildcards: *key*=*value* - matches if at least one pair match 
+        - Numeric: key>value, key<value, key>=value, key<=value
         - Namespaced key examples: 'monitoring:alert-level=high' or 'billing:team=platform'
     required: false
     schema:
