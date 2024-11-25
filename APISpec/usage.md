@@ -39,6 +39,7 @@ This guide walks you through the process of creating and managing cloud instance
 ## Prerequisites
 
 ### Authentication
+- You need to have an active tenantId from your cloud service provider
 - You need a valid JWT token for authentication
 - The JWT must contain a `sub` claim that identifies you (e.g., email or unique identifier)
 - Use the token in the Authorization header: `Authorization: Bearer <your_jwt_token>`

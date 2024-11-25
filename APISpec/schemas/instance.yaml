@@ -60,13 +60,14 @@ Instance:
                     Example cloud-init user configuration with SSH key:
                     ```yaml
                     #cloud-config
-                    ssh_authorized_keys:
-                      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0g+ZTxC7weoIJLUafOgrm+h...
+                    packages:
+                      - nginx
                     ```
                 sshKeyExternalRef:
                   type: array
                   items:
                     type: string
+                    example: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0g...'
                   description: |
                     Provider-specific references to SSH keys used in cloud-init vendorData.
                     These references are used to inject SSH public keys during instance initialization 
