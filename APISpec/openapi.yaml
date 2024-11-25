@@ -1,6 +1,6 @@
 openapi: 3.0.3
 servers:
-  - url: https://secapi.cloud
+  - url: https://demo.secapi.cloud
     description: API Definition Environment
 info:
   title: Sovereign European Cloud API
