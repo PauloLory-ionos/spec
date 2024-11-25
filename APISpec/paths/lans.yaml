@@ -98,8 +98,13 @@
       - Network
     summary: Create or update a specific LAN
     operationId: createOrUpdateLAN
-    x-rbac:
-      permissions: network/lan:write
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/lans/{lanName}"]
+          verbs: ["create","update"]
     parameters:
       - name: id
         in: path
@@ -146,8 +151,13 @@
       - Network
     summary: Delete a specific LAN
     operationId: deleteLAN
-    x-rbac:
-      permissions: network/lan:write
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/lans/{lanName}"]
+          verbs: ["delete"]
     parameters:
       - name: id
         in: path

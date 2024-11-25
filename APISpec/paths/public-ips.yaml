@@ -61,8 +61,13 @@
     summary: Create or Update Public IP
     description: Create or update a public IP address in the workspace
     operationId: putPublicIP
-    x-rbac:
-      permissions: network/public-ip:write
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/public-ips"]
+          verbs: ["create"]
     parameters:
       - name: id
         in: path
@@ -163,8 +168,13 @@
     summary: Delete Public IP
     description: Delete a specific public IP address
     operationId: deletePublicIP
-    x-rbac:
-      permissions: network/public-ip:delete
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/public-ips/{publicIpName}"]
+          verbs: ["delete"]
     parameters:
       - name: id
         in: path

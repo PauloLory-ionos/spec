@@ -97,8 +97,13 @@
       - Organization
     summary: Create or update a workspace
     operationId: createOrUpdateWorkspace
-    x-rbac:
-      permissions: organization/workspace:write
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.core/workspaces/{workspaceName}"]
+          verbs: ["create","update"]
     parameters:
       - name: id
         in: path
@@ -151,8 +156,13 @@
       - Role assignments specific to this workspace are also deleted
       - Deletion is a cascading operation that removes all associated resources
     operationId: deleteWorkspace
-    x-rbac:
-      permissions: organization/workspace:delete
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.core/workspaces/{workspaceName}"]
+          verbs: ["delete"]
     parameters:
       - name: id
         in: path
