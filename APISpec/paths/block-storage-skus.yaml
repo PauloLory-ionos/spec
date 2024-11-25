@@ -22,7 +22,7 @@
       type: hybrid  # Supports both RBAC and ABAC
       policies:
         - type: RBAC
-          scope: ["*"]
+          scopes: ["*"]
           resources: ["seca.storage/skus"]
           verbs: ["list"]
 ### FUTURE EVOLUTIONS          
