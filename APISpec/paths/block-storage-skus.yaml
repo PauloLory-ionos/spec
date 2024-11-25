@@ -15,9 +15,13 @@
       | SECA | seca.10 | 10 IOPS | Low-performance block storage tier |
       | SECA | seca.50 | 50 IOPS | Medium-performance block storage tier |
       | SECA | seca.100 | 100 IOPS | High-performance block storage tier |
+    security:
+      - bearerAuth: []  # JWT required for authentication
     operationId: listBlockStorageSkus
-    x-rbac:
-      permissions: catalog/storage-sku:read
+    x-seca-rbac:
+      workspaces: ["*"]
+      resources: ["seca.storage/skus"]
+      verbs: ["list"]
     parameters:
       - name: id
         in: path
