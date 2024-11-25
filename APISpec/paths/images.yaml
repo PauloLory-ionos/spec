@@ -2,8 +2,13 @@
   get:
     summary: List Images
     operationId: listImages
-    x-rbac:
-      permissions: compute/image:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.storage/images"]
+          verbs: ["get"]
     tags:
       - Catalogues
     parameters:
@@ -44,8 +49,13 @@
   get:
     summary: Get Image
     operationId: getImage
-    x-rbac:
-      permissions: compute/image:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.storage/images/{imageName}"]
+          verbs: ["get"]
     tags:
       - Catalogues
     parameters:
