@@ -25,9 +25,22 @@ tags:
   - name: Catalogues
     description: Resource catalogues including server, volume profiles, and images
 paths:
-  # Workspaces
-  /v1beta1/tenants/{id}/workspaces/{name}:
-    $ref: './paths/workspaces.yaml#/~1workspaces~1{name}'
+
+  # Platform resources (regions)
+  /v1beta1/tenants/{id}/providers/seca.core/workspaces:
+    $ref: './paths/workspaces.yaml#/~1workspaces'
+  /v1beta1/tenants/{id}/providers/seca.core/workspaces/{name}:
+    $ref: './paths/workspaces.yaml#/~1workspaces~1{name}'  
+  /v1beta1/tenants/{id}/providers/seca.core/regions:
+    $ref: './paths/regions.yaml#/~1regions'
+  /v1beta1/tenants/{id}/providers/seca.core/regions/{name}:
+    $ref: './paths/regions.yaml#/~1regions~1{name}'
+
+  #Tenant Cloud Images 
+  /v1beta1/tenants/{id}/providers/seca.storage/images:
+    $ref: './paths/images.yaml#/~1images'
+  /v1beta1/tenants/{id}/providers/seca.storage/images/{name}:
+    $ref: './paths/images.yaml#/~1images~1{name}'
 
   # Tenants Instance SKUs Resource
   /v1beta1/tenants/{id}/providers/seca.compute/skus:
@@ -46,14 +59,6 @@ paths:
     $ref: './paths/block-storage-skus.yaml#/~1skus'
   /v1beta1/tenants/{id}/providers/seca.storage/skus/{name}:
     $ref: './paths/block-storage-skus.yaml#/~1skus~1{name}'
-
-  # Platform resources (regions)
-  /v1beta1/providers/seca.platform/regions:
-    $ref: './paths/regions.yaml#/~1regions'
-  /v1beta1/providers/seca.storage/images:
-    $ref: './paths/images.yaml#/~1images'
-  /v1beta1/providers/seca.storage/images/{name}:
-    $ref: './paths/images.yaml#/~1images~1{name}'
 
   # Network resources - LAN and its resources
   /v1beta1/tenants/{id}/workspaces/{workspace}/providers/seca.network/lans:
@@ -94,6 +99,8 @@ paths:
   #   $ref: './paths/block-storage.yaml#/~1workspaces~1{workspace}~1providers~1storage~1block-storages~1{name}~1snapshots'
   # /v1beta1/tenants/{id}/workspaces/{workspace}/providers/seca.storage/block-storages/{name}/snapshots/{snapshotName}:
   #   $ref: './paths/block-storage.yaml#/~1workspaces~1{workspace}~1providers~1storage~1block-storages~1{name}~1snapshots~1{snapshotName}'
+
+
 
   # New PublicIp Resource
   /v1beta1/tenants/{id}/workspaces/{workspace}/providers/seca.network/public-ips:
