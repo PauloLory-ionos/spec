@@ -124,8 +124,6 @@ components:
       $ref: './schemas/instance.yaml#/Instance'
     BlockStorage:
       $ref: './schemas/block-storage.yaml#/BlockStorage'
-    BlockStorageSnapshot:
-      $ref: './schemas/block-storage.yaml#/BlockStorageSnapshot'
     Image:
       $ref: './schemas/image.yaml#/Image'
     SystemRole:
