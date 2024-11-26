@@ -138,8 +138,8 @@ SecurityGroupRule:
               type: string
               description: |
                 - For securityGroup: name of the source security group
-                - For cidr: IPv4 or IPv6 CIDR range
-                - For publicInternet: always 'any'
+                - For cidr: IPv4 CIDR range
+                - For publicInternet: 'any' or a IPv4 CIDR Range
         priority:
           type: integer
           description: Rule priority (lower number = higher priority)

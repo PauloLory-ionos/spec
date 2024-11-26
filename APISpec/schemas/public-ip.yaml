@@ -20,14 +20,12 @@ PublicIp:
       properties:
         ipAddress:
           type: string
-          description: The public IP address, can be IPv4 or IPv6
-          format: ipv4-or-ipv6
+          description: The public IP address
         ipVersion:
           type: string
-          description: IP version of the address
+          description: IP version of the address (limited to IPv4 for now)
           enum:
             - IPv4
-            - IPv6
         type:
           type: string
           description: Type of public IP allocation

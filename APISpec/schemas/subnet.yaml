@@ -51,13 +51,6 @@ Subnet:
                 IPv4 address range for the subnet.
                 Must be unique within the LAN and cannot be modified after creation.
                 Example: '192.168.1.0/24'
-            ipv6Range:
-              type: string
-              format: ipv6
-              description: |
-                Optional IPv6 address range for the subnet.
-                Must be unique within the LAN.
-                Example: '2001:db8::/64'
         defaultGateway:
           type: object
           description: |
@@ -82,9 +75,6 @@ Subnet:
           type: string
           enum: ['provisioning', 'running']
         ipv4Range:
-          type: string
-          format: CIDR
-        ipv6Range:
           type: string
           format: CIDR
         zone:

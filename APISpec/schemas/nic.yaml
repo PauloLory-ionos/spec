@@ -29,7 +29,8 @@ NIC:
             properties:
               adressType:
                 type: string
-                enum: [ 'IPv4', 'IPv6' ]
+                description: the type of the IP - (limited to IPv4 for now.)
+                enum: [ 'IPv4' ]
               provisioningStrategy:
                 type: string
                 description: Type of IP allocation - for now only "dhcp" is allowed
@@ -55,7 +56,7 @@ NIC:
             properties:
               adressType:
                 type: string
-                enum: [ 'IPv4', 'IPv6' ]
+                enum: [ 'IPv4' ]
               ipAddress:
                 type: string
         publicIPRef:
