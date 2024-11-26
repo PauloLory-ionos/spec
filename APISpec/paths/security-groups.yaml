@@ -4,8 +4,13 @@
       - Network
     summary: List all security groups
     operationId: listSecurityGroups
-    x-rbac:
-      permissions: network/security-group:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/security-groups"]
+          verbs: ["list"]
     parameters:
       - name: id
         in: path
@@ -62,8 +67,13 @@
       - Network
     summary: Get a specific security group
     operationId: getSecurityGroup
-    x-rbac:
-      permissions: network/security-group:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/security-groups/{securityGroupName}"]
+          verbs: ["get"]
     parameters:
       - name: id
         in: path
@@ -108,8 +118,13 @@
       - Network
     summary: Create or update a specific security group
     operationId: createOrUpdateSecurityGroup
-    x-rbac:
-      permissions: network/security-group:write
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/security-groups/{securityGroupName}"]
+          verbs: ["create","update"]
     parameters:
       - name: id
         in: path
@@ -161,8 +176,13 @@
       - Network
     summary: Delete a specific security group
     operationId: deleteSecurityGroup
-    x-rbac:
-      permissions: network/security-group:write
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/security-groups/{securityGroupName}"]
+          verbs: ["delete"]
     parameters:
       - name: id
         in: path

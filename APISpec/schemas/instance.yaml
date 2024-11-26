@@ -16,71 +16,72 @@ Instance:
     spec:
       type: object
       properties:
-        instanceSkuRef:
-          type: string
-          description: Reference to the SKU used for this instance
-        skuMandatoryParameters:
-          type: array
-          items:
-            type: object
-            properties:
-              key:
-                type: string
-              value:
-                type: string
-        skuExtentions:
-          type: array
-          items:
-            type: object
-            properties:
-              key:
-                type: string
-              value:
-                type: string
-        placement:
+        profile:
           type: object
           properties:
-            strategy:
+            instanceSkuRef:
               type: string
-              enum: ['zone']
-            zone:
-              type: string
- #           antiAffinityGroup:
- #             type: string
-          required:
-            - zone
-        nics:
-          type: array
-          items:
-            $ref: './nic.yaml#/NIC'
-        cloudInitData:
+              description: Reference to the SKU used for this instance
+            skuMandatoryParameters:
+              type: array
+              items:
+                type: object
+                properties:
+                  key:
+                    type: string
+                  value:
+                    type: string
+            skuExtentions:
+              type: array
+              items:
+                type: object
+                properties:
+                  key:
+                    type: string
+                  value:
+                    type: string
+        network:
           type: object
           properties:
-            userData:
+            nics:
+              type: array
+              items:
+                $ref: './nic.yaml#/NIC'
+        operatingSystem:
+          type: object
+          properties:
+            cloudInitData:
+              type: object
+              properties:
+                userData:
+                  type: string
+                  description: |
+                    Cloud-init user data for instance initialization
+                    Example cloud-init user configuration with SSH key:
+                    ```yaml
+                    #cloud-config
+                    packages:
+                      - nginx
+                    ```
+                sshKeyExternalRef:
+                  type: array
+                  items:
+                    type: string
+                    example: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0g...'
+                  description: |
+                    Provider-specific references to SSH keys used in cloud-init vendorData.
+                    These references are used to inject SSH public keys during instance initialization 
+                    through cloud-init's vendor data configuration.
+            osBlockStorageRef:
               type: string
-              description: |
-                Cloud-init user data for instance initialization
-                Example cloud-init user configuration with SSH key:
-                ```yaml
-                #cloud-config
-                ssh_authorized_keys:
-                  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0g+ZTxC7weoIJLUafOgrm+h...
-                ```
-            sshKeyExternalRef:
+              description: Reference to primary block storage for operating system initialization
+        storage:
+          type: object
+          properties:
+            dataBlockStorageRef:
               type: array
               items:
                 type: string
-              description: |
-                Provider-specific references to SSH keys used in cloud-init vendorData.
-                These references are used to inject SSH public keys during instance initialization 
-                through cloud-init's vendor data configuration.
-        dataBlockStorageRef:
-          type: array
-          items:
-            type: string
-        osBlockStorageRef:
-          type: string
-          description: Reference to primary block storage for operating system initialization
     status:
       type: object
       readOnly: true

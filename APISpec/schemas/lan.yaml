@@ -16,10 +16,11 @@ LAN:
     spec:
       type: object
       properties:
-        region:
+        latency:
           type: string
-        routingTableRef:
-          type: string
+          description: latency below 5ms
+          enum: [ '<5ms' ]
+          default: '<5ms'  
     status:
       type: object
       readOnly: true

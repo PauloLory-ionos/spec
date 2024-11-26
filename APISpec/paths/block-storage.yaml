@@ -4,8 +4,13 @@
       - Storage
     summary: List all block storage volumes
     operationId: listBlockStorages
-    x-rbac:
-      permissions: storage/block-storage:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.storage/block-storages"]
+          verbs: ["list"]
     parameters:
       - name: id
         in: path
@@ -57,8 +62,13 @@
       - Storage
     summary: Get a specific block storage volume
     operationId: getBlockStorage
-    x-rbac:
-      permissions: storage/block-storage:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.storage/block-storages"]
+          verbs: ["get"]
     parameters:
       - name: id
         in: path
@@ -99,8 +109,13 @@
       - Storage
     summary: Create or update a specific block storage volume
     operationId: createOrUpdateBlockStorage
-    x-rbac:
-      permissions: storage/block-storage:write
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.storage/block-storages/{blockStorageName}"]
+          verbs: ["create","update"]
     parameters:
       - name: id
         in: path
@@ -147,8 +162,13 @@
       - Storage
     summary: Delete a specific block storage volume
     operationId: deleteBlockStorage
-    x-rbac:
-      permissions: storage/block-storage:write
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.storage/block-storages/{blockStorageName}"]
+          verbs: ["delete"]
     parameters:
       - name: id
         in: path
@@ -186,8 +206,13 @@
       - Storage
     summary: List all snapshots for a block storage volume
     operationId: listBlockStorageSnapshots
-    x-rbac:
-      permissions: storage/block-storage:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.storage/block-storages/{blockStorageName}/snapshots"]
+          verbs: ["get"]
     parameters:
       - name: id
         in: path
@@ -231,8 +256,13 @@
       - Storage
     summary: Get a specific snapshot
     operationId: getBlockStorageSnapshot
-    x-rbac:
-      permissions: storage/block-storage:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.storage/block-storages/{blockStorageName}/snapshots/{snapshotName}"]
+          verbs: ["get"]
     parameters:
       - name: id
         in: path
@@ -277,8 +307,13 @@
       - Storage
     summary: Create or update a specific snapshot
     operationId: createOrUpdateBlockStorageSnapshot
-    x-rbac:
-      permissions: storage/block-storage:write
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.storage/block-storages/{blockStorageName}/snapshots/{snapshotName}"]
+          verbs: ["create","update"]
     parameters:
       - name: id
         in: path
@@ -330,8 +365,13 @@
       - Storage
     summary: Delete a specific snapshot
     operationId: deleteBlockStorageSnapshot
-    x-rbac:
-      permissions: storage/block-storage:write
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.storage/block-storages/{blockStorageName}/snapshots/{snapshotName}"]
+          verbs: ["delete"]
     parameters:
       - name: id
         in: path

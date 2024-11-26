@@ -1,6 +1,6 @@
 openapi: 3.0.3
 servers:
-  - url: https://secapi.cloud
+  - url: https://demo.secapi.cloud
     description: API Definition Environment
 info:
   title: Sovereign European Cloud API
@@ -50,8 +50,6 @@ paths:
   # Platform resources (regions)
   /v1beta1/providers/seca.platform/regions:
     $ref: './paths/regions.yaml#/~1regions'
-  /v1beta1/providers/seca.platform/locations:
-    $ref: './paths/regions.yaml#/~1locations'
   /v1beta1/providers/seca.storage/images:
     $ref: './paths/images.yaml#/~1images'
   /v1beta1/providers/seca.storage/images/{name}:

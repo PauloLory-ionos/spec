@@ -4,8 +4,13 @@
       - Network
     summary: List all routing tables for a LAN
     operationId: listRoutingTables
-    x-rbac:
-      permissions: network/routing-table:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/routing-tables"]
+          verbs: ["list"]
     parameters:
       - name: id
         in: path
@@ -62,8 +67,13 @@
       - Network
     summary: Get a specific routing table
     operationId: getRoutingTable
-    x-rbac:
-      permissions: network/routing-table:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/routing-tables/{routingTableName}"]
+          verbs: ["get"]
     parameters:
       - name: id
         in: path
@@ -110,8 +120,13 @@
     summary: Create or update a routing table
     description: Create a new routing table or update an existing one, including its routes. Routes are manipulated by updating the entire routing table object.
     operationId: createOrUpdateRoutingTable
-    x-rbac:
-      permissions: network/routing-table:write
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/routing-tables/{routingTableName}"]
+          verbs: ["create","update"]
     parameters:
       - name: id
         in: path
@@ -164,8 +179,13 @@
       - Network
     summary: Delete a routing table
     operationId: deleteRoutingTable
-    x-rbac:
-      permissions: network/routing-table:write
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/routing-tables/{routingTableName}"]
+          verbs: ["delete"]
     parameters:
       - name: id
         in: path

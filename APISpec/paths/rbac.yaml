@@ -4,8 +4,13 @@
       - Authorization
     summary: List all roles
     operationId: listRoles
-    x-rbac:
-      permissions: authorization/role:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.authorization/roles"]
+          verbs: ["list"]
     parameters:
       - name: id
         in: path
@@ -57,8 +62,13 @@
       - Authorization
     summary: Get a specific role
     operationId: getRole
-    x-rbac:
-      permissions: authorization/role:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.authorization/roles/{roleName}"]
+          verbs: ["get"]
     parameters:
       - name: id
         in: path
@@ -99,8 +109,13 @@
     summary: Create or update a specific role
     description: System roles (ADMIN, WORKSPACE_ADMIN, WORKSPACE_EDITOR, WORKSPACE_VIEWER) cannot be modified.
     operationId: createOrUpdateRole
-    x-rbac:
-      permissions: authorization/role:write
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.authorization/roles/{roleName}"]
+          verbs: ["create","update"]
     parameters:
       - name: id
         in: path
@@ -162,8 +177,13 @@
       - Role assignments are NOT deleted, even if the role array becomes empty
       - System roles (ADMIN, WORKSPACE_ADMIN, WORKSPACE_EDITOR, WORKSPACE_VIEWER) cannot be deleted
     operationId: deleteRole
-    x-rbac:
-      permissions: authorization/role:delete
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.authorization/roles/{roleName}"]
+          verbs: ["delete"]
     parameters:
       - name: id
         in: path
@@ -204,8 +224,13 @@
       - Authorization
     summary: List all role assignments
     operationId: listRoleAssignments
-    x-rbac:
-      permissions: authorization/role-assignment:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.authorization/role-assignments"]
+          verbs: ["list"]
     parameters:
       - name: id
         in: path
@@ -264,8 +289,13 @@
     summary: Get a specific role assignment group
     description: Retrieves the details of a specific role assignment group by its name
     operationId: getRoleAssignment
-    x-rbac:
-      permissions: authorization/role-assignment:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.authorization/role-assignments/{roleAssignmentName}"]
+          verbs: ["get"]
     parameters:
       - name: id
         in: path
@@ -312,8 +342,13 @@
       which effectively removes all roles from the group while maintaining 
       the role assignment record.
     operationId: createOrUpdateRoleAssignment
-    x-rbac:
-      permissions: authorization/role-assignment:write
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.authorization/role-assignments/{roleAssignmentName}"]
+          verbs: ["create","update"]
     parameters:
       - name: id
         in: path
@@ -374,8 +409,13 @@
       Deletes the specified role assignment group within the workspace.
       This removes the entire group and all its associated role assignments.
     operationId: deleteRoleAssignment
-    x-rbac:
-      permissions: authorization/role-assignment:delete
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.authorization/role-assignments/{roleAssignmentName}"]
+          verbs: ["delete"]
     parameters:
       - name: id
         in: path

@@ -4,8 +4,13 @@
       - Network
     summary: List all subnets in a LAN
     operationId: listSubnets
-    x-rbac:
-      permissions: network/subnet:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/lans/{lanName}/subnets"]
+          verbs: ["list"]
     parameters:
       - name: id
         in: path
@@ -62,8 +67,13 @@
       - Network
     summary: Get a specific subnet in a LAN
     operationId: getSubnet
-    x-rbac:
-      permissions: network/subnet:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/lans/{lanName}/subnets/{subnetName}"]
+          verbs: ["get"]
     parameters:
       - name: id
         in: path
@@ -108,8 +118,13 @@
       - Network
     summary: Create or update a specific subnet in a LAN
     operationId: createOrUpdateSubnet
-    x-rbac:
-      permissions: network/subnet:write
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/lans/{lanName}/subnets/{subnetName}"]
+          verbs: ["create","update"]
     parameters:
       - name: id
         in: path
@@ -161,8 +176,13 @@
       - Network
     summary: Delete a specific subnet in a LAN
     operationId: deleteSubnet
-    x-rbac:
-      permissions: network/subnet:write
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.network/lans/{lanName}/subnets/{subnetName}"]
+          verbs: ["delete"]
     parameters:
       - name: id
         in: path

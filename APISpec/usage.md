@@ -39,6 +39,7 @@ This guide walks you through the process of creating and managing cloud instance
 ## Prerequisites
 
 ### Authentication
+- You need to have an active tenantId from your cloud service provider
 - You need a valid JWT token for authentication
 - The JWT must contain a `sub` claim that identifies you (e.g., email or unique identifier)
 - Use the token in the Authorization header: `Authorization: Bearer <your_jwt_token>`
@@ -72,7 +73,17 @@ Content-Type: application/json
 
 Note: Creating a workspace automatically grants you admin permissions for that workspace.
 
-## Step 2: Review Available SKUs
+## Step 2: Select Region and Zones
+
+Before creating resources, you need to select a region and its availability zones:
+
+```http
+GET /v1beta1/providers/seca.platform/regions
+```
+
+This will return available regions and their zones. Resources can be created at either the regional level (like LANs and Public IPs) or the zonal level (like Instances and Block Storage).
+
+## Step 3: Review Available SKUs
 
 ### Check Compute SKUs
 ```http
@@ -118,7 +129,7 @@ Available images:
 - redhat-9.3: Red Hat Enterprise Linux 9.3
 - debian-12: Debian 12 (Bookworm)
 
-## Step 3: Set Up Storage
+## Step 4: Set Up Storage
 
 Create a block storage volume from an image:
 
@@ -133,6 +144,10 @@ Content-Type: application/json
     "labels": {
       "role": "os-disk",
       "app": "webshop"
+    },
+    "location": {
+      "region": "eu-central",
+      "zone": "eu-central-1"
     }
   },
   "spec": {
@@ -143,9 +158,9 @@ Content-Type: application/json
 }
 ```
 
-## Step 4: Set Up Network
+## Step 5: Set Up Network
 
-### 4.1 Create a LAN
+### 5.1 Create a LAN
 ```http
 PUT /v1beta1/tenants/{tenant_id}/workspaces/webshop-prod/providers/seca.network/lans/webshop-network
 Content-Type: application/json
@@ -156,15 +171,15 @@ Content-Type: application/json
   "metadata": {
     "labels": {
       "app": "webshop"
+    },
+    "location": {
+      "region": "eu-central"
     }
-  },
-  "spec": {
-    "region": "eu-central"
   }
 }
 ```
 
-### 4.2 Create a Subnet
+### 5.2 Create a Subnet
 ```http
 PUT /v1beta1/tenants/{tenant_id}/workspaces/webshop-prod/providers/seca.network/lans/webshop-network/subnets/webshop-subnet
 Content-Type: application/json
@@ -176,6 +191,10 @@ Content-Type: application/json
     "name": "webshop-subnet",
     "labels": {
       "app": "webshop"
+    },
+    "location": {
+      "region": "eu-central",
+      "zone": "eu-central-1"
     }
   },
   "spec": {
@@ -185,7 +204,7 @@ Content-Type: application/json
 }
 ```
 
-### 4.3 Set Up Security Group
+### 5.3 Set Up Security Group
 ```http
 PUT /v1beta1/tenants/{tenant_id}/workspaces/webshop-prod/providers/seca.network/lans/webshop-network/security-groups/webshop-sg
 Content-Type: application/json
@@ -197,6 +216,9 @@ Content-Type: application/json
     "name": "webshop-sg",
     "labels": {
       "app": "webshop"
+    },
+    "location": {
+      "region": "eu-central"
     }
   },
   "spec": {
@@ -234,7 +256,7 @@ Content-Type: application/json
 }
 ```
 
-### 4.4 Create Public IP
+### 5.4 Create Public IP
 ```http
 PUT /v1beta1/tenants/{tenant_id}/workspaces/webshop-prod/providers/seca.network/public-ips
 Content-Type: application/json
@@ -246,6 +268,9 @@ Content-Type: application/json
     "name": "webshop-ip",
     "labels": {
       "app": "webshop"
+    },
+    "location": {
+      "region": "eu-central"
     }
   },
   "spec": {
@@ -254,7 +279,7 @@ Content-Type: application/json
 }
 ```
 
-## Step 5: Create Instance
+## Step 6: Create Instance
 
 Create the compute instance:
 
@@ -270,14 +295,14 @@ Content-Type: application/json
     "labels": {
       "app": "webshop",
       "role": "web"
+    },
+    "location": {
+      "region": "eu-central",
+      "zone": "eu-central-1"
     }
   },
   "spec": {
     "instanceSkuRef": "seca.m",
-    "placement": {
-      "strategy": "zone",
-      "zone": "eu-central-1"
-    },
     "nics": [
       {
         "subnetRef": "webshop-subnet",
@@ -299,7 +324,7 @@ Content-Type: application/json
 }
 ```
 
-## Step 6: Access and Use the Instance
+## Step 7: Access and Use the Instance
 
 1. Wait for the instance to be in "running" state:
 ```http

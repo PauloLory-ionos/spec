@@ -17,8 +17,13 @@
       | SECA | seca.l | 8 | 16 | min 12000 |
       | SECA | seca.xl | 16 | 32 | min 24000 |
     operationId: listSkus
-    x-rbac:
-      permissions: compute/sku:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.compute/skus"]
+          verbs: ["list"]
     parameters:
       - name: id
         in: path
@@ -66,8 +71,13 @@
     summary: Get details of a specific SKU
     description: Retrieves details for a specific SKU by its name
     operationId: getSku
-    x-rbac:
-      permissions: compute/sku:read
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.compute/skus/{skuName}"]
+          verbs: ["get"]
     parameters:
       - name: id
         in: path

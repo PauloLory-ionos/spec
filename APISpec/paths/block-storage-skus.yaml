@@ -88,6 +88,15 @@
           scopes: ["tenants/{tenantId}"]
           resources: ["seca.storage/skus/{skuName}"]
           verbs: ["get"]
+### FUTURE EVOLUTIONS          
+#        - type: ABAC  
+#          attributes:
+#            - name: workspace
+#              description: Workspace in the request must match user's allowed namespaces.
+#            - name: user-roles
+#              description: User must have a role allowing access to the resource.
+#            - name: request-time
+#              description: Access allowed only during specific time windows. 
     parameters:
       - name: id
         in: path
