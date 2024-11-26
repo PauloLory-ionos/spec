@@ -12,6 +12,12 @@
           resources: ["seca.core/regions"]
           verbs: ["list"]
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID 
       - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
       - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
       - $ref: '../schemas/parameters.yaml#/parameters/skipTokenParam'
@@ -57,6 +63,12 @@
           resources: ["seca.core/regions/{regionName}"]
           verbs: ["list"]
     parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID 
       - name: name
         in: path
         required: true
