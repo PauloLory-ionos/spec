@@ -85,14 +85,11 @@ StatusConditions:
         description: |
           Type of condition. The condition type is provider-specific and should
           reflect the specific states relevant to your resource.
-        example: "Ready"
+        example: "power-mgmt"
       status:
         type: string
-        description: Status of the condition, one of True, False, Unknown.
-        enum:
-          - "True"
-          - "False"
-          - "Unknown"
+        description: Status of the condition. 
+        example: True, false, unknown 
       lastTransitionTime:
         type: string
         format: date-time
@@ -113,7 +110,6 @@ StatusConditions:
         type: string
         description: |
           A human-readable message indicating details about the transition.
-          This field may be empty.
         maxLength: 32768
 
 Region:
