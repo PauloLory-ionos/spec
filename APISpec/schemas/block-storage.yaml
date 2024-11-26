@@ -24,16 +24,6 @@ BlockStorage:
               description: Reference to the SKU used for this block-storage
         sizeGB:
           type: integer
-        attachedTo:
-          type: object
-          properties:
-            instanceRef:
-              type: string
-            connectionType:
-              type: string
-              enum: [sata, ide, scsi, usb, nvme]
-            deviceName:
-              type: string
         origin:
           type: object
           properties:
@@ -45,7 +35,6 @@ BlockStorage:
               readOnly: true
               type: string
               description: Reference to the snapshot used as the base for creating this block storage. This cannot be modified.
-
     status:
       type: object
       readOnly: true
