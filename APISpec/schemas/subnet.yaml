@@ -72,8 +72,7 @@ Subnet:
       readOnly: true
       properties:
         state:
-          type: string
-          enum: ['provisioning', 'running']
+          $ref: './resource.yaml#/ResourceState'
         ipv4Range:
           type: string
           format: CIDR

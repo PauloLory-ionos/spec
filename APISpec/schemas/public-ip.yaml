@@ -50,13 +50,7 @@ PublicIp:
       readOnly: true
       description: Current status of the public IP
       properties:
-        phase:
-          type: string
-          description: Current phase of the public IP
-          enum:
-            - Pending
-            - Available
-            - Assigned
-            - Error
+        state:
+          $ref: './resource.yaml#/ResourceState'
         conditions:
           $ref: "./resource.yaml#/StatusConditions"
