@@ -26,7 +26,6 @@ LAN:
       readOnly: true
       properties:
         state:
-          type: string
-          enum: ['provisioning', 'running', 'terminating']
+          $ref: './resource.yaml#/ResourceState'
         conditions:
           $ref: "./resource.yaml#/StatusConditions"

@@ -87,8 +87,7 @@ Instance:
       readOnly: true
       properties:
         state:
-          type: string
-          enum: ['provisioning', 'running', 'terminating']
+          $ref: './resource.yaml#/ResourceState'
         placement:
           type: object
           properties:
