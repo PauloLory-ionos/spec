@@ -36,8 +36,7 @@ BlockStorage:
       readOnly: true
       properties:
         state:
-          type: string
-          enum: [ 'provisioning', 'running', 'resizing', 'terminating', 'attaching', 'snapshotting' ]
+          $ref: './resource.yaml#/ResourceState'
         sizeGB:
           type: integer
         attachedTo:

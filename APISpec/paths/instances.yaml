@@ -198,3 +198,135 @@
         $ref: '../openapi.yaml#/components/responses/Error404'
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
+
+/workspaces/{workspace}/providers/compute/instances/{name}/power-cycle:
+  post:
+    tags:
+      - Compute
+    summary: Power cycle a specific instance
+    operationId: powerCycleInstance
+    x-authorization:
+      type: hybrid
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.compute/instances/{instanceName}"]
+          verbs: ["power"]
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '202':
+        description: Power cycle operation accepted
+      '400':
+        $ref: '../openapi.yaml#/components/responses/Error400'
+      '401':
+        $ref: '../openapi.yaml#/components/responses/Error401'
+      '403':
+        $ref: '../openapi.yaml#/components/responses/Error403'
+      '404':
+        $ref: '../openapi.yaml#/components/responses/Error404'
+      '500':
+        $ref: '../openapi.yaml#/components/responses/Error500'
+
+/workspaces/{workspace}/providers/compute/instances/{name}/power-off:
+  post:
+    tags:
+      - Compute
+    summary: Power off a specific instance
+    operationId: powerOffInstance
+    x-authorization:
+      type: hybrid
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.compute/instances/{instanceName}"]
+          verbs: ["power"]
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '202':
+        description: Power off operation accepted
+      '400':
+        $ref: '../openapi.yaml#/components/responses/Error400'
+      '401':
+        $ref: '../openapi.yaml#/components/responses/Error401'
+      '403':
+        $ref: '../openapi.yaml#/components/responses/Error403'
+      '404':
+        $ref: '../openapi.yaml#/components/responses/Error404'
+      '500':
+        $ref: '../openapi.yaml#/components/responses/Error500'
+
+/workspaces/{workspace}/providers/compute/instances/{name}/power-on:
+  post:
+    tags:
+      - Compute
+    summary: Power on a specific instance
+    operationId: powerOnInstance
+    x-authorization:
+      type: hybrid
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+          resources: ["seca.compute/instances/{instanceName}"]
+          verbs: ["power"]
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
+      - name: workspace
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '202':
+        description: Power on operation accepted
+      '400':
+        $ref: '../openapi.yaml#/components/responses/Error400'
+      '401':
+        $ref: '../openapi.yaml#/components/responses/Error401'
+      '403':
+        $ref: '../openapi.yaml#/components/responses/Error403'
+      '404':
+        $ref: '../openapi.yaml#/components/responses/Error404'
+      '500':
+        $ref: '../openapi.yaml#/components/responses/Error500'

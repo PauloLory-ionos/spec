@@ -67,6 +67,30 @@ ZonalResourceMetadata:
         - region
         - zone
 
+ResourceState:
+  type: object
+  description: |
+    Generic state definition for all resources. All states are optional, but must not have more states.
+    If a provider wants to present fine granular states, please use conditions.
+  properties:
+    phase:
+      type: string
+      description: |
+        Current phase of the resource:
+        - pending: not available, waiting for other resources
+        - creating: not available, creation started
+        - active: available for data layer usage
+        - updating: available for data layer usage
+        - deleting: maybe still available for data layer user, can fail any moment
+        - suspended: not available, provider specific behavior (payment issue, user decided to suspend)
+      enum:
+        - pending
+        - creating
+        - active
+        - updating
+        - deleting
+        - suspended
+
 StatusConditions:
   type: array
   description: |
@@ -85,14 +109,11 @@ StatusConditions:
         description: |
           Type of condition. The condition type is provider-specific and should
           reflect the specific states relevant to your resource.
-        example: "Ready"
+        example: "power-mgmt"
       status:
         type: string
-        description: Status of the condition, one of True, False, Unknown.
-        enum:
-          - "True"
-          - "False"
-          - "Unknown"
+        description: Status of the condition. 
+        example: True, false, unknown 
       lastTransitionTime:
         type: string
         format: date-time
@@ -113,7 +134,6 @@ StatusConditions:
         type: string
         description: |
           A human-readable message indicating details about the transition.
-          This field may be empty.
         maxLength: 32768
 
 Region:
@@ -175,4 +195,3 @@ Location:
       properties:
         conditions:
           $ref: "./resource.yaml#/StatusConditions"
-

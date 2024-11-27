@@ -47,8 +47,7 @@ NIC:
       readOnly: true
       properties:
         state:
-          type: string
-          enum: ['connecting', 'connected', 'disconnecting']
+          $ref: './resource.yaml#/ResourceState'
         privateIPs:
           type: array
           items:
