@@ -51,6 +51,11 @@ Subnet:
                 IPv4 address range for the subnet.
                 Must be unique within the LAN and cannot be modified after creation.
                 Example: '192.168.1.0/24'
+        dhcpEnabled:
+          type: boolean
+          enum: [true]
+          default: true
+          description: "for now we allow only dhcp enabled"
         defaultGateway:
           type: object
           description: |
@@ -100,6 +105,7 @@ Subnet:
         spec:
           ipv4Range: '192.168.1.0/24'
           networkSkuRef: 'seca.100'
+          dhcpEnabled: true
     
     - description: Custom gateway through network appliance
       value:
@@ -109,6 +115,7 @@ Subnet:
           name: firewall-subnet
         spec:
           ipv4Range: '10.0.0.0/24'
+          dhcpEnabled: true
           defaultGateway:
             type: instanceRef
             value: 'network-firewall-01'
