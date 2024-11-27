@@ -31,10 +31,6 @@ BlockStorage:
               type: string
               readOnly: true
               description: Reference to the source image used as the base for creating this block storage. This cannot be modified.
-            sourceBlockStorageSnapshotRef:
-              readOnly: true
-              type: string
-              description: Reference to the snapshot used as the base for creating this block storage. This cannot be modified.
     status:
       type: object
       readOnly: true
@@ -53,34 +49,5 @@ BlockStorage:
               enum: [sata, ide, scsi, usb, nvme]
             deviceName:
               type: string
-        conditions:
-          $ref: "./resource.yaml#/StatusConditions"
-
-BlockStorageSnapshot:
-  type: object
-  x-no-put: true
-  properties:
-    metadata:
-      $ref: './resource.yaml#/ZonalResourceMetadata'
-    spec:
-      type: object
-      properties:
-        blockStorageRef:
-          type: string
-          description: ID of the block storage to create a snapshot from
-        description:
-          type: string
-    status:
-      type: object
-      readOnly: true
-      properties:
-        state:
-          type: string
-          enum: [ 'creating', 'available', 'error' ]
-        sizeGB:
-          type: integer
-        creationTime:
-          type: string
-          format: date-time
         conditions:
           $ref: "./resource.yaml#/StatusConditions"
