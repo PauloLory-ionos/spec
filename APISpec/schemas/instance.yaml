@@ -43,10 +43,21 @@ Instance:
         network:
           type: object
           properties:
-            nics:
+            primaryNicRef:
+              type: string
+              description: Reference to the primary NIC for this instance
+            otherNics:
               type: array
+              description: Additional NICs attached to this instance
               items:
-                $ref: './nic.yaml#/NIC'
+                type: object
+                properties:
+                  nicRef:
+                    type: string
+                    description: Reference to the NIC
+                  slot:
+                    type: integer
+                    description: Slot number for the NIC
         operatingSystem:
           type: object
           properties:
@@ -98,10 +109,20 @@ Instance:
               type: string
             antiAffinityGroup:
               type: string
-        nics:
-          type: array
-          items:
-            $ref: './nic.yaml#/NIC'
+        network:
+          type: object
+          properties:
+            primaryNicRef:
+              type: string
+            otherNics:
+              type: array
+              items:
+                type: object
+                properties:
+                  nicRef:
+                    type: string
+                  slot:
+                    type: integer
         dataBlockStorageRef:
           type: array
           items:

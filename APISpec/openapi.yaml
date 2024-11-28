@@ -4,7 +4,7 @@ servers:
     description: API Definition Environment
 info:
   title: Sovereign European Cloud API
-  version: v1beta0f
+  version: v1alpha1
   license:
     name: "Proprietary - All Rights Reserved"
   description:
@@ -25,7 +25,6 @@ tags:
   - name: Catalogues
     description: Resource catalogues including server, volume profiles, and images
 paths:
-
   # Platform resources (regions)
   /v1alpha1/tenants/{id}/providers/seca.core/workspaces:
     $ref: './paths/workspaces.yaml#/~1workspaces'
@@ -73,6 +72,10 @@ paths:
     $ref: './paths/security-groups.yaml#/~1workspaces~1{workspace}~1providers~1network~1lans~1{lan}~1security-groups'
   /v1alpha1/tenants/{id}/workspaces/{workspace}/providers/seca.network/lans/{lan}/security-groups/{name}:
     $ref: './paths/security-groups.yaml#/~1workspaces~1{workspace}~1providers~1network~1lans~1{lan}~1security-groups~1{name}'
+  /v1alpha1/tenants/{id}/workspaces/{workspace}/providers/seca.network/lans/{lan}/nics:
+    $ref: './paths/nics.yaml#/~1workspaces~1{workspace}~1providers~1seca.network~1lans~1{lan}~1nics'
+  /v1alpha1/tenants/{id}/workspaces/{workspace}/providers/seca.network/lans/{lan}/nics/{name}:
+    $ref: './paths/nics.yaml#/~1workspaces~1{workspace}~1providers~1seca.network~1lans~1{lan}~1nics~1{name}'
 
   # Authorization resources - RBAC
   /v1alpha1/tenants/{id}/workspaces/{workspace}/providers/seca.authorization/roles:

@@ -21,27 +21,23 @@ NIC:
         subnetRef:
           type: string
           description: Subnet this NIC is connected to
-        privateIPs:
+        staticPrivateIPs:
           type: array
-          description: List of private IP addresses for this NIC. Each IP must be available and match the IP ranges in the Subnet.
+          description: List of static private IP addresses for this NIC. Can only be used when the subnet has dhcpEnabled=false.
           items:
             type: object
             properties:
               adressType:
                 type: string
-                description: the type of the IP - (limited to IPv4 for now.)
                 enum: [ 'IPv4' ]
-              provisioningStrategy:
+              ipAddress:
                 type: string
-                description: Type of IP allocation - for now only "dhcp" is allowed
-                enum:
-                  - DHCP
-                default: DHCP
         publicIPRef:
-          type: array
-          description: References to public IP addresses associated with this NIC. For now maximal one IP allowed.
+          type: string
+          description: References to public IP addresses associated with this NIC. The IP may be external and not directly visible on the server/NIC itself. Maximum one IP allowed.
           items:
             type: string
+            format: ipv4
     status:
       type: object
       readOnly: true
