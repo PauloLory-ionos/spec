@@ -45,6 +45,48 @@ This guide walks you through the process of creating and managing cloud instance
 - Use the token in the Authorization header: `Authorization: Bearer <your_jwt_token>`
 - The tenantId is provided by your iaas cloud provider
 
+### Tenant Initialization
+To initialize a tenant we need the below requirements fullfilled:
+- The TenantId should be provided to the client
+- Should exist at least a User with the following Role and RoleAssignments.
+
+```json
+//Role AuthorizationAdmin
+{
+    "apiVersion": "v1beta1",
+    "kind": "role",
+    "metadata": {
+        "name": "authorization-admin"
+    },    
+    "spec":{
+        "permissions": [
+            "seca.authorization/*:write"
+        ]
+    }
+}
+
+//RoleAssignent TenantAdmin
+
+{
+    "apiVersion": "v1beta1",
+    "kind": "role-assignment",
+    "metadata": {
+      "name": "TenantAdmin",    
+    "spec":{
+        "subs": [
+            "${userSubject}",
+            "service-account-1"
+          ],
+          "roles": [
+            "authorization-admin"
+          ]
+        "scopes":[
+            "tenants/${tenantId}"
+        ]
+    }
+}
+```
+
 ### SSH Keys
 - Prepare your SSH public key
 - The system uses external SSH key management
