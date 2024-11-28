@@ -79,13 +79,13 @@ paths:
 
   # Authorization resources - RBAC
   /v1alpha1/tenants/{id}/providers/seca.authorization/roles:
-    $ref: './paths/rbac.yaml#/~1workspaces~1{workspace}~1providers~1authorization~1roles'
+    $ref: './paths/rbac.yaml#/~1providers~1authorization~1roles'
   /v1alpha1/tenants/{id}/providers/seca.authorization/roles/{name}:
-    $ref: './paths/rbac.yaml#/~1workspaces~1{workspace}~1providers~1authorization~1roles~1{name}'
-  /v1alpha1/tenants/{id}/providers/seca.authorization/role-assignments:
-    $ref: './paths/rbac.yaml#/~1workspaces~1{workspace}~1providers~1authorization~1role-assignments'
+    $ref: './paths/rbac.yaml#/~1providers~1authorization~1roles~1{name}'
+  /v1alpha1/tenants/{id}/providers/seca.authorizatin/role-assignments:
+    $ref: './paths/rbac.yaml#/~1providers~1authorization~1role-assignments'
   /v1alpha1/tenants/{id}/providers/seca.authorization/role-assignments/{name}:
-    $ref: './paths/rbac.yaml#/~1workspaces~1{workspace}~1providers~1authorization~1role-assignments~1{name}'
+    $ref: './paths/rbac.yaml#/~1providers~1authorization~1role-assignments~1{name}'
   
   # Workspace resources with provider namespace
   /v1alpha1/tenants/{id}/workspaces/{workspace}/providers/seca.compute/instances:
