@@ -1,4 +1,4 @@
-/workspaces/{workspace}/providers/authorization/roles:
+/providers/authorization/roles:
   get:
     tags:
       - Authorization
@@ -18,11 +18,6 @@
         schema:
           type: string
         description: Tenant ID
-      - name: workspace
-        in: path
-        required: true
-        schema:
-          type: string
       - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
       - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
       - $ref: '../schemas/parameters.yaml#/parameters/skipTokenParam'
@@ -56,7 +51,7 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/workspaces/{workspace}/providers/authorization/roles/{name}:
+/providers/authorization/roles/{name}:
   get:
     tags:
       - Authorization
@@ -76,11 +71,6 @@
         schema:
           type: string
         description: Tenant ID
-      - name: workspace
-        in: path
-        required: true
-        schema:
-          type: string
       - name: name
         in: path
         required: true
@@ -123,11 +113,6 @@
         schema:
           type: string
         description: Tenant ID
-      - name: workspace
-        in: path
-        required: true
-        schema:
-          type: string
       - name: name
         in: path
         required: true
@@ -191,11 +176,6 @@
         schema:
           type: string
         description: Tenant ID
-      - name: workspace
-        in: path
-        required: true
-        schema:
-          type: string
       - name: name
         in: path
         required: true
@@ -218,7 +198,7 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/workspaces/{workspace}/providers/authorization/role-assignments:
+/providers/authorization/role-assignments:
   get:
     tags:
       - Authorization
@@ -238,11 +218,6 @@
         schema:
           type: string
         description: Tenant ID
-      - name: workspace
-        in: path
-        required: true
-        schema:
-          type: string
       - name: name
         in: query
         required: false
@@ -282,7 +257,7 @@
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
 
-/workspaces/{workspace}/providers/authorization/role-assignments/{name}:
+/providers/authorization/role-assignments/{name}:
   get:
     tags:
       - Authorization
@@ -303,11 +278,6 @@
         schema:
           type: string
         description: Tenant ID
-      - name: workspace
-        in: path
-        required: true
-        schema:
-          type: string
       - name: name
         in: path
         required: true
@@ -356,11 +326,6 @@
         schema:
           type: string
         description: Tenant ID
-      - name: workspace
-        in: path
-        required: true
-        schema:
-          type: string
       - name: name
         in: path
         required: true
@@ -423,11 +388,6 @@
         schema:
           type: string
         description: Tenant ID
-      - name: workspace
-        in: path
-        required: true
-        schema:
-          type: string
       - name: name
         in: path
         required: true

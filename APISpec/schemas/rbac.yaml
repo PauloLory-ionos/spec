@@ -72,6 +72,12 @@ RoleAssignment:
             type: string
           description: List of assigned role names
           example: ["project-manager", "workspace-viewer"]
+        scopes:
+          type: array
+          items:
+            type: string
+          description: List of Scopes to whom the roles are assigned
+          example: ["workspaces/develop", "workspaces/production"]          
     status:
       type: object
       readOnly: true
