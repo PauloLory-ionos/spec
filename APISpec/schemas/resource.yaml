@@ -83,6 +83,7 @@ ResourceState:
         - updating: available for data layer usage
         - deleting: maybe still available for data layer user, can fail any moment
         - suspended: not available, provider specific behavior (payment issue, user decided to suspend)
+        - error: failed to fullfill the request; would be related to provider issue or customer related input.
       enum:
         - pending
         - creating
@@ -90,6 +91,7 @@ ResourceState:
         - updating
         - deleting
         - suspended
+        - error
 
 StatusConditions:
   type: array
