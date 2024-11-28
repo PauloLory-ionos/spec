@@ -195,3 +195,19 @@ Location:
       properties:
         conditions:
           $ref: "./resource.yaml#/StatusConditions"
+
+BlockStorageAttached:
+  type: object
+  description: Represents a specific geographic location combining region and zone. Composite name in the format 'region/zone'
+  properties:  
+    objectRef:
+      type: string
+    properties:
+      type: object
+      properties:
+        connectionType:
+          type: string
+          enum: [sata, ide, scsi, usb, nvme]
+        deviceName:
+          type: string
+
