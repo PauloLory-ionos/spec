@@ -22,6 +22,8 @@ This changelog follows a **channel-based versioning** approach with versions lik
 - API: added the Catalogue concept for each resource provider by using the Skus Endpoint for Seca.Storage,Seca.Compute,Seca.Network.
 - API: added Seca Defined Labels for SKU to determine recognized method to describe resources based on some criteria.
 
+[View Release](https://github.com/eu-sovereign-cloud/spec/releases/tag/v1alpha1))
+
 ### Changed
 
 ### Fixed
