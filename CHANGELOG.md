@@ -9,7 +9,7 @@ This changelog follows a **channel-based versioning** approach with versions lik
 ## [v1alpha1] - 2024-11-29
 ### Added
 - Documentation: introduced REST Guideline and Resource Design.
-- Design: introduced the Seca Core Resources with a (Tenant,Workspace,Region)
+- Design: introduced the Seca Core Resources (Tenant,Workspace,Region)
 - Design: introduced Resource Provider Based Design. Every Resource endpoint is based on the Resource Scope + Resource Name.
 - Design: defined a Resource Read Model based on the Kubernetes Standard Definition (apiVersion,kind,spec,status)..
 - Design: make use of PUT to create/update resource; DELETE to eliminate and POST to run long-running actions on the resource.
