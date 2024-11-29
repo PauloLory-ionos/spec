@@ -24,17 +24,17 @@ InstanceSku:
               $ref: '#/InstanceSku/properties/spec/allOf/1/properties/capabilities'
     spec:
       example:
-        - { provider: 'SECA', tier: 'seca.s',  vCPU:  2, ramGB:  4, benchmarkPoints:  3000 }
-        - { provider: 'SECA', tier: 'seca.m',  vCPU:  4, ramGB:  8, benchmarkPoints:  6000 }
-        - { provider: 'SECA', tier: 'seca.l',  vCPU:  8, ramGB: 16, benchmarkPoints: 12000 }
-        - { provider: 'SECA', tier: 'seca.xl', vCPU: 16, ramGB: 32, benchmarkPoints: 24000 }
+        - { provider: 'SECA', tier: 'seca.s',  vCPU:  2, ramGB:  4, cpuType: 'amd64', benchmarkPoints:  3000 }
+        - { provider: 'SECA', tier: 'seca.m',  vCPU:  4, ramGB:  8, cpuType: 'amd64', benchmarkPoints:  6000 }
+        - { provider: 'SECA', tier: 'seca.l',  vCPU:  8, ramGB: 16, cpuType: 'amd64', benchmarkPoints: 12000 }
+        - { provider: 'SECA', tier: 'seca.xl', vCPU: 16, ramGB: 32, cpuType: 'amd64', benchmarkPoints: 24000 }
       allOf:
         - type: object
           enum:
-            - { provider: 'SECA', tier: 'seca.s',  vCPU:  2, ramGB:  4, benchmarkPoints:  3000 }
-            - { provider: 'SECA', tier: 'seca.m',  vCPU:  4, ramGB:  8, benchmarkPoints:  6000 }
-            - { provider: 'SECA', tier: 'seca.l',  vCPU:  8, ramGB: 16, benchmarkPoints: 12000 }
-            - { provider: 'SECA', tier: 'seca.xl', vCPU: 16, ramGB: 32, benchmarkPoints: 24000 }
+            - { provider: 'SECA', tier: 'seca.s',  vCPU:  2, ramGB:  4, cpuType: 'amd64', benchmarkPoints:  3000 }
+            - { provider: 'SECA', tier: 'seca.m',  vCPU:  4, ramGB:  8, cpuType: 'amd64', benchmarkPoints:  6000 }
+            - { provider: 'SECA', tier: 'seca.l',  vCPU:  8, ramGB: 16, cpuType: 'amd64', benchmarkPoints: 12000 }
+            - { provider: 'SECA', tier: 'seca.xl', vCPU: 16, ramGB: 32, cpuType: 'amd64', benchmarkPoints: 24000 }
         - type: object
           properties:
             provider:
