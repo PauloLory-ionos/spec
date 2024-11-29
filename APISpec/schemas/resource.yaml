@@ -196,9 +196,9 @@ Location:
         conditions:
           $ref: "./resource.yaml#/StatusConditions"
 
-BlockStorageAttached:
+VolumeAttachment:
   type: object
-  description: Represents a specific geographic location combining region and zone. Composite name in the format 'region/zone'
+  description: Represents a connection between a Block Storage and a device
   properties:  
     objectRef:
       type: string
@@ -207,7 +207,12 @@ BlockStorageAttached:
       properties:
         connectionType:
           type: string
-          enum: [sata, ide, scsi, usb, nvme]
-        deviceName:
+          description: The connection type depends on the type of device and type of block storage.
+          example: iSCSI, nvme
+        deviceKind:
+          type: string
+          description: the type of device a block-storage is connected to. For now only 'instance' possible
+          example: instance
+        deviceRef:
           type: string
 
