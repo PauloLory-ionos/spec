@@ -10,12 +10,12 @@
       Seca-Resources don't have mandatory parameters and extensions.
       (Provider may have more SKUs available.)
 
-      | provider | tier | vCPU | ramGB | benchmarkPoints |
+      | provider | tier | vCPU | ramGB | cpuType | benchmarkPoints |
       | ---------|------|-------|----------|-----------------|
-      | SECA | seca.s | 2 | 4 | min 3000 |
-      | SECA | seca.m | 4 | 8 | min 6000 |
-      | SECA | seca.l | 8 | 16 | min 12000 |
-      | SECA | seca.xl | 16 | 32 | min 24000 |
+      | SECA | seca.s | 2 | 4 | amd64 | min 3000 |
+      | SECA | seca.m | 4 | 8 | amd64 | min 6000 |
+      | SECA | seca.l | 8 | 16 | amd64 | min 12000 |
+      | SECA | seca.xl | 16 | 32 | amd64 | min 24000 |
     operationId: listSkus
     x-authorization:
       type: hybrid  # Supports both RBAC and ABAC
