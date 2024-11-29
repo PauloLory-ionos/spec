@@ -74,8 +74,7 @@ To initialize a tenant we need the below requirements fullfilled:
       "name": "TenantAdmin",    
     "spec":{
         "subs": [
-            "${userSubject}",
-            "service-account-1"
+            "${userSubject}"
           ],
           "roles": [
             "authorization-admin"
