@@ -197,3 +197,24 @@ Location:
       properties:
         conditions:
           $ref: "./resource.yaml#/StatusConditions"
+
+VolumeAttachment:
+  type: object
+  description: Represents a connection between a Block Storage and a device
+  properties:  
+    objectRef:
+      type: string
+    properties:
+      type: object
+      properties:
+        connectionType:
+          type: string
+          description: The connection type depends on the type of device and type of block storage.
+          example: iSCSI, nvme
+        deviceKind:
+          type: string
+          description: the type of device a block-storage is connected to. For now only 'instance' possible
+          example: instance
+        deviceRef:
+          type: string
+
