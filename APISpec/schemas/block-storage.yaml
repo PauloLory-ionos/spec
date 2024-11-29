@@ -40,6 +40,6 @@ BlockStorage:
         sizeGB:
           type: integer
         attachedTo:
-          $ref: './resource.yaml#/BlockStorageAttached'
+          $ref: './resource.yaml#/VolumeAttachment'
         conditions:
           $ref: "./resource.yaml#/StatusConditions"
