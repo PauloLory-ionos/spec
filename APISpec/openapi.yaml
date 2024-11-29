@@ -82,7 +82,7 @@ paths:
     $ref: './paths/rbac.yaml#/~1providers~1authorization~1roles'
   /v1alpha1/tenants/{id}/providers/seca.authorization/roles/{name}:
     $ref: './paths/rbac.yaml#/~1providers~1authorization~1roles~1{name}'
-  /v1alpha1/tenants/{id}/providers/seca.authorizatin/role-assignments:
+  /v1alpha1/tenants/{id}/providers/seca.authorization/role-assignments:
     $ref: './paths/rbac.yaml#/~1providers~1authorization~1role-assignments'
   /v1alpha1/tenants/{id}/providers/seca.authorization/role-assignments/{name}:
     $ref: './paths/rbac.yaml#/~1providers~1authorization~1role-assignments~1{name}'
