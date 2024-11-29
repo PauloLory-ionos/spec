@@ -135,11 +135,13 @@ Instance:
               reason: "user_request"
               message: "executed successfully"
           allOf:
-            - type: object
-              enum:
-                - type: "power"
-                  status: "on"
-                  lastTransitionTime: "2024-11-21T14:39:22Z"
-                  reason: "user_request"
-                  message: "executed successfully"
+            - type: array
+              items:
+                type: object
+                enum:
+                  - type: "power"
+                    status: "on"
+                    lastTransitionTime: "2024-11-21T14:39:22Z"
+                    reason: "user_request"
+                    message: "executed successfully"
             - $ref: "./resource.yaml#/StatusConditions"
