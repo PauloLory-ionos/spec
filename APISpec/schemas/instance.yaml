@@ -22,15 +22,6 @@ Instance:
             instanceSkuRef:
               type: string
               description: Reference to the SKU used for this instance
-            skuMandatoryParameters:
-              type: array
-              items:
-                type: object
-                properties:
-                  key:
-                    type: string
-                  value:
-                    type: string
             skuExtentions:
               type: array
               items:
