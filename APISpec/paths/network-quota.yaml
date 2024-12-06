@@ -1,4 +1,4 @@
-/providers/network/quotas:
+/quotas:
   get:
     tags:
       - Catalogues

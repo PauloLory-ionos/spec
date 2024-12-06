@@ -53,6 +53,7 @@ paths:
   /v1alpha1/tenants/{id}/providers/seca.compute/quotas/{resourceType}:
     $ref: './paths/compute-quota.yaml#/~1quotas~1{resourceType}'
 
+
   # Network SKUs Resource
   /v1alpha1/tenants/{id}/providers/seca.network/skus:
     $ref: './paths/network-skus.yaml#/~1skus'
