@@ -218,3 +218,12 @@ VolumeAttachment:
         deviceRef:
           type: string
 
+ResourceQuota:
+  type: object
+  description: Represents the ResourceQuota for the single ResourceType of the Resource Provider
+  properties:  
+    value: 
+      type: integer
+      nullable: true
+      description: limit number of resourceType instances, set null for unlimited
+      example: 10

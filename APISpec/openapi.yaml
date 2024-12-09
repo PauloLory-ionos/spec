@@ -47,17 +47,36 @@ paths:
   /v1alpha1/tenants/{id}/providers/seca.compute/skus/{name}:
     $ref: './paths/instance-skus.yaml#/~1skus~1{name}'
 
+  # Compute Quotas Resource
+  /v1alpha1/tenants/{id}/providers/seca.compute/quotas:
+    $ref: './paths/compute-quota.yaml#/~1quotas'
+  /v1alpha1/tenants/{id}/providers/seca.compute/quotas/{resourceType}:
+    $ref: './paths/compute-quota.yaml#/~1quotas~1{resourceType}'
+
+
   # Network SKUs Resource
   /v1alpha1/tenants/{id}/providers/seca.network/skus:
     $ref: './paths/network-skus.yaml#/~1skus'
   /v1alpha1/tenants/{id}/providers/seca.network/skus/{name}:
     $ref: './paths/network-skus.yaml#/~1skus~1{name}'
 
+  # Network Quotas Resource
+  /v1alpha1/tenants/{id}/providers/seca.network/quotas:
+    $ref: './paths/network-quota.yaml#/~1quotas'
+  /v1alpha1/tenants/{id}/providers/seca.network/quotas/{resourceType}:
+    $ref: './paths/network-quota.yaml#/~1quotas~1{resourceType}'
+
   # Storage SKUs Resource
   /v1alpha1/tenants/{id}/providers/seca.storage/skus:
     $ref: './paths/storage-skus.yaml#/~1skus'
   /v1alpha1/tenants/{id}/providers/seca.storage/skus/{name}:
     $ref: './paths/storage-skus.yaml#/~1skus~1{name}'
+
+  # Storage Quotas Resource
+  /v1alpha1/tenants/{id}/providers/seca.storage/quotas:
+    $ref: './paths/storage-quota.yaml#/~1quotas'
+  /v1alpha1/tenants/{id}/providers/seca.storage/quotas/{resourceType}:
+    $ref: './paths/storage-quota.yaml#/~1quotas~1{resourceType}'
 
   # Network resources - LAN and its resources
   /v1alpha1/tenants/{id}/workspaces/{workspace}/providers/seca.network/lans:
