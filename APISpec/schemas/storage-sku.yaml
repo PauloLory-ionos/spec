@@ -1,9 +1,9 @@
-BlockStorageSku:
+StorageSku:
   type: object
   description: |
-    Represents a Stock Keeping Unit (SKU) for block storage resources.
+    Represents a Stock Keeping Unit (SKU) for  storage resources.
 
-    Block Storage SKUs define performance tiers for storage IOPS and characteristics.
+     Storage SKUs define performance tiers for storage IOPS and characteristics.
     Properties, capabilities, and extensions can be found in the metadata.labels sections.
     Searchable with namespaces like "properties.", "capabilities.", and "extensions.".
   properties:
@@ -15,7 +15,7 @@ BlockStorageSku:
     kind:
       type: string
       description: Type of the resource
-      enum: [ block-storage-sku ]
+      enum: [ -storage-sku ]
       readOnly: true
     metadata:
       allOf:
@@ -23,7 +23,7 @@ BlockStorageSku:
         - type: object
           properties:
             labels:
-              $ref: "#/BlockStorageSku/properties/spec/allOf/1/properties/capabilities"
+              $ref: "#/StorageSku/properties/spec/allOf/1/properties/capabilities"
     spec:
       example:
         - { provider: 'SECA', tier: 'seca.general', description: 'a storage with no guaranteed throughput for normal usage' }
@@ -41,22 +41,22 @@ BlockStorageSku:
           properties:
             provider:
               type: string
-              description: Provider namespace for block storage SKUs
+              description: Provider namespace for  storage SKUs
             tier:
               type: string
-              description: Block storage performance tier
+              description:  storage performance tier
             capabilities:
               additionalProperties: true
               type: object
-              description: Block storage performance capabilities
+              description:  storage performance capabilities
             extensions:
               type: array
-              description: Additional block storage feature extensions
+              description: Additional  storage feature extensions
               items:
                 type: string
             mandatoryParameters:
               type: array
-              description: Mandatory parameters for block storage resources
+              description: Mandatory parameters for  storage resources
               items:
                 type: string
             description:
