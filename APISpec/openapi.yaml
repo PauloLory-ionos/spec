@@ -137,6 +137,8 @@ components:
       $ref: './schemas/instance.yaml#/Instance'
     BlockStorage:
       $ref: './schemas/block-storage.yaml#/BlockStorage'
+    ObjectStorage:
+      $ref: './schemas/object-storage.yaml#/ObjectStorage'      
     Image:
       $ref: './schemas/image.yaml#/Image'
     SystemRole:
@@ -171,8 +173,8 @@ components:
       $ref: './schemas/instance-sku.yaml#/InstanceSku'
     NetworkSku:
       $ref: './schemas/network-sku.yaml#/NetworkSku'
-    BlockStorageSku:
-      $ref: './schemas/block-storage-sku.yaml#/BlockStorageSku'
+    StorageSku:
+      $ref: './schemas/storage-sku.yaml#/StorageSku'
   responses:
     Error400:
       description: Bad Request
