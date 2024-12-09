@@ -53,11 +53,11 @@ paths:
   /v1alpha1/tenants/{id}/providers/seca.network/skus/{name}:
     $ref: './paths/network-skus.yaml#/~1skus~1{name}'
 
-  # Block Storage SKUs Resource
+  # torage SKUs Resource
   /v1alpha1/tenants/{id}/providers/seca.storage/skus:
-    $ref: './paths/block-storage-skus.yaml#/~1skus'
+    $ref: './paths/storage-skus.yaml#/~1skus'
   /v1alpha1/tenants/{id}/providers/seca.storage/skus/{name}:
-    $ref: './paths/block-storage-skus.yaml#/~1skus~1{name}'
+    $ref: './paths/storage-skus.yaml#/~1skus~1{name}'
 
   # Network resources - LAN and its resources
   /v1alpha1/tenants/{id}/workspaces/{workspace}/providers/seca.network/lans:
@@ -102,6 +102,10 @@ paths:
     $ref: './paths/block-storage.yaml#/~1workspaces~1{workspace}~1providers~1storage~1block-storages'
   /v1alpha1/tenants/{id}/workspaces/{workspace}/providers/seca.storage/block-storages/{name}:
     $ref: './paths/block-storage.yaml#/~1workspaces~1{workspace}~1providers~1storage~1block-storages~1{name}'
+  /v1alpha1/tenants/{id}/workspaces/{workspace}/providers/seca.storage/object-storages:
+    $ref: './paths/object-storage.yaml#/~1workspaces~1{workspace}~1providers~1storage~1object-storages'
+  /v1alpha1/tenants/{id}/workspaces/{workspace}/providers/seca.storage/object-storages/{name}:
+    $ref: './paths/object-storage.yaml#/~1workspaces~1{workspace}~1providers~1storage~1object-storages~1{name}'
 
   # New PublicIp Resource
   /v1alpha1/tenants/{id}/workspaces/{workspace}/providers/seca.network/public-ips:

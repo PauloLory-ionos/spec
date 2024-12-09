@@ -2,20 +2,17 @@
   get:
     tags:
       - Catalogues
-    summary: List available block storage SKUs
+    summary: List available object storage SKUs
     description: |
-      Retrieves a list of available SKU (Stock Keeping Unit) configurations for block storage resources.
+      Retrieves a list of available SKU (Stock Keeping Unit) configurations for object storage resources.
 
-      ## Available SECA Block Storage SKUs with their capabilities
-      Block Storage SKUs represent guaranteed IOPS performance for 99% of time within a 24h period.
-      Minimum volume size of 50GB is required for guaranteed performance.
+      ## Available SECA Object Storage SKUs with their capabilities
+      Object Storage SKUs represent guaranteed IOPS performance for access.
 
       | provider | tier | IOPS | description |
       | ---------|------|------|-------------|
-      | SECA | seca.10 | 10 IOPS | Low-performance block storage tier |
-      | SECA | seca.50 | 50 IOPS | Medium-performance block storage tier |
-      | SECA | seca.100 | 100 IOPS | High-performance block storage tier |
-    operationId: listBlockStorageSkus
+      | SECA | seca.hot |  | Hot Access tier |
+    operationId: listObjectStorageSkus
     security:
       - bearerAuth: []  # JWT required for authentication
     x-authorization:
@@ -25,15 +22,6 @@
           scopes: ["tenants/{tenantId}"]
           resources: ["seca.storage/skus"]
           verbs: ["list"]
-### FUTURE EVOLUTIONS          
-#        - type: ABAC  
-#          attributes:
-#            - name: workspace
-#              description: Workspace in the request must match user's allowed namespaces.
-#            - name: user-roles
-#              description: User must have a role allowing access to the resource.
-#            - name: request-time
-#              description: Access allowed only during specific time windows. 
     parameters:
       - name: id
         in: path
@@ -47,7 +35,7 @@
       - $ref: '../schemas/parameters.yaml#/parameters/acceptHeader'
     responses:
       '200':
-        description: Successful response with list of block storage SKUs
+        description: Successful response with list of object storage SKUs
         content:
           application/json:
             schema:
@@ -56,7 +44,7 @@
                 items:
                   type: array
                   items:
-                    $ref: '../schemas/block-storage-sku.yaml#/BlockStorageSku'
+                    $ref: '../schemas/object-storage-sku.yaml#/ObjectStorageSku'
                 metadata:
                   type: object
                   properties:
@@ -78,9 +66,9 @@
   get:
     tags:
       - Catalogues
-    summary: Get details of a specific block storage SKU
-    description: Retrieves details for a specific block storage SKU by its name
-    operationId: getBlockStorageSku
+    summary: Get details of a specific object storage SKU
+    description: Retrieves details for a specific object storage SKU by its name
+    operationId: getObjectStorageSku
     x-authorization:
       type: hybrid  # Supports both RBAC and ABAC
       policies:
@@ -88,15 +76,6 @@
           scopes: ["tenants/{tenantId}"]
           resources: ["seca.storage/skus/{skuName}"]
           verbs: ["get"]
-### FUTURE EVOLUTIONS          
-#        - type: ABAC  
-#          attributes:
-#            - name: workspace
-#              description: Workspace in the request must match user's allowed namespaces.
-#            - name: user-roles
-#              description: User must have a role allowing access to the resource.
-#            - name: request-time
-#              description: Access allowed only during specific time windows. 
     parameters:
       - name: id
         in: path
@@ -111,11 +90,11 @@
           type: string
     responses:
       '200':
-        description: Successful response with block storage SKU details
+        description: Successful response with object storage SKU details
         content:
           application/json:
             schema:
-              $ref: '../schemas/block-storage-sku.yaml#/BlockStorageSku'
+              $ref: '../schemas/object-storage-sku.yaml#/ObjectStorageSku'
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
