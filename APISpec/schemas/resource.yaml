@@ -224,5 +224,6 @@ ResourceQuota:
   properties:  
     value: 
       type: integer
-      description: limit number of resourceType instances
-      example: 10 ## -1 unlimited
+      nullable: true
+      description: limit number of resourceType instances, set null for unlimited
+      example: 10
