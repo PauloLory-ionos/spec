@@ -1,0 +1,128 @@
+/skus:
+  get:
+    tags:
+      - Catalogues
+    summary: List available storage SKUs
+    description: |
+      Retrieves a list of available SKU (Stock Keeping Unit) configurations for block storage resources.
+
+      ## Available SECA Block Storage SKUs with their capabilities
+      Block Storage SKUs represent guaranteed IOPS performance for 99% of time within a 24h period.
+      Minimum volume size of 50GB is required for guaranteed performance.
+
+      | provider | tier | IOPS | description |
+      | ---------|------|------|-------------|
+      | SECA | seca.10 | 10 IOPS | Low-performance block storage tier |
+      | SECA | seca.50 | 50 IOPS | Medium-performance block storage tier |
+      | SECA | seca.100 | 100 IOPS | High-performance block storage tier |
+    operationId: listBlockStorageSkus
+    security:
+      - bearerAuth: []  # JWT required for authentication
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.storage/skus"]
+          verbs: ["list"]
+### FUTURE EVOLUTIONS          
+#        - type: ABAC  
+#          attributes:
+#            - name: workspace
+#              description: Workspace in the request must match user's allowed namespaces.
+#            - name: user-roles
+#              description: User must have a role allowing access to the resource.
+#            - name: request-time
+#              description: Access allowed only during specific time windows. 
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
+      - $ref: '../schemas/parameters.yaml#/parameters/labelSelector'
+      - $ref: '../schemas/parameters.yaml#/parameters/limitParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/skipTokenParam'
+      - $ref: '../schemas/parameters.yaml#/parameters/acceptHeader'
+    responses:
+      '200':
+        description: Successful response with list of block storage SKUs
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: '../schemas/storage-sku.yaml#/StorageSku'
+                metadata:
+                  type: object
+                  properties:
+                    skipToken:
+                      type: string
+                      description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+      '400':
+        $ref: '../openapi.yaml#/components/responses/Error400'
+      '401':
+        $ref: '../openapi.yaml#/components/responses/Error401'
+      '403':
+        $ref: '../openapi.yaml#/components/responses/Error403'
+      '404':
+        $ref: '../openapi.yaml#/components/responses/Error404'
+      '500':
+        $ref: '../openapi.yaml#/components/responses/Error500'
+
+/skus/{name}:
+  get:
+    tags:
+      - Catalogues
+    summary: Get details of a specific storage SKU
+    description: Retrieves details for a specific storage SKU by its name
+    operationId: getStorageSku
+    x-authorization:
+      type: hybrid  # Supports both RBAC and ABAC
+      policies:
+        - type: RBAC
+          scopes: ["tenants/{tenantId}"]
+          resources: ["seca.storage/skus/{skuName}"]
+          verbs: ["get"]
+### FUTURE EVOLUTIONS          
+#        - type: ABAC  
+#          attributes:
+#            - name: workspace
+#              description: Workspace in the request must match user's allowed namespaces.
+#            - name: user-roles
+#              description: User must have a role allowing access to the resource.
+#            - name: request-time
+#              description: Access allowed only during specific time windows. 
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Tenant ID
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful response with storage SKU details
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/storage-sku.yaml#/StorageSku'
+      '400':
+        $ref: '../openapi.yaml#/components/responses/Error400'
+      '401':
+        $ref: '../openapi.yaml#/components/responses/Error401'
+      '403':
+        $ref: '../openapi.yaml#/components/responses/Error403'
+      '404':
+        $ref: '../openapi.yaml#/components/responses/Error404'
+      '500':
+        $ref: '../openapi.yaml#/components/responses/Error500'
