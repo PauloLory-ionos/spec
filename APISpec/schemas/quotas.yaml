@@ -22,7 +22,7 @@ ResourceQuota:  ## Compute Resource Quotas
         usage:
           $ref: "./resource.yaml#/ResourceQuota"
         current:
-          $ref: "./resource.yaml#/ResourceQuota'"
+          $ref: "./resource.yaml#/ResourceQuota"
         conditions:
           $ref: "./resource.yaml#/StatusConditions"
 
