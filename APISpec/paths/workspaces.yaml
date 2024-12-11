@@ -126,10 +126,6 @@
     responses:
       '202':
         description: Workspace successfully updated or created
-        content:
-          application/json:
-            schema:
-              $ref: '../schemas/workspace.yaml#/Workspace'
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
@@ -179,10 +175,6 @@
     responses:
       '202':
         description: Workspace deletion accepted
-        content:
-          application/json:
-            schema:
-              $ref: '../schemas/workspace.yaml#/Workspace'
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':

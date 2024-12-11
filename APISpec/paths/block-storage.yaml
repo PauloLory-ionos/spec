@@ -187,8 +187,8 @@
         schema:
           type: string
     responses:
-      '204':
-        description: Block storage volume deleted
+      '202':
+        description: Block storage volume deletion accepted
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':

@@ -55,6 +55,8 @@
         $ref: '../openapi.yaml#/components/responses/Error403'
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
+
+/workspaces/{workspace}/providers/network/public-ips/{name}:
   put:
     tags:
       - Network
@@ -81,6 +83,12 @@
         schema:
           type: string
         description: Name of the workspace
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Name of the public IP
       - $ref: '../schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
     requestBody:
       required: true
@@ -97,10 +105,6 @@
               $ref: '../schemas/public-ip.yaml#/PublicIp'
       '202':
         description: Public IP creation or update accepted
-        content:
-          application/json:
-            schema:
-              $ref: '../schemas/public-ip.yaml#/PublicIp'
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':
@@ -111,8 +115,6 @@
         $ref: '../openapi.yaml#/components/responses/Error422'
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
-
-/workspaces/{workspace}/providers/network/public-ips/{name}:
   get:
     tags:
       - Network
@@ -198,10 +200,6 @@
     responses:
       '202':
         description: Public IP deletion accepted
-        content:
-          application/json:
-            schema:
-              $ref: '../schemas/public-ip.yaml#/PublicIp'
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':

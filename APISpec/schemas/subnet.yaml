@@ -20,7 +20,7 @@ Subnet:
     apiVersion:
       type: string
       description: API version of the resource
-      default: v1beta1
+      default: v1alpha1
       readOnly: true
     kind:
       type: string
@@ -31,6 +31,7 @@ Subnet:
       $ref: './resource.yaml#/ZonalResourceMetadata'
     spec:
       type: object
+      description: Specification of the subnet
       properties:
         profile:
           type: object
@@ -75,6 +76,7 @@ Subnet:
     status:
       type: object
       readOnly: true
+      description: Current status of the subnet
       properties:
         state:
           $ref: './resource.yaml#/ResourceState'
@@ -93,12 +95,27 @@ Subnet:
             value:
               type: string
         conditions:
-          $ref: "./resource.yaml#/StatusConditions"
+          example:
+            - type: "gateway"
+              status: "configured"
+              lastTransitionTime: "2024-11-21T14:39:22Z"
+              reason: "GatewayProvisioned"
+              message: "Subnet gateway has been configured"
+          allOf:
+            - type: array
+              items:
+                type: object
+                enum:
+                  - type: "gateway"
+                    status: "configured"
+                  - type: "gateway"
+                    status: "unconfigured"
+            - $ref: "./resource.yaml#/StatusConditions"
   
   example:
     - description: Standard subnet with auto gateway
       value:
-        apiVersion: v1beta1
+        apiVersion: v1alpha1
         kind: subnet
         metadata:
           name: standard-subnet
@@ -109,7 +126,7 @@ Subnet:
     
     - description: Custom gateway through network appliance
       value:
-        apiVersion: v1beta1
+        apiVersion: v1alpha1
         kind: subnet
         metadata:
           name: firewall-subnet

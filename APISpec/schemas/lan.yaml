@@ -4,7 +4,7 @@ LAN:
     apiVersion:
       type: string
       description: API version of the resource
-      default: v1beta1
+      default: v1alpha1
       readOnly: true
     kind:
       type: string
@@ -16,11 +16,21 @@ LAN:
     spec:
       type: object
       properties:
-        latency:
-          type: string
-          description: latency below 5ms
-          enum: [ '<5ms' ]
-          default: '<5ms'  
+        profile:
+          type: object
+          properties:
+            networkSkuRef:
+              type: string
+              description: Reference to the SKU used for this LAN
+            skuExtentions:
+              type: array
+              items:
+                type: object
+                properties:
+                  key:
+                    type: string
+                  value:
+                    type: string
     status:
       type: object
       readOnly: true
@@ -28,4 +38,19 @@ LAN:
         state:
           $ref: './resource.yaml#/ResourceState'
         conditions:
-          $ref: "./resource.yaml#/StatusConditions"
+          example:
+            - type: "connectivity"
+              status: "connected"
+              lastTransitionTime: "2024-11-21T14:39:22Z"
+              reason: "NetworkConfigured"
+              message: "Network is properly configured and connected"
+          allOf:
+            - type: array
+              items:
+                type: object
+                enum:
+                  - type: "connectivity"
+                    status: "connected"
+                  - type: "connectivity"
+                    status: "disconnected"
+            - $ref: "./resource.yaml#/StatusConditions"

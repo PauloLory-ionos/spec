@@ -186,8 +186,8 @@
         schema:
           type: string
     responses:
-      '204':
-        description: Instance deleted
+      '202':
+        description: Instance deletion accepted
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':

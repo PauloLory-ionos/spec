@@ -5,7 +5,7 @@ PublicIp:
     apiVersion:
       type: string
       description: API version of the resource
-      default: v1beta1
+      default: v1alpha1
       readOnly: true
     kind:
       type: string
@@ -53,4 +53,28 @@ PublicIp:
         state:
           $ref: './resource.yaml#/ResourceState'
         conditions:
-          $ref: "./resource.yaml#/StatusConditions"
+          example:
+            - type: "allocation"
+              status: "allocated"
+              lastTransitionTime: "2024-11-21T14:39:22Z"
+              reason: "IpAddressAssigned"
+              message: "Public IP address has been assigned"
+            - type: "binding"
+              status: "bound"
+              lastTransitionTime: "2024-11-21T14:39:22Z"
+              reason: "BoundToResource"
+              message: "IP is bound to a resource"
+          allOf:
+            - type: array
+              items:
+                type: object
+                enum:
+                  - type: "allocation"
+                    status: "allocated"
+                  - type: "allocation"
+                    status: "released"
+                  - type: "binding"
+                    status: "bound"
+                  - type: "binding"
+                    status: "unbound"
+            - $ref: "./resource.yaml#/StatusConditions"
