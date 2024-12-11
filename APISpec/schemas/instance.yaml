@@ -75,15 +75,15 @@ Instance:
                     These references are used to inject SSH public keys during instance initialization 
                     through cloud-init's vendor data configuration.
             osBlockStorageRef:
-              type: string
-              description: Reference to primary block storage for operating system initialization
+              $ref: './resource.yaml#/VolumeAttachment'
         storage:
           type: object
           properties:
             dataBlockStorageRef:
               type: array
               items:
-                type: string
+                $ref: './resource.yaml#/VolumeAttachment'
+
     status:
       type: object
       readOnly: true
