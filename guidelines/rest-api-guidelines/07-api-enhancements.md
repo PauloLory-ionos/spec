@@ -75,10 +75,11 @@ Pagination helps manage large data sets by dividing responses into "pages" of da
 
 For endpoints returning continuously changing data, cursor-based pagination offers better performance and consistency. A cursor token is used to fetch the next page of data.
 
-We call this param **skipToken**
+We call this param **skipToken** and **limit**
 
 - It's a query parameter used in API requests to handle pagination in responses for large datasets. The skip token is essentially a marker that tells the API where to continue retrieving results from, allowing clients to navigate through paginated data efficiently.
 - When an API returns a skip token, the client includes it in the next request to retrieve the subsequent set of results; In the response it's included in the metadata structure.
+- The number of returned resources can be limited with the parameter "limit".
 
 This process is repeated, with each nextLink providing a new skip token, until there are no further results.
 

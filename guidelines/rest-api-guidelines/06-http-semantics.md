@@ -59,8 +59,8 @@ Accept: application/json
 The HEAD method is not standardized by the SECA API.
 
 #### PUT Method
-- If a **PUT** method creates a new resource, it must return the HTTP status code 201 (Created). The URI of the new resource is included in the Location header of the response. The body will contain a representation of the resource
-- If the method updates an existing resource, it will return 200 (OK) or 204 (No Content). In some cases, it may not be possible to update an existing resource. In such circumstances, consider returning the HTTP status code 409 (Conflict).
+- If a **PUT** method creates a new resource, it must return the HTTP status code 202 (Accepted). The URI of the new resource is included in the Location header of the response.
+- If the method updates an existing resource, it will return 202 also. In some cases, it may not be possible to update an existing resource. In such circumstances, consider returning the HTTP status code 409 (Conflict).
 
 #### POST Method
 - When it performs a processing task the method may return the HTTP status code 200 and include the result of the operation in the response body. 

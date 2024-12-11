@@ -2,14 +2,14 @@
   get:
     tags:
       - Network
-    summary: List all security groups
+    summary: List all security groups in a LAN
     operationId: listSecurityGroups
     x-authorization:
       type: hybrid  # Supports both RBAC and ABAC
       policies:
         - type: RBAC
           scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-          resources: ["seca.network/security-groups"]
+          resources: ["seca.network/lans/{lanName}/security-groups"]
           verbs: ["list"]
     parameters:
       - name: id
@@ -65,14 +65,14 @@
   get:
     tags:
       - Network
-    summary: Get a specific security group
+    summary: Get a specific security group in a LAN
     operationId: getSecurityGroup
     x-authorization:
       type: hybrid  # Supports both RBAC and ABAC
       policies:
         - type: RBAC
           scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-          resources: ["seca.network/security-groups/{securityGroupName}"]
+          resources: ["seca.network/lans/{lanName}/security-groups/{securityGroupName}"]
           verbs: ["get"]
     parameters:
       - name: id
@@ -116,14 +116,14 @@
   put:
     tags:
       - Network
-    summary: Create or update a specific security group
+    summary: Create or update a specific security group in a LAN
     operationId: createOrUpdateSecurityGroup
     x-authorization:
       type: hybrid  # Supports both RBAC and ABAC
       policies:
         - type: RBAC
           scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-          resources: ["seca.network/security-groups/{securityGroupName}"]
+          resources: ["seca.network/lans/{lanName}/security-groups/{securityGroupName}"]
           verbs: ["create","update"]
     parameters:
       - name: id
@@ -174,14 +174,14 @@
   delete:
     tags:
       - Network
-    summary: Delete a specific security group
+    summary: Delete a specific security group in a LAN
     operationId: deleteSecurityGroup
     x-authorization:
       type: hybrid  # Supports both RBAC and ABAC
       policies:
         - type: RBAC
           scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-          resources: ["seca.network/security-groups/{securityGroupName}"]
+          resources: ["seca.network/lans/{lanName}/security-groups/{securityGroupName}"]
           verbs: ["delete"]
     parameters:
       - name: id
@@ -206,8 +206,8 @@
         schema:
           type: string
     responses:
-      '204':
-        description: Security group deleted
+      '202':
+        description: Security group deletion accepted
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':

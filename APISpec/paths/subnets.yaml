@@ -206,8 +206,8 @@
         schema:
           type: string
     responses:
-      '204':
-        description: Subnet deleted
+      '202':
+        description: Subnet deletion accepted
       '400':
         $ref: '../openapi.yaml#/components/responses/Error400'
       '401':

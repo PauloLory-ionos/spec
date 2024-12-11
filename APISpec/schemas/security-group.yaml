@@ -23,7 +23,7 @@ SecurityGroup:
     apiVersion:
       type: string
       description: API version of the resource
-      default: v1beta1
+      default: v1alpha1
       readOnly: true
     kind:
       type: string
@@ -34,6 +34,7 @@ SecurityGroup:
       $ref: './resource.yaml#/RegionalResourceMetadata'
     spec:
       type: object
+      description: Specification of the security group
       properties:
         rules:
           type: array
@@ -46,48 +47,40 @@ SecurityGroup:
             - Default behavior is to deny all traffic not explicitly allowed
           
           items:
-            $ref: '#/SecurityGroupRule'    
+            $ref: '#/SecurityGroupRule'
     status:
       type: object
       readOnly: true
+      description: Current status of the security group
       properties:
         state:
-          type: string
-          enum: ['provisioning', 'running', 'updating']
-        rules:
-          type: array
-          items:
-            $ref: '#/SecurityGroupRule'    
+          $ref: './resource.yaml#/ResourceState'
         conditions:
-          $ref: "./resource.yaml#/StatusConditions"
-  
-  example:
-    description: Allow web servers to access database servers
-    value:
-      apiVersion: v1beta1
-      kind: security-group
-      metadata:
-        name: webserver-group
-      spec:
-        rules:
-          - description: Allow outbound database connections
-            direction: egress
-            protocol: tcp
-            portRange: 
-              from: 5432
-              to: 5432
-            source:
-              type: securityGroup
-              value: database-group
-            priority: 100
+          example:
+            - type: "rules"
+              status: "applied"
+              lastTransitionTime: "2024-11-21T14:39:22Z"
+              reason: "RulesApplied"
+              message: "All security rules have been applied"
+          allOf:
+            - type: array
+              items:
+                type: object
+                enum:
+                  - type: "rules"
+                    status: "applied"
+                  - type: "rules"
+                    status: "pending"
+            - $ref: "./resource.yaml#/StatusConditions"
 
 SecurityGroupRule:
   type: object
+  description: Represents a security group rule
   properties:
     apiVersion:
       type: string
       description: API version of the resource
-      default: v1beta1
+      default: v1alpha1
       readOnly: true
     kind:
       type: string
@@ -104,7 +97,7 @@ SecurityGroupRule:
           description: Human-readable description of the rule's purpose
         direction:
           type: string
-          enum: ['ingress', 'egress', 'bidirectional']
+          enum: ['ingress', 'egress']
           description: |
             - ingress: Only incoming traffic is allowed
             - egress: Only outgoing traffic is allowed
@@ -145,11 +138,6 @@ SecurityGroupRule:
           description: Rule priority (lower number = higher priority)
           minimum: 1
           maximum: 10000
-        action:
-          type: string
-          enum: ['allow', 'deny']
-          default: 'allow'
-          description: Action to take when rule matches
     status:
       type: object
       readOnly: true

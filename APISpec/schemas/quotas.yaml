@@ -4,7 +4,7 @@ ResourceQuota:  ## Compute Resource Quotas
     apiVersion:
       type: string
       description: API version of the resource
-      default: v1beta1
+      default: v1alpha1
       readOnly: true
     kind:
       type: string
