@@ -54,6 +54,7 @@
         $ref: '../openapi.yaml#/components/responses/Error404'
       '500':
         $ref: '../openapi.yaml#/components/responses/Error500'
+/quotas/{resourceType}:
   put:
     tags:
       - Catalogues
