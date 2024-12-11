@@ -50,9 +50,6 @@ paths:
   # Compute Quotas Resource
   /v1alpha1/tenants/{id}/providers/seca.compute/quotas:
     $ref: './paths/compute-quota.yaml#/~1quotas'
-  /v1alpha1/tenants/{id}/providers/seca.compute/quotas/{resourceType}:
-    $ref: './paths/compute-quota.yaml#/~1quotas~1{resourceType}'
-
 
   # Network SKUs Resource
   /v1alpha1/tenants/{id}/providers/seca.network/skus:
@@ -63,9 +60,6 @@ paths:
   # Network Quotas Resource
   /v1alpha1/tenants/{id}/providers/seca.network/quotas:
     $ref: './paths/network-quota.yaml#/~1quotas'
-  /v1alpha1/tenants/{id}/providers/seca.network/quotas/{resourceType}:
-    $ref: './paths/network-quota.yaml#/~1quotas~1{resourceType}'
-
   # Storage SKUs Resource
   /v1alpha1/tenants/{id}/providers/seca.storage/skus:
     $ref: './paths/storage-skus.yaml#/~1skus'
@@ -75,8 +69,6 @@ paths:
   # Storage Quotas Resource
   /v1alpha1/tenants/{id}/providers/seca.storage/quotas:
     $ref: './paths/storage-quota.yaml#/~1quotas'
-  /v1alpha1/tenants/{id}/providers/seca.storage/quotas/{resourceType}:
-    $ref: './paths/storage-quota.yaml#/~1quotas~1{resourceType}'
 
   # Network resources - LAN and its resources
   /v1alpha1/tenants/{id}/workspaces/{workspace}/providers/seca.network/lans:
