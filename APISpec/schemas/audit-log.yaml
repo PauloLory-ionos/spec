@@ -1,0 +1,154 @@
+---
+AuditLog:
+  type: object
+  properties:
+    apiVersion:
+      type: string
+      description: API version of the resource
+      default: v1alpha1
+      readOnly: true
+    kind:
+      type: string
+      description: Type of the resource
+      enum: [ audit-log ]
+      readOnly: true
+    metadata:
+      $ref: './resource.yaml#/RegionalResourceMetadata'
+    spec:
+      type: object
+      properties:
+        operation:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Operation ID.
+            value:
+              type: string
+              description: Operation type (e.g., Access).
+            message:
+              type: string
+              description: Optional description of the operation.
+          required:
+            - id
+            - value
+        event:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Event ID.
+            value:
+              type: string
+              description: Event type (e.g., Login).
+            message:
+              type: string
+              description: Optional description of the event.
+          required:
+            - id
+            - value
+        category:
+          type: object
+          properties:
+            value:
+              type: string
+              enum:
+                - Administrative
+                - Alert
+                - Security
+              description: Category of the event.
+          required:
+            - value
+        level:
+          type: string
+          enum:
+            - Critical
+            - Error
+            - Warning
+            - Informational
+          description: Severity level of the event.
+        origin:
+          type: string
+          description: Origin of the event (e.g., application ID).
+        channel:
+          type: string
+          enum:
+            - Web
+            - Mobile
+            - API
+          description: Channel through which the event occurred.
+        resource:
+          type: object
+          properties:
+            location:
+              type: object
+              properties:
+                region:
+                  type: string
+                  description: Region name (use 'Global' if global).
+                availabilityZone:
+                  type: string
+                  description: Availability zone.
+              required:
+                - region
+                - availabilityZone          
+            scope:
+              type: string
+              description: Scope of the resource (e.g.,
+                /tenants/{tenantId}/workspaces/${workspaceName}).
+            providerNamespace:
+              type: string
+              description: Provider namespace (e.g., seca.network).
+            type:
+              type: string
+              description: Resource type (e.g., lans/{lanName}).
+          required:
+            - scope
+            - providerNamespace
+            - type
+        identity:
+          type: object
+          properties:
+            caller:
+              type: object
+              properties:
+                subject:
+                  type: string
+                  description: Caller subject.
+              required:
+                - subject
+          required:
+            - caller
+        additionalProperties:
+          type: object
+          description: 'further details'
+          properties:
+            message:
+            type: object
+            properties:
+              response:
+                type: object
+                properties:
+                  payload:
+                    type: string
+                    description: Response body.
+                  code:
+                    type: integer
+                    description: Response code.
+                required:
+                  - payload
+                  - code
+              request:
+                type: object
+                properties:
+                  uri:
+                    type: string
+                    description: Request URI.
+                  payload:
+                    type: string
+                    description: Request body.
+                required:
+                  - uri
+                  - payload
