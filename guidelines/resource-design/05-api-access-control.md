@@ -43,6 +43,48 @@ Resource Authorization Model makes sure users or applications have the right to 
 
 A resource authorization model with a dedicated resource provider centralizes access control across resources, offering an efficient, consistent, and secure way to manage permissions and enforce policies at scale in a cloud environment. This model enhances security by reducing complexity and enabling centralized governance over resource access.
 
+### **Validation**
+
+Resource validation in SECA ensures that all requests to create or modify resources meet business rules before being processed. While authentication verifies who is making the request and authorization determines if they have permission, validation ensures the request itself is valid and consistent.
+
+#### Common Expression Language (CEL) Validations
+
+SECA implements resource validations using the Common Expression Language (CEL), providing a powerful and flexible way to define validation rules directly in the API specification.
+
+Key Concepts of CEL Validations:
+- **Declarative Rules**: Validation rules are defined declaratively in the OpenAPI specification using x-cel-validations extensions
+- **Multi-level Validation**: Rules can be applied at both the operation level (for specific actions) and schema level (for resource-wide validations)
+- **Rich Expression Support**: CEL supports complex validation scenarios including:
+  - Field presence and format validation
+  - Cross-field dependencies and relationships
+  - Complex business rules and constraints
+  - Type validation and coercion
+
+Example validation rule:
+```yaml
+MetaData:
+  x-cel-validations:
+    - id: "name_validation"
+      description: "Validate MetaData name format"
+      constraint: "matches(self.name, '^[a-z0-9][-a-z0-9]*$')"
+      error_message: "name must be lowercase alphanumeric and may contain hyphens"
+
+BlockStorage:
+  x-cel-validations:
+    - id: "block_storage_attachment_validation"
+      description: "Ensure block storage volumes are not already attached to other instances"
+      constraint: |
+        # For each requested volume
+        !spec.storage.dataBlockStorageRef.exists(volume,
+          resource.instances.exists(instance,
+            instance.status.dataBlockStorageRef.exists(attached,
+              attached.objectRef == volume.objectRef
+            )
+          )
+        )
+      error_message: "One or more block storage volumes are already attached to other instances"
+```
+
 #### Role
 
 A **Role** is a resource that defines a set of permissions within a specific workspace, allowing controlled access to resources within that workspace. Roles are a key part of **SECA RBAC (Role-Based Access Control)** mechanism, which provides fine-grained access control for users and customer applications interacting with cloud resources.
