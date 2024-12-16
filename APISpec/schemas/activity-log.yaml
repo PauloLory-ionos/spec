@@ -1,4 +1,4 @@
-AuditLog:
+ActivityLog:
   type: object
   properties:
     apiVersion:
@@ -9,7 +9,7 @@ AuditLog:
     kind:
       type: string
       description: Type of the resource
-      enum: [ audit-log ]
+      enum: [ activity-log ]
       readOnly: true
     metadata:
       $ref: './resource.yaml#/GlobalMetadata'

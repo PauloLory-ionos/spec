@@ -133,8 +133,8 @@ paths:
     $ref: './paths/public-ips.yaml#/~1workspaces~1{workspace}~1providers~1network~1public-ips~1{name}'
 
   # Observability
-  /v1alpha1/tenants/{id}/workspaces/{workspace}/providers/seca.observability/api-activity-logs:
-    $ref: './paths/audit-log.yaml#/~1workspaces~1{workspace}~1providers~1seca.observability~1audit-logs'  
+  /v1alpha1/tenants/{id}/workspaces/{workspace}/providers/seca.observability/activity-logs:
+    $ref: './paths/activity-log.yaml#/~1workspaces~1{workspace}~1providers~1seca.observability~1activity-logs'  
 
 components:
   securitySchemes:

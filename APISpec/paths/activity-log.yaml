@@ -1,4 +1,4 @@
-/workspaces/{workspace}/providers/seca.observability/audit-logs:
+/workspaces/{workspace}/providers/seca.observability/activity-logs:
   get:
     tags:
       - Observability
@@ -9,7 +9,7 @@
       policies:
         - type: RBAC
           scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-          resources: ["seca.observability/audit-logs"]
+          resources: ["seca.observability/activity-logs"]
           verbs: ["list"]
     parameters:
       - name: id
@@ -38,7 +38,7 @@
                 items:
                   type: array
                   items:
-                    $ref: '../schemas/audit-log.yaml#/AuditLog'
+                    $ref: '../schemas/activity-log.yaml#/ActivityLog'
                 metadata:
                   type: object
                   properties:
