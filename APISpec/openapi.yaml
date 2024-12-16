@@ -95,6 +95,11 @@ paths:
     $ref: './paths/nics.yaml#/~1workspaces~1{workspace}~1providers~1seca.network~1lans~1{lan}~1nics'
   /v1alpha1/tenants/{id}/workspaces/{workspace}/providers/seca.network/lans/{lan}/nics/{name}:
     $ref: './paths/nics.yaml#/~1workspaces~1{workspace}~1providers~1seca.network~1lans~1{lan}~1nics~1{name}'
+  /v1alpha1/tenants/{id}/workspaces/{workspace}/providers/seca.network/network-load-balancers:
+    $ref: './paths/load-balancer.yaml#/~1workspaces~1{workspace}~1providers~1network~1network-load-balancers'
+  /v1alpha1/tenants/{id}/workspaces/{workspace}/providers/seca.network/network-load-balancers/{network-load-balancer-name}:
+    $ref: './paths/load-balancer.yaml#/~1workspaces~1{workspace}~1providers~1network~1network-load-balancers~1{network-load-balancer-name}'
+
 
   # Authorization resources - RBAC
   /v1alpha1/tenants/{id}/providers/seca.authorization/roles:
