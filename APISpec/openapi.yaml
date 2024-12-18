@@ -7,8 +7,8 @@ info:
   version: v1alpha1
   license:
     name: "Proprietary - All Rights Reserved"
-  description:
-    $ref: './usage.md'
+#  description:
+#    $ref: './usage.md'
 security:
   - bearerAuth: []
 tags:
