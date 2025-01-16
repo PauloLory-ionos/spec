@@ -1583,23 +1583,23 @@ components:
     Location:
       $ref: './schemas/resource.yaml#/Location'
     Error:
-      $ref: './schemas/error_schemas.yaml#/Error'
+      $ref: './schemas/errors.yaml#/Error'
     ErrorDetail:
-      $ref: './schemas/error_schemas.yaml#/ErrorDetail'
+      $ref: './schemas/errors.yaml#/ErrorDetail'
     Error400:
-      $ref: './schemas/error_schemas.yaml#/Error400'
+      $ref: './schemas/errors.yaml#/Error400'
     Error401:
-      $ref: './schemas/error_schemas.yaml#/Error401'
+      $ref: './schemas/errors.yaml#/Error401'
     Error403:
-      $ref: './schemas/error_schemas.yaml#/Error403'
+      $ref: './schemas/errors.yaml#/Error403'
     Error404:
-      $ref: './schemas/error_schemas.yaml#/Error404'
+      $ref: './schemas/errors.yaml#/Error404'
     Error412:
-      $ref: './schemas/error_schemas.yaml#/Error412'
+      $ref: './schemas/errors.yaml#/Error412'
     Error422:
-      $ref: './schemas/error_schemas.yaml#/Error422'
+      $ref: './schemas/errors.yaml#/Error422'
     Error500:
-      $ref: './schemas/error_schemas.yaml#/Error500'
+      $ref: './schemas/errors.yaml#/Error500'
     InstanceSku:
       $ref: './schemas/instance-sku.yaml#/InstanceSku'
     NetworkSku:
