@@ -10,6 +10,7 @@ Error:
 
 ErrorDetail:
   type: object
+  description: A detailed error response
   required:
     - status
     - code
@@ -44,7 +45,7 @@ ErrorDetail:
 Error400:
   allOf:
     - $ref: '#/Error'
-    - type: object
+    - description: A 400 Bad Request error response
       example:
         errors:
           - status: "400"
@@ -55,7 +56,7 @@ Error400:
 Error401:
   allOf:
     - $ref: '#/Error'
-    - type: object
+    - description: A 401 Unauthorized error response
       example:
         errors:
           - status: "401"
@@ -66,7 +67,7 @@ Error401:
 Error403:
   allOf:
     - $ref: '#/Error'
-    - type: object
+    - description: A 403 Forbidden error response
       example:
         errors:
           - status: "403"
@@ -77,7 +78,7 @@ Error403:
 Error404:
   allOf:
     - $ref: '#/Error'
-    - type: object
+    - description: A 404 Not Found error response
       example:
         errors:
           - status: "404"
@@ -88,7 +89,7 @@ Error404:
 Error412:
   allOf:
     - $ref: '#/Error'
-    - type: object
+    - description: A 412 Precondition Failed error response
       example:
         errors:
           - status: "412"
@@ -99,7 +100,7 @@ Error412:
 Error422:
   allOf:
     - $ref: '#/Error'
-    - type: object
+    - description: A 422 Unprocessable Entity error response
       example:
         errors:
           - status: "422"
@@ -112,7 +113,7 @@ Error422:
 Error500:
   allOf:
     - $ref: '#/Error'
-    - type: object
+    - description: A 500 Internal Server Error error response
       example:
         errors:
           - status: "500"

@@ -19,46 +19,37 @@ NetworkSku:
     metadata:
       allOf:
         - $ref: './resource.yaml#/RegionalResourceMetadata'
-        - type: object
-          properties:
-            labels:
-              $ref: '#/NetworkSku/properties/spec/allOf/1/properties/capabilities'
+        - $ref: '#/NetworkSku/properties/spec/properties/capabilities'
     spec:
+      type: object
+      properties:
+        provider:
+          type: string
+          example: SECA
+          description: Provider namespace for network SKUs
+        tier:
+          type: string
+          description: Network performance tier
+        capabilities:
+          additionalProperties: true
+          type: object
+          description: Network performance capabilities
+        extensions:
+          type: array
+          description: Additional network feature extensions
+          items:
+            type: string
+        mandatoryParameters:
+          type: array
+          description: Mandatory parameters for network resources
+          items:
+            type: string
+        description:
+              type: string
       example:
-        - { provider: 'SECA', tier: 'seca.10',   description: 'min   10 mbit low-bandwidth network tier' }
-        - { provider: 'SECA', tier: 'seca.100',  description: 'min  100 mbit low-bandwidth network tier' }
-        - { provider: 'SECA', tier: 'seca.1000', description: 'min 1000 mbit low-bandwidth network tier' }
-      allOf:
-        - type: object
-          enum:
-            - { provider: 'SECA', tier: 'seca.10',   description: 'min   10 mbit low-bandwidth network tier' }
-            - { provider: 'SECA', tier: 'seca.100',  description: 'min  100 mbit low-bandwidth network tier' }
-            - { provider: 'SECA', tier: 'seca.1000', description: 'min 1000 mbit low-bandwidth network tier' }
-        - type: object
-          properties:
-            provider:
-              type: string
-              example: SECA
-              description: Provider namespace for network SKUs
-            tier:
-              type: string
-              description: Network performance tier
-            capabilities:
-              additionalProperties: true
-              type: object
-              description: Network performance capabilities
-            extensions:
-              type: array
-              description: Additional network feature extensions
-              items:
-                type: string
-            mandatoryParameters:
-              type: array
-              description: Mandatory parameters for network resources
-              items:
-                type: string
-            description:
-                  type: string
+        provider: 'SECA'
+        tier: 'seca.10'
+        description: 'min   10 mbit low-bandwidth network tier'
     status:
       type: object
       readOnly: true

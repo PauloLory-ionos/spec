@@ -96,21 +96,17 @@ Subnet:
               type: string
         conditions:
           example:
-            - type: "gateway"
-              status: "configured"
-              lastTransitionTime: "2024-11-21T14:39:22Z"
-              reason: "GatewayProvisioned"
-              message: "Subnet gateway has been configured"
           allOf:
-            - type: array
-              items:
-                type: object
-                enum:
-                  - type: "gateway"
-                    status: "configured"
-                  - type: "gateway"
-                    status: "unconfigured"
             - $ref: "./resource.yaml#/StatusConditions"
+            - example:
+              - type: "gateway"
+                status: "configured"
+                lastTransitionTime: "2024-11-21T14:39:22Z"
+                reason: "GatewayProvisioned"
+                message: "Subnet gateway has been configured"
+              description: |
+                Type `gateway` indicates the status of the subnet's default gateway.
+                The status can be `configured` or `unconfigured`.
   
   example:
     - description: Standard subnet with auto gateway

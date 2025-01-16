@@ -56,22 +56,17 @@ SecurityGroup:
         state:
           $ref: './resource.yaml#/ResourceState'
         conditions:
-          example:
-            - type: "rules"
-              status: "applied"
-              lastTransitionTime: "2024-11-21T14:39:22Z"
-              reason: "RulesApplied"
-              message: "All security rules have been applied"
           allOf:
-            - type: array
-              items:
-                type: object
-                enum:
-                  - type: "rules"
-                    status: "applied"
-                  - type: "rules"
-                    status: "pending"
             - $ref: "./resource.yaml#/StatusConditions"
+            - example:
+              - type: "rules"
+                status: "applied"
+                lastTransitionTime: "2024-11-21T14:39:22Z"
+                reason: "RulesApplied"
+                message: "All security rules have been applied"
+              description: |
+                Type `rules` indicates the status of the security group rules.
+                The status can be `applied` or `pending`.
 
 SecurityGroupRule:
   type: object
