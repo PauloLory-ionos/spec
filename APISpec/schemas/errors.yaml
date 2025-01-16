@@ -1,5 +1,6 @@
 Error:
   type: object
+  description: A generic error response
   required:
     - errors
   properties:

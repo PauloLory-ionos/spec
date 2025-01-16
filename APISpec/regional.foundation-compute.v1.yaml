@@ -1,8 +1,8 @@
 openapi: 3.0.3
 servers:
-  - url: https://demo.secapi.cloud/providers/seca.compute/
+  - url: https://demo.secapi.cloud/providers/seca.compute
     description: Path Schema
-  - url: https://seca.compute.demo.secapi.cloud/
+  - url: https://seca.compute.demo.secapi.cloud
     description: DNS Schema
 info:
   title: Sovereign European Cloud API - Compute Foundation

@@ -6,7 +6,11 @@ OUTPUT = /tmp/swagger.yaml
 
 REDOCLY := npx @redocly/cli
 REDOCLY_FLAGS := --remove-unused-components
+
 SCHEMAS := $(shell find $(ROOT)/schemas -type file)
+
+VACUUM := $(GO) run $(VACUUM)
+VACUUM_FLAGS := -r config/ruleset-recommended.yaml
 
 .PHONY: lint
 lint:
@@ -28,8 +32,8 @@ prepare-dist:
 
 dist/regional.foundation-compute.v1.yaml: $(ROOT)/regional.foundation-compute.v1.yaml $(SCHEMAS)
 	$(REDOCLY) bundle $(REDOCLY_FLAGS) $< --output=$@
-	$(GO) run $(VACUUM) lint -d $@
+	$(VACUUM) lint $(VACUUM_FLAGS) -d $@
 
 dist/regional.foundation-network.v1.yaml: $(ROOT)/regional.foundation-network.v1.yaml $(SCHEMAS)
 	$(REDOCLY) bundle $(REDOCLY_FLAGS) $< --output=$@
-	$(GO) run $(VACUUM) lint -d $@
+	$(VACUUM) lint $(VACUUM_FLAGS) -d $@
