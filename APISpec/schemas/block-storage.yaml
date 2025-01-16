@@ -51,19 +51,14 @@ BlockStorage:
         attachedTo:
           $ref: './resource.yaml#/VolumeAttachment'
         conditions:
-          example:
-            - type: "attachment"
-              status: "attached"
-              lastTransitionTime: "2024-11-21T14:39:22Z"
-              reason: "AttachedToInstance"
-              message: "Volume is attached to instance-123"
           allOf:
-            - type: array
-              items:
-                type: object
-                enum:
-                  - type: "attachment"
-                    status: "attached"
-                  - type: "attachment"
-                    status: "detached"
             - $ref: "./resource.yaml#/StatusConditions"
+            - example:
+              - type: "attachment"
+                status: "attached"
+                lastTransitionTime: "2024-11-21T14:39:22Z"
+                reason: "AttachedToInstance"
+                message: "Volume is attached to instance-123"
+              description: |
+                Type `attachment` indicates the status of the volume attachment.
+                The status can be `attached` or `detached`.

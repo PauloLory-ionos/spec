@@ -77,15 +77,15 @@ paths:
                         type: string
                         description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
   /v1/tenants/{id}/skus/{name}:
     get:
@@ -121,15 +121,15 @@ paths:
               schema:
                 $ref: './schemas/network-sku.yaml#/NetworkSku'
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
   # Network Quotas Resource
   /v1/tenants/{id}/quotas:
@@ -179,15 +179,15 @@ paths:
                         type: string
                         description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
   /v1/tenants/{id}/quotas/{resourceType}:
     put:
@@ -225,19 +225,19 @@ paths:
         '202':
           description: Quota updated or created
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '412':
-          $ref: '#/components/responses/Error412'
+          $ref: './schemas/errors.yaml#/responses/Error412'
         '422':
-          $ref: '#/components/responses/Error422'
+          $ref: './schemas/errors.yaml#/responses/Error422'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
   # Network resources - LAN and its resources
   /v1/tenants/{id}/workspaces/{workspace}/lans:
@@ -288,15 +288,15 @@ paths:
                         type: string
                         description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
   /v1/tenants/{id}/workspaces/{workspace}/lans/{lan}:
     get:
@@ -336,15 +336,15 @@ paths:
               schema:
                 $ref: './schemas/lan.yaml#/LAN'
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
     put:
       tags:
@@ -386,19 +386,19 @@ paths:
         '202':
           description: LAN updated or created
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '412':
-          $ref: '#/components/responses/Error412'
+          $ref: './schemas/errors.yaml#/responses/Error412'
         '422':
-          $ref: '#/components/responses/Error422'
+          $ref: './schemas/errors.yaml#/responses/Error422'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
     delete:
       tags:
@@ -433,15 +433,15 @@ paths:
         '202':
           description: LAN deletion accepted
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
   /v1/tenants/{id}/workspaces/{workspace}/lans/{lan}/subnets:
     get:
@@ -496,15 +496,15 @@ paths:
                         type: string
                         description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
   /v1/tenants/{id}/workspaces/{workspace}/lans/{lan}/subnets/{name}:
     get:
@@ -549,15 +549,15 @@ paths:
               schema:
                 $ref: './schemas/subnet.yaml#/Subnet'
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
     put:
       tags:
@@ -604,19 +604,19 @@ paths:
         '202':
           description: Subnet updated or created
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '412':
-          $ref: '#/components/responses/Error412'
+          $ref: './schemas/errors.yaml#/responses/Error412'
         '422':
-          $ref: '#/components/responses/Error422'
+          $ref: './schemas/errors.yaml#/responses/Error422'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
     delete:
       tags:
@@ -656,15 +656,15 @@ paths:
         '202':
           description: Subnet deletion accepted
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
   /v1/tenants/{id}/workspaces/{workspace}/lans/{lan}/security-groups:
     get:
@@ -719,15 +719,15 @@ paths:
                         type: string
                         description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
   /v1/tenants/{id}/workspaces/{workspace}/lans/{lan}/security-groups/{name}:
     get:
@@ -772,15 +772,15 @@ paths:
               schema:
                 $ref: './schemas/security-group.yaml#/SecurityGroup'
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
     put:
       tags:
         - Network
@@ -826,19 +826,19 @@ paths:
         '202':
           description: Security group updated or created
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '412':
-          $ref: '#/components/responses/Error412'
+          $ref: './schemas/errors.yaml#/responses/Error412'
         '422':
-          $ref: '#/components/responses/Error422'
+          $ref: './schemas/errors.yaml#/responses/Error422'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
     delete:
       tags:
         - Network
@@ -877,15 +877,15 @@ paths:
         '202':
           description: Security group deletion accepted
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
   /v1/tenants/{id}/workspaces/{workspace}/lans/{lan}/nics:
     get:
@@ -938,13 +938,13 @@ paths:
                     type: string
                     description: Token for retrieving the next page of results
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
     put:
       tags:
@@ -997,17 +997,17 @@ paths:
               schema:
                 $ref: './schemas/nic.yaml#/NIC'
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '412':
-          $ref: '#/components/responses/Error412'
+          $ref: './schemas/errors.yaml#/responses/Error412'
         '422':
-          $ref: '#/components/responses/Error422'
+          $ref: './schemas/errors.yaml#/responses/Error422'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
   /v1/tenants/{id}/workspaces/{workspace}/lans/{lan}/nics/{name}:
     get:
@@ -1054,15 +1054,15 @@ paths:
               schema:
                 $ref: './schemas/nic.yaml#/NIC'
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
     delete:
       tags:
@@ -1104,17 +1104,17 @@ paths:
         '202':
           description: NIC deletion accepted
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '412':
-          $ref: '#/components/responses/Error412'
+          $ref: './schemas/errors.yaml#/responses/Error412'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
   # Routing Table Resources
   /v1/tenants/{id}/workspaces/{workspace}/lans/{lan}/routing-tables:
@@ -1170,15 +1170,15 @@ paths:
                         type: string
                         description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
   /v1/tenants/{id}/workspaces/{workspace}/lans/{lan}/routing-tables/{name}:
     get:
@@ -1223,15 +1223,15 @@ paths:
               schema:
                 $ref: './schemas/routing-table.yaml#/RoutingTable'
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
     put:
       tags:
@@ -1279,19 +1279,19 @@ paths:
         '202':
           description: Routing table updated or created
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '412':
-          $ref: '#/components/responses/Error412'
+          $ref: './schemas/errors.yaml#/responses/Error412'
         '422':
-          $ref: '#/components/responses/Error422'
+          $ref: './schemas/errors.yaml#/responses/Error422'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
     delete:
       tags:
@@ -1331,15 +1331,15 @@ paths:
         '202':
           description: Routing table deletion accepted
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
   # New PublicIp Resource
   /v1/tenants/{id}/workspaces/{workspace}/public-ips:
@@ -1392,13 +1392,13 @@ paths:
                         type: string
                         description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
   /v1/tenants/{id}/workspaces/{workspace}/public-ips/{name}:
     put:
@@ -1450,15 +1450,15 @@ paths:
         '202':
           description: Public IP creation or update accepted
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '422':
-          $ref: '#/components/responses/Error422'
+          $ref: './schemas/errors.yaml#/responses/Error422'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
     get:
       tags:
@@ -1500,15 +1500,15 @@ paths:
               schema:
                 $ref: './schemas/public-ip.yaml#/PublicIp'
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
     delete:
       tags:
@@ -1547,26 +1547,21 @@ paths:
         '202':
           description: Public IP deletion accepted
         '400':
-          $ref: '#/components/responses/Error400'
+          $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
-          $ref: '#/components/responses/Error401'
+          $ref: './schemas/errors.yaml#/responses/Error401'
         '403':
-          $ref: '#/components/responses/Error403'
+          $ref: './schemas/errors.yaml#/responses/Error403'
         '404':
-          $ref: '#/components/responses/Error404'
+          $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
-          $ref: '#/components/responses/Error500'
+          $ref: './schemas/errors.yaml#/responses/Error500'
 
 
 components:
   securitySchemes:
     bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: |
-        Use a JWT token for authentication. The token identifies the user, 
-        and policies (RBAC, ABAC, or hybrid) determine authorization.
+      $ref: './schemas/security.yaml#/securitySchemes/bearerAuth'
   schemas:
     LAN:
       $ref: './schemas/lan.yaml#/LAN'
@@ -1582,71 +1577,10 @@ components:
       $ref: './schemas/resource.yaml#/Region'
     Location:
       $ref: './schemas/resource.yaml#/Location'
-    Error:
-      $ref: './schemas/errors.yaml#/Error'
-    ErrorDetail:
-      $ref: './schemas/errors.yaml#/ErrorDetail'
-    Error400:
-      $ref: './schemas/errors.yaml#/Error400'
-    Error401:
-      $ref: './schemas/errors.yaml#/Error401'
-    Error403:
-      $ref: './schemas/errors.yaml#/Error403'
-    Error404:
-      $ref: './schemas/errors.yaml#/Error404'
-    Error412:
-      $ref: './schemas/errors.yaml#/Error412'
-    Error422:
-      $ref: './schemas/errors.yaml#/Error422'
-    Error500:
-      $ref: './schemas/errors.yaml#/Error500'
     InstanceSku:
       $ref: './schemas/instance-sku.yaml#/InstanceSku'
     NetworkSku:
       $ref: './schemas/network-sku.yaml#/NetworkSku'
     StorageSku:
       $ref: './schemas/storage-sku.yaml#/StorageSku'
-  responses:
-    Error400:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error400'
-    Error401:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error401'
-    Error403:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error403'
-    Error404:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error404'
-    Error412:
-      description: Precondition Failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error412'
-    Error422:
-      description: Unprocessable Entity
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error422'
-    Error500:
-      description: Internal Server Error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error500'
 

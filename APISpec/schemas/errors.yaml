@@ -1,123 +1,168 @@
-Error:
-  type: object
-  description: A generic error response
-  required:
-    - errors
-  properties:
-    errors:
-      type: array
-      items:
-        $ref: '#/ErrorDetail'
+schemas:
+  Error:
+    type: object
+    description: A generic error response
+    required:
+      - errors
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: '#/schemas/ErrorDetail'
 
-ErrorDetail:
-  type: object
-  description: A detailed error response
-  required:
-    - status
-    - code
-    - title
-  properties:
-    status:
-      type: string
-      description: The HTTP status code applicable to this problem, expressed as a string value.
-    code:
-      type: string
-      description: An application-specific error code, expressed as a string value.
-    title:
-      type: string
-      description: A short, human-readable summary of the problem.
-    detail:
-      type: string
-      description: A human-readable explanation specific to this occurrence of the problem.
-    source:
-      type: object
-      description: An object containing references to the source of the error.
-      properties:
-        pointer:
-          type: string
-          description: A JSON Pointer [RFC6901] to the associated entity in the request document.
-        parameter:
-          type: string
-          description: A string indicating which URI query parameter caused the error.
-    meta:
-      type: object
-      description: A meta object containing non-standard meta-information about the error.
+  ErrorDetail:
+    type: object
+    description: A detailed error response
+    required:
+      - status
+      - code
+      - title
+    properties:
+      status:
+        type: string
+        description: The HTTP status code applicable to this problem, expressed as a string value.
+      code:
+        type: string
+        description: An application-specific error code, expressed as a string value.
+      title:
+        type: string
+        description: A short, human-readable summary of the problem.
+      detail:
+        type: string
+        description: A human-readable explanation specific to this occurrence of the problem.
+      source:
+        type: object
+        description: An object containing references to the source of the error.
+        properties:
+          pointer:
+            type: string
+            description: A JSON Pointer [RFC6901] to the associated entity in the request document.
+          parameter:
+            type: string
+            description: A string indicating which URI query parameter caused the error.
+      meta:
+        type: object
+        description: A meta object containing non-standard meta-information about the error.
 
-Error400:
-  allOf:
-    - $ref: '#/Error'
-    - description: A 400 Bad Request error response
-      example:
-        errors:
-          - status: "400"
-            code: "INVALID_REQUEST"
-            title: "Bad Request"
-            detail: "The request was invalid or cannot be served."
+  Error400:
+    allOf:
+      - $ref: '#/schemas/Error'
+      - description: A 400 Bad Request error response
+        example:
+          errors:
+            - status: "400"
+              code: "INVALID_REQUEST"
+              title: "Bad Request"
+              detail: "The request was invalid or cannot be served."
 
-Error401:
-  allOf:
-    - $ref: '#/Error'
-    - description: A 401 Unauthorized error response
-      example:
-        errors:
-          - status: "401"
-            code: "UNAUTHORIZED"
-            title: "Unauthorized"
-            detail: "Authentication is required and has failed or has not been provided."
+  Error401:
+    allOf:
+      - $ref: '#/schemas/Error'
+      - description: A 401 Unauthorized error response
+        example:
+          errors:
+            - status: "401"
+              code: "UNAUTHORIZED"
+              title: "Unauthorized"
+              detail: "Authentication is required and has failed or has not been provided."
 
-Error403:
-  allOf:
-    - $ref: '#/Error'
-    - description: A 403 Forbidden error response
-      example:
-        errors:
-          - status: "403"
-            code: "FORBIDDEN"
-            title: "Forbidden"
-            detail: "The request was valid, but the server is refusing action."
+  Error403:
+    allOf:
+      - $ref: '#/schemas/Error'
+      - description: A 403 Forbidden error response
+        example:
+          errors:
+            - status: "403"
+              code: "FORBIDDEN"
+              title: "Forbidden"
+              detail: "The request was valid, but the server is refusing action."
 
-Error404:
-  allOf:
-    - $ref: '#/Error'
-    - description: A 404 Not Found error response
-      example:
-        errors:
-          - status: "404"
-            code: "RESOURCE_NOT_FOUND"
-            title: "Not Found"
-            detail: "The requested resource could not be found."
+  Error404:
+    allOf:
+      - $ref: '#/schemas/Error'
+      - description: A 404 Not Found error response
+        example:
+          errors:
+            - status: "404"
+              code: "RESOURCE_NOT_FOUND"
+              title: "Not Found"
+              detail: "The requested resource could not be found."
 
-Error412:
-  allOf:
-    - $ref: '#/Error'
-    - description: A 412 Precondition Failed error response
-      example:
-        errors:
-          - status: "412"
-            code: "PRECONDITION_FAILED"
-            title: "Precondition Failed"
-            detail: "The precondition given in the If-Match header failed."
+  Error412:
+    allOf:
+      - $ref: '#/schemas/Error'
+      - description: A 412 Precondition Failed error response
+        example:
+          errors:
+            - status: "412"
+              code: "PRECONDITION_FAILED"
+              title: "Precondition Failed"
+              detail: "The precondition given in the If-Match header failed."
 
-Error422:
-  allOf:
-    - $ref: '#/Error'
-    - description: A 422 Unprocessable Entity error response
-      example:
-        errors:
-          - status: "422"
-            code: "VALIDATION_ERROR"
-            title: "Unprocessable Entity"
-            detail: "The request was well-formed but was unable to be followed due to semantic errors."
-            source:
-              pointer: "/data/attributes/username"
+  Error422:
+    allOf:
+      - $ref: '#/schemas/Error'
+      - description: A 422 Unprocessable Entity error response
+        example:
+          errors:
+            - status: "422"
+              code: "VALIDATION_ERROR"
+              title: "Unprocessable Entity"
+              detail: "The request was well-formed but was unable to be followed due to semantic errors."
+              source:
+                pointer: "/data/attributes/username"
 
-Error500:
-  allOf:
-    - $ref: '#/Error'
-    - description: A 500 Internal Server Error error response
-      example:
-        errors:
-          - status: "500"
-            code: "INTERNAL_SERVER_ERROR"
-            title: "Internal Server Error"
-            detail: "The server encountered an unexpected condition that prevented it from fulfilling the request."
+  Error500:
+    allOf:
+      - $ref: '#/schemas/Error'
+      - description: A 500 Internal Server Error error response
+        example:
+          errors:
+            - status: "500"
+              code: "INTERNAL_SERVER_ERROR"
+              title: "Internal Server Error"
+              detail: "The server encountered an unexpected condition that prevented it from fulfilling the request."
+
+responses:
+  Error400:
+    description: Bad Request
+    content:
+      application/json:
+        schema:
+          $ref: '#/schemas/Error400'
+  Error401:
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/schemas/Error401'
+  Error403:
+    description: Forbidden
+    content:
+      application/json:
+        schema:
+          $ref: '#/schemas/Error403'
+  Error404:
+    description: Not Found
+    content:
+      application/json:
+        schema:
+          $ref: '#/schemas/Error404'
+  Error412:
+    description: Precondition Failed
+    content:
+      application/json:
+        schema:
+          $ref: '#/schemas/Error412'
+  Error422:
+    description: Unprocessable Entity
+    content:
+      application/json:
+        schema:
+          $ref: '#/schemas/Error422'
+  Error500:
+    description: Internal Server Error
+    content:
+      application/json:
+        schema:
+          $ref: '#/schemas/Error500'
