@@ -1557,30 +1557,6 @@ paths:
         '500':
           $ref: './schemas/errors.yaml#/responses/Error500'
 
-
 components:
   securitySchemes:
-    bearerAuth:
-      $ref: './schemas/security.yaml#/securitySchemes/bearerAuth'
-  schemas:
-    LAN:
-      $ref: './schemas/lan.yaml#/LAN'
-    Subnet:
-      $ref: './schemas/subnet.yaml#/Subnet'
-    NIC:
-      $ref: './schemas/nic.yaml#/NIC'
-    PublicIp:
-      $ref: './schemas/public-ip.yaml#/PublicIp'
-    SecurityGroup:
-      $ref: './schemas/security-group.yaml#/SecurityGroup'
-    Region:
-      $ref: './schemas/resource.yaml#/Region'
-    Location:
-      $ref: './schemas/resource.yaml#/Location'
-    InstanceSku:
-      $ref: './schemas/instance-sku.yaml#/InstanceSku'
-    NetworkSku:
-      $ref: './schemas/network-sku.yaml#/NetworkSku'
-    StorageSku:
-      $ref: './schemas/storage-sku.yaml#/StorageSku'
-
+    $ref: './schemas/security.yaml#/securitySchemes'

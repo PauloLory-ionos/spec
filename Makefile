@@ -8,6 +8,8 @@ REDOCLY := npx @redocly/cli
 REDOCLY_FLAGS := --remove-unused-components
 
 SCHEMAS := $(shell find $(ROOT)/schemas -type file)
+SCHEMAS_SOURCES := $(shell ls $(ROOT)/*.yaml)
+SCHEMAS_FINAL = $(SCHEMAS_SOURCES:$(ROOT)/%.yaml=dist/%.yaml)
 
 VACUUM := $(GO) run $(VACUUM)
 VACUUM_FLAGS := -r config/ruleset-recommended.yaml
@@ -23,22 +25,11 @@ validate:
 build:
 	cd $(ROOT) && npx @redocly/cli bundle --remove-unused-components $(SPEC) --output=$(OUTPUT)
 
-dist: prepare-dist \
-	  dist/regional.foundation-compute.v1.yaml \
-	  dist/regional.foundation-network.v1.yaml \
-	  dist/regional.foundation-storage.v1.yaml
+dist: prepare-dist $(SCHEMAS_FINAL)
 
 prepare-dist:
 	@mkdir -p dist
 
-dist/regional.foundation-compute.v1.yaml: $(ROOT)/regional.foundation-compute.v1.yaml $(SCHEMAS)
-	$(REDOCLY) bundle $(REDOCLY_FLAGS) $< --output=$@
-	$(VACUUM) lint $(VACUUM_FLAGS) -d $@
-
-dist/regional.foundation-network.v1.yaml: $(ROOT)/regional.foundation-network.v1.yaml $(SCHEMAS)
-	$(REDOCLY) bundle $(REDOCLY_FLAGS) $< --output=$@
-	$(VACUUM) lint $(VACUUM_FLAGS) -d $@
-
-dist/regional.foundation-storage.v1.yaml: $(ROOT)/regional.foundation-storage.v1.yaml $(SCHEMAS)
+dist/%.yaml: $(ROOT)/%.yaml $(SCHEMAS)
 	$(REDOCLY) bundle $(REDOCLY_FLAGS) $< --output=$@
 	$(VACUUM) lint $(VACUUM_FLAGS) -d $@
