@@ -23,10 +23,9 @@ ObjectStorage:
               type: string
               description: Reference to the SKU used for this object-storage
     status:
-      type: object
-      readOnly: true
-      properties:
-        state:
-          $ref: './resource.yaml#/ResourceState'
-        conditions:
-          $ref: "./resource.yaml#/StatusConditions"
+      allOf:
+      - $ref: "./resource.yaml#/Status"
+      - type: object
+        properties:
+          state:
+            $ref: './resource.yaml#/ResourceState'

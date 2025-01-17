@@ -48,12 +48,7 @@ paths:
             resources: ["tenants/{tenantId}/skus"]
             verbs: ["list"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
         - $ref: './schemas/parameters.yaml#/parameters/limitParam'
         - $ref: './schemas/parameters.yaml#/parameters/skipTokenParam'
@@ -102,12 +97,7 @@ paths:
             resources: ["seca.network/skus/{skuName}"]
             verbs: ["get"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: name
           in: path
           required: true
@@ -150,12 +140,7 @@ paths:
             resources: ["seca.network/quotas"]
             verbs: ["list"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
         - $ref: './schemas/parameters.yaml#/parameters/limitParam'
         - $ref: './schemas/parameters.yaml#/parameters/skipTokenParam'
@@ -203,12 +188,7 @@ paths:
             resources: ["seca.network/quotas/{resourceType}"]
             verbs: ["create","update"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: resourceType
           in: path
           required: true
@@ -254,12 +234,7 @@ paths:
             resources: ["seca.network/lans"]
             verbs: ["list"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -312,12 +287,7 @@ paths:
             resources: ["seca.network/lans/{lanName}"]
             verbs: ["get"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -359,12 +329,7 @@ paths:
             resources: ["seca.network/lans/{lanName}"]
             verbs: ["create","update"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -413,12 +378,7 @@ paths:
             resources: ["seca.network/lans/{lanName}"]
             verbs: ["delete"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -457,12 +417,7 @@ paths:
             resources: ["seca.network/lans/{lanName}/subnets"]
             verbs: ["list"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -495,6 +450,28 @@ paths:
                       skipToken:
                         type: string
                         description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                example:
+                  items:
+                  - apiVersion: v1
+                    kind: subnet
+                    metadata:
+                      name: standard-subnet
+                      description: Standard subnet with auto gateway
+                    spec:
+                      ipv4Range: '192.168.1.0/24'
+                      networkSkuRef: 'seca.100'
+                      dhcpEnabled: true
+                  - apiVersion: v1
+                    kind: subnet
+                    metadata:
+                      name: firewall-subnet
+                      description: Custom gateway through network appliance
+                    spec:
+                      ipv4Range: '10.0.0.0/24'
+                      dhcpEnabled: true
+                      defaultGateway:
+                        type: instanceRef
+                        value: 'network-firewall-01'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -520,12 +497,7 @@ paths:
             resources: ["seca.network/lans/{lanName}/subnets/{subnetName}"]
             verbs: ["get"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -572,12 +544,7 @@ paths:
             resources: ["seca.network/lans/{lanName}/subnets/{subnetName}"]
             verbs: ["create","update"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -631,12 +598,7 @@ paths:
             resources: ["seca.network/lans/{lanName}/subnets/{subnetName}"]
             verbs: ["delete"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -680,12 +642,7 @@ paths:
             resources: ["seca.network/lans/{lanName}/security-groups"]
             verbs: ["list"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -743,12 +700,7 @@ paths:
             resources: ["seca.network/lans/{lanName}/security-groups/{securityGroupName}"]
             verbs: ["get"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -794,12 +746,7 @@ paths:
             resources: ["seca.network/lans/{lanName}/security-groups/{securityGroupName}"]
             verbs: ["create","update"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -852,12 +799,7 @@ paths:
             resources: ["seca.network/lans/{lanName}/security-groups/{securityGroupName}"]
             verbs: ["delete"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -902,12 +844,7 @@ paths:
             resources: ["seca.network/lans/{lanName}/nics"]
             verbs: ["list"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -960,12 +897,7 @@ paths:
             resources: ["seca.network/lans/{lanName}/nics"]
             verbs: ["write"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -1024,12 +956,7 @@ paths:
             resources: ["seca.network/lans/{lanName}/nics/{nicName}"]
             verbs: ["get"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -1078,12 +1005,7 @@ paths:
             resources: ["seca.network/lans/{lanName}/nics/{nicName}"]
             verbs: ["delete"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -1131,12 +1053,7 @@ paths:
             resources: ["seca.network/routing-tables"]
             verbs: ["list"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -1194,12 +1111,7 @@ paths:
             resources: ["seca.network/routing-tables/{routingTableName}"]
             verbs: ["get"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -1247,12 +1159,7 @@ paths:
             resources: ["seca.network/routing-tables/{routingTableName}"]
             verbs: ["create","update"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -1306,12 +1213,7 @@ paths:
             resources: ["seca.network/routing-tables/{routingTableName}"]
             verbs: ["delete"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -1357,12 +1259,7 @@ paths:
             resources: ["seca.network/public-ips"]
             verbs: ["list"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -1415,12 +1312,7 @@ paths:
             resources: ["seca.network/public-ips"]
             verbs: ["create"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -1474,12 +1366,7 @@ paths:
             resources: ["seca.network/public-ips/{publicIpName}"]
             verbs: ["get"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -1524,12 +1411,7 @@ paths:
             resources: ["seca.network/public-ips/{publicIpName}"]
             verbs: ["delete"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true

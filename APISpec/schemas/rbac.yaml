@@ -37,11 +37,8 @@ Role:
           description: List of permissions granted by this role
           example: ["compute/instance:read", "network/*:write"]
     status:
-      type: object
-      readOnly: true
-      properties:
-        conditions:
-          $ref: "./resource.yaml#/StatusConditions"
+      $ref: "./resource.yaml#/Status"
+
 RoleAssignment:
   type: object
   properties:
@@ -79,8 +76,4 @@ RoleAssignment:
           description: List of Scopes to whom the roles are assigned
           example: ["workspaces/develop", "workspaces/production"]          
     status:
-      type: object
-      readOnly: true
-      properties:
-        conditions:
-          $ref: "./resource.yaml#/StatusConditions"
+      $ref: "./resource.yaml#/Status"

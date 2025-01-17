@@ -43,6 +43,9 @@ BlockStorage:
     status:
       type: object
       readOnly: true
+      description: |
+        Conditions type `attachment` indicates the status of the volume attachment.
+        The status can be `attached` or `detached`.
       properties:
         state:
           $ref: './resource.yaml#/ResourceState'
@@ -51,17 +54,22 @@ BlockStorage:
         attachedTo:
           $ref: '#/VolumeAttachment'
         conditions:
-          allOf:
-            - $ref: "./resource.yaml#/StatusConditions"
-            - example:
-              - type: "attachment"
-                status: "attached"
-                lastTransitionTime: "2024-11-21T14:39:22Z"
-                reason: "AttachedToInstance"
-                message: "Volume is attached to instance-123"
-              description: |
-                Type `attachment` indicates the status of the volume attachment.
-                The status can be `attached` or `detached`.
+          $ref: "./resource.yaml#/StatusConditions"
+      example:
+        state: "Ready"
+        sizeGB: 10
+        attachedTo:
+          objectRef: "instance-123"
+          properties:
+            connectionType: "iSCSI"
+            deviceKind: "instance"
+            deviceRef: "instance-123"
+        conditions:
+        - type: "attachment"
+          status: "attached"
+          lastTransitionTime: "2024-11-21T14:39:22Z"
+          reason: "AttachedToInstance"
+          message: "Volume is attached to instance-123"
 
 VolumeAttachment:
   type: object

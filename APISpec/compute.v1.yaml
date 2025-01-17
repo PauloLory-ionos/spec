@@ -48,12 +48,7 @@ paths:
             resources: ["seca.compute/skus"]
             verbs: ["list"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
         - $ref: './schemas/parameters.yaml#/parameters/limitParam'
         - $ref: './schemas/parameters.yaml#/parameters/skipTokenParam'
@@ -66,10 +61,11 @@ paths:
               schema:
                 type: object
                 example:
-                - { provider: 'SECA', tier: 'seca.s',  vCPU:  2, ramGB:  4, cpuType: 'amd64', benchmarkPoints:  3000 }
-                - { provider: 'SECA', tier: 'seca.m',  vCPU:  4, ramGB:  8, cpuType: 'amd64', benchmarkPoints:  6000 }
-                - { provider: 'SECA', tier: 'seca.l',  vCPU:  8, ramGB: 16, cpuType: 'amd64', benchmarkPoints: 12000 }
-                - { provider: 'SECA', tier: 'seca.xl', vCPU: 16, ramGB: 32, cpuType: 'amd64', benchmarkPoints: 24000 }
+                  items:
+                  - { provider: 'SECA', tier: 'seca.s',  vCPU:  2, ramGB:  4, cpuType: 'amd64', benchmarkPoints:  3000 }
+                  - { provider: 'SECA', tier: 'seca.m',  vCPU:  4, ramGB:  8, cpuType: 'amd64', benchmarkPoints:  6000 }
+                  - { provider: 'SECA', tier: 'seca.l',  vCPU:  8, ramGB: 16, cpuType: 'amd64', benchmarkPoints: 12000 }
+                  - { provider: 'SECA', tier: 'seca.xl', vCPU: 16, ramGB: 32, cpuType: 'amd64', benchmarkPoints: 24000 }
                 properties:
                   items:
                     type: array
@@ -107,12 +103,7 @@ paths:
             resources: ["seca.compute/skus/{skuName}"]
             verbs: ["get"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: name
           in: path
           required: true
@@ -155,12 +146,7 @@ paths:
             resources: ["seca.compute/quotas"]
             verbs: ["list"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
         - $ref: './schemas/parameters.yaml#/parameters/limitParam'
         - $ref: './schemas/parameters.yaml#/parameters/skipTokenParam'
@@ -208,12 +194,7 @@ paths:
             resources: ["seca.compute/quotas/{resourceType}"]
             verbs: ["create","update"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: resourceType
           in: path
           required: true
@@ -259,12 +240,7 @@ paths:
             resources: ["seca.compute/instances"]
             verbs: ["list"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -317,12 +293,7 @@ paths:
             resources: ["seca.compute/instances/{instanceName}"]
             verbs: ["get"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -363,12 +334,7 @@ paths:
             resources: ["seca.compute/instances/{instanceName}"]
             verbs: ["create","update"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -416,12 +382,7 @@ paths:
             resources: ["seca.compute/instances/{instanceName}"]
             verbs: ["delete"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -460,12 +421,7 @@ paths:
             resources: ["seca.compute/instances/{instanceName}"]
             verbs: ["power"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -504,12 +460,7 @@ paths:
             resources: ["seca.compute/instances/{instanceName}"]
             verbs: ["power"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -548,12 +499,7 @@ paths:
             resources: ["seca.compute/instances/{instanceName}"]
             verbs: ["power"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true

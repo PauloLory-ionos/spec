@@ -17,11 +17,11 @@ InstanceSku:
       readOnly: true
     metadata:
       allOf:
-        - $ref: './resource.yaml#/RegionalResourceMetadata'
-        - type: object
-          properties:
-            labels:
-              $ref: '#/InstanceSku/properties/spec/properties/capabilities'
+      - $ref: './resource.yaml#/RegionalResourceMetadata'
+      - type: object
+        properties:
+          labels:
+            $ref: '#/InstanceSku/properties/spec/properties/capabilities'
     spec:
       type: object
       properties:
@@ -62,8 +62,4 @@ InstanceSku:
         benchmarkPoints: 3000
 
     status:
-      type: object
-      readOnly: true
-      properties:
-        conditions:
-          $ref: "./resource.yaml#/StatusConditions"
+      $ref: "./resource.yaml#/Status"

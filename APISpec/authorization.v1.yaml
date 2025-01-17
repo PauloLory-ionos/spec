@@ -32,12 +32,7 @@ paths:
             resources: ["seca.authorization/roles"]
             verbs: ["list"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
         - $ref: './schemas/parameters.yaml#/parameters/limitParam'
         - $ref: './schemas/parameters.yaml#/parameters/skipTokenParam'
@@ -85,12 +80,7 @@ paths:
             resources: ["seca.authorization/roles/{roleName}"]
             verbs: ["get"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: name
           in: path
           required: true
@@ -127,12 +117,7 @@ paths:
             resources: ["seca.authorization/roles/{roleName}"]
             verbs: ["create","update"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: name
           in: path
           required: true
@@ -190,12 +175,7 @@ paths:
             resources: ["seca.authorization/roles/{roleName}"]
             verbs: ["delete"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: name
           in: path
           required: true
@@ -232,12 +212,7 @@ paths:
             resources: ["seca.authorization/role-assignments"]
             verbs: ["list"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: name
           in: query
           required: false
@@ -293,12 +268,7 @@ paths:
             resources: ["seca.authorization/role-assignments/{roleAssignmentName}"]
             verbs: ["get"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: name
           in: path
           required: true
@@ -341,12 +311,7 @@ paths:
             resources: ["seca.authorization/role-assignments/{roleAssignmentName}"]
             verbs: ["create","update"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: name
           in: path
           required: true
@@ -403,12 +368,7 @@ paths:
             resources: ["seca.authorization/role-assignments/{roleAssignmentName}"]
             verbs: ["delete"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: name
           in: path
           required: true

@@ -19,11 +19,11 @@ StorageSku:
       readOnly: true
     metadata:
       allOf:
-        - $ref: './resource.yaml#/RegionalResourceMetadata'
-        - type: object
-          properties:
-            labels:
-              $ref: "#/StorageSku/properties/spec/properties/capabilities"
+      - $ref: './resource.yaml#/RegionalResourceMetadata'
+      - type: object
+        properties:
+          labels:
+            $ref: "#/StorageSku/properties/spec/properties/capabilities"
     spec:
       type: object
       properties:
@@ -54,8 +54,4 @@ StorageSku:
         tier: 'seca.general'
         description: 'a storage with no guaranteed throughput for normal usage'
     status:
-      type: object
-      readOnly: true
-      properties:
-        conditions:
-          $ref: "./resource.yaml#/StatusConditions"
+      $ref: "./resource.yaml#/Status"

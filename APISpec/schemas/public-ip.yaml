@@ -48,26 +48,27 @@ PublicIp:
     status:
       type: object
       readOnly: true
-      description: Current status of the public IP
+      description: |
+        Current status of the public IP. 
+        Condition type `allocation` indicates the status of the public IP allocation.
+        The status can be `allocated` or `released`. 
+        Condition type  `binding` indicates the status of the IP binding to a resource.
+        The status can be `bound` or `unbound`.
       properties:
         state:
           $ref: './resource.yaml#/ResourceState'
         conditions:
-          allOf:
-            - $ref: "./resource.yaml#/StatusConditions"
-            - example:
-              - type: "allocation"
-                status: "allocated"
-                lastTransitionTime: "2024-11-21T14:39:22Z"
-                reason: "IpAddressAssigned"
-                message: "Public IP address has been assigned"
-              - type: "binding"
-                status: "bound"
-                lastTransitionTime: "2024-11-21T14:39:22Z"
-                reason: "BoundToResource"
-                message: "IP is bound to a resource"
-              description: |
-                Type `allocation` indicates the status of the public IP allocation.
-                The status can be `allocated` or `released`. 
-                Type `binding` indicates the status of the IP binding to a resource.
-                The status can be `bound` or `unbound`.
+          $ref: './resource.yaml#/StatusConditions'
+      example:
+        state: "Active"
+        conditions:
+        - type: "allocation"
+          status: "allocated"
+          lastTransitionTime: "2024-11-21T14:39:22Z"
+          reason: "IpAddressAssigned"
+          message: "Public IP address has been assigned"
+        - type: "binding"
+          status: "bound"
+          lastTransitionTime: "2024-11-21T14:39:22Z"
+          reason: "BoundToResource"
+          message: "IP is bound to a resource"

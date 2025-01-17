@@ -25,11 +25,11 @@ Image:
       readOnly: true
     metadata:
       allOf:
-        - $ref: './resource.yaml#/RegionalResourceMetadata'
-        - type: object
-          properties:
-            labels:
-              $ref: '#/Image/properties/spec/properties/capabilities'
+      - $ref: './resource.yaml#/RegionalResourceMetadata'
+      - type: object
+        properties:
+          labels:
+            $ref: '#/Image/properties/spec/properties/capabilities'
     spec:
       type: object
       properties:
@@ -71,8 +71,4 @@ Image:
         cloudInitVersion: '22.01'
         endOfLife: '2029-03-31'
     status:
-      type: object
-      readOnly: true
-      properties:
-        conditions:
-          $ref: "./resource.yaml#/StatusConditions"
+      $ref: "./resource.yaml#/Status"

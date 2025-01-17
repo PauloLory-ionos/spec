@@ -76,7 +76,10 @@ Subnet:
     status:
       type: object
       readOnly: true
-      description: Current status of the subnet
+      description: |
+        Current status of the subnet. 
+        Condition type `gateway` indicates the status of the subnet's default gateway.
+        The status can be `configured` or `unconfigured`.
       properties:
         state:
           $ref: './resource.yaml#/ResourceState'
@@ -95,40 +98,12 @@ Subnet:
             value:
               type: string
         conditions:
-          example:
-          allOf:
-            - $ref: "./resource.yaml#/StatusConditions"
-            - example:
-              - type: "gateway"
-                status: "configured"
-                lastTransitionTime: "2024-11-21T14:39:22Z"
-                reason: "GatewayProvisioned"
-                message: "Subnet gateway has been configured"
-              description: |
-                Type `gateway` indicates the status of the subnet's default gateway.
-                The status can be `configured` or `unconfigured`.
-  
-  example:
-    - description: Standard subnet with auto gateway
-      value:
-        apiVersion: v1
-        kind: subnet
-        metadata:
-          name: standard-subnet
-        spec:
-          ipv4Range: '192.168.1.0/24'
-          networkSkuRef: 'seca.100'
-          dhcpEnabled: true
-    
-    - description: Custom gateway through network appliance
-      value:
-        apiVersion: v1
-        kind: subnet
-        metadata:
-          name: firewall-subnet
-        spec:
-          ipv4Range: '10.0.0.0/24'
-          dhcpEnabled: true
-          defaultGateway:
-            type: instanceRef
-            value: 'network-firewall-01'
+          $ref: "./resource.yaml#/StatusConditions"
+      example:
+        state: "Ready"
+        conditions:
+        - type: "gateway"
+          status: "configured"
+          lastTransitionTime: "2024-11-21T14:39:22Z"
+          reason: "GatewayProvisioned"
+          message: "Subnet gateway has been configured"

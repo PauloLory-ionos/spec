@@ -16,13 +16,12 @@ ResourceQuota:  ## Compute Resource Quotas
     spec:
       $ref: "./resource.yaml#/ResourceQuota"
     status:
-      type: object
-      readOnly: true
-      properties:
-        usage:
-          $ref: "./resource.yaml#/ResourceQuota"
-        current:
-          $ref: "./resource.yaml#/ResourceQuota"
-        conditions:
-          $ref: "./resource.yaml#/StatusConditions"
+      allOf:
+      - $ref: "./resource.yaml#/Status"
+      - type: object
+        properties:
+          usage:
+            $ref: "./resource.yaml#/ResourceQuota"
+          current:
+            $ref: "./resource.yaml#/ResourceQuota"
 

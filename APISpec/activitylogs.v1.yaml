@@ -31,12 +31,7 @@ paths:
             resources: ["seca.observability/activity-logs"]
             verbs: ["list"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true

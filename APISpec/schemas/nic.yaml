@@ -39,28 +39,27 @@ NIC:
             type: string
             format: ipv4
     status:
-      type: object
-      readOnly: true
-      properties:
-        state:
-          $ref: './resource.yaml#/ResourceState'
-        privateIPs:
-          type: array
-          items:
-            type: object
-            properties:
-              adressType:
-                type: string
-                enum: [ 'IPv4' ]
-              ipAddress:
-                type: string
-        publicIPRef:
-          type: array
-          items:
+      allOf:  
+      - $ref: "./resource.yaml#/Status"
+      - type: object
+        properties:
+          state:
+            $ref: './resource.yaml#/ResourceState'
+          privateIPs:
+            type: array
+            items:
+              type: object
+              properties:
+                adressType:
+                  type: string
+                  enum: [ 'IPv4' ]
+                ipAddress:
+                  type: string
+          publicIPRef:
+            type: array
+            items:
+              type: string
+          subnetRef:
             type: string
-        subnetRef:
-          type: string
-        securityGroupRef:
-          type: string
-        conditions:
-          $ref: "./resource.yaml#/StatusConditions"
+          securityGroupRef:
+            type: string

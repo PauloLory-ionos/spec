@@ -23,11 +23,7 @@ Location:
           type: string
           description: Optional zone within the region
     status:
-      type: object
-      readOnly: true
-      properties:
-        conditions:
-          $ref: "./resource.yaml#/StatusConditions"
+      $ref: "./resource.yaml#/Status"
 
 Region:
   type: object
@@ -52,8 +48,4 @@ Region:
           items:
             type: string
     status:
-      type: object
-      readOnly: true
-      properties:
-        conditions:
-          $ref: "./resource.yaml#/StatusConditions"
+      $ref: "./resource.yaml#/Status"

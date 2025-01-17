@@ -35,15 +35,15 @@ parameters:
       type: string
 
   ifUnmodifiedSince:
-      in: header
-      name: if-unmodified-since
-      schema:
-        type: string
-        format: date-time
-      required: false
-      description: |
-        Returns resources only if they have not been modified since the specified time.
-        Uses metadata.lastUpdatedTimestamp for comparison.
+    in: header
+    name: if-unmodified-since
+    schema:
+      type: string
+      format: date-time
+    required: false
+    description: |
+      Returns resources only if they have not been modified since the specified time.
+      Uses metadata.lastUpdatedTimestamp for comparison.
 
   acceptHeader:
     in: header
@@ -57,3 +57,11 @@ parameters:
       - application/json: Returns only non-deleted resources
       - application/json; deleted=true: Returns both deleted and non-deleted resources
       - application/json; deleted=only: Returns only deleted resources
+  
+  tenantID:
+    name: id
+    in: path
+    required: true
+    schema:
+      type: string
+    description: Tenant ID

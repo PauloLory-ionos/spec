@@ -41,12 +41,7 @@ paths:
   #           resources: ["seca.storage/skus"]
   #           verbs: ["list"]
   #     parameters:
-  #       - name: id
-  #         in: path
-  #         required: true
-  #         schema:
-  #           type: string
-  #         description: Tenant ID
+  #       - $ref: './schemas/parameters.yaml#/parameters/tenantID'
   #       - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
   #       - $ref: './schemas/parameters.yaml#/parameters/limitParam'
   #       - $ref: './schemas/parameters.yaml#/parameters/skipTokenParam'
@@ -95,12 +90,7 @@ paths:
   #           resources: ["seca.storage/skus/{skuName}"]
   #           verbs: ["get"]
   #     parameters:
-  #       - name: id
-  #         in: path
-  #         required: true
-  #         schema:
-  #           type: string
-  #         description: Tenant ID
+  #       - $ref: './schemas/parameters.yaml#/parameters/tenantID'
   #       - name: name
   #         in: path
   #         required: true
@@ -139,12 +129,7 @@ paths:
             resources: ["seca.storage/object-storages"]
             verbs: ["list"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -198,12 +183,7 @@ paths:
             resources: ["seca.storage/object-storages"]
             verbs: ["get"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -245,12 +225,7 @@ paths:
             resources: ["seca.storage/object-storages/{objectStorageName}"]
             verbs: ["create","update"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true
@@ -298,12 +273,7 @@ paths:
             resources: ["seca.storage/object-storages/{objectStorageName}"]
             verbs: ["delete"]
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Tenant ID
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
           in: path
           required: true

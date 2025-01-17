@@ -33,39 +33,39 @@ ResourceMetadata:
 
 GlobalResourceMetadata:
   allOf:
-    - $ref: '#/ResourceMetadata'
-  description: Metadata for global resources with no location constraints
+  - $ref: '#/ResourceMetadata'
+  - description: Metadata for global resources with no location constraints
 
 RegionalResourceMetadata:
   allOf:
-    - $ref: '#/ResourceMetadata'
-  description: Metadata for regional resources
-  properties:
-    location:
-      type: object
-      description: Reference to the region where the resource is located
-      properties:
-        region:
-          type: string
-      required:
-        - region
+  - $ref: '#/ResourceMetadata'
+  - description: Metadata for regional resources
+    properties:
+      location:
+        type: object
+        description: Reference to the region where the resource is located
+        properties:
+          region:
+            type: string
+        required:
+          - region
 
 ZonalResourceMetadata:
   allOf:
-    - $ref: '#/ResourceMetadata'
-  description: Metadata for zonal resources
-  properties:
-    location:
-      type: object
-      description: Reference to the specific location (region/zone) where the resource is located
-      properties:
-        region:
-          type: string
-        zone:
-          type: string
-      required:
-        - region
-        - zone
+  - $ref: '#/ResourceMetadata'
+  - description: Metadata for zonal resources
+    properties:
+      location:
+        type: object
+        description: Reference to the specific location (region/zone) where the resource is located
+        properties:
+          region:
+            type: string
+          zone:
+            type: string
+        required:
+          - region
+          - zone
 
 ResourceState:
   type: object
@@ -92,6 +92,14 @@ ResourceState:
         - deleting
         - suspended
         - error
+
+Status:
+  type: object
+  readOnly: true
+  description: Current status of the resource
+  properties:
+    conditions:
+      $ref: "./resource.yaml#/StatusConditions"
 
 StatusConditions:
   type: array

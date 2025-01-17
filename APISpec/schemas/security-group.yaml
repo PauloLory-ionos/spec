@@ -51,22 +51,22 @@ SecurityGroup:
     status:
       type: object
       readOnly: true
-      description: Current status of the security group
+      description: |
+        Current status of the security group
+        Condition type `rules` indicates the status of the security group rules.
+        The status can be `applied` or `pending`.
       properties:
         state:
           $ref: './resource.yaml#/ResourceState'
         conditions:
-          allOf:
-            - $ref: "./resource.yaml#/StatusConditions"
-            - example:
-              - type: "rules"
-                status: "applied"
-                lastTransitionTime: "2024-11-21T14:39:22Z"
-                reason: "RulesApplied"
-                message: "All security rules have been applied"
-              description: |
-                Type `rules` indicates the status of the security group rules.
-                The status can be `applied` or `pending`.
+          $ref: "./resource.yaml#/StatusConditions"
+      example:
+        conditions:
+        - type: "rules"
+          status: "applied"
+          lastTransitionTime: "2024-11-21T14:39:22Z"
+          reason: "RulesApplied"
+          message: "All security rules have been applied"
 
 SecurityGroupRule:
   type: object
@@ -134,8 +134,4 @@ SecurityGroupRule:
           minimum: 1
           maximum: 10000
     status:
-      type: object
-      readOnly: true
-      properties:
-        conditions:
-          $ref: "./resource.yaml#/StatusConditions"      
+      $ref: "./resource.yaml#/Status"

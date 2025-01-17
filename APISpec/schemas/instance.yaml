@@ -119,20 +119,14 @@ Instance:
           items:
             type: string
         conditions:
-          example:
-            - type: "power"
-              status: "on"
-              lastTransitionTime: "2024-11-21T14:39:22Z"
-              reason: "user_request"
-              message: "executed successfully"
-          allOf:
-            - type: array
-              items:
-                type: object
-                enum:
-                  - type: "power"
-                    status: "on"
-                    lastTransitionTime: "2024-11-21T14:39:22Z"
-                    reason: "user_request"
-                    message: "executed successfully"
-            - $ref: "./resource.yaml#/StatusConditions"
+          $ref: "./resource.yaml#/StatusConditions"
+      example:
+        state: "Ready"
+        placement:
+          strategy: "zone"
+        conditions:
+        - type: "power"
+          status: "on"
+          lastTransitionTime: "2024-11-21T14:39:22Z"
+          reason: "user_request"
+          message: "executed successfully"

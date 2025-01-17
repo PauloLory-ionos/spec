@@ -51,8 +51,4 @@ NetworkSku:
         tier: 'seca.10'
         description: 'min   10 mbit low-bandwidth network tier'
     status:
-      type: object
-      readOnly: true
-      properties:
-        conditions:
-          $ref: "./resource.yaml#/StatusConditions"
+      $ref: "./resource.yaml#/Status"

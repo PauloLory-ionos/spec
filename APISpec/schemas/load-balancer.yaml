@@ -28,21 +28,20 @@ NetworkLoadBalancer:
             $ref: '#/NetworkLoadBalancerFrontend'
 
     status:
-      type: object
-      readOnly: true
-      properties:
-        state:
-          $ref: './resource.yaml#/ResourceState'
-        conditions:
-          $ref: "./resource.yaml#/StatusConditions"
-        ipConfigurations:
-          type: array
-          items:
-            $ref: '#/NetworkLoadBalancerFrontend'
-        ipConfigurationsHealthy:
-          type: array
-          items:
-            $ref: '#/NetworkLoadBalancerFrontend'
+      allOf:
+      - $ref: "./resource.yaml#/Status"
+      - type: object
+        properties:
+          state:
+            $ref: './resource.yaml#/ResourceState'
+          ipConfigurations:
+            type: array
+            items:
+              $ref: '#/NetworkLoadBalancerFrontend'
+          ipConfigurationsHealthy:
+            type: array
+            items:
+              $ref: '#/NetworkLoadBalancerFrontend'
 
 
 NetworkLoadBalancerFrontend:
