@@ -12,24 +12,16 @@ SCHEMAS_SOURCES := $(shell ls $(ROOT)/*.yaml)
 SCHEMAS_FINAL = $(SCHEMAS_SOURCES:$(ROOT)/%.yaml=dist/%.yaml)
 
 VACUUM := $(GO) run $(VACUUM)
-VACUUM_FLAGS := -r config/ruleset-recommended.yaml
+VACUUM_FLAGS := -r config/ruleset-recommended.yaml -b -d 
 
-.PHONY: lint
-lint:
-	@cd $(ROOT) && $(GO) run $(VACUUM) lint -d $(SPEC)
+build: $(SCHEMAS_FINAL)
 
-# https://github.com/python-openapi/openapi-spec-validator
-validate:
-	cd $(ROOT) && openapi-spec-validator $(SPEC)
-
-build:
-	cd $(ROOT) && npx @redocly/cli bundle --remove-unused-components $(SPEC) --output=$(OUTPUT)
-
-dist: prepare-dist $(SCHEMAS_FINAL)
-
-prepare-dist:
+dist:
 	@mkdir -p dist
 
-dist/%.yaml: $(ROOT)/%.yaml $(SCHEMAS)
+dist/%.yaml: $(ROOT)/%.yaml $(SCHEMAS) dist
 	$(REDOCLY) bundle $(REDOCLY_FLAGS) $< --output=$@
-	$(VACUUM) lint $(VACUUM_FLAGS) -d $@
+
+.PHONY: lint
+lint: $(SCHEMAS_FINAL)
+	$(VACUUM) lint $(VACUUM_FLAGS) $(SCHEMAS_FINAL)

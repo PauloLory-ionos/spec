@@ -112,6 +112,7 @@ paths:
           $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
           $ref: './schemas/errors.yaml#/responses/Error500'
+
     put:
       tags:
         - LoadBalancer
@@ -165,6 +166,7 @@ paths:
           $ref: './schemas/errors.yaml#/responses/Error422'
         '500':
           $ref: './schemas/errors.yaml#/responses/Error500'
+
     delete:
       tags:
         - LoadBalancer
