@@ -128,7 +128,7 @@ paths:
   /v1/tenants/{id}/workspaces/{workspace}/providers/seca.storage/object-storages:
     get:
       tags:
-        - Storage
+        - Object Storage
       summary: List all object storage volumes
       operationId: listObjectStorages
       x-authorization:
@@ -187,7 +187,7 @@ paths:
   /v1/tenants/{id}/workspaces/{workspace}/providers/seca.storage/object-storages/{name}:
     get:
       tags:
-        - Storage
+        - Object Storage
       summary: Get a specific object storage volume
       operationId: getObjectStorage
       x-authorization:
@@ -234,7 +234,7 @@ paths:
           $ref: './schemas/errors.yaml#/responses/Error500'
     put:
       tags:
-        - Storage
+        - Object Storage
       summary: Create or update a specific object storage volume
       operationId: createOrUpdateObjectStorage
       x-authorization:
@@ -287,7 +287,7 @@ paths:
           $ref: './schemas/errors.yaml#/responses/Error500'
     delete:
       tags:
-        - Storage
+        - Object Storage
       summary: Delete a specific object storage volume
       operationId: deleteObjectStorage
       x-authorization:
@@ -327,7 +327,6 @@ paths:
           $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
           $ref: './schemas/errors.yaml#/responses/Error500'
-
 
 components:
   securitySchemes:

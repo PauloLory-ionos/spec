@@ -16,7 +16,7 @@ tags:
   - name: Workspace
     description: Workspace management
 paths:
-  /v1/tenants/{id}/providers/seca.core/workspaces:
+  /v1/tenants/{id}/workspaces:
     get:
       tags:
         - Workspace
@@ -67,7 +67,7 @@ paths:
         '500':
           $ref: './schemas/errors.yaml#/responses/Error500'
 
-  /v1/tenants/{id}/providers/seca.core/workspaces/{name}:
+  /v1/tenants/{id}/workspaces/{name}:
     get:
       tags:
         - Workspace

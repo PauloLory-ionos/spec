@@ -16,8 +16,6 @@ security:
 tags:
   - name: Regions
     description: Region management
-  - name: Authorization
-    description: Authorization management
 paths:
   # Platform resources (regions)
   /v1/tenants/{id}/regions:

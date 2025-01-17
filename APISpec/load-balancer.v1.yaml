@@ -17,7 +17,7 @@ tags:
     description: LoadBalancer management
 paths:
   # LoadBalancer Resources
-  /v1/tenants/{id}/workspaces/{workspace}/providers/seca.network/network-load-balancers:
+  /v1/tenants/{id}/workspaces/{workspace}/network-load-balancers:
     get:
       tags:
         - LoadBalancer
@@ -65,7 +65,7 @@ paths:
                         type: string
                         description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
 
-  /v1/tenants/{id}/workspaces/{workspace}/providers/seca.network/network-load-balancers/{network-load-balancer-name}:
+  /v1/tenants/{id}/workspaces/{workspace}/network-load-balancers/{network-load-balancer-name}:
     get:
       tags:
         - LoadBalancer

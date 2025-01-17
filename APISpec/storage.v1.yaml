@@ -2,7 +2,7 @@ openapi: 3.0.3
 servers:
   - url: https://demo.secapi.cloud/providers/seca.storage
     description: Path Schema
-  - url: https://seca.storage.demo.secapi.cloud
+  - url: https://storage.seca.demo.secapi.cloud
     description: DNS Schema
 info:
   title: Sovereign European Cloud API - Storage Foundation
@@ -17,8 +17,10 @@ tags:
     description: Resource catalogues
   - name: Quotas
     description: Quota management
-  - name: Compute
-    description: Compute resources including virtual machines and instance management
+  - name: Images
+    description: Storage images
+  - name: Storage
+    description: Block storage management
 paths:
   # Storage SKUs Resource
   /v1/tenants/{id}/skus:
@@ -155,12 +157,11 @@ paths:
         '500':
           $ref: './schemas/errors.yaml#/responses/Error500'
 
-
   # Storage Quotas Resource
   /v1/tenants/{id}/quotas:
     get:
       tags:
-        - Catalogues
+        - Quotas
       summary: List current Storage Provider Resource Quotas
       description: |
         Retrieves the resource quota for the Storage Resource Provider
@@ -217,7 +218,7 @@ paths:
   /v1/tenants/{id}/quotas/{resourceType}:
     put:
       tags:
-        - Catalogues
+        - Quotas
       summary: Create or update the resource quota for the Storage Resource Provider
       operationId: createOrUpdateStorageQuota
       x-authorization:
@@ -278,7 +279,7 @@ paths:
             resources: ["seca.storage/images"]
             verbs: ["get"]
       tags:
-        - Catalogues
+        - Images
       parameters:
         - name: id
           in: path
@@ -318,6 +319,7 @@ paths:
           $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
           $ref: './schemas/errors.yaml#/responses/Error500'
+
   /v1/tenants/{id}/images/{name}:
     get:
       summary: Get Image
@@ -330,7 +332,7 @@ paths:
             resources: ["seca.storage/images/{imageName}"]
             verbs: ["get"]
       tags:
-        - Catalogues
+        - Images
       parameters:
         - name: id
           in: path
@@ -469,6 +471,7 @@ paths:
           $ref: './schemas/errors.yaml#/responses/Error404'
         '500':
           $ref: './schemas/errors.yaml#/responses/Error500'
+
     put:
       tags:
         - Storage
@@ -522,6 +525,7 @@ paths:
           $ref: './schemas/errors.yaml#/responses/Error422'
         '500':
           $ref: './schemas/errors.yaml#/responses/Error500'
+
     delete:
       tags:
         - Storage
