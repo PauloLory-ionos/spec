@@ -47,5 +47,22 @@ Region:
           type: array
           items:
             type: string
+        providers:
+          type: array
+          items:
+            $ref: './region.yaml#/Provider'
     status:
       $ref: "./resource.yaml#/Status"
+
+Provider:
+  type: object
+  properties:
+    name:
+      type: string
+      example: "seca.network"
+    version:
+      type: string
+      example: "v1"
+    url:
+      type: string
+      example: "https://demo.secapi.cloud/providers/seca.network"
