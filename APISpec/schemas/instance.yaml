@@ -4,7 +4,7 @@ Instance:
     apiVersion:
       type: string
       description: API version of the resource
-      default: v1alpha1
+      default: v1
       readOnly: true
     kind:
       type: string
@@ -75,14 +75,14 @@ Instance:
                     These references are used to inject SSH public keys during instance initialization 
                     through cloud-init's vendor data configuration.
             osBlockStorageRef:
-              $ref: './resource.yaml#/VolumeAttachment'
+              $ref: './block-storage.yaml#/VolumeAttachment'
         storage:
           type: object
           properties:
             dataBlockStorageRef:
               type: array
               items:
-                $ref: './resource.yaml#/VolumeAttachment'
+                $ref: './block-storage.yaml#/VolumeAttachment'
 
     status:
       type: object

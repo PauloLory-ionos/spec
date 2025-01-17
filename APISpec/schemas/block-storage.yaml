@@ -4,7 +4,7 @@ BlockStorage:
     apiVersion:
       type: string
       description: API version of the resource
-      default: v1alpha1
+      default: v1
       readOnly: true
     kind:
       type: string
@@ -49,7 +49,7 @@ BlockStorage:
         sizeGB:
           type: integer
         attachedTo:
-          $ref: './resource.yaml#/VolumeAttachment'
+          $ref: '#/VolumeAttachment'
         conditions:
           allOf:
             - $ref: "./resource.yaml#/StatusConditions"
@@ -62,3 +62,23 @@ BlockStorage:
               description: |
                 Type `attachment` indicates the status of the volume attachment.
                 The status can be `attached` or `detached`.
+
+VolumeAttachment:
+  type: object
+  description: Represents a connection between a Block Storage and a device
+  properties:  
+    objectRef:
+      type: string
+    properties:
+      type: object
+      properties:
+        connectionType:
+          type: string
+          description: The connection type depends on the type of device and type of block storage.
+          example: iSCSI, nvme
+        deviceKind:
+          type: string
+          description: the type of device a block-storage is connected to. For now only 'instance' possible
+          example: instance
+        deviceRef:
+          type: string

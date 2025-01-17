@@ -6,7 +6,7 @@ We need to implement API versioning to manage changes and maintain compatibility
 
 - **Alpha (vXalphaY)** - Represents early-stage features that are experimental.
   - APIs in this stage are subject to breaking changes, meaning they may change or be removed entirely.
-  - X is the major version number (e.g., v1alpha1).
+  - X is the major version number (e.g., v1).
 
 - **Beta (vXbetaY)** - Considered stable enough for more extensive testing but may still have breaking changes.
 
@@ -22,7 +22,7 @@ We need to implement API versioning to manage changes and maintain compatibility
 The SECA Resource Versioning is specified as part of the URL path when making API calls.
 
 ```bash
-GET /v1alpha1/workspaces/my-workspace/providers/network/vpcs
+GET /v1/workspaces/my-workspace/providers/network/vpcs
 ```
 
 However, when referencing resources within API responses or configurations, the version is omitted from the resource name. This approach ensures that resource identifiers remain consistent and unaffected by version changes, promoting stability and ease of use.

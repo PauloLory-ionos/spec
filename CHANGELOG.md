@@ -6,6 +6,22 @@ This changelog follows a **channel-based versioning** approach with versions lik
 
 ---
 
+## [v1] - 2025-01-17
+
+### Added
+
+- improved build and linting
+
+### Changed
+
+- [v1alpha1] to [v1] since the SECA API should not start with a beta version
+- separated the API into multiple files
+- removed all path files and integrated them into the respective API
+
+### Fixed
+
+- fixed all definition errors
+
 ## [v1alpha1] - 2024-11-29
 ### Added
 - Documentation: introduced REST Guideline and Resource Design.
