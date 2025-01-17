@@ -96,7 +96,7 @@ To initialize a tenant we need the below requirements fullfilled:
 Create a workspace to organize your resources:
 
 ```http
-PUT /v1/tenants/{tenant_id}/workspaces/webshop-prod
+PUT /providers/seca.workspace/v1/tenants/{tenant_id}/workspaces/webshop-prod
 Content-Type: application/json
 
 {
@@ -119,7 +119,7 @@ Note: Creating a workspace automatically grants you admin permissions for that w
 Before creating resources, you need to select a region and its availability zones:
 
 ```http
-GET /v1/providers/seca.platform/regions
+GET /providers/seca.region/v1/tenants/{tenant_id}/regions
 ```
 
 This will return available regions and their zones. Resources can be created at either the regional level (like LANs and Public IPs) or the zonal level (like Instances and Block Storage).
@@ -128,7 +128,7 @@ This will return available regions and their zones. Resources can be created at 
 
 ### Check Compute SKUs
 ```http
-GET /v1/tenants/{tenant_id}/providers/seca.compute/skus
+GET /providers/seca.compute/v1/tenants/{tenant_id}/skus
 ```
 
 Available compute tiers:
@@ -139,7 +139,7 @@ Available compute tiers:
 
 ### Check Storage SKUs
 ```http
-GET /v1/tenants/{tenant_id}/providers/seca.storage/skus
+GET /providers/seca.storage/v1/tenants/{tenant_id}/skus
 ```
 
 Important notes about storage:
@@ -152,7 +152,7 @@ Important notes about storage:
 
 ### Check Network SKUs
 ```http
-GET /v1/tenants/{tenant_id}/providers/seca.network/skus
+GET /providers/seca.network/v1/tenants/{tenant_id}/skus
 ```
 
 Available network tiers:
@@ -162,7 +162,7 @@ Available network tiers:
 
 ### Review Available Images
 ```http
-GET /v1/providers/seca.storage/images
+GET /providers/seca.storage/v1/images
 ```
 
 Available images:
@@ -175,7 +175,7 @@ Available images:
 Create a block storage volume from an image:
 
 ```http
-PUT /v1/tenants/{tenant_id}/workspaces/webshop-prod/providers/seca.storage/block-storages/webshop-os-disk
+PUT /providers/seca.storage/v1/tenants/{tenant_id}/workspaces/webshop-prod/block-storages/webshop-os-disk
 Content-Type: application/json
 
 {
@@ -203,7 +203,7 @@ Content-Type: application/json
 
 ### 5.1 Create a LAN
 ```http
-PUT /v1/tenants/{tenant_id}/workspaces/webshop-prod/providers/seca.network/lans/webshop-network
+PUT /providers/seca.network/v1/tenants/{tenant_id}/workspaces/webshop-prod/lans/webshop-network
 Content-Type: application/json
 
 {
@@ -222,7 +222,7 @@ Content-Type: application/json
 
 ### 5.2 Create a Subnet
 ```http
-PUT /v1/tenants/{tenant_id}/workspaces/webshop-prod/providers/seca.network/lans/webshop-network/subnets/webshop-subnet
+PUT /providers/seca.network/v1/tenants/{tenant_id}/workspaces/webshop-prod/lans/webshop-network/subnets/webshop-subnet
 Content-Type: application/json
 
 {
@@ -247,7 +247,7 @@ Content-Type: application/json
 
 ### 5.3 Set Up Security Group
 ```http
-PUT /v1/tenants/{tenant_id}/workspaces/webshop-prod/providers/seca.network/lans/webshop-network/security-groups/webshop-sg
+PUT /providers/seca.network/v1/tenants/{tenant_id}/workspaces/webshop-prod/lans/webshop-network/security-groups/webshop-sg
 Content-Type: application/json
 
 {
@@ -299,7 +299,7 @@ Content-Type: application/json
 
 ### 5.4 Create Public IP
 ```http
-PUT /v1/tenants/{tenant_id}/workspaces/webshop-prod/providers/seca.network/public-ips
+PUT /providers/seca.network/v1/tenants/{tenant_id}/workspaces/webshop-prod/public-ips
 Content-Type: application/json
 
 {
@@ -325,7 +325,7 @@ Content-Type: application/json
 Create the compute instance:
 
 ```http
-PUT /v1/tenants/{tenant_id}/workspaces/webshop-prod/providers/seca.compute/instances/webshop-server
+PUT /providers/seca.compute/v1/tenants/{tenant_id}/workspaces/webshop-prod/instances/webshop-server
 Content-Type: application/json
 
 {
@@ -369,12 +369,12 @@ Content-Type: application/json
 
 1. Wait for the instance to be in "running" state:
 ```http
-GET /v1/tenants/{tenant_id}/workspaces/webshop-prod/providers/seca.compute/instances/webshop-server
+GET /providers/seca.compute/v1/tenants/{tenant_id}/workspaces/webshop-prod/instances/webshop-server
 ```
 
 2. Get the public IP:
 ```http
-GET /v1/tenants/{tenant_id}/workspaces/webshop-prod/providers/seca.network/public-ips/webshop-ip
+GET /providers/seca.network/v1/tenants/{tenant_id}/workspaces/webshop-prod/public-ips/webshop-ip
 ```
 
 3. Connect to your instance:

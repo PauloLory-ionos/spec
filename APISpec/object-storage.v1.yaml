@@ -125,7 +125,7 @@ paths:
   #         $ref: './schemas/errors.yaml#/responses/Error500'
 
   # Workspace resources with provider namespace
-  /v1/tenants/{id}/workspaces/{workspace}/providers/seca.storage/object-storages:
+  /v1/tenants/{id}/workspaces/{workspace}/object-storages:
     get:
       tags:
         - Object Storage
@@ -184,7 +184,7 @@ paths:
           $ref: './schemas/errors.yaml#/responses/Error500'
 
 
-  /v1/tenants/{id}/workspaces/{workspace}/providers/seca.storage/object-storages/{name}:
+  /v1/tenants/{id}/workspaces/{workspace}/object-storages/{name}:
     get:
       tags:
         - Object Storage
