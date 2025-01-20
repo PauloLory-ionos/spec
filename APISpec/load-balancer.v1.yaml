@@ -28,7 +28,7 @@ paths:
         policies:
           - type: RBAC
             scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.network/network-load-balancers"]
+            resources: ["seca.load-balancer/network-load-balancers"]
             verbs: ["list"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
@@ -71,7 +71,7 @@ paths:
         policies:
           - type: RBAC
             scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.network/network-load-balancers/{network-load-balancer-name}"]
+            resources: ["seca.load-balancer/network-load-balancers/{network-load-balancer-name}"]
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
@@ -112,8 +112,8 @@ paths:
         type: hybrid  # Supports both RBAC and ABAC
         policies:
           - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.network/network-load-balancers/{network-load-balancer-name}"]
+            scopes: ["tenants/{tenantId}"]
+            resources: ["seca.load-balancer/workspaces/{workspaceName}/network-load-balancers/{network-load-balancer-name}"]
             verbs: ["create","update"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
@@ -161,8 +161,8 @@ paths:
         type: hybrid  # Supports both RBAC and ABAC
         policies:
           - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.network/network-load-balancers/{network-load-balancer-name}"]
+            scopes: ["tenants/{tenantId}"]
+            resources: ["seca.load-balancer/workspaces/{workspaceName}/network-load-balancers/{network-load-balancer-name}"]
             verbs: ["delete"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'

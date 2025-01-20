@@ -29,7 +29,7 @@ paths:
         policies:
           - type: RBAC
             scopes: ["tenants/{tenantId}"]
-            resources: ["seca.core/regions"]
+            resources: ["seca.region/regions"]
             verbs: ["list"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
@@ -75,7 +75,7 @@ paths:
         policies:
           - type: RBAC
             scopes: ["tenants/{tenantId}"]
-            resources: ["seca.core/regions/{regionName}"]
+            resources: ["seca.region/regions/{regionName}"]
             verbs: ["list"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'

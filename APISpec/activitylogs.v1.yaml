@@ -27,8 +27,8 @@ paths:
         type: hybrid  # Supports both RBAC and ABAC
         policies:
           - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.observability/activity-logs"]
+            scopes: ["tenants/{tenantId}"]
+            resources: ["seca.activity-logs/workspaces/{workspaceName}"]
             verbs: ["list"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'

@@ -44,8 +44,8 @@ paths:
         type: hybrid  # Supports both RBAC and ABAC
         policies:
           - type: RBAC
-            scopes: ["seca.network"]
-            resources: ["tenants/{tenantId}/skus"]
+            scopes: ["tenants/{tenantId}"]
+            resources: ["seca.network/skus"]
             verbs: ["list"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'

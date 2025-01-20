@@ -38,7 +38,7 @@ paths:
   #       policies:
   #         - type: RBAC
   #           scopes: ["tenants/{tenantId}"]
-  #           resources: ["seca.storage/skus"]
+  #           resources: ["seca.object-storage/skus"]
   #           verbs: ["list"]
   #     parameters:
   #       - $ref: './schemas/parameters.yaml#/parameters/tenantID'
@@ -87,7 +87,7 @@ paths:
   #       policies:
   #         - type: RBAC
   #           scopes: ["tenants/{tenantId}"]
-  #           resources: ["seca.storage/skus/{skuName}"]
+  #           resources: ["seca.object-storage/skus/{skuName}"]
   #           verbs: ["get"]
   #     parameters:
   #       - $ref: './schemas/parameters.yaml#/parameters/tenantID'
@@ -126,7 +126,7 @@ paths:
         policies:
           - type: RBAC
             scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.storage/object-storages"]
+            resources: ["seca.object-storage/object-storages"]
             verbs: ["list"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
@@ -180,7 +180,7 @@ paths:
         policies:
           - type: RBAC
             scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.storage/object-storages"]
+            resources: ["seca.object-storage/object-storages"]
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
@@ -222,7 +222,7 @@ paths:
         policies:
           - type: RBAC
             scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.storage/object-storages/{objectStorageName}"]
+            resources: ["seca.object-storage/object-storages/{objectStorageName}"]
             verbs: ["create","update"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
@@ -270,7 +270,7 @@ paths:
         policies:
           - type: RBAC
             scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.storage/object-storages/{objectStorageName}"]
+            resources: ["seca.object-storage/object-storages/{objectStorageName}"]
             verbs: ["delete"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'

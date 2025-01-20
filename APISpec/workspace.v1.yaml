@@ -27,7 +27,7 @@ paths:
         policies:
           - type: RBAC
             scopes: ["tenants/{tenantId}"]
-            resources: ["seca.core/workspaces"]
+            resources: ["seca.workspace/workspaces"]
             verbs: ["list"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
@@ -73,7 +73,7 @@ paths:
         policies:
           - type: RBAC
             scopes: ["tenants/{tenantId}"]
-            resources: ["seca.core/workspaces/{workspaceName}"]
+            resources: ["seca.workspace/workspaces/{workspaceName}"]
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
@@ -110,7 +110,7 @@ paths:
         policies:
           - type: RBAC
             scopes: ["tenants/{tenantId}"]
-            resources: ["seca.core/workspaces/{workspaceName}"]
+            resources: ["seca.workspace/workspaces/{workspaceName}"]
             verbs: ["create","update"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
@@ -160,7 +160,7 @@ paths:
         policies:
           - type: RBAC
             scopes: ["tenants/{tenantId}"]
-            resources: ["seca.core/workspaces/{workspaceName}"]
+            resources: ["seca.workspace/workspaces/{workspaceName}"]
             verbs: ["delete"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
