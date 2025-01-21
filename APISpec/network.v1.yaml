@@ -1072,7 +1072,7 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json:    
+            application/json:
               schema:
                 type: object
                 properties:
@@ -1131,7 +1131,7 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json:    
+            application/json:
               schema:
                 $ref: './schemas/routing-table.yaml#/RoutingTable'
         '400':

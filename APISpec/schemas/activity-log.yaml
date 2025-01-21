@@ -43,10 +43,10 @@ ActivityLog:
                 - $ref: './security-group.yaml#/SecurityGroup/properties/spec'
                 - $ref: './nic.yaml#/NIC/properties/spec'
                 - $ref: './public-ip.yaml#/PublicIp/properties/spec'
-                - $ref: './load-balancer.yaml#/NetworkLoadBalancer/properties/spec'              
+                - $ref: './load-balancer.yaml#/NetworkLoadBalancer/properties/spec'
             scope:
-              type: string              
-        response: 
+              type: string
+        response:
           type: object
           properties:
             code:

@@ -27,7 +27,7 @@ Role:
       readOnly: true
     metadata:
       $ref: './resource.yaml#/GlobalResourceMetadata'
-    spec: 
+    spec:
       type: object
       properties:
         permissions:
@@ -74,6 +74,6 @@ RoleAssignment:
           items:
             type: string
           description: List of Scopes to whom the roles are assigned
-          example: ["workspaces/develop", "workspaces/production"]          
+          example: ["workspaces/develop", "workspaces/production"]
     status:
       $ref: "./resource.yaml#/Status"

@@ -297,10 +297,10 @@ paths:
         - Authorization
       summary: Create or update role assignments for a group
       description: >
-        Replaces all role assignments for the specified group within the workspace. 
-        At least one role must be assigned. 
-        Note: Role assignments can be created with an empty role array, 
-        which effectively removes all roles from the group while maintaining 
+        Replaces all role assignments for the specified group within the workspace.
+        At least one role must be assigned.
+        Note: Role assignments can be created with an empty role array,
+        which effectively removes all roles from the group while maintaining
         the role assignment record.
       operationId: createOrUpdateRoleAssignment
       x-authorization:

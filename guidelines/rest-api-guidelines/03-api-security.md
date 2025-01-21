@@ -6,9 +6,9 @@ In the context of security by design, these topics are intentionally mentioned b
 
   Often abbreviated as **authn** and **authz**, the authentication process ensures that the presented credentials are correct, while the authorization process checks that the permissions granted to the requesting subject are sufficient for the operation they want to perform on a specific resource.
 
-### Authentication 
+### Authentication
 
-APIs must support authentication using the **JSON Web Token (JWT)** standard. 
+APIs must support authentication using the **JSON Web Token (JWT)** standard.
 
 Using JSON Web Token (JWT) for authentication provides several advantages, particularly for cloud-based APIs:
 

@@ -16,7 +16,7 @@ SCHEMAS_FINAL = $(SCHEMAS_SOURCES:$(ROOT)/%.yaml=$(DIST)/%.yaml)
 DOCS_FINAL = $(SCHEMAS_SOURCES:$(ROOT)/%.yaml=$(DIST)/%.html)
 
 VACUUM := $(GO) run $(VACUUM)
-VACUUM_LINT_FLAGS := -r config/ruleset-recommended.yaml -b -d 
+VACUUM_LINT_FLAGS := -r config/ruleset-recommended.yaml -b -d
 
 build: $(SCHEMAS_FINAL) $(DOCS_FINAL)
 

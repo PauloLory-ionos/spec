@@ -41,16 +41,19 @@ However, when referencing resources within API responses or configurations, the 
 ### Breaking Change Definition
 
 The API represents a contract between parties. Changes that directly or indirectly impact the backward compatibility of an API are to be considered breaking changes.
+
 - Services must explicitly define their understanding of breaking changes, especially regarding additive modifications—new fields, new parameters, both potentially with default values.
 - Services must be consistent in their definition of the extensibility of a contract.
 
 The definition of backward compatibility also partially depends on technical and business requirements. For some teams, adding a new field may fall under the category of a breaking change. For others, it may be considered an additive modification and therefore not necessarily impactful for existing clients.
 
-#### Examples of additive modifications that are not necessarily breaking:
+#### Examples of additive modifications that are not necessarily breaking
+
 - Adding a new feature expressed in terms not previously available (therefore new).
 - Adding an element (property, query string parameters, etc.) without making it mandatory and assigning a default value.
 
-#### Universal examples of breaking changes:
+#### Universal examples of breaking changes
+
 - Removal, renaming, or alteration of part of a contract in the form of data models, types, paths, parameters, or other elements. Examples:
 - Removing a method.
 - Adding a mandatory parameter to a method without providing a default.

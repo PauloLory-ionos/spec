@@ -74,7 +74,7 @@ BlockStorage:
 VolumeAttachment:
   type: object
   description: Represents a connection between a Block Storage and a device
-  properties:  
+  properties:
     objectRef:
       type: string
     properties:

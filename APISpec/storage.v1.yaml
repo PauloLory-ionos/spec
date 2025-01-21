@@ -50,15 +50,15 @@ paths:
             scopes: ["tenants/{tenantId}"]
             resources: ["seca.storage/skus"]
             verbs: ["list"]
-  ### FUTURE EVOLUTIONS          
-  #        - type: ABAC  
+  ### FUTURE EVOLUTIONS
+  #        - type: ABAC
   #          attributes:
   #            - name: workspace
   #              description: Workspace in the request must match user's allowed namespaces.
   #            - name: user-roles
   #              description: User must have a role allowing access to the resource.
   #            - name: request-time
-  #              description: Access allowed only during specific time windows. 
+  #              description: Access allowed only during specific time windows.
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
@@ -113,15 +113,15 @@ paths:
             scopes: ["tenants/{tenantId}"]
             resources: ["seca.storage/skus/{skuName}"]
             verbs: ["get"]
-  ### FUTURE EVOLUTIONS          
-  #        - type: ABAC  
+  ### FUTURE EVOLUTIONS
+  #        - type: ABAC
   #          attributes:
   #            - name: workspace
   #              description: Workspace in the request must match user's allowed namespaces.
   #            - name: user-roles
   #              description: User must have a role allowing access to the resource.
   #            - name: request-time
-  #              description: Access allowed only during specific time windows. 
+  #              description: Access allowed only during specific time windows.
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: name
@@ -246,7 +246,7 @@ paths:
           $ref: './schemas/errors.yaml#/responses/Error500'
 
 
-  #Tenant Cloud Images 
+  #Tenant Cloud Images
   /v1/tenants/{id}/images:
     get:
       summary: List Images

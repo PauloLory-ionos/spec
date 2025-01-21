@@ -10,7 +10,7 @@ ObjectStorage:
       type: string
       description: Type of the resource
       enum: [ object-storage ]
-      readOnly: true  
+      readOnly: true
     metadata:
       $ref: './resource.yaml#/ZonalResourceMetadata'
     spec:

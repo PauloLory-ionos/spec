@@ -10,7 +10,7 @@ ResourceQuota:  ## Compute Resource Quotas
       type: string
       description: Type of the resource
       enum: [ quota ]
-      readOnly: true  
+      readOnly: true
     metadata:
       $ref: './resource.yaml#/RegionalResourceMetadata'
     spec:

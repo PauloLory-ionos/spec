@@ -84,7 +84,7 @@ LoadBalancerTarget:
     members:
       type: array
       items:
-        $ref: '#/LoadBalancerMember'       
+        $ref: '#/LoadBalancerMember'
     healthcheck:
       type: object
       description: Optional port health check. It probes the port with protocol.
@@ -98,8 +98,8 @@ LoadBalancerTarget:
         retry:
          type: integer
          description: 'healthcheck retry number after considered unhealthy a backend istance'
-    
-     
+
+
 LoadBalancerMember:
   type: object
   properties:

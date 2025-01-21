@@ -1,10 +1,10 @@
-## **Resource Model**
+## Resource Model
 
 - Every object managed by the APIs is a Resource. It can be created, updated, read, listed and disposed of.
 - Generally, each Resource has a provisioning state, managed by a specific Resource Provider that owns one or more Resources, grouped by shared characteristics.
 
 
-### **Resource Definition**
+### Resource Definition
 
 | Section | Description |
 |-------------|---------|
@@ -12,7 +12,7 @@
 |spec| specific settings that define the desired state of a SECA Resource Object. These properties vary depending on the type of resource and determine how the resource behaves in the CSP.|
 |status| reflects the current observed state of the object within the CSP. This field is typically managed and updated automatically by the CSP system and provides insight into the resource's actual state versus its desired configuration|
 
-#### **Metadata**
+#### Metadata
 
 Additional data that convey some system information related to the control loop mechanisms that regulate the system’s dynamic equilibrium
 Some of their functions are:
@@ -26,23 +26,23 @@ The fields we are currently providing are the below listed:
 - **zone** - In which availabilityZone the resource is hosted within the cloud provider’s infrastructure. Available only with zonal resources
 - **creationTimestamp** -  cloud resource metadata to provide information about the resource’s lifecycle, specifically when it was created .
 - **deletionTimestamp** - cloud resource metadata to provide information about when it was scheduled for deletion
-- **lastModifiedTimestamp** - cloud resource metadata to provide information about when occured the last update, also used for multiversion concurrency control (mvcc) - see "if-match". 
-- **labels** - key-value pair mechanism used for organizing, categorizing, and identifying resources based on user-defined attributes. 
+- **lastModifiedTimestamp** - cloud resource metadata to provide information about when occured the last update, also used for multiversion concurrency control (mvcc) - see "if-match".
+- **labels** - key-value pair mechanism used for organizing, categorizing, and identifying resources based on user-defined attributes.
 
 
-#### **Properties**
+#### Properties
 
 The record of intent that describes the changes to be applied to a resource; in other words, the desired state of the resource.
-- This section is highly customizable, allowing users to specify attributes which the CSP s uses to tailor the resource's setup and allocation to meet operational needs. 
+- This section is highly customizable, allowing users to specify attributes which the CSP s uses to tailor the resource's setup and allocation to meet operational needs.
 - By configuring these properties, the CSP ensures that the cloud resource aligns with both user requirements and cloud-specific features, automating resource management and scalability across complex, multi-cloud or hybrid cloud environments.
 
 
-#### **Status**
+#### Status
 The purpose of this section is to provide insights into the current state of a resource. Customers,by examining this status information, can assess resource health, troubleshoot issues, and confirm successful deployments or configurations.
 
 What do we include in the status object is below described:
 
-- **conditions** 
+- **conditions**
   - **type** - the condition type (e.g Ready, Available, Progressing)
   - **status** - wheter the condition is met (True, False, or Unknown)
   - **lastTransitionTime** - When the condition last changed
@@ -59,7 +59,7 @@ such an example:
   - **unavailableReplicas** - number of node replicas not available due to issues (E.g KaaS Node Pool)
 
 
-### **Resource Lifecycle**
+### Resource Lifecycle
 
 | Operation | HTTP Verb | Description |
 |---------- |---------|-------------|

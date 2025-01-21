@@ -40,25 +40,123 @@ New CSPs can ideally achieve foundation compliance within a short timeframe by i
 
 ## TODO Products / Functionalities
 
+This is the first release of the SECA API.
+
+For this release we decided to restrict the scope of the API to take in consideration only a small subset of operations; this will allow us to provide a correct API interface, documentation, and examples.
+
+## Guidelines
+
+In the modern landscape of cloud computing, APIs serve as the backbone for enabling seamless integration between services, applications, and platforms. When designing and developing APIs for the cloud, it’s essential to focus on scalability, security, and flexibility to support a wide range of client applications. This chapter provides comprehensive guidelines on how to design robust, scalable cloud APIs that align with industry best practices.
+
+In this chapter we aim to cover key principles such as RESTful architecture, API versioning, backward compatibility, and security considerations, along with strategies to design cloud resources. Whether building APIs for internal use or exposing them to third-party developers, these practices will help create APIs that are easy to use, maintain, and evolve over time.
+
+### Resource Design
+
+The aim of this document is to define guidelines to design resource model for the SECA APIs.
+
+* [Architecture](./guidelines/resource-design/02-architecture.md)
+* [Control Plane Specification](./guidelines/resource-design/03-control-plane-specification.md)
+* [Resource Organization](./guidelines/resource-design/04-resource-organization.md)
+  * [Tenant](./guidelines/resource-design/04-resource-organization.md#tenant)
+  * [Workspace](./guidelines/resource-design/04-resource-organization.md#workspace)
+  * [Cloud Resource](./guidelines/resource-design/04-resource-organization.md#cloud-resource)
+* [API Access Control](./guidelines/resource-design/05-api-access-control.md)
+  * [Authentication](./guidelines/resource-design/05-api-access-control.md#authentication)
+  * [Authorization](./guidelines/resource-design/05-api-access-control.md#authorization)
+    * [Role](./guidelines/resource-design/05-api-access-control.md#role)
+    * [RoleBinding](./guidelines/resource-design/05-api-access-control.md#rolebinding)
+    * [TenantRole](./guidelines/resource-design/05-api-access-control.md#tenantrole)
+    * [TenantRoleBinding](./guidelines/resource-design/05-api-access-control.md#tenantrolebinding)
+  * [Admission Control](./guidelines/resource-design/05-api-access-control.md#admission-controller)
+* [Resource Model](./guidelines/resource-design/06-resource-model.md)
+  * [Resource Definition](./guidelines/resource-design/06-resource-model.md#resource-definition)
+    * [Metadata](./guidelines/resource-design/06-resource-model.md#metadata)
+    * [Properties](./guidelines/resource-design/06-resource-model.md#properties)
+    * [Status](./guidelines/resource-design/06-resource-model.md#status)
+  * [Resource Lifecycle](./guidelines/resource-design/06-resource-model.md#resource-lifecycle)
+
+### Api Conventions
+
+* [Core Principles](./guidelines/rest-api-guidelines/02-core-principles.md)
+* [API Security](./guidelines/rest-api-guidelines/03-api-security.md)
+  * [Authentication](./guidelines/rest-api-guidelines/03-api-security.md#authentication)
+  * [Authorization](./guidelines/rest-api-guidelines/03-api-security.md#authorization)
+* [Core API Concepts](./guidelines/rest-api-guidelines/04-core-api-concepts.md)
+  * [Entity](./guidelines/rest-api-guidelines/04-core-api-concepts.md#entity)
+  * [Relationship](./guidelines/rest-api-guidelines/04-core-api-concepts.md#relationship)
+    * [Composition & Aggregation](./guidelines/rest-api-guidelines/04-core-api-concepts.md#composition--aggregation)
+    * [Cardinalities](./guidelines/rest-api-guidelines/04-core-api-concepts.md#cardinalities)
+  * [URI Naming Convention](./guidelines/rest-api-guidelines/04-core-api-concepts.md#uri-naming-convention)
+* [Operations and HTTP Methods](./guidelines/rest-api-guidelines/05-operations-and-http-methods.md)
+* [HTTP Semantics](./guidelines/rest-api-guidelines/06-http-semantics.md)
+  * [Media Type](./guidelines/rest-api-guidelines/06-http-semantics.md#media-type)
+    * [JSON](./guidelines/rest-api-guidelines/06-http-semantics.md#json)
+      * [Casing](./guidelines/rest-api-guidelines/06-http-semantics.md#casing)
+      * [Naming](./guidelines/rest-api-guidelines/06-http-semantics.md#naming)
+      * [Type Conversion](./guidelines/rest-api-guidelines/06-http-semantics.md#type-conversion)
+  * [GET Method](./guidelines/rest-api-guidelines/06-http-semantics.md#get-method)
+  * [HEAD Method](./guidelines/rest-api-guidelines/06-http-semantics.md#head-method)
+  * [PUT Method](./guidelines/rest-api-guidelines/06-http-semantics.md#put-method)
+  * [POST Method](./guidelines/rest-api-guidelines/06-http-semantics.md#post-method)
+  * [PATCH Method](./guidelines/rest-api-guidelines/06-http-semantics.md#patch-method)
+  * [DELETE Method](./guidelines/rest-api-guidelines/06-http-semantics.md#delete-method)
+  * [Conditional Requests](./guidelines/rest-api-guidelines/06-http-semantics.md#conditional-requests)
+  * [Status Code](./guidelines/rest-api-guidelines/06-http-semantics.md#status-code)
+    * [Group By Category](./guidelines/rest-api-guidelines/06-http-semantics.md#group-by-category)
+    * [Status Detail](./guidelines/rest-api-guidelines/06-http-semantics.md#status-detail)
+    * [Problem Details - Response Body for 4xx and 5xx Categories](./guidelines/rest-api-guidelines/06-http-semantics.md#problemdetails---response-body-for-4xx-and-5xx-categories)
+* [API Enhancements](./guidelines/rest-api-guidelines/07-api-enhancements.md)
+  * [Filtering](./guidelines/rest-api-guidelines/07-api-enhancements.md#filtering)
+  * [Pagination](./guidelines/rest-api-guidelines/07-api-enhancements.md#pagination)
+* [Versioning](./guidelines/rest-api-guidelines/07-api-enhancements.md#versioning)
+* [Asynchronous Operations](./guidelines/rest-api-guidelines/09-asynchronous-operations.md)
+  * [Asynchronous Request-Reply Pattern](./guidelines/rest-api-guidelines/09-asynchronous-operations.md#asynchronous-request-reply-pattern)
+  * [Solution](./guidelines/rest-api-guidelines/09-asynchronous-operations.md#solution)
+  * [Considerations and Issues](./guidelines/rest-api-guidelines/09-asynchronous-operations.md#considerations-and-issues)
+  * [When should you use this model?](./guidelines/rest-api-guidelines/09-asynchronous-operations.md#when-should-you-use-this-model)
+
 ### SECA Foundation (v1) **WIP**
 
 * [ ] Compute
   * [x] SKU
   * [x] Quota
-  * [x] Basic API
+  * [x] Select a Cloud Server Flavour
+  * [x] SECA t-shirt size
+  * [x] Provider size/type
+  * [x] Use Cloud Init to initialize the Cloud Server
+  * [x] Use the API to set up the ssh Public-Key for the Cloud Server
+  * [x] Assign a SCI to a Subnet
   * [ ] Group
   * [ ] SSH Keys
 * [ ] Network
   * [x] SKU
   * [x] Quota
-  * [x] Basic API
+  * LAN
+    * [x] Set up a LAN
+    * [x] Will be a logical container for the Subnets, all the Subnets inside a LAN will have the same Gateway
+  * Subnet
+    * [x] Set up a Subnet
+    * [x] Specify the CIDR for the Subnet
+    * [x] In this version the DHCP will always be active
+    * [x] IP range cannot be updated once the Subnet is set up
+  * Security Group and Security Group Rules
+    * [x] Create a Security Group to be attached to a NIC
+    * [x] Create Security Group Rules allow traffic on certain ports from/to certain networks/Security Groups
+  * Public IP
+    * [x] Reserve a Public IP address
+    * [x] Assign the Public IP address to a NIC
   * [ ] Routing API
 * [x] Storage
   * [x] SKU
   * [x] Quota
-  * [x] Basic API
+  * [x] Select a Block Storage type and size
+  * [x] A bootable BS will be generated by Image+BS
+  * [x] In this version only one Connection Type will be available (iSCSI)
+  * [x] Be able to attach more than one disk to the same SCI
+  * [x] Be able to select an image
+  * [x] Images are going to be provided by the ISP
 * [x] Workspace
-  * [x] Basic API
+  * [x] Create one or more Workspace/s
 * [ ] Regions
   * [ ] Basic API
 * [ ] Authorization

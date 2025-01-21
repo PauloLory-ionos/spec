@@ -122,8 +122,8 @@ StatusConditions:
         example: "power-mgmt"
       status:
         type: string
-        description: Status of the condition. 
-        example: True, false, unknown 
+        description: Status of the condition.
+        example: True, false, unknown
       lastTransitionTime:
         type: string
         format: date-time
@@ -149,8 +149,8 @@ StatusConditions:
 ResourceQuota:
   type: object
   description: Represents the ResourceQuota for the single ResourceType of the Resource Provider
-  properties:  
-    value: 
+  properties:
+    value:
       type: integer
       nullable: true
       description: limit number of resourceType instances, set null for unlimited

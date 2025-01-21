@@ -49,9 +49,9 @@ PublicIp:
       type: object
       readOnly: true
       description: |
-        Current status of the public IP. 
+        Current status of the public IP.
         Condition type `allocation` indicates the status of the public IP allocation.
-        The status can be `allocated` or `released`. 
+        The status can be `allocated` or `released`.
         Condition type  `binding` indicates the status of the IP binding to a resource.
         The status can be `bound` or `unbound`.
       properties:

@@ -2,12 +2,12 @@ Subnet:
   type: object
   description: |
     A Subnet represents a logical subdivision of a LAN's IP address space.
-    
+
     Key Network Routing Concepts:
     - Defines a range of IP addresses for compute instances
     - Supports custom default gateway configuration
     - Enables network segmentation and isolation
-    
+
     Default Gateway Behavior:
     - 'auto': Automatically selects the first usable IP in the subnet range
     - Custom configuration allows routing through specific instances or IPs
@@ -15,7 +15,7 @@ Subnet:
       * Application-level firewalls
       * Custom routing through network appliances
       * Multi-tier network architectures
-  
+
   properties:
     apiVersion:
       type: string
@@ -72,12 +72,12 @@ Subnet:
               description: |
                 - For 'instanceRef': Name of the compute instance acting as gateway
                 - For 'internalIp': Specific IP address to use as gateway
-    
+
     status:
       type: object
       readOnly: true
       description: |
-        Current status of the subnet. 
+        Current status of the subnet.
         Condition type `gateway` indicates the status of the subnet's default gateway.
         The status can be `configured` or `unconfigured`.
       properties:

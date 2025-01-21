@@ -57,7 +57,7 @@ To initialize a tenant we need the below requirements fullfilled:
     "kind": "role",
     "metadata": {
         "name": "authorization-admin"
-    },    
+    },
     "spec":{
         "permissions": [
             "seca.authorization/*:write"
@@ -71,7 +71,7 @@ To initialize a tenant we need the below requirements fullfilled:
     "apiVersion": "v1",
     "kind": "role-assignment",
     "metadata": {
-      "name": "TenantAdmin",    
+      "name": "TenantAdmin",
     "spec":{
         "subs": [
             "${userSubject}"

@@ -39,7 +39,7 @@ NIC:
             type: string
             format: ipv4
     status:
-      allOf:  
+      allOf:
       - $ref: "./resource.yaml#/Status"
       - type: object
         properties:

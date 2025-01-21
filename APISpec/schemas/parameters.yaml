@@ -7,14 +7,14 @@ parameters:
       Filter syntax:
         - Equals: key=value
         - Not equals: key!=value
-        - Wildcards: *key*=*value* - matches if at least one pair match 
+        - Wildcards: *key*=*value* - matches if at least one pair match
         - Numeric: key>value, key<value, key>=value, key<=value
         - Namespaced key examples: 'monitoring:alert-level=high' or 'billing:team=platform'
     required: false
     schema:
       type: string
       example: "cloud:region=us-east-1,billing:team=platform,tier!=dev"
-  
+
   limitParam:
     in: query
     name: limit
@@ -25,7 +25,7 @@ parameters:
       minimum: 1
       maximum: 10000
       default: 1000
-  
+
   skipTokenParam:
     in: query
     name: skipToken
@@ -57,7 +57,7 @@ parameters:
       - application/json: Returns only non-deleted resources
       - application/json; deleted=true: Returns both deleted and non-deleted resources
       - application/json; deleted=only: Returns only deleted resources
-  
+
   tenantID:
     name: id
     in: path
