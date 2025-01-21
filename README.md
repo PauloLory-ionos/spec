@@ -77,54 +77,51 @@ The aim of this document is to define guidelines to design resource model for th
 
 ### Api Conventions
 
-* [Core Principles](./docs/resource-guidelines/02-core-principles.md)
-* [API Security](./docs/resource-guidelines/03-api-security.md)
-  * [Authentication](./docs/resource-guidelines/03-api-security.md#authentication)
-  * [Authorization](./docs/resource-guidelines/03-api-security.md#authorization)
-* [Core API Concepts](./docs/resource-guidelines/04-core-api-concepts.md)
-  * [Entity](./docs/resource-guidelines/04-core-api-concepts.md#entity)
-  * [Relationship](./docs/resource-guidelines/04-core-api-concepts.md#relationship)
-    * [Composition & Aggregation](./docs/resource-guidelines/04-core-api-concepts.md#composition--aggregation)
-    * [Cardinalities](./docs/resource-guidelines/04-core-api-concepts.md#cardinalities)
-  * [URI Naming Convention](./docs/resource-guidelines/04-core-api-concepts.md#uri-naming-convention)
-* [Operations and HTTP Methods](./docs/resource-guidelines/05-operations-and-http-methods.md)
-* [HTTP Semantics](./docs/resource-guidelines/06-http-semantics.md)
-  * [Media Type](./docs/resource-guidelines/06-http-semantics.md#media-type)
-    * [JSON](./docs/resource-guidelines/06-http-semantics.md#json)
-      * [Casing](./docs/resource-guidelines/06-http-semantics.md#casing)
-      * [Naming](./docs/resource-guidelines/06-http-semantics.md#naming)
-      * [Type Conversion](./docs/resource-guidelines/06-http-semantics.md#type-conversion)
-  * [GET Method](./docs/resource-guidelines/06-http-semantics.md#get-method)
-  * [HEAD Method](./docs/resource-guidelines/06-http-semantics.md#head-method)
-  * [PUT Method](./docs/resource-guidelines/06-http-semantics.md#put-method)
-  * [POST Method](./docs/resource-guidelines/06-http-semantics.md#post-method)
-  * [PATCH Method](./docs/resource-guidelines/06-http-semantics.md#patch-method)
-  * [DELETE Method](./docs/resource-guidelines/06-http-semantics.md#delete-method)
-  * [Conditional Requests](./docs/resource-guidelines/06-http-semantics.md#conditional-requests)
-  * [Status Code](./docs/resource-guidelines/06-http-semantics.md#status-code)
-    * [Group By Category](./docs/resource-guidelines/06-http-semantics.md#group-by-category)
-    * [Status Detail](./docs/resource-guidelines/06-http-semantics.md#status-detail)
-    * [Problem Details - Response Body for 4xx and 5xx Categories](./docs/resource-guidelines/06-http-semantics.md#problemdetails---response-body-for-4xx-and-5xx-categories)
-* [API Enhancements](./docs/resource-guidelines/07-api-enhancements.md)
-  * [Filtering](./docs/resource-guidelines/07-api-enhancements.md#filtering)
-  * [Pagination](./docs/resource-guidelines/07-api-enhancements.md#pagination)
-* [Versioning](./docs/resource-guidelines/07-api-enhancements.md#versioning)
-* [Asynchronous Operations](./docs/resource-guidelines/09-asynchronous-operations.md)
-  * [Asynchronous Request-Reply Pattern](./docs/resource-guidelines/09-asynchronous-operations.md#asynchronous-request-reply-pattern)
-  * [Solution](./docs/resource-guidelines/09-asynchronous-operations.md#solution)
-  * [Considerations and Issues](./docs/resource-guidelines/09-asynchronous-operations.md#considerations-and-issues)
-  * [When should you use this model?](./docs/resource-guidelines/09-asynchronous-operations.md#when-should-you-use-this-model)
+* [Core Principles](./docs/api-guidelines/02-core-principles.md)
+* [API Security](./docs/api-guidelines/03-api-security.md)
+  * [Authentication](./docs/api-guidelines/03-api-security.md#authentication)
+  * [Authorization](./docs/api-guidelines/03-api-security.md#authorization)
+* [Core API Concepts](./docs/api-guidelines/04-core-api-concepts.md)
+  * [Entity](./docs/api-guidelines/04-core-api-concepts.md#entity)
+  * [Relationship](./docs/api-guidelines/04-core-api-concepts.md#relationship)
+    * [Composition & Aggregation](./docs/api-guidelines/04-core-api-concepts.md#composition--aggregation)
+    * [Cardinalities](./docs/api-guidelines/04-core-api-concepts.md#cardinalities)
+  * [URI Naming Convention](./docs/api-guidelines/04-core-api-concepts.md#uri-naming-convention)
+* [Operations and HTTP Methods](./docs/api-guidelines/05-operations-and-http-methods.md)
+* [HTTP Semantics](./docs/api-guidelines/06-http-semantics.md)
+  * [Media Type](./docs/api-guidelines/06-http-semantics.md#media-type)
+    * [JSON](./docs/api-guidelines/06-http-semantics.md#json)
+      * [Casing](./docs/api-guidelines/06-http-semantics.md#casing)
+      * [Naming](./docs/api-guidelines/06-http-semantics.md#naming)
+      * [Type Conversion](./docs/api-guidelines/06-http-semantics.md#type-conversion)
+  * [GET Method](./docs/api-guidelines/06-http-semantics.md#get-method)
+  * [HEAD Method](./docs/api-guidelines/06-http-semantics.md#head-method)
+  * [PUT Method](./docs/api-guidelines/06-http-semantics.md#put-method)
+  * [POST Method](./docs/api-guidelines/06-http-semantics.md#post-method)
+  * [PATCH Method](./docs/api-guidelines/06-http-semantics.md#patch-method)
+  * [DELETE Method](./docs/api-guidelines/06-http-semantics.md#delete-method)
+  * [Conditional Requests](./docs/api-guidelines/06-http-semantics.md#conditional-requests)
+  * [Status Code](./docs/api-guidelines/06-http-semantics.md#status-code)
+    * [Group By Category](./docs/api-guidelines/06-http-semantics.md#group-by-category)
+    * [Status Detail](./docs/api-guidelines/06-http-semantics.md#status-detail)
+    * [Problem Details - Response Body for 4xx and 5xx Categories](./docs/api-guidelines/06-http-semantics.md#problemdetails---response-body-for-4xx-and-5xx-categories)
+* [API Enhancements](./docs/api-guidelines/07-api-enhancements.md)
+  * [Filtering](./docs/api-guidelines/07-api-enhancements.md#filtering)
+  * [Pagination](./docs/api-guidelines/07-api-enhancements.md#pagination)
+* [Versioning](./docs/api-guidelines/07-api-enhancements.md#versioning)
+* [Asynchronous Operations](./docs/api-guidelines/09-asynchronous-operations.md)
 
 ### Other
 
 * [Calculate Compute Score](./docs/others/calculate-compute-score.md)
 * [Glossary](./docs/others/glossary.md)
+* [Usage](./docs/others/usage.md)
 
 ## Plan
 
 ### SECA Foundation (v1) **WIP**
 
-* [ ] Compute
+* [ ] [Compute](compute.v1.html)
   * [x] SKU
   * [x] Quota
   * [x] Select a Cloud Server Flavour
@@ -133,9 +130,9 @@ The aim of this document is to define guidelines to design resource model for th
   * [x] Use Cloud Init to initialize the Cloud Server
   * [x] Use the API to set up the ssh Public-Key for the Cloud Server
   * [x] Assign a SCI to a Subnet
-  * [ ] Group
+  * [ ] Grouping of instances
   * [ ] SSH Keys
-* [ ] Network
+* [ ] [Network](network.v1.html)
   * [x] SKU
   * [x] Quota
   * LAN
@@ -153,7 +150,7 @@ The aim of this document is to define guidelines to design resource model for th
     * [x] Reserve a Public IP address
     * [x] Assign the Public IP address to a NIC
   * [ ] Routing API
-* [x] Storage
+* [x] [Storage](storage.v1.html)
   * [x] SKU
   * [x] Quota
   * [x] Select a Block Storage type and size
@@ -162,27 +159,27 @@ The aim of this document is to define guidelines to design resource model for th
   * [x] Be able to attach more than one disk to the same SCI
   * [x] Be able to select an image
   * [x] Images are going to be provided by the ISP
-* [x] Workspace
+* [x] [Workspace](workspace.v1.html)
   * [x] Create one or more Workspace/s
-* [ ] Regions
+* [ ] [Regions](regions.v1.html)
   * [ ] Basic API
-* [ ] Authorization
+* [ ] [Authorization](authorization.v1.html)
   * [ ] Basic API
 
-### SECA Object-Storage (v1) **WIP**
+### [SECA Object-Storage (v1)](object-storage.v1.html) **WIP**
 
 * [ ] SKU
-* [ ] Basic API
+* [/] Basic API
 
-### SECA Load-Balancer (v1) **WIP**
-
-* [ ] SKU
-* [ ] Basic API
-
-### SECA Activity-Log (v1) **WIP**
+### [SECA Load-Balancer (v1)](load-balancer.v1.html) **WIP**
 
 * [ ] SKU
-* [ ] Basic API
+* [/] Basic API
+
+### [SECA Activity-Log (v1)](activitylogs.v1.html) **WIP**
+
+* [ ] SKU
+* [x] Basic API
 
 ### SECA KMS (v1) **TODO**
 
