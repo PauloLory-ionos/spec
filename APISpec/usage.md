@@ -21,7 +21,7 @@ A comprehensive REST API for managing cloud infrastructure resources in complian
 - Content Types: JSON for requests and responses
 - Status: Production-ready for core IaaS operations
 
-![API Diagram](https://x.frei-services.net/api-diagram.png)
+![API Diagram](../assets/api-diagram.png)
 
 ## Current Scope
 The API currently focuses on essential IaaS capabilities, providing the fundamental building blocks for cloud infrastructure:
