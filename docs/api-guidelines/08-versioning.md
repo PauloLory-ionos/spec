@@ -1,4 +1,4 @@
-## Versioning
+# Versioning
 
 We need to implement API versioning to manage changes and maintain compatibility across their services. SECA's approach to API versioning is guided by principles that ensure stability and flexibility for developers.
 
@@ -7,17 +7,14 @@ We need to implement API versioning to manage changes and maintain compatibility
 - **Alpha (vXalphaY)** - Represents early-stage features that are experimental.
   - APIs in this stage are subject to breaking changes, meaning they may change or be removed entirely.
   - X is the major version number (e.g., v1).
-
 - **Beta (vXbetaY)** - Considered stable enough for more extensive testing but may still have breaking changes.
-
   - Beta features are expected to stay around for at least a few releases, though feedback may lead to further changes before they’re marked as stable.
-
 - **Stable (vX)** - Represents APIs that are considered production-ready and highly stable.
   - Changes here are rare, non-breaking, and backward-compatible.
   - Once an API reaches v1 or another stable version, breaking changes are avoided, though deprecation policies apply to manage the gradual removal of older API versions.
   - When using the SECA Cloud Service Provider, selecting the correct version for each resource is essential for ensuring stability and compatibility.
 
-### Usage
+## Usage
 
 The SECA Resource Versioning is specified as part of the URL path when making API calls.
 
@@ -36,9 +33,10 @@ However, when referencing resources within API responses or configurations, the 
   "spec": {
     "routingTableRef": "/providers/network/routing-tables/default"
   }
+}
 ```
 
-### Breaking Change Definition
+## Breaking Change Definition
 
 The API represents a contract between parties. Changes that directly or indirectly impact the backward compatibility of an API are to be considered breaking changes.
 
@@ -47,12 +45,12 @@ The API represents a contract between parties. Changes that directly or indirect
 
 The definition of backward compatibility also partially depends on technical and business requirements. For some teams, adding a new field may fall under the category of a breaking change. For others, it may be considered an additive modification and therefore not necessarily impactful for existing clients.
 
-#### Examples of additive modifications that are not necessarily breaking
+### Examples of additive modifications that are not necessarily breaking
 
 - Adding a new feature expressed in terms not previously available (therefore new).
 - Adding an element (property, query string parameters, etc.) without making it mandatory and assigning a default value.
 
-#### Universal examples of breaking changes
+### Universal examples of breaking changes
 
 - Removal, renaming, or alteration of part of a contract in the form of data models, types, paths, parameters, or other elements. Examples:
 - Removing a method.

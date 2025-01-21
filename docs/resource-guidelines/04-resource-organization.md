@@ -1,10 +1,10 @@
-## Resource Organization
+# Resource Organization
 
 A cloud organization model is a framework that defines how an organization structures, manages, and governs its resources, users, and permissions within a cloud environment
 
 ![Resource Organization Model](../../assets/resource-levels.png)
 
-### Tenant
+## Tenant
 
 A tenant refers to a logical, isolated space created within the cloud environment that is dedicated to a specific organization, user, or customer. This isolation allows multiple customers (tenants) to share the cloud provider’s infrastructure while maintaining security, privacy, and data separation.
 
@@ -17,7 +17,7 @@ Key Aspects of this concept are described below:
 
 For SECA, the creation of the tenant is not standardized. Billing and usage tracking are out of scope for SECA.
 
-### Workspace
+## Workspace
 
 A workspace is a specific, scoped environment within a tenant that groups related resources for collaborative or organizational purposes. Workspaces are often designed to help organize resources for distinct projects, teams, or applications, and they simplify management within a larger tenant.
 
@@ -29,9 +29,9 @@ Key Aspects of this concept are described below:
 - **Billing and Usage Tracking**: Many cloud providers allow resource usage within a workspace to be tracked separately, making it easier to allocate costs to specific projects or teams.
 - **Configuration and State Management**: Workspaces may include settings, variables, and secrets specific to the resources they contain, allowing consistent configurations across different environments (e.g., development, testing, production).
 
-### Cloud Resource
+## Cloud Resource
 
-A Cloud Resource represents a distinct, managed service or component that is provisioned, configured, and controlled by a resource provider (earlier mentioned as `resourceProviderworkspace`). Each cloud resource in this model is managed through a unified API that defines its lifecycle, configuration, and access policies. This allows consumers to interact consistently across IaaS, PaaS, and SaaS resources, despite their differing levels of abstraction.
+A Cloud Resource represents a distinct, managed service or component that is provisioned, configured, and controlled by a resource provider (earlier mentioned as `resourceProviderWorkspace`). Each cloud resource in this model is managed through a unified API that defines its lifecycle, configuration, and access policies. This allows consumers to interact consistently across IaaS, PaaS, and SaaS resources, despite their differing levels of abstraction.
 
 The Key characteristics of the cloud resource are reported below:
 
@@ -47,4 +47,4 @@ In a Cloud Resource Model API, a cloud resource is any standardized, provider-ma
 
 Infrastructure-as-a-Service (IaaS) operations are inherently asynchronous due to the time required to provision and configure physical or virtualized resources. When a request is made to create, modify, or delete an IaaS resource (such as a virtual machine, storage volume, or network interface), the API immediately returns a response, while the actual work continues in the background. Clients must poll the operation status endpoint to track the progress and eventual completion of these long-running tasks, ensuring robust handling of provisioning delays, failures, and rollback scenarios.
 
-Client-scoped resource naming provides a powerful advantage in asynchronous cloud environments by enabling predictable resource referencing before creation is complete. When clients define resources using their own scope and naming convention (e.g., "workspace/myapp/network/vpcs/primary-vpc"), dependent resources can immediately reference this deterministic identifier without waiting for the actual resource creation to finish. This pattern eliminates blocking dependencies in the resource creation chain - for instance, a subnet can be created referencing its parent VPC's client-scoped name while the VPC is still being provisioned. The cloud platform guarantees the consistency of these references once all async operations complete, dramatically improving deployment parallelism while maintaining proper resource relationships.
+Client-scoped resource naming provides a powerful advantage in asynchronous cloud environments by enabling predictable resource referencing before creation is complete. When clients define resources using their own scope and naming convention (e.g., "workspace/my-app/network/vpcs/primary-vpc"), dependent resources can immediately reference this deterministic identifier without waiting for the actual resource creation to finish. This pattern eliminates blocking dependencies in the resource creation chain - for instance, a subnet can be created referencing its parent VPC's client-scoped name while the VPC is still being provisioned. The cloud platform guarantees the consistency of these references once all async operations complete, dramatically improving deployment parallelism while maintaining proper resource relationships.

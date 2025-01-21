@@ -1,4 +1,4 @@
-## API Access Control
+# API Access Control
 
 API access control manages API access permissions through authentication and authorization mechanisms. It determines:
 
@@ -17,18 +17,18 @@ API access control combines identity verification (authentication) with permissi
 
 Based on **SECA Standard API Server** we adopted the below architecture:
 
-![API Access Control](./pic/API%20Access%20Control.png)
+![API Access Control](../../assets/access-control.png)
 
 - More in detail, every request goes to the Control Plane API Server.
   - first check is **identify** who is the customer
-  - after authentication we need to verify if the customer has the **privilege** to perform the requst
-  - afterwards we can **validate** and/or **manipulate** the request to fullfill domain requirements
+  - after authentication we need to verify if the customer has the **privilege** to perform the request
+  - afterwards we can **validate** and/or **manipulate** the request to fulfill domain requirements
 
-### Authentication
+## Authentication
 
-As stated in the [REST API Guidelines](./rest-api-guidelines.md), authentication is handled via JSON Web Tokens (JWT). All API endpoints require a valid JWT to be included in the Authorization header using the Bearer scheme (e.g., Authorization: Bearer <token>). The JWT validation middleware verifies the token's signature, expiration, and required permissions (see *Authorization*) before allowing access to protected resources. Token issuance and management are handled externally to this API - clients must obtain valid tokens through the appropriate authentication service. Requests with missing, expired, or invalid tokens will receive a 401 Unauthorized response.
+As stated in the [REST API Guidelines](../../README.md#guidelines), authentication is handled via JSON Web Tokens (JWT). All API endpoints require a valid JWT to be included in the Authorization header using the Bearer scheme (e.g., `Authorization: Bearer <token>`). The JWT validation middleware verifies the token's signature, expiration, and required permissions (see *Authorization*) before allowing access to protected resources. Token issuance and management are handled externally to this API - clients must obtain valid tokens through the appropriate authentication service. Requests with missing, expired, or invalid tokens will receive a 401 Unauthorized response.
 
-### Authorization
+## Authorization
 
 Resource Authorization Model makes sure users or applications have the right to invoke Control Plane APIs.
 
@@ -48,11 +48,11 @@ The Key Elements of this model are listed below:
 
 A resource authorization model with a dedicated resource provider centralizes access control across resources, offering an efficient, consistent, and secure way to manage permissions and enforce policies at scale in a cloud environment. This model enhances security by reducing complexity and enabling centralized governance over resource access.
 
-### Validation
+## Validation
 
 Resource validation in SECA ensures that all requests to create or modify resources meet business rules before being processed. While authentication verifies who is making the request and authorization determines if they have permission, validation ensures the request itself is valid and consistent.
 
-#### Common Expression Language (CEL) Validations
+### Common Expression Language (CEL) Validations
 
 SECA implements resource validations using the Common Expression Language (CEL), providing a powerful and flexible way to define validation rules directly in the API specification.
 
@@ -92,13 +92,13 @@ BlockStorage:
       error_message: "One or more block storage volumes are already attached to other instances"
 ```
 
-#### Role
+### Role
 
 A **Role** is a resource that defines a set of permissions within a specific workspace, allowing controlled access to resources within that workspace. Roles are a key part of **SECA RBAC (Role-Based Access Control)** mechanism, which provides fine-grained access control for users and customer applications interacting with cloud resources.
 
 Key Concepts of a SECA Role:
 
-- **tenant-scoped**: A Role is confined to a single tenamt, meaning it bundles permissions to resources within that specific tenant only.
+- **tenant-scoped**: A Role is confined to a single tenant, meaning it bundles permissions to resources within that specific tenant only.
 - **Permissions (Rules)**: A Role contains rules that specify which actions are permitted on particular scopes. These rules are defined using:
   - **scopes** (e.g., '*/instances', '/workspace/ws1/subnets') that the role can access.
   - **Verbs** (e.g., get, list, create, delete) that indicate what actions can be taken on the resources.
@@ -107,7 +107,7 @@ Key Concepts of a SECA Role:
 
 This is essential for applying granular access control within a workspace, aligning with the principle of least privilege to keep CSP tenants secure and manageable.
 
-#### RoleBinding
+### RoleBinding
 
 A **RoleBinding** is a resource used to associate a Role with specific users, groups, or customer applications, granting them the permissions defined in the role. RoleBindings are a fundamental part of SECA RBAC (Role-Based Access Control) system, as they are the mechanism through which permissions are actually applied to subjects.
 
@@ -115,13 +115,13 @@ Key Concepts of a RoleBinding
 
 - **Workspace-Specific**: A RoleBinding grants access within a single Workspace. It binds a Role (which is also Workspace-scoped) to specific subjects within that Workspace. For granting tenant-wide permissions, a TenantRoleBinding is used instead, which can apply to resources across all Workspaces.
 - **Subjects**: RoleBindings specify the subjects (such as users, groups, or customer applications) that will receive the permissions defined in the Role. These subjects can be:
-  - **Users**: The stanardized JWT-"sub"ject.
+  - **Users**: The standardized JWT-subject (`sub`).
   - **Groups**: Collections of users.
   - **customer applications**: Accounts used by applications or other processes running within the SECA tenant.
 - **Reference to a Role**: A RoleBinding references an existing Role to grant permissions within a single Workspace.
 - **Applying Permissions**: RoleBindings do not contain permissions themselves; they simply bind a set of permissions (defined in a Role) to one or more subjects.
 
-### Admission Control
+## Admission Control
 
 **Admission control** in the SECA API Access Control is a mechanism that intercepts requests to the Control Plane before they are persisted in the database, allowing the SECA CSP to enforce policies, apply security rules, and manage resource allocation. Admission controllers act as "gatekeepers" that can accept, modify, or deny requests based on custom or predefined policies, helping ensure a consistent and secure tenant environment.
 

@@ -1,9 +1,8 @@
-
-## Architecture
+# Architecture
 
 Cloud Requests can be divided in two categories Control-Plane and Data-Plane.
 
-### Control plane
+## Control plane
 
 - Those APIs are used to create and manage cloud resources in a specific tenant
 - All requests are sent to a Cloud Resource Manager;
@@ -12,7 +11,7 @@ Cloud Requests can be divided in two categories Control-Plane and Data-Plane.
 - It's easier to define Control plane resources to follow a more standardized Resource schema
 - These APIs return resource management data, such as metadata, configuration details, status.
 
-### Data plane
+## Data plane
 
 - Requests for Data Plane operations are sent to an endpoint that's specific to your instance.
 - The purpose is to interact with the actual data or service provided by a Cloud Resource (e.g., reading/writing to a object storage, querying a database, etc.).

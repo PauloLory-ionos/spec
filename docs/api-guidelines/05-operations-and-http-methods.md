@@ -1,4 +1,4 @@
-## Operations and HTTP Methods
+# Operations and HTTP Methods
 
 The HTTP protocol defines a series of methods that assign semantic meaning to a request. Below you can find the spec to use the methods and when for the Sovereign European Cloud API.
 

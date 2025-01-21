@@ -1,4 +1,4 @@
-## API Security
+# API Security
 
 In the context of security by design, these topics are intentionally mentioned before further details on API modeling.
 
@@ -6,7 +6,7 @@ In the context of security by design, these topics are intentionally mentioned b
 
   Often abbreviated as **authn** and **authz**, the authentication process ensures that the presented credentials are correct, while the authorization process checks that the permissions granted to the requesting subject are sufficient for the operation they want to perform on a specific resource.
 
-### Authentication
+## Authentication
 
 APIs must support authentication using the **JSON Web Token (JWT)** standard.
 
@@ -20,13 +20,12 @@ Using JSON Web Token (JWT) for authentication provides several advantages, parti
 
 JWT’s main function is to authenticate the user’s identity by validating the token, not to directly handle authorization or dictate permissions. Overall, JWT provides a secure, efficient, and flexible authentication solution well-suited for modern API-driven environments.
 
-### Authorization
+## Authorization
 
 We suggest to use a foundational authorization mechanism used in systems like Kubernetes to manage permissions at runtime, ensuring that only authorized users or services (**principals**) can perform specific actions on resources.
 
--  In this model, users or service accounts are associated with predefined roles that encapsulate a set of permissions, such as read, write, or delete
+- In this model, users or service accounts are associated with predefined roles that encapsulate a set of permissions, such as read, write, or delete
 - When a principal attempts an action, the control plane API consults an authorization provider to evaluate whether the associated roles permit the requested operation.
 - This process, independent of any data in an authentication token like JWT, allows the system to make dynamic, context-aware authorization decisions
 
 One of the widely used approach to do so is Role-Based-Access-Control (**RBAC**) model even though there are also other models, such as Attribute-Based Access Control (**ABAC**) and Policy-Based Access Control (**PBAC**), which provide flexibility and can be used in combination with or as alternatives to RBAC depending on the system’s security requirements.
-

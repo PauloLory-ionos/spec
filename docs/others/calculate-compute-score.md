@@ -2,7 +2,7 @@
 
 ## Abstract
 
-This document will explain in details how to prepare your systems for the benchmakr, where to start the benchmark and how to review the scores.
+This document will explain in details how to prepare your systems for the benchmark, where to start the benchmark and how to review the scores.
 The benchmark score is essential to be admitted in the SECA provider list and for each size, is a must to meet the minimum scores for each type of product you want to participate with, it is essential to participate with all the product's types
 
 ### Conditions
