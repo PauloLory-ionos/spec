@@ -1,6 +1,6 @@
 GO ?= go
 VACUUM = github.com/daveshanley/vacuum@latest
-ROOT = APISpec
+ROOT = spec
 DIST = dist
 SPEC = openapi.yaml
 OUTPUT = /tmp/swagger.yaml
