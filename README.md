@@ -9,10 +9,10 @@ Unite top European providers to create a European cloud standard attracting the 
 * sovereignty, e.g. immunity from foreign government interference keeping API control with founding members
 * common standards reduces costs, e.g. less training, common tooling, faster adoption, …
 * broad provider support will incentivize ISVs to build profitable tools and software ecosystems
-* build-in alignment with EU regulations for resilience, data protection and privacy
+* built-in alignment with EU regulations for resilience, data protection and privacy
 * long-term support of APIs provide reliability and maintainability
 * comparison of compliant providers and increased resources using multiple providers
-* directly address the demand of the public sector to have no vendor login
+* directly address the demand of the public sector to have no vendor lock-in
 
 ## Open Development Model
 

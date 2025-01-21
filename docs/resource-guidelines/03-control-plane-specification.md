@@ -5,10 +5,10 @@ Control Plan APIs have all the following template:
 ```bash
 # Path based (central API)
 https://{service}.{domain}/
-providers/{resourceProviderWorkspace}/{resourceProviderVersion}/
+providers/{resourceProviderNamespace}/{resourceProviderVersion}/
 {scope}/{resourceType}[/{resourceName}][/{action}]?api-version={api-version}[&{queryStringParameters}]
 # or DNS based (decentralized API)
-https://{resourceProviderWorkspace}.{service}.{domain}/{resourceProviderVersion}/
+https://{resourceProviderNamespace}.{service}.{domain}/{resourceProviderVersion}/
 {scope}/{resourceType}[/{resourceName}][/{action}]?api-version={api-version}[&{queryStringParameters}]
 ```
 
@@ -32,7 +32,7 @@ A hierarchical set of key-value pairs that identify the origin of the resource. 
 
 For example, the resource paths `/workspace/ws1/vpc/my-vpc` and `/workspace/ws2/vpc/my-vpc` can coexist without creating a naming collision for 'my-vpc'. We use `/tenants/{id}/workspaces/{name}`.
 
-### `resourceProviderWorkspace`
+### `resourceProviderNamespace`
 
 The workspace and type of a resource. These are defined together because resource types are usually two segments - a vendor workspace and a type name. For example Aruba.Compute. Each Resource is managed by a Resource Provider. The implementation of Resource Provider is CSP specific. A single Resource Provider can manage multiple resource types. For SECA, we always start with "seca.", not to limit a provider to use its own namespace for non-seca-services.
 
