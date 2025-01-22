@@ -38,12 +38,6 @@ To achieve foundation compliance, a Cloud Service Provider (CSP) must implement 
 
 New CSPs can ideally achieve foundation compliance within a short timeframe by implementing the required providers from scratch. Alternatively, existing CSPs with pre-existing APIs can leverage these to expedite the compliance process. In such cases, a simple API proxy or translator can be employed to map the control plane resources, enabling seamless integration with the SECA API framework. This approach minimizes the need for extensive re-architecture, allowing CSPs to rapidly adapt to the SECA standard.
 
-## TODO Products / Functionalities
-
-This is the first release of the SECA API.
-
-For this release we decided to restrict the scope of the API to take in consideration only a small subset of operations; this will allow us to provide a correct API interface, documentation, and examples.
-
 ## Guidelines
 
 In the modern landscape of cloud computing, APIs serve as the backbone for enabling seamless integration between services, applications, and platforms. When designing and developing APIs for the cloud, it’s essential to focus on scalability, security, and flexibility to support a wide range of client applications. This chapter provides comprehensive guidelines on how to design robust, scalable cloud APIs that align with industry best practices.
@@ -117,7 +111,9 @@ The aim of this document is to define guidelines to design resource model for th
 * [Glossary](./docs/others/glossary.md)
 * [Usage](./docs/others/usage.md)
 
-## Plan
+## Plan (Products / Functionalities)
+
+This is the first release of the SECA API. For this release we decided to restrict the scope of the API to take in consideration only a small subset of operations; this will allow us to provide a correct API interface, documentation, and examples.
 
 ### SECA Foundation (v1) **WIP**
 
