@@ -1,0 +1,303 @@
+openapi: 3.0.3
+servers:
+  - url: https://demo.secapi.cloud/providers/seca.object-storage
+    description: Path Schema
+  - url: https://object-storage.seca.demo.secapi.cloud
+    description: DNS Schema
+info:
+  title: Sovereign European Cloud API - Object Storage
+  description: |
+    The Object Storage API provides access to Object Storage resources.
+    This API is part of the Sovereign European Cloud API.
+  version: v1
+security:
+  - bearerAuth: []
+tags:
+  - name: Object Storage
+    description: Object Storage management
+paths:
+  # /skus:
+  #   get:
+  #     tags:
+  #       - Object Storage
+  #     summary: List available object storage SKUs
+  #     description: |
+  #       Retrieves a list of available SKU (Stock Keeping Unit) configurations for object storage resources.
+
+  #       ## Available SECA Object Storage SKUs with their capabilities
+  #       Object Storage SKUs represent guaranteed IOPS performance for access.
+
+  #       | provider | tier | IOPS | description |
+  #       | ---------|------|------|-------------|
+  #       | SECA | seca.hot |  | Hot Access tier |
+  #     operationId: listObjectStorageSkus
+  #     security:
+  #       - bearerAuth: []  # JWT required for authentication
+  #     x-authorization:
+  #       type: hybrid  # Supports both RBAC and ABAC
+  #       policies:
+  #         - type: RBAC
+  #           scopes: ["tenants/{tenantId}"]
+  #           resources: ["seca.object-storage/skus"]
+  #           verbs: ["list"]
+  #     parameters:
+  #       - $ref: './schemas/parameters.yaml#/parameters/tenantID'
+  #       - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
+  #       - $ref: './schemas/parameters.yaml#/parameters/limitParam'
+  #       - $ref: './schemas/parameters.yaml#/parameters/skipTokenParam'
+  #       - $ref: './schemas/parameters.yaml#/parameters/acceptHeader'
+  #     responses:
+  #       '200':
+  #         description: Successful response with list of object storage SKUs
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 items:
+  #                   type: array
+  #                   items:
+  #                     $ref: './schemas/object-storage-sku.yaml#/ObjectStorageSku'
+  #                 metadata:
+  #                   type: object
+  #                   properties:
+  #                     skipToken:
+  #                       type: string
+  #                       description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+  #       '400':
+  #         $ref: './schemas/errors.yaml#/responses/Error400'
+  #       '401':
+  #         $ref: './schemas/errors.yaml#/responses/Error401'
+  #       '403':
+  #         $ref: './schemas/errors.yaml#/responses/Error403'
+  #       '404':
+  #         $ref: './schemas/errors.yaml#/responses/Error404'
+  #       '500':
+  #         $ref: './schemas/errors.yaml#/responses/Error500'
+
+  # /skus/{name}:
+  #   get:
+  #     tags:
+  #       - Object Storage
+  #     summary: Get details of a specific object storage SKU
+  #     description: Retrieves details for a specific object storage SKU by its name
+  #     operationId: getObjectStorageSku
+  #     x-authorization:
+  #       type: hybrid  # Supports both RBAC and ABAC
+  #       policies:
+  #         - type: RBAC
+  #           scopes: ["tenants/{tenantId}"]
+  #           resources: ["seca.object-storage/skus/{skuName}"]
+  #           verbs: ["get"]
+  #     parameters:
+  #       - $ref: './schemas/parameters.yaml#/parameters/tenantID'
+  #       - name: name
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string
+  #     responses:
+  #       '200':
+  #         description: Successful response with object storage SKU details
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: './schemas/object-storage-sku.yaml#/ObjectStorageSku'
+  #       '400':
+  #         $ref: './schemas/errors.yaml#/responses/Error400'
+  #       '401':
+  #         $ref: './schemas/errors.yaml#/responses/Error401'
+  #       '403':
+  #         $ref: './schemas/errors.yaml#/responses/Error403'
+  #       '404':
+  #         $ref: './schemas/errors.yaml#/responses/Error404'
+  #       '500':
+  #         $ref: './schemas/errors.yaml#/responses/Error500'
+
+  # Workspace resources with provider namespace
+  /v1/tenants/{id}/workspaces/{workspace}/object-storages:
+    get:
+      tags:
+        - Object Storage
+      summary: List all object storage volumes
+      operationId: listObjectStorages
+      x-authorization:
+        type: hybrid  # Supports both RBAC and ABAC
+        policies:
+          - type: RBAC
+            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+            resources: ["seca.object-storage/object-storages"]
+            verbs: ["list"]
+      parameters:
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
+        - name: workspace
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
+        - $ref: './schemas/parameters.yaml#/parameters/limitParam'
+        - $ref: './schemas/parameters.yaml#/parameters/skipTokenParam'
+        - $ref: './schemas/parameters.yaml#/parameters/acceptHeader'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: './schemas/object-storage.yaml#/ObjectStorage'
+                  metadata:
+                    type: object
+                    properties:
+                      skipToken:
+                        type: string
+                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+        '400':
+          $ref: './schemas/errors.yaml#/responses/Error400'
+        '401':
+          $ref: './schemas/errors.yaml#/responses/Error401'
+        '403':
+          $ref: './schemas/errors.yaml#/responses/Error403'
+        '404':
+          $ref: './schemas/errors.yaml#/responses/Error404'
+        '500':
+          $ref: './schemas/errors.yaml#/responses/Error500'
+
+
+  /v1/tenants/{id}/workspaces/{workspace}/object-storages/{name}:
+    get:
+      tags:
+        - Object Storage
+      summary: Get a specific object storage volume
+      operationId: getObjectStorage
+      x-authorization:
+        type: hybrid  # Supports both RBAC and ABAC
+        policies:
+          - type: RBAC
+            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+            resources: ["seca.object-storage/object-storages"]
+            verbs: ["get"]
+      parameters:
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
+        - name: workspace
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/object-storage.yaml#/ObjectStorage'
+        '400':
+          $ref: './schemas/errors.yaml#/responses/Error400'
+        '401':
+          $ref: './schemas/errors.yaml#/responses/Error401'
+        '403':
+          $ref: './schemas/errors.yaml#/responses/Error403'
+        '404':
+          $ref: './schemas/errors.yaml#/responses/Error404'
+        '500':
+          $ref: './schemas/errors.yaml#/responses/Error500'
+    put:
+      tags:
+        - Object Storage
+      summary: Create or update a specific object storage volume
+      operationId: createOrUpdateObjectStorage
+      x-authorization:
+        type: hybrid  # Supports both RBAC and ABAC
+        policies:
+          - type: RBAC
+            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+            resources: ["seca.object-storage/object-storages/{objectStorageName}"]
+            verbs: ["create","update"]
+      parameters:
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
+        - name: workspace
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/object-storage.yaml#/ObjectStorage'
+      responses:
+        '202':
+          description: object storage volume updated or created
+        '400':
+          $ref: './schemas/errors.yaml#/responses/Error400'
+        '401':
+          $ref: './schemas/errors.yaml#/responses/Error401'
+        '403':
+          $ref: './schemas/errors.yaml#/responses/Error403'
+        '404':
+          $ref: './schemas/errors.yaml#/responses/Error404'
+        '412':
+          $ref: './schemas/errors.yaml#/responses/Error412'
+        '422':
+          $ref: './schemas/errors.yaml#/responses/Error422'
+        '500':
+          $ref: './schemas/errors.yaml#/responses/Error500'
+    delete:
+      tags:
+        - Object Storage
+      summary: Delete a specific object storage volume
+      operationId: deleteObjectStorage
+      x-authorization:
+        type: hybrid  # Supports both RBAC and ABAC
+        policies:
+          - type: RBAC
+            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+            resources: ["seca.object-storage/object-storages/{objectStorageName}"]
+            verbs: ["delete"]
+      parameters:
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
+        - name: workspace
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Object storage volume deletion accepted
+        '400':
+          $ref: './schemas/errors.yaml#/responses/Error400'
+        '401':
+          $ref: './schemas/errors.yaml#/responses/Error401'
+        '403':
+          $ref: './schemas/errors.yaml#/responses/Error403'
+        '404':
+          $ref: './schemas/errors.yaml#/responses/Error404'
+        '500':
+          $ref: './schemas/errors.yaml#/responses/Error500'
+
+components:
+  securitySchemes:
+    $ref: './schemas/security.yaml#/securitySchemes'

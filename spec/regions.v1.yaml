@@ -1,0 +1,99 @@
+openapi: 3.0.3
+servers:
+  - url: https://demo.secapi.cloud/providers/seca.region
+    description: Path Schema
+  - url: https://region.seca.demo.secapi.cloud
+    description: DNS Schema
+info:
+  title: Sovereign European Cloud API - Regions
+  description: |
+    The Global Regions API provides access to foundational resources
+    that are shared across all tenants and workspaces in all regions.
+    This API is part of the Sovereign European Cloud API.
+  version: v1
+security:
+  - bearerAuth: []
+tags:
+  - name: Regions
+    description: Region management
+paths:
+  # Platform resources (regions)
+  /v1/tenants/{id}/regions:
+    get:
+      tags:
+        - Regions
+      summary: List all regions
+      operationId: listRegions
+      x-authorization:
+        type: hybrid  # Supports both RBAC and ABAC
+        policies:
+          - type: RBAC
+            scopes: ["tenants/{tenantId}"]
+            resources: ["seca.region/regions"]
+            verbs: ["list"]
+      parameters:
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
+        - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
+        - $ref: './schemas/parameters.yaml#/parameters/limitParam'
+        - $ref: './schemas/parameters.yaml#/parameters/skipTokenParam'
+        - $ref: './schemas/parameters.yaml#/parameters/acceptHeader'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: './schemas/region.yaml#/Region'
+                  metadata:
+                    type: object
+                    properties:
+                      skipToken:
+                        type: string
+                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+        '400':
+          $ref: './schemas/errors.yaml#/responses/Error400'
+        '401':
+          $ref: './schemas/errors.yaml#/responses/Error401'
+        '403':
+          $ref: './schemas/errors.yaml#/responses/Error403'
+        '500':
+          $ref: './schemas/errors.yaml#/responses/Error500'
+
+  /v1/tenants/{id}/regions/{name}:
+    get:
+      tags:
+        - Regions
+      summary: Get a specific region by name
+      operationId: getRegion
+      x-authorization:
+        type: hybrid  # Supports both RBAC and ABAC
+        policies:
+          - type: RBAC
+            scopes: ["tenants/{tenantId}"]
+            resources: ["seca.region/regions/{regionName}"]
+            verbs: ["list"]
+      parameters:
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/region.yaml#/Region'
+        '404':
+          $ref: './schemas/errors.yaml#/responses/Error404'
+
+components:
+  securitySchemes:
+    $ref: './schemas/security.yaml#/securitySchemes'

@@ -1,0 +1,75 @@
+openapi: 3.0.3
+servers:
+  - url: https://demo.secapi.cloud/providers/seca.activity-logs
+    description: Path Schema
+  - url: https://activity-logs.seca.demo.secapi.cloud
+    description: DNS Schema
+info:
+  title: Sovereign European Cloud API - Activity Log
+  description: |
+    The Activity Log API provides access to audit logs for all resources.
+    This API is part of the Sovereign European Cloud API.
+  version: v1
+security:
+  - bearerAuth: []
+tags:
+  - name: Observability
+    description: Observability management
+paths:
+  # Observability
+  /v1/tenants/{id}/workspaces/{workspace}/activity-logs:
+    get:
+      tags:
+        - Observability
+      summary: List all Audit Logs
+      operationId: listAuditLogs
+      x-authorization:
+        type: hybrid  # Supports both RBAC and ABAC
+        policies:
+          - type: RBAC
+            scopes: ["tenants/{tenantId}"]
+            resources: ["seca.activity-logs/workspaces/{workspaceName}"]
+            verbs: ["list"]
+      parameters:
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
+        - name: workspace
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
+        - $ref: './schemas/parameters.yaml#/parameters/limitParam'
+        - $ref: './schemas/parameters.yaml#/parameters/skipTokenParam'
+        - $ref: './schemas/parameters.yaml#/parameters/acceptHeader'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: './schemas/activity-log.yaml#/ActivityLog'
+                  metadata:
+                    type: object
+                    properties:
+                      skipToken:
+                        type: string
+                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+        '400':
+          $ref: './schemas/errors.yaml#/responses/Error400'
+        '401':
+          $ref: './schemas/errors.yaml#/responses/Error401'
+        '403':
+          $ref: './schemas/errors.yaml#/responses/Error403'
+        '404':
+          $ref: './schemas/errors.yaml#/responses/Error404'
+        '500':
+          $ref: './schemas/errors.yaml#/responses/Error500'
+
+components:
+  securitySchemes:
+    $ref: './schemas/security.yaml#/securitySchemes'
