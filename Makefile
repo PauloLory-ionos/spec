@@ -3,6 +3,7 @@ VACUUM = github.com/daveshanley/vacuum@latest
 MD2HTML = github.com/gomarkdown/mdtohtml@latest
 ROOT = spec
 DIST = dist
+DIST_ZIP = dist.zip
 SPEC = openapi.yaml
 OUTPUT = /tmp/swagger.yaml
 ASSETS = assets
@@ -26,6 +27,11 @@ MD_FINAL = $(DOCS_FILES:$(DOCS)/%.md=$(DIST)/$(DOCS)/%.html)
 
 VACUUM := $(GO) run $(VACUUM)
 VACUUM_LINT_FLAGS := -r config/ruleset-recommended.yaml -b -d
+
+all: $(DIST_ZIP)
+
+$(DIST_ZIP): build
+	zip -r $@ $(DIST)
 
 build: $(DIST) $(SCHEMAS_FINAL) $(MD_FINAL) $(README_FINAL)/ fix-links $(DOCS_FINAL)
 
@@ -62,7 +68,4 @@ lint: $(SCHEMAS_FINAL)
 
 .PHONY: clean
 clean:
-	rm -rf $(DIST)
-
-dist.zip: build
-	zip -r dist.zip $(DIST)
+	@rm -rf $(DIST) $(DIST_ZIP)
