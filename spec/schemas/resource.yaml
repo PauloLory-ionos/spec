@@ -1,6 +1,11 @@
 ResourceMetadata:
   type: object
   description: Base metadata for all resources, with optional location references
+  required:
+    - name
+    - lastModifiedTimestamp
+    - description
+    - labels
   properties:
     name:
       type: string

@@ -27,6 +27,12 @@ Location:
 
 Region:
   type: object
+  required:
+    - apiVersion
+    - kind
+    - metadata
+    - spec
+    - status
   properties:
     apiVersion:
       type: string
@@ -42,6 +48,9 @@ Region:
       $ref: './resource.yaml#/GlobalResourceMetadata'
     spec:
       type: object
+      required:
+        - availableZones
+        - providers
       properties:
         availableZones:
           type: array
@@ -56,6 +65,10 @@ Region:
 
 Provider:
   type: object
+  required:
+    - name
+    - version
+    - url
   properties:
     name:
       type: string
