@@ -162,12 +162,12 @@ This is the first release of the SECA API. For this release we decided to restri
 * [ ] [Authorization](authorization.v1.html)
   * [ ] Basic API
 
-### [SECA Object-Storage (v1)](object-storage.v1.html) **WIP**
+### [SECA Object-Storage (v1)](objectstorage.v1.html) **WIP**
 
 * [ ] SKU
 * [/] Basic API
 
-### [SECA Load-Balancer (v1)](load-balancer.v1.html) **WIP**
+### [SECA Load-Balancer (v1)](loadbalancer.v1.html) **WIP**
 
 * [ ] SKU
 * [/] Basic API
