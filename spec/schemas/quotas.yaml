@@ -19,6 +19,7 @@ ResourceQuota:  ## Compute Resource Quotas
       allOf:
       - $ref: "./resource.yaml#/Status"
       - type: object
+        readOnly: true
         properties:
           usage:
             $ref: "./resource.yaml#/ResourceQuota"

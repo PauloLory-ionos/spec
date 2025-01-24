@@ -26,6 +26,7 @@ ObjectStorage:
       allOf:
       - $ref: "./resource.yaml#/Status"
       - type: object
+        readOnly: true
         properties:
           state:
             $ref: './resource.yaml#/ResourceState'

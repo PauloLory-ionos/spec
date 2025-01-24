@@ -38,6 +38,7 @@ RoutingTable:
       allOf:
       - $ref: "./resource.yaml#/Status"
       - type: object
+        readOnly: true
         properties:
           routes:
             type: array

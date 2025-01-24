@@ -30,6 +30,7 @@ Workspace:
       allOf:
       - $ref: "./resource.yaml#/Status"
       - type: object
+        readOnly: true
         properties:
           phase:
             type: string

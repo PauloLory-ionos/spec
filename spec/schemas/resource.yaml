@@ -4,7 +4,6 @@ ResourceMetadata:
   required:
     - name
     - lastModifiedTimestamp
-    - description
     - labels
   properties:
     name:
@@ -74,6 +73,7 @@ ZonalResourceMetadata:
 
 ResourceState:
   type: object
+  readOnly: true
   description: |
     Generic state definition for all resources. All states are optional, but must not have more states.
     If a provider wants to present fine granular states, please use conditions.
@@ -102,6 +102,8 @@ Status:
   type: object
   readOnly: true
   description: Current status of the resource
+  required:
+    - conditions
   properties:
     conditions:
       $ref: "./resource.yaml#/StatusConditions"
@@ -154,6 +156,8 @@ StatusConditions:
 ResourceQuota:
   type: object
   description: Represents the ResourceQuota for the single ResourceType of the Resource Provider
+  required:
+    - value
   properties:
     value:
       type: integer
