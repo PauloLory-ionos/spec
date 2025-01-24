@@ -24,13 +24,7 @@ Image:
       enum: [ image ]
       readOnly: true
     metadata:
-      allOf:
-      - $ref: './resource.yaml#/RegionalResourceMetadata'
-      - type: object
-        readOnly: true
-        properties:
-          labels:
-            $ref: '#/Image/properties/spec/properties/capabilities'
+      $ref: './resource.yaml#/RegionalResourceMetadata'
     spec:
       $ref: './image.yaml#/ImageSpec'
     status:

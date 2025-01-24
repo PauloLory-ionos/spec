@@ -48,7 +48,6 @@ parameters:
   acceptHeader:
     in: header
     name: Accept
-    required: true
     schema:
       type: string
       default: application/json
