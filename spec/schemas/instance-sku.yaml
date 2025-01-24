@@ -16,50 +16,50 @@ InstanceSku:
       enum: [ instance-sku ]
       readOnly: true
     metadata:
-      allOf:
-      - $ref: './resource.yaml#/RegionalResourceMetadata'
-      - type: object
-        readOnly: true
-        properties:
-          labels:
-            $ref: '#/InstanceSku/properties/spec/properties/capabilities'
+      $ref: './resource.yaml#/RegionalResourceMetadata'
     spec:
-      type: object
-      properties:
-        provider:
-          type: string
-          description: Provider namespace for instance SKUs
-        tier:
-          type: string
-        capabilities:
-          additionalProperties: true
-          type: object
-          description: Instance performance capabilities
-          properties:
-            benchmarkPoints:
-              type: integer
-            vCPU:
-              type: integer
-            ramGB:
-              type: integer
-        extensions:
-          type: array
-          description: Additional instance feature extensions
-          items:
-            type: string
-        mandatoryParameters:
-          type: array
-          description: Mandatory parameters for block storage resources
-          items:
-            type: string
-        description:
-          type: string
-      example:
-        provider: 'SECA'
-        tier: 'seca.s'
-        vCPU: 2
-        ramGB: 4
-        cpuType: 'amd64'
-        benchmarkPoints: 3000
+      $ref: "./instance-sku.yaml#/InstanceSkuSpec"
     status:
-      $ref: "./resource.yaml#/Status"
+      $ref: "./instance-sku.yaml#/InstanceSkuStatus"
+
+InstanceSkuSpec:
+  type: object
+  properties:
+    provider:
+      type: string
+      description: Provider namespace for instance SKUs
+    tier:
+      type: string
+    capabilities:
+      additionalProperties: true
+      type: object
+      description: Instance performance capabilities
+      properties:
+        benchmarkPoints:
+          type: integer
+        vCPU:
+          type: integer
+        ramGB:
+          type: integer
+    extensions:
+      type: array
+      description: Additional instance feature extensions
+      items:
+        type: string
+    mandatoryParameters:
+      type: array
+      description: Mandatory parameters for block storage resources
+      items:
+        type: string
+    description:
+      type: string
+  example:
+    provider: 'SECA'
+    tier: 'seca.s'
+    vCPU: 2
+    ramGB: 4
+    cpuType: 'amd64'
+    benchmarkPoints: 3000
+
+InstanceSkuStatus:
+  $ref: "./resource.yaml#/Status"
