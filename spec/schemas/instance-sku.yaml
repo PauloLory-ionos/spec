@@ -31,16 +31,7 @@ InstanceSkuSpec:
     tier:
       type: string
     capabilities:
-      additionalProperties: true
-      type: object
-      description: Instance performance capabilities
-      properties:
-        benchmarkPoints:
-          type: integer
-        vCPU:
-          type: integer
-        ramGB:
-          type: integer
+      $ref: "./instance-sku.yaml#/InstanceSkuCapability"
     extensions:
       type: array
       description: Additional instance feature extensions
@@ -60,6 +51,17 @@ InstanceSkuSpec:
     ramGB: 4
     cpuType: 'amd64'
     benchmarkPoints: 3000
+
+InstanceSkuCapability:
+  type: object
+  description: Instance performance capabilities
+  properties:
+    benchmarkPoints:
+      type: integer
+    vCPU:
+      type: integer
+    ramGB:
+      type: integer
 
 InstanceSkuStatus:
   $ref: "./resource.yaml#/Status"

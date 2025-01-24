@@ -28,16 +28,22 @@ Role:
     metadata:
       $ref: './resource.yaml#/GlobalResourceMetadata'
     spec:
-      type: object
-      properties:
-        permissions:
-          type: array
-          items:
-            type: string
-          description: List of permissions granted by this role
-          example: ["compute/instance:read", "network/*:write"]
+      $ref: "#/RoleSpec"
     status:
-      $ref: "./resource.yaml#/Status"
+      $ref: "#/RoleStatus"
+
+RoleSpec:
+  type: object
+  properties:
+    permissions:
+      type: array
+      items:
+        type: string
+      description: List of permissions granted by this role
+      example: ["compute/instance:read", "network/*:write"]
+
+RoleStatus:
+  $ref: "./resource.yaml#/Status"
 
 RoleAssignment:
   type: object
@@ -55,25 +61,31 @@ RoleAssignment:
     metadata:
       $ref: './resource.yaml#/GlobalResourceMetadata'
     spec:
-      type: object
-      properties:
-        subs:
-          type: array
-          items:
-            type: string
-          description: List of subject IDs (from JWT) to whom the roles are assigned
-          example: ["user1@example.com", "service-account-1"]
-        roles:
-          type: array
-          items:
-            type: string
-          description: List of assigned role names
-          example: ["project-manager", "workspace-viewer"]
-        scopes:
-          type: array
-          items:
-            type: string
-          description: List of Scopes to whom the roles are assigned
-          example: ["workspaces/develop", "workspaces/production"]
+      $ref: "#/RoleAssignmentSpec"
     status:
-      $ref: "./resource.yaml#/Status"
+      $ref: "#/RoleAssignmentStatus"
+
+RoleAssignmentSpec:
+  type: object
+  properties:
+    subs:
+      type: array
+      items:
+        type: string
+      description: List of subject IDs (from JWT) to whom the roles are assigned
+      example: ["user1@example.com", "service-account-1"]
+    roles:
+      type: array
+      items:
+        type: string
+      description: List of assigned role names
+      example: ["project-manager", "workspace-viewer"]
+    scopes:
+      type: array
+      items:
+        type: string
+      description: List of Scopes to whom the roles are assigned
+      example: ["workspaces/develop", "workspaces/production"]
+
+RoleAssignmentStatus:
+  $ref: "./resource.yaml#/Status"

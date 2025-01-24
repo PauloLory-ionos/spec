@@ -3,7 +3,7 @@ StorageSku:
   description: |
     Represents a Stock Keeping Unit (SKU) for  storage resources.
 
-     Storage SKUs define performance tiers for storage IOPS and characteristics.
+    Storage SKUs define performance tiers for storage IOPS and characteristics.
     Properties, capabilities, and extensions can be found in the metadata.labels sections.
     Searchable with namespaces like "properties.", "capabilities.", and "extensions.".
   properties:

@@ -36,23 +36,7 @@ InstanceSpec:
         skuExtensions:
           $ref: './sku.yaml#/SkuExtensions'
     network:
-      type: object
-      properties:
-        primaryNicRef:
-          type: string
-          description: Reference to the primary NIC for this instance
-        otherNics:
-          type: array
-          description: Additional NICs attached to this instance
-          items:
-            type: object
-            properties:
-              nicRef:
-                type: string
-                description: Reference to the NIC
-              slot:
-                type: integer
-                description: Slot number for the NIC
+      $ref: '#/InstanceNetwork'
     operatingSystem:
       type: object
       properties:
@@ -95,29 +79,9 @@ InstanceStatus:
     state:
       $ref: './resource.yaml#/ResourceState'
     placement:
-      type: object
-      properties:
-        strategy:
-          type: string
-          enum: ['zone', 'auto', 'anti-affinity']
-        zone:
-          type: string
-        antiAffinityGroup:
-          type: string
+      $ref: '#/InstancePlacementStrategy'
     network:
-      type: object
-      properties:
-        primaryNicRef:
-          type: string
-        otherNics:
-          type: array
-          items:
-            type: object
-            properties:
-              nicRef:
-                type: string
-              slot:
-                type: integer
+      $ref: '#/InstanceNetwork'
     dataBlockStorageRef:
       type: array
       items:
@@ -136,3 +100,34 @@ InstanceStatus:
       lastTransitionTime: "2024-11-21T14:39:22Z"
       reason: "user_request"
       message: "executed successfully"
+
+InstanceNetwork:
+  type: object
+  properties:
+    primaryNicRef:
+      type: string
+      description: Reference to the primary NIC for this instance
+    otherNics:
+      type: array
+      description: Additional NICs attached to this instance
+      items:
+        $ref: '#/InstanceNicRef'
+
+InstancePlacementStrategy:
+  type: object
+  properties:
+    strategy:
+      type: string
+      enum: ['zone', 'auto', 'anti-affinity']
+    zone:
+      type: string
+    antiAffinityGroup:
+      type: string
+
+InstanceNicRef:
+  type: object
+  properties:
+    nicRef:
+      type: string
+    slot:
+      type: integer

@@ -113,37 +113,43 @@ SecurityGroupRuleSpec:
       enum: ['tcp', 'udp', 'icmp', 'all']
       description: Network protocol for the rule
     portRange:
-      type: object
-      description: Specific port or port range for the rule
-      properties:
-        from:
-          type: integer
-          minimum: 1
-          maximum: 65535
-        to:
-          type: integer
-          minimum: 1
-          maximum: 65535
+      $ref: '#/PortRange'
     source:
-      type: object
-      description: |
-        Source of the traffic. Can be a security group, CIDR range, or 'publicInternet'.
-        'publicInternet' allows explicit control over internet-facing traffic.
-      properties:
-        type:
-          type: string
-          enum: ['securityGroup', 'cidr', 'publicInternet']
-        value:
-          type: string
-          description: |
-            - For securityGroup: name of the source security group
-            - For cidr: IPv4 CIDR range
-            - For publicInternet: 'any' or a IPv4 CIDR Range
+      $ref: '#/SecurityGroupRuleSource'
     priority:
       type: integer
       description: Rule priority (lower number = higher priority)
       minimum: 1
       maximum: 10000
+
+PortRange:
+  type: object
+  description: Specific port or port range for the rule
+  properties:
+    from:
+      type: integer
+      minimum: 1
+      maximum: 65535
+    to:
+      type: integer
+      minimum: 1
+      maximum: 65535
+
+SecurityGroupRuleSource:
+  type: object
+  description: |
+    Source of the traffic. Can be a security group, CIDR range, or 'publicInternet'.
+    'publicInternet' allows explicit control over internet-facing traffic.
+  properties:
+    type:
+      type: string
+      enum: ['securityGroup', 'cidr', 'publicInternet']
+    value:
+      type: string
+      description: |
+        - For securityGroup: name of the source security group
+        - For cidr: IPv4 CIDR range
+        - For publicInternet: 'any' or a IPv4 CIDR Range
 
 SecurityGroupRuleStatus:
   $ref: "./resource.yaml#/Status"

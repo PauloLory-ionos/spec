@@ -36,13 +36,7 @@ NicSpec:
       type: array
       description: List of static private IP addresses for this NIC. Can only be used when the subnet has dhcpEnabled=false.
       items:
-        type: object
-        properties:
-          adressType:
-            type: string
-            enum: [ 'IPv4' ]
-          ipAddress:
-            type: string
+        $ref: '#/NicPrivateIp'
     publicIPRef:
       type: string
       description: References to public IP addresses associated with this NIC. The IP may be external and not directly visible on the server/NIC itself. Maximum one IP allowed.
@@ -61,13 +55,7 @@ NicStatus:
       privateIPs:
         type: array
         items:
-          type: object
-          properties:
-            adressType:
-              type: string
-              enum: [ 'IPv4' ]
-            ipAddress:
-              type: string
+          $ref: '#/NicPrivateIp'
       publicIPRef:
         type: array
         items:
@@ -76,3 +64,12 @@ NicStatus:
         type: string
       securityGroupRef:
         type: string
+
+NicPrivateIp:
+  type: object
+  properties:
+    adressType:
+      type: string
+      enum: [ 'IPv4' ]
+    ipAddress:
+      type: string

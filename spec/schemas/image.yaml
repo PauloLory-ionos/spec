@@ -46,16 +46,7 @@ ImageSpec:
       type: string
       description: Tier of the Image
     capabilities:
-      type: object
-      properties:
-        tier:
-          type: string
-          description: "keyword to identify the product tier"
-          example: ubuntu-24.04
-        provider:
-          type: string
-          description: "keyword to identify the provider"
-          example: SECA
+      $ref: '#/ImageCapabilities'
     extensions:
       type: array
       description: List of possible extensions for this Image
@@ -78,3 +69,15 @@ ImageSpec:
 
 ImageStatus:
   $ref: "./resource.yaml#/Status"
+
+ImageCapabilities:
+  type: object
+  properties:
+    tier:
+      type: string
+      description: "keyword to identify the product tier"
+      example: ubuntu-24.04
+    provider:
+      type: string
+      description: "keyword to identify the provider"
+      example: SECA

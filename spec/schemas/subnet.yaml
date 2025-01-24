@@ -94,14 +94,7 @@ SubnetStatus:
     zone:
       type: string
     defaultGateway:
-      type: object
-      description: Actual default gateway configuration
-      properties:
-        type:
-          type: string
-          enum: ['auto', 'instanceRef', 'internalIp']
-        value:
-          type: string
+      $ref: '#/SubnetGateway'
     conditions:
       type: array
       items:
@@ -114,3 +107,14 @@ SubnetStatus:
       lastTransitionTime: "2024-11-21T14:39:22Z"
       reason: "GatewayProvisioned"
       message: "Subnet gateway has been configured"
+
+SubnetGateway:
+  type: object
+  description: Actual default gateway configuration
+  properties:
+    type:
+      type: string
+      enum: ['auto', 'instanceRef', 'internalIp']
+    value:
+      type: string
+

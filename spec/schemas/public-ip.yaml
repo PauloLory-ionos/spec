@@ -42,14 +42,17 @@ PublicIpSpec:
       type: array
       description: References to resources this IP is assigned to
       items:
-        type: object
-        properties:
-          kind:
-            type: string
-            description: Kind of resource the IP is assigned to
-          name:
-            type: string
-            description: Name of the resource the IP is assigned to
+        $ref: '#/PublicIpAssignment'
+
+PublicIpAssignment:
+  type: object
+  properties:
+    kind:
+      type: string
+      description: Kind of resource the IP is assigned to
+    name:
+      type: string
+      description: Name of the resource the IP is assigned to
 
 PublicIpStatus:
   type: object
