@@ -48,15 +48,7 @@ SubnetSpec:
             Allows selection of network performance tier.
             Pattern: '^seca\.(10|100|1000)$'
     cidr:
-      type: object
-      properties:
-        ipv4Range:
-          type: string
-          format: ipv4
-          description: |
-            IPv4 address range for the subnet.
-            Must be unique within the LAN and cannot be modified after creation.
-            Example: '192.168.1.0/24'
+      $ref: '#/cidr'
     dhcpEnabled:
       type: boolean
       enum: [true]
@@ -77,6 +69,17 @@ SubnetSpec:
           description: |
             - For 'instanceRef': Name of the compute instance acting as gateway
             - For 'internalIp': Specific IP address to use as gateway
+
+cidr:
+  type: object
+  properties:
+    ipv4Range:
+      type: string
+      format: ipv4
+      description: |
+        IPv4 address range for the subnet.
+        Must be unique within the LAN and cannot be modified after creation.
+        Example: '192.168.1.0/24'
 
 SubnetStatus:
   type: object
@@ -99,14 +102,12 @@ SubnetStatus:
       type: array
       items:
         $ref: "./resource.yaml#/StatusCondition"
-  example:
-    state: "Ready"
-    conditions:
-    - type: "gateway"
-      status: "configured"
-      lastTransitionTime: "2024-11-21T14:39:22Z"
-      reason: "GatewayProvisioned"
-      message: "Subnet gateway has been configured"
+      example:
+      - type: "gateway"
+        status: "configured"
+        lastTransitionTime: "2024-11-21T14:39:22Z"
+        reason: "GatewayProvisioned"
+        message: "Subnet gateway has been configured"
 
 SubnetGateway:
   type: object

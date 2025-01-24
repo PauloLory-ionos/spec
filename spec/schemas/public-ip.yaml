@@ -70,16 +70,14 @@ PublicIpStatus:
       type: array
       items:
         $ref: "./resource.yaml#/StatusCondition"
-  example:
-    state: "Active"
-    conditions:
-    - type: "allocation"
-      status: "allocated"
-      lastTransitionTime: "2024-11-21T14:39:22Z"
-      reason: "IpAddressAssigned"
-      message: "Public IP address has been assigned"
-    - type: "binding"
-      status: "bound"
-      lastTransitionTime: "2024-11-21T14:39:22Z"
-      reason: "BoundToResource"
-      message: "IP is bound to a resource"
+      example:
+      - type: "allocation"
+        status: "allocated"
+        lastTransitionTime: "2024-11-21T14:39:22Z"
+        reason: "IpAddressAssigned"
+        message: "Public IP address has been assigned"
+      - type: "binding"
+        status: "bound"
+        lastTransitionTime: "2024-11-21T14:39:22Z"
+        reason: "BoundToResource"
+        message: "IP is bound to a resource"

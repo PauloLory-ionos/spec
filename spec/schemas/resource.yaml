@@ -158,7 +158,6 @@ StatusCondition:
         A human-readable message indicating details about the transition.
       maxLength: 32768
 
-
 ResponseMetadata:
   type: object
   properties:
