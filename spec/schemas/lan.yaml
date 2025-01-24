@@ -1,4 +1,4 @@
-LAN:
+Lan:
   type: object
   properties:
     apiVersion:
@@ -14,38 +14,46 @@ LAN:
     metadata:
       $ref: './resource.yaml#/RegionalResourceMetadata'
     spec:
-      type: object
-      properties:
-        profile:
-          type: object
-          properties:
-            networkSkuRef:
-              type: string
-              description: Reference to the SKU used for this LAN
-            skuExtentions:
-              type: array
-              items:
-                type: object
-                properties:
-                  key:
-                    type: string
-                  value:
-                    type: string
+      $ref: './lan.yaml#/LanSpec'
     status:
+      $ref: './lan.yaml#/LanStatus'
+
+LanSpec:
+  type: object
+  properties:
+    profile:
       type: object
-      readOnly: true
-      description: |
-        Conditions type `connectivity` indicates the status of the network connection.
-        The status can be `connected` or `disconnected`.
       properties:
-        state:
-          $ref: './resource.yaml#/ResourceState'
-        conditions:
-          $ref: "./resource.yaml#/StatusConditions"
-      example:
-        conditions:
-        - type: "connectivity"
-          status: "connected"
-          lastTransitionTime: "2024-11-21T14:39:22Z"
-          reason: "NetworkConfigured"
-          message: "Network is properly configured and connected"
+        networkSkuRef:
+          type: string
+          description: Reference to the SKU used for this LAN
+        skuExtentions:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              value:
+                type: string
+
+LanStatus:
+  type: object
+  readOnly: true
+  description: |
+    Conditions type `connectivity` indicates the status of the network connection.
+    The status can be `connected` or `disconnected`.
+  properties:
+    state:
+      $ref: './resource.yaml#/ResourceState'
+    conditions:
+      type: array
+      items:
+        $ref: "./resource.yaml#/StatusCondition"
+  example:
+    conditions:
+    - type: "connectivity"
+      status: "connected"
+      lastTransitionTime: "2024-11-21T14:39:22Z"
+      reason: "NetworkConfigured"
+      message: "Network is properly configured and connected"

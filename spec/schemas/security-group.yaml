@@ -59,7 +59,9 @@ SecurityGroup:
         state:
           $ref: './resource.yaml#/ResourceState'
         conditions:
-          $ref: "./resource.yaml#/StatusConditions"
+          type: array
+          items:
+            $ref: "./resource.yaml#/StatusCondition"
       example:
         conditions:
         - type: "rules"

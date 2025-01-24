@@ -110,16 +110,9 @@ Status:
     - conditions
   properties:
     conditions:
-      $ref: "./resource.yaml#/StatusConditions"
-
-StatusConditions:
-  type: array
-  description: |
-    Conditions represent the latest available observations of a resource's current state.
-    Conditions are provider-specific and can represent different states depending on the
-    resource type and provider implementation.
-  items:
-    $ref: "./resource.yaml#/StatusCondition"
+      type: array
+      items:
+        $ref: "#/StatusCondition"
 
 StatusCondition:
   type: object

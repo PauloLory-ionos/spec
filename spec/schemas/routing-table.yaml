@@ -22,7 +22,9 @@ Route:
           enum: [user, service]
           description: Whether the route is managed by the user or a service
         conditions:
-          $ref: "./resource.yaml#/StatusConditions"
+          type: array
+          items:
+            $ref: "./resource.yaml#/StatusCondition"
 
 RoutingTable:
   type: object

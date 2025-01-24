@@ -54,7 +54,9 @@ BlockStorage:
         attachedTo:
           $ref: '#/VolumeAttachment'
         conditions:
-          $ref: "./resource.yaml#/StatusConditions"
+          type: array
+          items:
+            $ref: "./resource.yaml#/StatusCondition"
       example:
         state: "Ready"
         sizeGB: 10

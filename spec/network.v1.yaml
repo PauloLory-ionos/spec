@@ -255,7 +255,7 @@ paths:
                   items:
                     type: array
                     items:
-                      $ref: './schemas/lan.yaml#/LAN'
+                      $ref: './schemas/lan.yaml#/Lan'
                   metadata:
                     type: object
                     properties:
@@ -304,7 +304,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './schemas/lan.yaml#/LAN'
+                $ref: './schemas/lan.yaml#/Lan'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -346,7 +346,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './schemas/lan.yaml#/LAN'
+              $ref: './schemas/lan.yaml#/Lan'
       responses:
         '202':
           description: LAN updated or created

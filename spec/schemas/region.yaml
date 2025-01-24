@@ -1,5 +1,11 @@
 Location:
   type: object
+  required:
+    - apiVersion
+    - kind
+    - metadata
+    - spec
+    - status
   description: Represents a specific geographic location combining region and zone. Composite name in the format 'region/zone'
   properties:
     apiVersion:
@@ -15,15 +21,21 @@ Location:
     metadata:
       $ref: './resource.yaml#/GlobalResourceMetadata'
     spec:
-      type: object
-      properties:
-        region:
-          type: string
-        zone:
-          type: string
-          description: Optional zone within the region
+      $ref: './region.yaml#/LocationSpec'
     status:
-      $ref: "./resource.yaml#/Status"
+      $ref: './region.yaml#/LocationStatus'
+
+LocationSpec:
+  type: object
+  properties:
+    region:
+      type: string
+    zone:
+      type: string
+      description: Optional zone within the region
+
+LocationStatus:
+  $ref: "./resource.yaml#/Status"
 
 Region:
   type: object

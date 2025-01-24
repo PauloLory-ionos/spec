@@ -103,7 +103,9 @@ SubnetStatus:
         value:
           type: string
     conditions:
-      $ref: "./resource.yaml#/StatusConditions"
+      type: array
+      items:
+        $ref: "./resource.yaml#/StatusCondition"
   example:
     state: "Ready"
     conditions:

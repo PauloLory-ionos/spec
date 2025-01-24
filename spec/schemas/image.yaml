@@ -32,44 +32,50 @@ Image:
           labels:
             $ref: '#/Image/properties/spec/properties/capabilities'
     spec:
+      $ref: './image.yaml#/ImageSpec'
+    status:
+      $ref: './image.yaml#/ImageStatus'
+
+ImageSpec:
+  type: object
+  properties:
+    provider:
+      type: string
+      description: Provider of the Image specification
+    tier:
+      type: string
+      description: Tier of the Image
+    capabilities:
       type: object
+      additionalProperties: true
       properties:
-        provider:
-          type: string
-          description: Provider of the Image specification
         tier:
           type: string
-          description: Tier of the Image
-        capabilities:
-          type: object
-          additionalProperties: true
-          properties:
-            tier:
-              type: string
-              description: "keyword to identify the product tier"
-              example: ubuntu-24.04
-            provider:
-              type: string
-              description: "keyword to identify the provider"
-              example: SECA
-        extensions:
-          type: array
-          description: List of possible extensions for this Image
-          items:
-            type: string
-        mandatoryParameters:
-          type: array
-          description: List of mandatory parameters for this Image
-          items:
-            type: string
-        description:
-              type: string
-      example:
-        provider: 'SECA'
-        tier: 'ubuntu-24.04'
-        cpuArchitecture: 'AMD64'
-        boot: 'UEFI'
-        cloudInitVersion: '22.01'
-        endOfLife: '2029-03-31'
-    status:
-      $ref: "./resource.yaml#/Status"
+          description: "keyword to identify the product tier"
+          example: ubuntu-24.04
+        provider:
+          type: string
+          description: "keyword to identify the provider"
+          example: SECA
+    extensions:
+      type: array
+      description: List of possible extensions for this Image
+      items:
+        type: string
+    mandatoryParameters:
+      type: array
+      description: List of mandatory parameters for this Image
+      items:
+        type: string
+    description:
+          type: string
+  example:
+    provider: 'SECA'
+    tier: 'ubuntu-24.04'
+    cpuArchitecture: 'AMD64'
+    boot: 'UEFI'
+    cloudInitVersion: '22.01'
+    endOfLife: '2029-03-31'
+
+ImageStatus:
+  $ref: "./resource.yaml#/Status"
