@@ -1,5 +1,6 @@
 ResourceMetadata:
   type: object
+  readOnly: true
   description: Base metadata for all resources, with optional location references
   required:
     - name
@@ -39,11 +40,13 @@ GlobalResourceMetadata:
   allOf:
   - $ref: '#/ResourceMetadata'
   - description: Metadata for global resources with no location constraints
+    readOnly: true
 
 RegionalResourceMetadata:
   allOf:
   - $ref: '#/ResourceMetadata'
   - description: Metadata for regional resources
+    readOnly: true
     properties:
       location:
         type: object
@@ -58,6 +61,7 @@ ZonalResourceMetadata:
   allOf:
   - $ref: '#/ResourceMetadata'
   - description: Metadata for zonal resources
+    readOnly: true
     properties:
       location:
         type: object
@@ -164,3 +168,10 @@ ResourceQuota:
       nullable: true
       description: limit number of resourceType instances, set null for unlimited
       example: 10
+
+ResponseMetadata:
+  type: object
+  properties:
+    skipToken:
+      type: string
+      description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.

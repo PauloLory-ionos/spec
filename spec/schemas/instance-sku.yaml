@@ -19,6 +19,7 @@ InstanceSku:
       allOf:
       - $ref: './resource.yaml#/RegionalResourceMetadata'
       - type: object
+        readOnly: true
         properties:
           labels:
             $ref: '#/InstanceSku/properties/spec/properties/capabilities'
@@ -60,6 +61,5 @@ InstanceSku:
         ramGB: 4
         cpuType: 'amd64'
         benchmarkPoints: 3000
-
     status:
       $ref: "./resource.yaml#/Status"

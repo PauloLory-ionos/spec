@@ -48,11 +48,7 @@ paths:
                     items:
                       $ref: './schemas/workspace.yaml#/Workspace'
                   metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':

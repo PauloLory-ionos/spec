@@ -25,4 +25,3 @@ ResourceQuota:  ## Compute Resource Quotas
             $ref: "./resource.yaml#/ResourceQuota"
           current:
             $ref: "./resource.yaml#/ResourceQuota"
-

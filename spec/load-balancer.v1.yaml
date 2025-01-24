@@ -54,11 +54,7 @@ paths:
                     items:
                       $ref: './schemas/load-balancer.yaml#/NetworkLoadBalancer'
                   metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
 
   /v1/tenants/{id}/workspaces/{workspace}/network-load-balancers/{network-load-balancer-name}:
     get:

@@ -21,6 +21,7 @@ StorageSku:
       allOf:
       - $ref: './resource.yaml#/RegionalResourceMetadata'
       - type: object
+        readOnly: true
         properties:
           labels:
             $ref: "#/StorageSku/properties/spec/properties/capabilities"
