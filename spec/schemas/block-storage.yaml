@@ -14,64 +14,63 @@ BlockStorage:
     metadata:
       $ref: './resource.yaml#/ZonalResourceMetadata'
     spec:
-      type: object
-      properties:
-        profile:
-          type: object
-          properties:
-            storageSkuRef:
-              type: string
-              description: Reference to the SKU used for this block storage
-            skuExtentions:
-              type: array
-              items:
-                type: object
-                properties:
-                  key:
-                    type: string
-                  value:
-                    type: string
-        sizeGB:
-          type: integer
-        origin:
-          type: object
-          properties:
-            sourceImageRef:
-              type: string
-              readOnly: true
-              description: Reference to the source image used as the base for creating this block storage. This cannot be modified.
+      $ref: '#/BlockStorageSpec'
     status:
+      $ref: '#/BlockStorageStatus'
+
+BlockStorageSpec:
+  type: object
+  properties:
+    profile:
       type: object
-      readOnly: true
-      description: |
-        Conditions type `attachment` indicates the status of the volume attachment.
-        The status can be `attached` or `detached`.
       properties:
-        state:
-          $ref: './resource.yaml#/ResourceState'
-        sizeGB:
-          type: integer
-        attachedTo:
-          $ref: '#/VolumeAttachment'
-        conditions:
-          type: array
-          items:
-            $ref: "./resource.yaml#/StatusCondition"
-      example:
-        state: "Ready"
-        sizeGB: 10
-        attachedTo:
-          objectRef: "instance-123"
-          properties:
-            connectionType: "iSCSI"
-            deviceKind: "instance"
-            deviceRef: "instance-123"
-        conditions:
-        - type: "attachment"
-          status: "attached"
-          lastTransitionTime: "2024-11-21T14:39:22Z"
-          reason: "AttachedToInstance"
-          message: "Volume is attached to instance-123"
+        storageSkuRef:
+          type: string
+          description: Reference to the SKU used for this block storage
+        skuExtensions:
+          $ref: './sku.yaml#/SkuExtensions'
+    sizeGB:
+      type: integer
+    origin:
+      type: object
+      properties:
+        sourceImageRef:
+          type: string
+          readOnly: true
+          description: Reference to the source image used as the base for creating this block storage. This cannot be modified.
+
+BlockStorageStatus:
+  type: object
+  readOnly: true
+  description: |
+    Conditions type `attachment` indicates the status of the volume attachment.
+    The status can be `attached` or `detached`.
+  properties:
+    state:
+      $ref: './resource.yaml#/ResourceState'
+    sizeGB:
+      type: integer
+    attachedTo:
+      $ref: '#/VolumeAttachment'
+    conditions:
+      type: array
+      items:
+        $ref: "./resource.yaml#/StatusCondition"
+  example:
+    state: "Ready"
+    sizeGB: 10
+    attachedTo:
+      objectRef: "instance-123"
+      properties:
+        connectionType: "iSCSI"
+        deviceKind: "instance"
+        deviceRef: "instance-123"
+    conditions:
+    - type: "attachment"
+      status: "attached"
+      lastTransitionTime: "2024-11-21T14:39:22Z"
+      reason: "AttachedToInstance"
+      message: "Volume is attached to instance-123"
 
 VolumeAttachment:
   type: object

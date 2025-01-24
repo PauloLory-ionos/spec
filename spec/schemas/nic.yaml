@@ -1,6 +1,12 @@
-NIC:
+Nic:
   type: object
   description: Network Interface Card (NIC) representing a network interface for a compute resource
+  required:
+    - apiVersion
+    - kind
+    - metadata
+    - spec
+    - status
   properties:
     apiVersion:
       type: string
@@ -15,52 +21,58 @@ NIC:
     metadata:
        $ref: './resource.yaml#/RegionalResourceMetadata'
     spec:
-      type: object
-      description: Specification of the Network Interface Card
-      properties:
-        subnetRef:
-          type: string
-          description: Subnet this NIC is connected to
-        staticPrivateIPs:
-          type: array
-          description: List of static private IP addresses for this NIC. Can only be used when the subnet has dhcpEnabled=false.
-          items:
-            type: object
-            properties:
-              adressType:
-                type: string
-                enum: [ 'IPv4' ]
-              ipAddress:
-                type: string
-        publicIPRef:
-          type: string
-          description: References to public IP addresses associated with this NIC. The IP may be external and not directly visible on the server/NIC itself. Maximum one IP allowed.
-          items:
-            type: string
-            format: ipv4
+      $ref: '#/NicSpec'
     status:
-      allOf:
-      - $ref: "./resource.yaml#/Status"
-      - type: object
-        readOnly: true
+      $ref: '#/NicStatus'
+
+NicSpec:
+  type: object
+  description: Specification of the Network Interface Card
+  properties:
+    subnetRef:
+      type: string
+      description: Subnet this NIC is connected to
+    staticPrivateIPs:
+      type: array
+      description: List of static private IP addresses for this NIC. Can only be used when the subnet has dhcpEnabled=false.
+      items:
+        type: object
         properties:
-          state:
-            $ref: './resource.yaml#/ResourceState'
-          privateIPs:
-            type: array
-            items:
-              type: object
-              properties:
-                adressType:
-                  type: string
-                  enum: [ 'IPv4' ]
-                ipAddress:
-                  type: string
-          publicIPRef:
-            type: array
-            items:
+          adressType:
+            type: string
+            enum: [ 'IPv4' ]
+          ipAddress:
+            type: string
+    publicIPRef:
+      type: string
+      description: References to public IP addresses associated with this NIC. The IP may be external and not directly visible on the server/NIC itself. Maximum one IP allowed.
+      items:
+        type: string
+        format: ipv4
+
+NicStatus:
+  allOf:
+  - $ref: "./resource.yaml#/Status"
+  - type: object
+    readOnly: true
+    properties:
+      state:
+        $ref: './resource.yaml#/ResourceState'
+      privateIPs:
+        type: array
+        items:
+          type: object
+          properties:
+            adressType:
               type: string
-          subnetRef:
-            type: string
-          securityGroupRef:
-            type: string
+              enum: [ 'IPv4' ]
+            ipAddress:
+              type: string
+      publicIPRef:
+        type: array
+        items:
+          type: string
+      subnetRef:
+        type: string
+      securityGroupRef:
+        type: string

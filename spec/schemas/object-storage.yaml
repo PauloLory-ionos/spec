@@ -14,19 +14,25 @@ ObjectStorage:
     metadata:
       $ref: './resource.yaml#/ZonalResourceMetadata'
     spec:
+      $ref: '#/ObjectStorageSpec'
+    status:
+      $ref: '#/ObjectStorageStatus'
+
+ObjectStorageSpec:
+  type: object
+  properties:
+    profile:
       type: object
       properties:
-        profile:
-          type: object
-          properties:
-            objectStorageSkuRef:
-              type: string
-              description: Reference to the SKU used for this object-storage
-    status:
-      allOf:
-      - $ref: "./resource.yaml#/Status"
-      - type: object
-        readOnly: true
-        properties:
-          state:
-            $ref: './resource.yaml#/ResourceState'
+        objectStorageSkuRef:
+          type: string
+          description: Reference to the SKU used for this object-storage
+
+ObjectStorageStatus:
+  allOf:
+  - $ref: "./resource.yaml#/Status"
+  - type: object
+    readOnly: true
+    properties:
+      state:
+        $ref: './resource.yaml#/ResourceState'

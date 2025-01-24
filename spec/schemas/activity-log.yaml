@@ -49,7 +49,7 @@ ActivityLogSpec:
             - $ref: './lan.yaml#/Lan/properties/spec'
             - $ref: './subnet.yaml#/Subnet/properties/spec'
             - $ref: './security-group.yaml#/SecurityGroup/properties/spec'
-            - $ref: './nic.yaml#/NIC/properties/spec'
+            - $ref: './nic.yaml#/Nic/properties/spec'
             - $ref: './public-ip.yaml#/PublicIp/properties/spec'
             - $ref: './load-balancer.yaml#/NetworkLoadBalancer/properties/spec'
         scope:

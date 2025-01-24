@@ -64,7 +64,6 @@ NetworkLoadBalancerFrontend:
     target:
       $ref: '#/LoadBalancerTarget'
 
-
 LoadBalancerTarget:
   type: object
   properties:
@@ -99,7 +98,6 @@ LoadBalancerTarget:
         retry:
          type: integer
          description: 'healthcheck retry number after considered unhealthy a backend istance'
-
 
 LoadBalancerMember:
   type: object

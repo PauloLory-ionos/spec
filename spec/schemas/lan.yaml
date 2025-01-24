@@ -27,15 +27,8 @@ LanSpec:
         networkSkuRef:
           type: string
           description: Reference to the SKU used for this LAN
-        skuExtentions:
-          type: array
-          items:
-            type: object
-            properties:
-              key:
-                type: string
-              value:
-                type: string
+        skuExtensions:
+          $ref: './sku.yaml#/SkuExtensions'
 
 LanStatus:
   type: object

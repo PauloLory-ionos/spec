@@ -47,7 +47,6 @@ ImageSpec:
       description: Tier of the Image
     capabilities:
       type: object
-      additionalProperties: true
       properties:
         tier:
           type: string

@@ -850,7 +850,7 @@ paths:
                   items:
                     type: array
                     items:
-                      $ref: './schemas/nic.yaml#/NIC'
+                      $ref: './schemas/nic.yaml#/Nic'
                   metadata:
                     $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
@@ -893,20 +893,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './schemas/nic.yaml#/NIC'
+              $ref: './schemas/nic.yaml#/Nic'
       responses:
         '200':
           description: NIC updated successfully
           content:
             application/json:
               schema:
-                $ref: './schemas/nic.yaml#/NIC'
+                $ref: './schemas/nic.yaml#/Nic'
         '201':
           description: NIC created successfully
           content:
             application/json:
               schema:
-                $ref: './schemas/nic.yaml#/NIC'
+                $ref: './schemas/nic.yaml#/Nic'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -958,7 +958,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './schemas/nic.yaml#/NIC'
+                $ref: './schemas/nic.yaml#/Nic'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':

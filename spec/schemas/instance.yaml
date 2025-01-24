@@ -33,15 +33,8 @@ InstanceSpec:
         instanceSkuRef:
           type: string
           description: Reference to the SKU used for this instance
-        skuExtentions:
-          type: array
-          items:
-            type: object
-            properties:
-              key:
-                type: string
-              value:
-                type: string
+        skuExtensions:
+          $ref: './sku.yaml#/SkuExtensions'
     network:
       type: object
       properties:
