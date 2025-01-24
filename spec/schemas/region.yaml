@@ -47,21 +47,27 @@ Region:
     metadata:
       $ref: './resource.yaml#/GlobalResourceMetadata'
     spec:
-      type: object
-      required:
-        - availableZones
-        - providers
-      properties:
-        availableZones:
-          type: array
-          items:
-            type: string
-        providers:
-          type: array
-          items:
-            $ref: './region.yaml#/Provider'
+      $ref: './region.yaml#/RegionSpec'
     status:
-      $ref: "./resource.yaml#/Status"
+      $ref: './region.yaml#/RegionStatus'
+
+RegionSpec:
+  type: object
+  required:
+    - availableZones
+    - providers
+  properties:
+    availableZones:
+      type: array
+      items:
+        type: string
+    providers:
+      type: array
+      items:
+        $ref: './region.yaml#/Provider'
+
+RegionStatus:
+  $ref: "./resource.yaml#/Status"
 
 Provider:
   type: object

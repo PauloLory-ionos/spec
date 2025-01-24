@@ -15,31 +15,37 @@ Workspace:
     metadata:
       $ref: './resource.yaml#/GlobalResourceMetadata'
     spec:
-      type: object
-      description: Desired state of the workspace
-      properties:
-        name:
-          type: string
-          description: Unique name of the workspace within the tenant
-        description:
-          type: string
-          description: Optional description of the workspace
-      required:
-        - name
+      $ref: './workspace.yaml#/WorkspaceSpec'
     status:
-      allOf:
-      - $ref: "./resource.yaml#/Status"
-      - type: object
-        readOnly: true
-        properties:
-          phase:
-            type: string
-            description: Current lifecycle phase of the workspace
-            enum:
-              - Pending
-              - Ready
-              - Deleting
-          resourceCount:
-            type: integer
-            description: Number of resources currently in the workspace
-            minimum: 0
+      $ref: './workspace.yaml#/WorkspaceStatus'
+
+WorkspaceSpec:
+  type: object
+  description: Desired state of the workspace
+  properties:
+    name:
+      type: string
+      description: Unique name of the workspace within the tenant
+    description:
+      type: string
+      description: Optional description of the workspace
+  required:
+    - name
+
+WorkspaceStatus:
+  allOf:
+  - $ref: "./resource.yaml#/Status"
+  - type: object
+    readOnly: true
+    properties:
+      phase:
+        type: string
+        description: Current lifecycle phase of the workspace
+        enum:
+          - Pending
+          - Ready
+          - Deleting
+      resourceCount:
+        type: integer
+        description: Number of resources currently in the workspace
+        minimum: 0

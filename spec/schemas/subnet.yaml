@@ -30,80 +30,85 @@ Subnet:
     metadata:
       $ref: './resource.yaml#/ZonalResourceMetadata'
     spec:
-      type: object
-      description: Specification of the subnet
-      properties:
-        profile:
-          type: object
-          properties:
-            networkSkuRef:
-              type: string
-              description: |
-                Reference to a network SKU defining bandwidth performance.
-                Allows selection of network performance tier.
-                Pattern: '^seca\.(10|100|1000)$'
-        cidr:
-          type: object
-          properties:
-            ipv4Range:
-              type: string
-              format: ipv4
-              description: |
-                IPv4 address range for the subnet.
-                Must be unique within the LAN and cannot be modified after creation.
-                Example: '192.168.1.0/24'
-        dhcpEnabled:
-          type: boolean
-          enum: [true]
-          default: true
-          description: "for now we allow only dhcp enabled"
-        defaultGateway:
-          type: object
-          description: |
-            Configuration for the subnet's default gateway.
-            Provides flexibility in routing traffic.
-          properties:
-            type:
-              type: string
-              enum: ['auto', 'instanceRef', 'internalIp']
-              default: 'auto'
-            value:
-              type: string
-              description: |
-                - For 'instanceRef': Name of the compute instance acting as gateway
-                - For 'internalIp': Specific IP address to use as gateway
-
+      $ref: './subnet.yaml#/SubnetSpec'
     status:
+      $ref: './subnet.yaml#/SubnetStatus'
+
+SubnetSpec:
+  type: object
+  description: Specification of the subnet
+  properties:
+    profile:
       type: object
-      readOnly: true
-      description: |
-        Current status of the subnet.
-        Condition type `gateway` indicates the status of the subnet's default gateway.
-        The status can be `configured` or `unconfigured`.
       properties:
-        state:
-          $ref: './resource.yaml#/ResourceState'
+        networkSkuRef:
+          type: string
+          description: |
+            Reference to a network SKU defining bandwidth performance.
+            Allows selection of network performance tier.
+            Pattern: '^seca\.(10|100|1000)$'
+    cidr:
+      type: object
+      properties:
         ipv4Range:
           type: string
-          format: CIDR
-        zone:
+          format: ipv4
+          description: |
+            IPv4 address range for the subnet.
+            Must be unique within the LAN and cannot be modified after creation.
+            Example: '192.168.1.0/24'
+    dhcpEnabled:
+      type: boolean
+      enum: [true]
+      default: true
+      description: "for now we allow only dhcp enabled"
+    defaultGateway:
+      type: object
+      description: |
+        Configuration for the subnet's default gateway.
+        Provides flexibility in routing traffic.
+      properties:
+        type:
           type: string
-        defaultGateway:
-          type: object
-          description: Actual default gateway configuration
-          properties:
-            type:
-              type: string
-              enum: ['auto', 'instanceRef', 'internalIp']
-            value:
-              type: string
-        conditions:
-          $ref: "./resource.yaml#/StatusConditions"
-      example:
-        state: "Ready"
-        conditions:
-        - type: "gateway"
-          status: "configured"
-          lastTransitionTime: "2024-11-21T14:39:22Z"
-          reason: "GatewayProvisioned"
-          message: "Subnet gateway has been configured"
+          enum: ['auto', 'instanceRef', 'internalIp']
+          default: 'auto'
+        value:
+          type: string
+          description: |
+            - For 'instanceRef': Name of the compute instance acting as gateway
+            - For 'internalIp': Specific IP address to use as gateway
+
+SubnetStatus:
+  type: object
+  readOnly: true
+  description: |
+    Current status of the subnet.
+    Condition type `gateway` indicates the status of the subnet's default gateway.
+    The status can be `configured` or `unconfigured`.
+  properties:
+    state:
+      $ref: './resource.yaml#/ResourceState'
+    ipv4Range:
+      type: string
+      format: CIDR
+    zone:
+      type: string
+    defaultGateway:
+      type: object
+      description: Actual default gateway configuration
+      properties:
+        type:
+          type: string
+          enum: ['auto', 'instanceRef', 'internalIp']
+        value:
+          type: string
+    conditions:
+      $ref: "./resource.yaml#/StatusConditions"
+  example:
+    state: "Ready"
+    conditions:
+    - type: "gateway"
+      status: "configured"
+      lastTransitionTime: "2024-11-21T14:39:22Z"
+      reason: "GatewayProvisioned"
+      message: "Subnet gateway has been configured"
