@@ -14,14 +14,29 @@ ResourceQuota:  ## Compute Resource Quotas
     metadata:
       $ref: './resource.yaml#/RegionalResourceMetadata'
     spec:
-      $ref: "./resource.yaml#/ResourceQuota"
+      $ref: "#/ResourceQuotaSpec"
     status:
-      allOf:
-      - $ref: "./resource.yaml#/Status"
-      - type: object
-        readOnly: true
-        properties:
-          usage:
-            $ref: "./resource.yaml#/ResourceQuota"
-          current:
-            $ref: "./resource.yaml#/ResourceQuota"
+      $ref: "#/ResourceQuotaStatus"
+
+ResourceQuotaSpec:
+  type: object
+  description: Represents the ResourceQuota for the single ResourceType of the Resource Provider
+  required:
+    - value
+  properties:
+    value:
+      type: integer
+      nullable: true
+      description: limit number of resourceType instances, set null for unlimited
+      example: 107
+
+ResourceQuotaStatus:
+  allOf:
+  - $ref: "./resource.yaml#/Status"
+  - type: object
+    readOnly: true
+    properties:
+      usage:
+        $ref: "#/ResourceQuota"
+      current:
+        $ref: "#/ResourceQuota"

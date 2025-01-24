@@ -158,17 +158,6 @@ StatusCondition:
         A human-readable message indicating details about the transition.
       maxLength: 32768
 
-ResourceQuota:
-  type: object
-  description: Represents the ResourceQuota for the single ResourceType of the Resource Provider
-  required:
-    - value
-  properties:
-    value:
-      type: integer
-      nullable: true
-      description: limit number of resourceType instances, set null for unlimited
-      example: 10
 
 ResponseMetadata:
   type: object

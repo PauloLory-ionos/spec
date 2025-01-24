@@ -26,7 +26,7 @@ DOCS_FINAL = $(SCHEMAS_SOURCES:$(ROOT)/%.yaml=$(DIST)/%.html)
 MD_FINAL = $(DOCS_FILES:$(DOCS)/%.md=$(DIST)/$(DOCS)/%.html)
 
 VACUUM := $(GO) run $(VACUUM)
-VACUUM_LINT_FLAGS := -r config/ruleset-recommended.yaml -b -d
+VACUUM_LINT_FLAGS := -r config/ruleset-recommended.yaml -b
 
 all: $(DIST_ZIP)
 
@@ -65,6 +65,10 @@ $(README_FINAL): $(README)
 .PHONY: lint
 lint: $(SCHEMAS_FINAL)
 	$(VACUUM) lint $(VACUUM_LINT_FLAGS) $(SCHEMAS_FINAL)
+
+.PHONY: lint-verbose
+lint-verbose: $(SCHEMAS_FINAL)
+	$(VACUUM) lint $(VACUUM_LINT_FLAGS) -d $(SCHEMAS_FINAL)
 
 .PHONY: clean
 clean:

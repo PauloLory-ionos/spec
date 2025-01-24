@@ -66,11 +66,7 @@ paths:
                     items:
                       $ref: './schemas/network-sku.yaml#/NetworkSku'
                   metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -158,11 +154,7 @@ paths:
                     items:
                       $ref: './schemas/quotas.yaml#/ResourceQuota'
                   metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -257,11 +249,7 @@ paths:
                     items:
                       $ref: './schemas/lan.yaml#/Lan'
                   metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -445,11 +433,7 @@ paths:
                     items:
                       $ref: './schemas/subnet.yaml#/Subnet'
                   metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
                 example:
                   items:
                   - apiVersion: v1
@@ -670,11 +654,7 @@ paths:
                     items:
                       $ref: './schemas/security-group.yaml#/SecurityGroup'
                   metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -871,9 +851,8 @@ paths:
                     type: array
                     items:
                       $ref: './schemas/nic.yaml#/NIC'
-                  skipToken:
-                    type: string
-                    description: Token for retrieving the next page of results
+                  metadata:
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -1081,11 +1060,7 @@ paths:
                     items:
                       $ref: './schemas/routing-table.yaml#/RoutingTable'
                   metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -1283,11 +1258,7 @@ paths:
                     items:
                       $ref: './schemas/public-ip.yaml#/PublicIp'
                   metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
