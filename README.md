@@ -157,7 +157,7 @@ This is the first release of the SECA API. For this release we decided to restri
   * [x] Images are going to be provided by the ISP
 * [x] [Workspace](workspace.v1.html)
   * [x] Create one or more Workspace/s
-* [ ] [Regions](regions.v1.html)
+* [ ] [Region](region.v1.html)
   * [ ] Basic API
 * [ ] [Authorization](authorization.v1.html)
   * [ ] Basic API
