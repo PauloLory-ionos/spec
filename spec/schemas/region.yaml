@@ -1,8 +1,6 @@
 Location:
   type: object
   required:
-    - apiVersion
-    - kind
     - metadata
     - spec
     - status
@@ -40,8 +38,6 @@ LocationStatus:
 Region:
   type: object
   required:
-    - apiVersion
-    - kind
     - metadata
     - spec
     - status

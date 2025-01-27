@@ -1,8 +1,6 @@
 ActivityLog:
   type: object
   required:
-    - apiVersion
-    - kind
     - metadata
     - spec
   properties:

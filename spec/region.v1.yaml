@@ -43,17 +43,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - items
-                  - metadata
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: './schemas/region.yaml#/Region'
-                  metadata:
-                    $ref: './schemas/resource.yaml#/ResponseMetadata'
+                $ref: '#/components/schemas/RegionIterator'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -96,3 +86,17 @@ paths:
 components:
   securitySchemes:
     $ref: './schemas/security.yaml#/securitySchemes'
+
+  schemas:
+    RegionIterator:
+      type: object
+      required:
+        - items
+        - metadata
+      properties:
+        items:
+          type: array
+          items:
+            $ref: './schemas/region.yaml#/Region'
+        metadata:
+          $ref: './schemas/resource.yaml#/ResponseMetadata'

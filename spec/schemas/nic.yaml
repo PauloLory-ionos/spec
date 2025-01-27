@@ -2,8 +2,6 @@ Nic:
   type: object
   description: Network Interface Card (NIC) representing a network interface for a compute resource
   required:
-    - apiVersion
-    - kind
     - metadata
     - spec
     - status

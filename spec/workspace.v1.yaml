@@ -41,14 +41,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: './schemas/workspace.yaml#/Workspace'
-                  metadata:
-                    $ref: './schemas/resource.yaml#/ResponseMetadata'
+                $ref: "#/components/schemas/WorkspaceIterator"
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -185,3 +178,17 @@ paths:
 components:
   securitySchemes:
     $ref: './schemas/security.yaml#/securitySchemes'
+
+  schemas:
+    WorkspaceIterator:
+      type: object
+      required:
+        - items
+        - metadata
+      properties:
+        items:
+          type: array
+          items:
+            $ref: './schemas/workspace.yaml#/Workspace'
+        metadata:
+          $ref: './schemas/resource.yaml#/ResponseMetadata'
