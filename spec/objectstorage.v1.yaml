@@ -110,8 +110,7 @@ paths:
   #       '500':
   #         $ref: './schemas/errors.yaml#/responses/Error500'
 
-  # Workspace resources with provider namespace
-  /v1/tenants/{id}/workspaces/{workspace}/object-storages:
+  /v1/object-storages:
     get:
       tags:
         - Object Storage
@@ -121,16 +120,10 @@ paths:
         type: hybrid  # Supports both RBAC and ABAC
         policies:
           - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+            scopes: []
             resources: ["seca.object-storage/object-storages"]
             verbs: ["list"]
       parameters:
-        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
         - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
         - $ref: './schemas/parameters.yaml#/parameters/limitParam'
         - $ref: './schemas/parameters.yaml#/parameters/skipTokenParam'
@@ -161,7 +154,7 @@ paths:
           $ref: './schemas/errors.yaml#/responses/Error500'
 
 
-  /v1/tenants/{id}/workspaces/{workspace}/object-storages/{name}:
+  /v1/object-storages/{name}:
     get:
       tags:
         - Object Storage
@@ -171,16 +164,10 @@ paths:
         type: hybrid  # Supports both RBAC and ABAC
         policies:
           - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+            scopes: []
             resources: ["seca.object-storage/object-storages"]
             verbs: ["get"]
       parameters:
-        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
         - name: name
           in: path
           required: true
@@ -213,16 +200,10 @@ paths:
         type: hybrid  # Supports both RBAC and ABAC
         policies:
           - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+            scopes: []
             resources: ["seca.object-storage/object-storages/{objectStorageName}"]
             verbs: ["create","update"]
       parameters:
-        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
         - name: name
           in: path
           required: true
@@ -261,16 +242,10 @@ paths:
         type: hybrid  # Supports both RBAC and ABAC
         policies:
           - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
+            scopes: []
             resources: ["seca.object-storage/object-storages/{objectStorageName}"]
             verbs: ["delete"]
       parameters:
-        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
         - name: name
           in: path
           required: true
