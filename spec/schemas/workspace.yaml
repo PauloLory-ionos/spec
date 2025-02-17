@@ -21,11 +21,6 @@ Workspace:
 
 WorkspaceSpec:
   type: object
-  description: Desired state of the workspace
-  properties:
-    description:
-      type: string
-      description: Optional description of the workspace
 
 WorkspaceStatus:
   allOf:

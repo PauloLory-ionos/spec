@@ -1,19 +1,16 @@
 ResourceMetadata:
+  allOf:
+  - $ref: '#/NamedResourceMetadata'
+  - $ref: '#/ModifiableResourceMetadata'
+  - $ref: '#/UserResourceMetadata'
+
+ModifiableResourceMetadata:
   type: object
-  readOnly: true
   description: Base metadata for all resources, with optional location references
   required:
-    - name
     - lastModifiedTimestamp
-    - labels
+    - deletionTimestamp
   properties:
-    name:
-      type: string
-      description: Resource identifier in dash-case (kebab-case) format. Must start and end with an alphanumeric character. Can contain lowercase letters, numbers, and hyphens. Multiple segments can be joined with dots. Each segment follows the same rules.
-      minLength: 1
-      maxLength: 128
-      pattern: '^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$'
-      example: "primary-load-balancer"
     deletionTimestamp:
       type: string
       format: date-time
@@ -24,6 +21,26 @@ ResourceMetadata:
       format: date-time
       description: Indicates the time when the resource was created or last modified. Field is used for "If-Unmodified-Since" logic for concurrency control. The provider guarantees that a modification on a single resource can happen only once every millisecond.
       readOnly: true
+
+NamedResourceMetadata:
+  type: object
+  required:
+    - name
+  properties:
+    name:
+      type: string
+      description: |
+        Resource identifier in dash-case (kebab-case) format. Must start and end with an alphanumeric character.
+        Can contain lowercase letters, numbers, and hyphens. Multiple segments can be joined with dots.
+        Each segment follows the same rules.
+      minLength: 1
+      maxLength: 128
+      pattern: '^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$'
+      example: "resource-name"
+
+UserResourceMetadata:
+  type: object
+  properties:
     description:
       type: string
       description: user can add a description for other humans to understand why this resource exists
