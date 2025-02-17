@@ -40,13 +40,23 @@ GlobalResourceMetadata:
   allOf:
   - $ref: '#/ResourceMetadata'
   - description: Metadata for global resources with no location constraints
-    readOnly: true
+
+GlobalTenantResourceMetadata:
+  allOf:
+  - $ref: '#/GlobalResourceMetadata'
+  - description: Metadata for global resources with tenant constraints
+    required:
+      - tenant
+    properties:
+      tenant:
+        type: string
+        description: Tenant identifier 
+        readOnly: true
 
 RegionalResourceMetadata:
   allOf:
   - $ref: '#/ResourceMetadata'
   - description: Metadata for regional resources
-    readOnly: true
     properties:
       location:
         type: object
@@ -56,12 +66,15 @@ RegionalResourceMetadata:
             type: string
         required:
           - region
+      workspace:
+        type: string
+        description: Workspace identifier
+        readOnly: true
 
 ZonalResourceMetadata:
   allOf:
-  - $ref: '#/ResourceMetadata'
+  - $ref: '#/RegionalResourceMetadata'
   - description: Metadata for zonal resources
-    readOnly: true
     properties:
       location:
         type: object

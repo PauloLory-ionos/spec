@@ -94,11 +94,7 @@ paths:
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:
         '200':
           description: Successful response with network SKU details
@@ -482,17 +478,9 @@ paths:
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -529,17 +517,9 @@ paths:
             verbs: ["create","update"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -583,17 +563,9 @@ paths:
             verbs: ["delete"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -681,17 +653,9 @@ paths:
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -727,17 +691,9 @@ paths:
             verbs: ["create","update"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -780,17 +736,9 @@ paths:
             verbs: ["delete"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -936,17 +884,9 @@ paths:
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -985,17 +925,9 @@ paths:
             verbs: ["delete"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -1087,17 +1019,9 @@ paths:
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -1135,17 +1059,9 @@ paths:
             verbs: ["create","update"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -1189,17 +1105,9 @@ paths:
             verbs: ["delete"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -1284,18 +1192,8 @@ paths:
             verbs: ["create"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Name of the workspace
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Name of the public IP
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - $ref: './schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
       requestBody:
         required: true
@@ -1338,18 +1236,8 @@ paths:
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Name of the workspace
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Name of the public IP
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:
         '200':
           description: Successful response
@@ -1383,18 +1271,8 @@ paths:
             verbs: ["delete"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Name of the workspace
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Name of the public IP
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - $ref: './schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
       responses:
         '202':

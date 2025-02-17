@@ -121,11 +121,7 @@ paths:
   #              description: Access allowed only during specific time windows.
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:
         '200':
           description: Successful response with storage SKU details
@@ -299,11 +295,7 @@ paths:
         - Images
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:
         '200':
           description: Successful response
@@ -388,16 +380,8 @@ paths:
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - $ref: './schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
       responses:
         '200':
@@ -431,16 +415,8 @@ paths:
             verbs: ["create","update"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - $ref: './schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
       requestBody:
         required: true
@@ -480,16 +456,8 @@ paths:
             verbs: ["delete"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:
         '202':
           description: Block storage volume deletion accepted

@@ -73,15 +73,11 @@ paths:
         policies:
           - type: RBAC
             scopes: ["tenants/{tenantId}"]
-            resources: ["seca.authorization/roles/{roleName}"]
+            resources: ["seca.authorization/roles/{name}"]
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:
         '200':
           description: Successful response
@@ -110,15 +106,11 @@ paths:
         policies:
           - type: RBAC
             scopes: ["tenants/{tenantId}"]
-            resources: ["seca.authorization/roles/{roleName}"]
+            resources: ["seca.authorization/roles/{name}"]
             verbs: ["create","update"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - $ref: './schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
       requestBody:
         required: true
@@ -168,15 +160,11 @@ paths:
         policies:
           - type: RBAC
             scopes: ["tenants/{tenantId}"]
-            resources: ["seca.authorization/roles/{roleName}"]
+            resources: ["seca.authorization/roles/{name}"]
             verbs: ["delete"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - $ref: './schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
       responses:
         '204':
@@ -209,12 +197,6 @@ paths:
             verbs: ["list"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: name
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Filter assignments by role assignment group name
         - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
         - $ref: './schemas/parameters.yaml#/parameters/limitParam'
         - $ref: './schemas/parameters.yaml#/parameters/skipTokenParam'
@@ -244,7 +226,6 @@ paths:
         '500':
           $ref: './schemas/errors.yaml#/responses/Error500'
 
-
   /v1/tenants/{id}/role-assignments/{name}:
     get:
       tags:
@@ -261,12 +242,7 @@ paths:
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Name of the role assignment group
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:
         '200':
           description: Successful response
@@ -304,12 +280,7 @@ paths:
             verbs: ["create","update"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Name of the role assignment group
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - $ref: './schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
       requestBody:
         required: true
@@ -361,12 +332,7 @@ paths:
             verbs: ["delete"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Name of the role assignment group to delete
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - $ref: './schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
       responses:
         '204':
@@ -383,7 +349,6 @@ paths:
           $ref: './schemas/errors.yaml#/responses/Error412'
         '500':
           $ref: './schemas/errors.yaml#/responses/Error500'
-
 
 components:
   securitySchemes:

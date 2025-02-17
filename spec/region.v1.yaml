@@ -66,11 +66,7 @@ paths:
             resources: ["seca.region/regions/{regionName}"]
             verbs: ["list"]
       parameters:
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:
         '200':
           description: Successful response

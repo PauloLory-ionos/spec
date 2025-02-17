@@ -69,3 +69,20 @@ parameters:
     schema:
       type: string
     description: Tenant ID
+
+  resourceName:
+    name: name
+    in: path
+    required: true
+    schema:
+      type: string
+    description: Resource name
+
+  workspaceName:
+    name: workspace
+    in: path
+    required: true
+    schema:
+      type: string
+    description: Workspace name
+    
