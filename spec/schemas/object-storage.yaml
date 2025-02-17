@@ -9,7 +9,7 @@ ObjectStorageAccount:
     kind:
       type: string
       description: Type of the resource
-      enum: [ object-storage ]
+      enum: [ object-storage-account ]
       readOnly: true
     metadata:
       $ref: './resource.yaml#/ZonalResourceMetadata'
