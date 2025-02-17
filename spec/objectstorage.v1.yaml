@@ -110,20 +110,21 @@ paths:
   #       '500':
   #         $ref: './schemas/errors.yaml#/responses/Error500'
 
-  /v1/object-storages:
+  /v1/tenants/{id}/accounts:
     get:
       tags:
         - Object Storage
-      summary: List all object storage volumes
-      operationId: listObjectStorages
+      summary: List all object storage accounts
+      operationId: listObjectStorageAccounts
       x-authorization:
         type: hybrid  # Supports both RBAC and ABAC
         policies:
           - type: RBAC
-            scopes: []
-            resources: ["seca.object-storage/object-storages"]
+            scopes: ["tenants/{tenantId}"]
+            resources: ["seca.object-storage/accounts"]
             verbs: ["list"]
       parameters:
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
         - $ref: './schemas/parameters.yaml#/parameters/limitParam'
         - $ref: './schemas/parameters.yaml#/parameters/skipTokenParam'
@@ -139,7 +140,7 @@ paths:
                   items:
                     type: array
                     items:
-                      $ref: './schemas/object-storage.yaml#/ObjectStorage'
+                      $ref: './schemas/object-storage.yaml#/ObjectStorageAccount'
                   metadata:
                     $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
@@ -154,20 +155,21 @@ paths:
           $ref: './schemas/errors.yaml#/responses/Error500'
 
 
-  /v1/object-storages/{name}:
+  /v1/tenants/{id}/accounts/{name}:
     get:
       tags:
         - Object Storage
-      summary: Get a specific object storage volume
-      operationId: getObjectStorage
+      summary: Get a specific object storage account
+      operationId: getObjectStorageAccount
       x-authorization:
         type: hybrid  # Supports both RBAC and ABAC
         policies:
           - type: RBAC
-            scopes: []
-            resources: ["seca.object-storage/object-storages"]
+            scopes: ["tenants/{tenantId}"]
+            resources: ["seca.object-storage/accounts"]
             verbs: ["get"]
       parameters:
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: name
           in: path
           required: true
@@ -180,7 +182,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './schemas/object-storage.yaml#/ObjectStorage'
+                $ref: './schemas/object-storage.yaml#/ObjectStorageAccount'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -194,16 +196,17 @@ paths:
     put:
       tags:
         - Object Storage
-      summary: Create or update a specific object storage volume
-      operationId: createOrUpdateObjectStorage
+      summary: Create or update a specific object storage account
+      operationId: createOrUpdateObjectStorageAccount
       x-authorization:
         type: hybrid  # Supports both RBAC and ABAC
         policies:
           - type: RBAC
-            scopes: []
-            resources: ["seca.object-storage/object-storages/{objectStorageName}"]
+            scopes: ["tenants/{tenantId}"]
+            resources: ["seca.object-storage/accounts/{objectStorageName}"]
             verbs: ["create","update"]
       parameters:
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: name
           in: path
           required: true
@@ -215,10 +218,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './schemas/object-storage.yaml#/ObjectStorage'
+              $ref: './schemas/object-storage.yaml#/ObjectStorageAccount'
       responses:
         '202':
-          description: object storage volume updated or created
+          description: object storage updated or created
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -236,16 +239,17 @@ paths:
     delete:
       tags:
         - Object Storage
-      summary: Delete a specific object storage volume
-      operationId: deleteObjectStorage
+      summary: Delete a specific object storage account
+      operationId: deleteObjectStorageAccount
       x-authorization:
         type: hybrid  # Supports both RBAC and ABAC
         policies:
           - type: RBAC
-            scopes: []
-            resources: ["seca.object-storage/object-storages/{objectStorageName}"]
+            scopes: ["tenants/{tenantId}"]
+            resources: ["seca.object-storage/accounts/{objectStorageName}"]
             verbs: ["delete"]
       parameters:
+        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: name
           in: path
           required: true
@@ -253,7 +257,7 @@ paths:
             type: string
       responses:
         '202':
-          description: Object storage volume deletion accepted
+          description: Object storage account deletion accepted
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':

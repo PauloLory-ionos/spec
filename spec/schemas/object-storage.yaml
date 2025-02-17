@@ -1,4 +1,4 @@
-ObjectStorage:
+ObjectStorageAccount:
   type: object
   properties:
     apiVersion:
@@ -14,21 +14,21 @@ ObjectStorage:
     metadata:
       $ref: './resource.yaml#/ZonalResourceMetadata'
     spec:
-      $ref: '#/ObjectStorageSpec'
+      $ref: '#/ObjectStorageAccountSpec'
     status:
-      $ref: '#/ObjectStorageStatus'
+      $ref: '#/ObjectStorageAccountStatus'
 
-ObjectStorageSpec:
+ObjectStorageAccountSpec:
   type: object
-  properties:
-    profile:
-      type: object
-      properties:
-        objectStorageSkuRef:
-          type: string
-          description: Reference to the SKU used for this object-storage
+  # properties:
+  #   profile:
+  #     type: object
+  #     properties:
+  #       objectStorageSkuRef:
+  #         type: string
+  #         description: Reference to the SKU used for this object-storage
 
-ObjectStorageStatus:
+ObjectStorageAccountStatus:
   allOf:
   - $ref: "./resource.yaml#/Status"
   - type: object
@@ -36,3 +36,15 @@ ObjectStorageStatus:
     properties:
       state:
         $ref: './resource.yaml#/ResourceState'
+      accessKey:
+        type: string
+        description: Access key for the object storage account
+        readOnly: true
+      secretKey:
+        type: string
+        description: Secret key for the object storage account
+        readOnly: true
+      canonicalUserId:
+        type: string
+        description: Canonical user ID for the object storage account
+        readOnly: true   
