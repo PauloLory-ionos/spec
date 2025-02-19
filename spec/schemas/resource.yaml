@@ -1,12 +1,75 @@
 ResourceMetadata:
   allOf:
-  - $ref: '#/NamedResourceMetadata'
-  - $ref: '#/ModifiableResourceMetadata'
-  - $ref: '#/UserResourceMetadata'
+  - $ref: '#/NameMetadata'
+  - $ref: '#/TypeMetadata'
 
-ModifiableResourceMetadata:
+GlobalResourceMetadata:
+  allOf:
+  - $ref: '#/NameMetadata'
+  - $ref: '#/ModificationMetadata'
+  - $ref: '#/TypeMetadata'
+  - $ref: '#/TenantMetadata'
+
+RegionalResourceMetadata:
+  allOf:
+  - $ref: '#/NameMetadata'
+  - $ref: '#/ModificationMetadata'
+  - $ref: '#/TypeMetadata'
+  - $ref: '#/TenantMetadata'
+  - $ref: '#/RegionalMetadata'
+
+ZonalResourceMetadata:
+  allOf:
+  - $ref: '#/NameMetadata'
+  - $ref: '#/ModificationMetadata'
+  - $ref: '#/TypeMetadata'
+  - $ref: '#/TenantMetadata'
+  - $ref: '#/RegionalMetadata'
+  - $ref: '#/ZonalMetadata'
+
+TypeMetadata:
   type: object
-  description: Base metadata for all resources, with optional location references
+  readOnly: true
+  required:
+  - apiVersion
+  - kind
+  properties:
+    apiVersion:
+      type: string
+      description: API version of the resource
+      default: v1
+    kind:
+      type: string
+      description: Type of the resource
+      enum:
+      - activity-log
+      - block-storage
+      - image
+      - instance
+      - instance-sku
+      - lan
+      - location
+      - network-load-balancer
+      - network-sku
+      - nic
+      - object-storage-account 
+      - public-ip
+      - quota
+      - region
+      - role
+      - role-assignment
+      - routing-table 
+      - security-group
+      - security-group-rule 
+      - storage-sku 
+      - subnet
+      - workspace 
+
+ModificationMetadata:
+  type: object
+  readOnly: true
+  description: Base metadata for all resources
+   with optional location references
   required:
     - lastModifiedTimestamp
     - deletionTimestamp
@@ -15,15 +78,14 @@ ModifiableResourceMetadata:
       type: string
       format: date-time
       description: If set, indicates the time when the resource was marked for deletion. Resources with this field set are considered pending deletion.
-      readOnly: true
     lastModifiedTimestamp:
       type: string
       format: date-time
       description: Indicates the time when the resource was created or last modified. Field is used for "If-Unmodified-Since" logic for concurrency control. The provider guarantees that a modification on a single resource can happen only once every millisecond.
-      readOnly: true
 
-NamedResourceMetadata:
+NameMetadata:
   type: object
+  readOnly: true
   required:
     - name
   properties:
@@ -41,76 +103,69 @@ NamedResourceMetadata:
 UserResourceMetadata:
   type: object
   required:
-    - labels
+  - labels
+  - annotations
   properties:
-    description:
-      type: string
-      description: user can add a description for other humans to understand why this resource exists
     labels:
       type: object
-      description: User-defined key/value pairs that are mutable and can be used to organize and categorize resources.
+      description: | 
+        User-defined key/value pairs that are mutable and can be used to
+        organize and categorize resources. They can be used to filter resources.
       additionalProperties:
         type: string
       example:
         language: en
         billing.cost-center: platform-eng
         env: production
-
-GlobalResourceMetadata:
-  allOf:
-  - $ref: '#/ResourceMetadata'
-  - description: Metadata for global resources with no location constraints
-
-GlobalTenantResourceMetadata:
-  allOf:
-  - $ref: '#/GlobalResourceMetadata'
-  - description: Metadata for global resources with tenant constraints
-    required:
-      - tenant
-    properties:
-      tenant:
+    annotations:
+      type: object
+      description: |
+        User-defined key/value pairs that are mutable and can be used to add annotations.
+      additionalProperties:
         type: string
-        description: Tenant identifier 
-        readOnly: true
+      example:
+        description: "Resource with some human readable description"
+        color: red
+        externalID: "980c0d88-09e1-42f9-a4ae-f8f4687d6c99"
 
-RegionalResourceMetadata:
-  allOf:
-  - $ref: '#/ResourceMetadata'
-  - description: Metadata for regional resources
-    properties:
-      location:
-        type: object
-        description: Reference to the region where the resource is located
-        properties:
-          region:
-            type: string
-        required:
-          - region
-      workspace:
-        type: string
-        description: Workspace identifier
-        readOnly: true
+TenantMetadata:
+  type: object
+  description: Metadata for global resources with tenant constraints
+  readOnly: true
+  required:
+  - tenant
+  properties:
+    tenant:
+      type: string
+      description: Tenant identifier
 
-ZonalResourceMetadata:
-  allOf:
-  - $ref: '#/RegionalResourceMetadata'
-  - description: Metadata for zonal resources
-    properties:
-      location:
-        type: object
-        description: Reference to the specific location (region/zone) where the resource is located
-        properties:
-          region:
-            type: string
-          zone:
-            type: string
-        required:
-          - region
-          - zone
+RegionalMetadata:
+  type: object
+  description: Metadata for regional resources
+  readOnly: true
+  required:
+  - region
+  properties:
+    region:
+      type: string
+      description: Reference to the region where the resource is located
+    workspace:
+      type: string
+      description: Workspace identifier
+
+ZonalMetadata:
+  type: object
+  description: Metadata for zonal resources
+  readOnly: true
+  required:
+  - zone
+  properties:
+    zone:
+      type: string
+      description: Reference to the specific zone where the resource is located
 
 ResourceState:
   type: object
-  readOnly: true
   description: |
     Generic state definition for all resources. All states are optional, but must not have more states.
     If a provider wants to present fine granular states, please use conditions.
@@ -125,7 +180,7 @@ ResourceState:
         - updating: available for data layer usage
         - deleting: maybe still available for data layer user, can fail any moment
         - suspended: not available, provider specific behavior (payment issue, user decided to suspend)
-        - error: failed to fullfill the request; would be related to provider issue or customer related input.
+        - error: failed to fulfill the request; would be related to provider issue or customer related input.
       enum:
         - pending
         - creating
@@ -153,7 +208,6 @@ StatusCondition:
     StatusCondition describes the state of a resource at a certain point.
     Conditions are provider-specific and can represent different states depending on the
     resource type and provider implementation.
-  readOnly: true
   required:
     - type
     - status

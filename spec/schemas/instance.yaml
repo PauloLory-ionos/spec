@@ -1,26 +1,16 @@
 Instance:
-  type: object
-  required:
-    - metadata
+  allOf:
+  - $ref: './resource.yaml#/UserResourceMetadata'
+  - type: object
+    required:
     - spec
-    - status
-  properties:
-    apiVersion:
-      type: string
-      description: API version of the resource
-      default: v1
-      readOnly: true
-    kind:
-      type: string
-      description: Type of the resource
-      enum: [ instance ]
-      readOnly: true
-    metadata:
-      $ref: './resource.yaml#/ZonalResourceMetadata'
-    spec:
-      $ref: './instance.yaml#/InstanceSpec'
-    status:
-      $ref: './instance.yaml#/InstanceStatus'
+    properties:
+      metadata:
+        $ref: './resource.yaml#/ZonalResourceMetadata'
+      spec:
+        $ref: './instance.yaml#/InstanceSpec'
+      status:
+        $ref: './instance.yaml#/InstanceStatus'
 
 InstanceSpec:
   type: object

@@ -1,19 +1,11 @@
 Workspace:
   type: object
   description: Represents a workspace resource in the Sovereign European Cloud API
+  required:
+  - spec
   properties:
-    apiVersion:
-      type: string
-      description: API version of the resource
-      default: v1
-      readOnly: true
-    kind:
-      type: string
-      description: Type of the resource
-      enum: [ workspace ]
-      readOnly: true
     metadata:
-      $ref: './resource.yaml#/GlobalTenantResourceMetadata'
+      $ref: './resource.yaml#/GlobalResourceMetadata'
     spec:
       $ref: './workspace.yaml#/WorkspaceSpec'
     status:

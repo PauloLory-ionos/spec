@@ -1,27 +1,17 @@
 Nic:
-  type: object
-  description: Network Interface Card (NIC) representing a network interface for a compute resource
-  required:
-    - metadata
+  allOf:
+  - $ref: './resource.yaml#/UserResourceMetadata'
+  - type: object
+    description: Network Interface Card (NIC) representing a network interface for a compute resource
+    required:
     - spec
-    - status
-  properties:
-    apiVersion:
-      type: string
-      description: API version of the resource
-      default: v1
-      readOnly: true
-    kind:
-      type: string
-      description: Type of the resource
-      enum: [ nic ]
-      readOnly: true
-    metadata:
-       $ref: './resource.yaml#/RegionalResourceMetadata'
-    spec:
-      $ref: '#/NicSpec'
-    status:
-      $ref: '#/NicStatus'
+    properties:
+      metadata:
+        $ref: './resource.yaml#/RegionalResourceMetadata'
+      spec:
+        $ref: '#/NicSpec'
+      status:
+        $ref: '#/NicStatus'
 
 NicSpec:
   type: object

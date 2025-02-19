@@ -5,16 +5,6 @@ InstanceSku:
 
     Properties, capabilites and extensions can also be found in the metadata.labels sections for filtering.
   properties:
-    apiVersion:
-      type: string
-      description: API version of the resource
-      default: v1
-      readOnly: true
-    kind:
-      type: string
-      description: Type of the resource
-      enum: [ instance-sku ]
-      readOnly: true
     metadata:
       $ref: './resource.yaml#/RegionalResourceMetadata'
     spec:

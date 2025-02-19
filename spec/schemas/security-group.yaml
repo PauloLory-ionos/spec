@@ -1,40 +1,34 @@
 SecurityGroup:
-  type: object
-  description: |
-    A Security Group defines network access rules for a group of compute instances.
+  allOf:
+  - $ref: './resource.yaml#/UserResourceMetadata'
+  - type: object
+    description: |
+      A Security Group defines network access rules for a group of compute instances.
 
-    Key Concepts:
-    - Rules define bi-directional or uni-directional network communication
-    - Supports routing between security groups
-    - Enables granular control over public internet access
-    - Implements stateful connection tracking
+      Key Concepts:
+      - Rules define bi-directional or uni-directional network communication
+      - Supports routing between security groups
+      - Enables granular control over public internet access
+      - Implements stateful connection tracking
 
-    Connection Tracking:
-    When a connection is initiated from an allowed source, return traffic is automatically permitted,
-    even if not explicitly defined in the rules. This ensures seamless, bi-directional communication
-    for established connections.
+      Connection Tracking:
+      When a connection is initiated from an allowed source, return traffic^ is automatically permitted,
+      even if not explicitly defined in the rules. This ensures seamless, bi-directional communication
+      for established connections.
 
-    Routing and Communication Patterns:
-    - Group-to-Group Rules: Define explicit communication paths between security groups
-    - PublicInternet Target: Allows precise control over internet-facing traffic
-    - Ingress/Egress Control: Fine-grained rules for incoming and outgoing traffic
-  properties:
-    apiVersion:
-      type: string
-      description: API version of the resource
-      default: v1
-      readOnly: true
-    kind:
-      type: string
-      description: Type of the resource
-      enum: [ security-group ]
-      readOnly: true
-    metadata:
-      $ref: './resource.yaml#/RegionalResourceMetadata'
-    spec:
-      $ref: '#/SecurityGroupSpec'
-    status:
-      $ref: '#/SecurityGroupStatus'
+      Routing and Communication Patterns:
+      - Group-to-Group Rules: Define explicit communication paths between security groups
+      - PublicInternet Target: Allows precise control over internet-facing traffic
+      - Ingress/Egress Control: Fine-grained rules for incoming and outgoing traffic
+    required:
+    - spec
+    properties:
+      metadata:
+        $ref: './resource.yaml#/RegionalResourceMetadata'
+      spec:
+        $ref: '#/SecurityGroupSpec'
+      status:
+        $ref: '#/SecurityGroupStatus'
 
 SecurityGroupSpec:
   type: object
@@ -75,25 +69,19 @@ SecurityGroupStatus:
       message: "All security rules have been applied"
 
 SecurityGroupRule:
-  type: object
-  description: Represents a security group rule
-  properties:
-    apiVersion:
-      type: string
-      description: API version of the resource
-      default: v1
-      readOnly: true
-    kind:
-      type: string
-      description: Type of the resource
-      enum: [ security-group-rule ]
-      readOnly: true
-    metadata:
-      $ref: './resource.yaml#/RegionalResourceMetadata'
-    spec:
-      $ref: '#/SecurityGroupRuleSpec'
-    status:
-      $ref: '#/SecurityGroupRuleStatus'
+  allOf:
+  - $ref: './resource.yaml#/UserResourceMetadata'
+  - type: object
+    description: Represents a security group rule
+    required:
+    - spec
+    properties:
+      metadata:
+        $ref: './resource.yaml#/RegionalResourceMetadata'
+      spec:
+        $ref: '#/SecurityGroupRuleSpec'
+      status:
+        $ref: '#/SecurityGroupRuleStatus'
 
 SecurityGroupRuleSpec:
   type: object

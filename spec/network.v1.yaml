@@ -432,20 +432,20 @@ paths:
                     $ref: './schemas/resource.yaml#/ResponseMetadata'
                 example:
                   items:
-                  - apiVersion: v1
-                    kind: subnet
-                    metadata:
+                  - metadata:
                       name: standard-subnet
                       description: Standard subnet with auto gateway
+                      apiVersion: v1
+                      kind: subnet
                     spec:
                       ipv4Range: '192.168.1.0/24'
                       networkSkuRef: 'seca.100'
                       dhcpEnabled: true
-                  - apiVersion: v1
-                    kind: subnet
-                    metadata:
+                  - metadata:
                       name: firewall-subnet
                       description: Custom gateway through network appliance
+                      apiVersion: v1
+                      kind: subnet
                     spec:
                       ipv4Range: '10.0.0.0/24'
                       dhcpEnabled: true

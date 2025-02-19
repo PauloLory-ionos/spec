@@ -1,23 +1,11 @@
 Location:
   type: object
   required:
-    - metadata
     - spec
-    - status
   description: Represents a specific geographic location combining region and zone. Composite name in the format 'region/zone'
   properties:
-    apiVersion:
-      type: string
-      description: API version of the resource
-      default: v1
-      readOnly: true
-    kind:
-      type: string
-      description: Type of the resource
-      enum: [ location ]
-      readOnly: true
     metadata:
-      $ref: './resource.yaml#/NamedResourceMetadata'
+      $ref: './resource.yaml#/ResourceMetadata'
     spec:
       $ref: './region.yaml#/LocationSpec'
     status:
@@ -38,22 +26,10 @@ LocationStatus:
 Region:
   type: object
   required:
-    - metadata
     - spec
-    - status
   properties:
-    apiVersion:
-      type: string
-      description: API version of the resource
-      default: v1
-      readOnly: true
-    kind:
-      type: string
-      description: Type of the resource
-      enum: [ region ]
-      readOnly: true
     metadata:
-      $ref: './resource.yaml#/NamedResourceMetadata'
+      $ref: './resource.yaml#/ResourceMetadata'
     spec:
       $ref: './region.yaml#/RegionSpec'
     status:

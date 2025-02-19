@@ -1,22 +1,16 @@
 Lan:
-  type: object
-  properties:
-    apiVersion:
-      type: string
-      description: API version of the resource
-      default: v1
-      readOnly: true
-    kind:
-      type: string
-      description: Type of the resource
-      enum: [ lan ]
-      readOnly: true
-    metadata:
-      $ref: './resource.yaml#/RegionalResourceMetadata'
-    spec:
-      $ref: './lan.yaml#/LanSpec'
-    status:
-      $ref: './lan.yaml#/LanStatus'
+  allOf:
+  - $ref: './resource.yaml#/UserResourceMetadata'
+  - type: object
+    required:
+    - spec
+    properties:
+      metadata:
+        $ref: './resource.yaml#/RegionalResourceMetadata'
+      spec:
+        $ref: './lan.yaml#/LanSpec'
+      status:
+        $ref: './lan.yaml#/LanStatus'
 
 LanSpec:
   type: object

@@ -6,17 +6,7 @@ StorageSku:
     Storage SKUs define performance tiers for storage IOPS and characteristics.
     Properties, capabilities, and extensions can be found in the metadata.labels sections.
     Searchable with namespaces like "properties.", "capabilities.", and "extensions.".
-  properties:
-    apiVersion:
-      type: string
-      description: API version of the resource
-      default: v1
-      readOnly: true
-    kind:
-      type: string
-      description: Type of the resource
-      enum: [ storage-sku ]
-      readOnly: true
+  properties:    
     metadata:
       $ref: './resource.yaml#/RegionalResourceMetadata'
     spec:
