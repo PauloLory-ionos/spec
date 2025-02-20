@@ -17,6 +17,7 @@ schemas:
       - status
       - code
       - title
+      - meta
     properties:
       status:
         type: string
@@ -31,18 +32,24 @@ schemas:
         type: string
         description: A human-readable explanation specific to this occurrence of the problem.
       source:
-        type: object
-        description: An object containing references to the source of the error.
-        properties:
-          pointer:
-            type: string
-            description: A JSON Pointer [RFC6901] to the associated entity in the request document.
-          parameter:
-            type: string
-            description: A string indicating which URI query parameter caused the error.
+        $ref: '#/schemas/ErrorSource'
       meta:
         type: object
         description: A meta object containing non-standard meta-information about the error.
+
+  ErrorSource:
+    type: object
+    description: An object containing references to the source of the error.
+    required:
+      - pointer
+      - parameter
+    properties:
+      pointer:
+        type: string
+        description: A JSON Pointer [RFC6901] to the associated entity in the request document.
+      parameter:
+        type: string
+        description: A string indicating which URI query parameter caused the error.
 
   Error400:
     allOf:

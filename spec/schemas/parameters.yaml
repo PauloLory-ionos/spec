@@ -52,11 +52,15 @@ parameters:
       type: string
       default: application/json
       example: "application/json; deleted=true"
+      enum:
+        - "application/json"
+        - "application/json; deleted=true"
+        - "application/json; deleted=only"
     description: |
       Controls whether deleted resources are included:
-      - application/json: Returns only non-deleted resources
-      - application/json; deleted=true: Returns both deleted and non-deleted resources
-      - application/json; deleted=only: Returns only deleted resources
+      - `"application/json"`: Returns only non-deleted resources
+      - `"application/json; deleted=true"`: Returns both deleted and non-deleted resources
+      - `"application/json; deleted=only"`: Returns only deleted resources
 
   tenantID:
     name: id
@@ -65,3 +69,20 @@ parameters:
     schema:
       type: string
     description: Tenant ID
+
+  resourceName:
+    name: name
+    in: path
+    required: true
+    schema:
+      type: string
+    description: Resource name
+
+  workspaceName:
+    name: workspace
+    in: path
+    required: true
+    schema:
+      type: string
+    description: Workspace name
+    

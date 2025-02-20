@@ -60,23 +60,18 @@ paths:
             application/json:
               schema:
                 type: object
-                example:
-                  items:
-                  - { provider: 'SECA', tier: 'seca.s',  vCPU:  2, ramGB:  4, cpuType: 'amd64', benchmarkPoints:  3000 }
-                  - { provider: 'SECA', tier: 'seca.m',  vCPU:  4, ramGB:  8, cpuType: 'amd64', benchmarkPoints:  6000 }
-                  - { provider: 'SECA', tier: 'seca.l',  vCPU:  8, ramGB: 16, cpuType: 'amd64', benchmarkPoints: 12000 }
-                  - { provider: 'SECA', tier: 'seca.xl', vCPU: 16, ramGB: 32, cpuType: 'amd64', benchmarkPoints: 24000 }
                 properties:
                   items:
                     type: array
                     items:
                       $ref: './schemas/instance-sku.yaml#/InstanceSku'
+                    example:
+                    - { spec: { provider: 'SECA', tier: 'seca.s',  vCPU:  2, ramGB:  4, cpuType: 'amd64', benchmarkPoints:  3000 }}
+                    - { spec: { provider: 'SECA', tier: 'seca.m',  vCPU:  4, ramGB:  8, cpuType: 'amd64', benchmarkPoints:  6000 }}
+                    - { spec: { provider: 'SECA', tier: 'seca.l',  vCPU:  8, ramGB: 16, cpuType: 'amd64', benchmarkPoints: 12000 }}
+                    - { spec: { provider: 'SECA', tier: 'seca.xl', vCPU: 16, ramGB: 32, cpuType: 'amd64', benchmarkPoints: 24000 }}
                   metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -104,11 +99,7 @@ paths:
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:
         '200':
           description: Successful response with SKU details
@@ -164,11 +155,7 @@ paths:
                     items:
                       $ref: './schemas/quotas.yaml#/ResourceQuota'
                   metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -263,11 +250,7 @@ paths:
                     items:
                       $ref: './schemas/instance.yaml#/Instance'
                   metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -294,16 +277,8 @@ paths:
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:
         '200':
           description: Successful response
@@ -335,16 +310,8 @@ paths:
             verbs: ["create","update"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - $ref: './schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
       requestBody:
         required: true
@@ -383,16 +350,8 @@ paths:
             verbs: ["delete"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:
         '202':
           description: Instance deletion accepted
@@ -422,16 +381,8 @@ paths:
             verbs: ["power"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:
         '202':
           description: Power cycle operation accepted
@@ -461,16 +412,8 @@ paths:
             verbs: ["power"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:
         '202':
           description: Power off operation accepted
@@ -500,16 +443,8 @@ paths:
             verbs: ["power"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:
         '202':
           description: Power on operation accepted

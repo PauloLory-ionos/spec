@@ -18,7 +18,7 @@ tags:
     description: Region management
 paths:
   # Platform resources (regions)
-  /v1/tenants/{id}/regions:
+  /v1/regions:
     get:
       tags:
         - Regions
@@ -28,11 +28,10 @@ paths:
         type: hybrid  # Supports both RBAC and ABAC
         policies:
           - type: RBAC
-            scopes: ["tenants/{tenantId}"]
+            scopes: []
             resources: ["seca.region/regions"]
             verbs: ["list"]
       parameters:
-        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
         - $ref: './schemas/parameters.yaml#/parameters/limitParam'
         - $ref: './schemas/parameters.yaml#/parameters/skipTokenParam'
@@ -43,18 +42,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: './schemas/region.yaml#/Region'
-                  metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                $ref: '#/components/schemas/RegionIterator'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -64,7 +52,7 @@ paths:
         '500':
           $ref: './schemas/errors.yaml#/responses/Error500'
 
-  /v1/tenants/{id}/regions/{name}:
+  /v1/regions/{name}:
     get:
       tags:
         - Regions
@@ -74,16 +62,11 @@ paths:
         type: hybrid  # Supports both RBAC and ABAC
         policies:
           - type: RBAC
-            scopes: ["tenants/{tenantId}"]
+            scopes: []
             resources: ["seca.region/regions/{regionName}"]
             verbs: ["list"]
       parameters:
-        - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:
         '200':
           description: Successful response
@@ -97,3 +80,17 @@ paths:
 components:
   securitySchemes:
     $ref: './schemas/security.yaml#/securitySchemes'
+
+  schemas:
+    RegionIterator:
+      type: object
+      required:
+        - items
+        - metadata
+      properties:
+        items:
+          type: array
+          items:
+            $ref: './schemas/region.yaml#/Region'
+        metadata:
+          $ref: './schemas/resource.yaml#/ResponseMetadata'

@@ -1,48 +1,47 @@
 NetworkLoadBalancer:
+  allOf:
+  - $ref: './resource.yaml#/UserResourceMetadata'
+  - type: object
+    required:
+    - spec
+    properties:
+      metadata:
+        $ref: './resource.yaml#/RegionalResourceMetadata'
+      spec:
+        $ref: '#/NetworkLoadBalancerSpec'
+      status:
+        $ref: '#/NetworkLoadBalancerStatus'
+
+NetworkLoadBalancerSpec:
   type: object
   properties:
-    apiVersion:
-      type: string
-      description: API version of the resource
-      default: v1beta1
-      readOnly: true
-    kind:
-      type: string
-      description: Type of the resource
-      enum: [ network-load-balancer ]
-      readOnly: true
-    metadata:
-      $ref: './resource.yaml#/RegionalResourceMetadata'
-    spec:
+    profile:
       type: object
       properties:
-        profile:
-          type: object
-          properties:
-            networkLoadBalancerSkuRef:
-              type: string
-              description: Reference to the SKU used for this network-load-balancer
-        ipConfigurations:
-          type: array
-          items:
-            $ref: '#/NetworkLoadBalancerFrontend'
+        networkLoadBalancerSkuRef:
+          type: string
+          description: Reference to the SKU used for this network-load-balancer
+    ipConfigurations:
+      type: array
+      items:
+        $ref: '#/NetworkLoadBalancerFrontend'
 
-    status:
-      allOf:
-      - $ref: "./resource.yaml#/Status"
-      - type: object
-        properties:
-          state:
-            $ref: './resource.yaml#/ResourceState'
-          ipConfigurations:
-            type: array
-            items:
-              $ref: '#/NetworkLoadBalancerFrontend'
-          ipConfigurationsHealthy:
-            type: array
-            items:
-              $ref: '#/NetworkLoadBalancerFrontend'
-
+NetworkLoadBalancerStatus:
+  allOf:
+  - $ref: "./resource.yaml#/Status"
+  - type: object
+    readOnly: true
+    properties:
+      state:
+        $ref: './resource.yaml#/ResourceState'
+      ipConfigurations:
+        type: array
+        items:
+          $ref: '#/NetworkLoadBalancerFrontend'
+      ipConfigurationsHealthy:
+        type: array
+        items:
+          $ref: '#/NetworkLoadBalancerFrontend'
 
 NetworkLoadBalancerFrontend:
   type: object
@@ -62,7 +61,6 @@ NetworkLoadBalancerFrontend:
       type: string
     target:
       $ref: '#/LoadBalancerTarget'
-
 
 LoadBalancerTarget:
   type: object
@@ -86,19 +84,21 @@ LoadBalancerTarget:
       items:
         $ref: '#/LoadBalancerMember'
     healthcheck:
-      type: object
-      description: Optional port health check. It probes the port with protocol.
-      properties:
-        interval:
-         type: integer
-         description: 'healthcheck interval in seconds. It means after how many seconds it will take a new check'
-        timeout:
-         type: integer
-         description: 'healthcheck in seconds. It means after how many seconds the attempt will be considered unhealthy'
-        retry:
-         type: integer
-         description: 'healthcheck retry number after considered unhealthy a backend istance'
+      $ref: '#/LoadBalancerHealthCheck'
 
+LoadBalancerHealthCheck:
+  type: object
+  description: Optional port health check. It probes the port with protocol.
+  properties:
+    interval:
+      type: integer
+      description: 'healthcheck interval in seconds. It means after how many seconds it will take a new check'
+    timeout:
+      type: integer
+      description: 'healthcheck in seconds. It means after how many seconds the attempt will be considered unhealthy'
+    retry:
+      type: integer
+      description: 'healthcheck retry number after considered unhealthy a backend istance'
 
 LoadBalancerMember:
   type: object

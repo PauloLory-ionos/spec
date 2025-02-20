@@ -1,71 +1,165 @@
 ResourceMetadata:
+  allOf:
+  - $ref: '#/NameMetadata'
+  - $ref: '#/TypeMetadata'
+
+GlobalResourceMetadata:
+  allOf:
+  - $ref: '#/NameMetadata'
+  - $ref: '#/ModificationMetadata'
+  - $ref: '#/TypeMetadata'
+  - $ref: '#/TenantMetadata'
+
+RegionalResourceMetadata:
+  allOf:
+  - $ref: '#/NameMetadata'
+  - $ref: '#/ModificationMetadata'
+  - $ref: '#/TypeMetadata'
+  - $ref: '#/TenantMetadata'
+  - $ref: '#/RegionalMetadata'
+
+ZonalResourceMetadata:
+  allOf:
+  - $ref: '#/NameMetadata'
+  - $ref: '#/ModificationMetadata'
+  - $ref: '#/TypeMetadata'
+  - $ref: '#/TenantMetadata'
+  - $ref: '#/RegionalMetadata'
+  - $ref: '#/ZonalMetadata'
+
+TypeMetadata:
   type: object
-  description: Base metadata for all resources, with optional location references
+  readOnly: true
+  required:
+  - apiVersion
+  - kind
   properties:
-    name:
+    apiVersion:
       type: string
-      description: Resource identifier in dash-case (kebab-case) format. Must start and end with an alphanumeric character. Can contain lowercase letters, numbers, and hyphens. Multiple segments can be joined with dots. Each segment follows the same rules.
-      minLength: 1
-      maxLength: 128
-      pattern: '^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$'
-      example: "primary-load-balancer"
+      description: API version of the resource
+      default: v1
+    kind:
+      type: string
+      description: Type of the resource
+      enum:
+      - activity-log
+      - block-storage
+      - image
+      - instance
+      - instance-sku
+      - lan
+      - location
+      - network-load-balancer
+      - network-sku
+      - nic
+      - object-storage-account 
+      - public-ip
+      - quota
+      - region
+      - role
+      - role-assignment
+      - routing-table 
+      - security-group
+      - security-group-rule 
+      - storage-sku 
+      - subnet
+      - workspace 
+
+ModificationMetadata:
+  type: object
+  readOnly: true
+  description: Base metadata for all resources
+   with optional location references
+  required:
+    - lastModifiedTimestamp
+    - deletionTimestamp
+  properties:
     deletionTimestamp:
       type: string
       format: date-time
       description: If set, indicates the time when the resource was marked for deletion. Resources with this field set are considered pending deletion.
-      readOnly: true
     lastModifiedTimestamp:
       type: string
       format: date-time
       description: Indicates the time when the resource was created or last modified. Field is used for "If-Unmodified-Since" logic for concurrency control. The provider guarantees that a modification on a single resource can happen only once every millisecond.
-      readOnly: true
-    description:
+
+NameMetadata:
+  type: object
+  readOnly: true
+  required:
+    - name
+  properties:
+    name:
       type: string
-      description: user can add a description for other humans to understand why this resource exists
+      description: |
+        Resource identifier in dash-case (kebab-case) format. Must start and end with an alphanumeric character.
+        Can contain lowercase letters, numbers, and hyphens. Multiple segments can be joined with dots.
+        Each segment follows the same rules.
+      minLength: 1
+      maxLength: 128
+      pattern: '^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$'
+      example: "resource-name"
+
+UserResourceMetadata:
+  type: object
+  properties:
     labels:
       type: object
-      description: User-defined key/value pairs that are mutable and can be used to organize and categorize resources.
-      additionalProperties: true
+      description: | 
+        User-defined key/value pairs that are mutable and can be used to
+        organize and categorize resources. They can be used to filter resources.
+      additionalProperties:
+        type: string
       example:
         language: en
         billing.cost-center: platform-eng
         env: production
+    annotations:
+      type: object
+      description: |
+        User-defined key/value pairs that are mutable and can be used to add annotations.
+      additionalProperties:
+        type: string
+      example:
+        description: "Resource with some human readable description"
+        color: red
+        externalID: "980c0d88-09e1-42f9-a4ae-f8f4687d6c99"
 
-GlobalResourceMetadata:
-  allOf:
-  - $ref: '#/ResourceMetadata'
-  - description: Metadata for global resources with no location constraints
+TenantMetadata:
+  type: object
+  description: Metadata for global resources with tenant constraints
+  readOnly: true
+  required:
+  - tenant
+  properties:
+    tenant:
+      type: string
+      description: Tenant identifier
 
-RegionalResourceMetadata:
-  allOf:
-  - $ref: '#/ResourceMetadata'
-  - description: Metadata for regional resources
-    properties:
-      location:
-        type: object
-        description: Reference to the region where the resource is located
-        properties:
-          region:
-            type: string
-        required:
-          - region
+RegionalMetadata:
+  type: object
+  description: Metadata for regional resources
+  readOnly: true
+  required:
+  - region
+  properties:
+    region:
+      type: string
+      description: Reference to the region where the resource is located
+    workspace:
+      type: string
+      description: Workspace identifier
 
-ZonalResourceMetadata:
-  allOf:
-  - $ref: '#/ResourceMetadata'
-  - description: Metadata for zonal resources
-    properties:
-      location:
-        type: object
-        description: Reference to the specific location (region/zone) where the resource is located
-        properties:
-          region:
-            type: string
-          zone:
-            type: string
-        required:
-          - region
-          - zone
+ZonalMetadata:
+  type: object
+  description: Metadata for zonal resources
+  readOnly: true
+  required:
+  - zone
+  properties:
+    zone:
+      type: string
+      description: Reference to the specific zone where the resource is located
 
 ResourceState:
   type: object
@@ -83,7 +177,7 @@ ResourceState:
         - updating: available for data layer usage
         - deleting: maybe still available for data layer user, can fail any moment
         - suspended: not available, provider specific behavior (payment issue, user decided to suspend)
-        - error: failed to fullfill the request; would be related to provider issue or customer related input.
+        - error: failed to fulfill the request; would be related to provider issue or customer related input.
       enum:
         - pending
         - creating
@@ -97,61 +191,60 @@ Status:
   type: object
   readOnly: true
   description: Current status of the resource
+  required:
+    - conditions
   properties:
     conditions:
-      $ref: "./resource.yaml#/StatusConditions"
+      type: array
+      items:
+        $ref: "#/StatusCondition"
 
-StatusConditions:
-  type: array
+StatusCondition:
+  type: object
   description: |
-    Conditions represent the latest available observations of a resource's current state.
+    StatusCondition describes the state of a resource at a certain point.
     Conditions are provider-specific and can represent different states depending on the
     resource type and provider implementation.
-  items:
-    type: object
-    required:
-      - type
-      - status
-      - lastTransitionTime
-    properties:
-      type:
-        type: string
-        description: |
-          Type of condition. The condition type is provider-specific and should
-          reflect the specific states relevant to your resource.
-        example: "power-mgmt"
-      status:
-        type: string
-        description: Status of the condition.
-        example: True, false, unknown
-      lastTransitionTime:
-        type: string
-        format: date-time
-        description: |
-          LastTransitionTime is the last time the condition transitioned from one
-          status to another. This should be when the underlying condition changed.
-          If that is not known, then using the time when the API field changed is
-          acceptable.
-      reason:
-        type: string
-        description: |
-          The reason for the condition's last transition in CamelCase.
-          The specific set of reason values is provider-specific and should be
-          documented by the provider.
-        maxLength: 1024
-        pattern: '^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$'
-      message:
-        type: string
-        description: |
-          A human-readable message indicating details about the transition.
-        maxLength: 32768
-
-ResourceQuota:
-  type: object
-  description: Represents the ResourceQuota for the single ResourceType of the Resource Provider
+  required:
+    - type
+    - status
+    - lastTransitionTime
   properties:
-    value:
-      type: integer
-      nullable: true
-      description: limit number of resourceType instances, set null for unlimited
-      example: 10
+    type:
+      type: string
+      description: |
+        Type of condition. The condition type is provider-specific and should
+        reflect the specific states relevant to your resource.
+      example: "power-mgmt"
+    status:
+      type: string
+      description: Status of the condition.
+      example: True, false, unknown
+    lastTransitionTime:
+      type: string
+      format: date-time
+      description: |
+        LastTransitionTime is the last time the condition transitioned from one
+        status to another. This should be when the underlying condition changed.
+        If that is not known, then using the time when the API field changed is
+        acceptable.
+    reason:
+      type: string
+      description: |
+        The reason for the condition's last transition in CamelCase.
+        The specific set of reason values is provider-specific and should be
+        documented by the provider.
+      maxLength: 1024
+      pattern: '^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$'
+    message:
+      type: string
+      description: |
+        A human-readable message indicating details about the transition.
+      maxLength: 32768
+
+ResponseMetadata:
+  type: object
+  properties:
+    skipToken:
+      type: string
+      description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.

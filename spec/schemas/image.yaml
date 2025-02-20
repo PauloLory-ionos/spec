@@ -1,74 +1,69 @@
 Image:
+  allOf:
+  - $ref: './resource.yaml#/UserResourceMetadata'
+  - type: object
+    description: |
+      Represents an Image Stock Keeping Unit (SKU) for cloud instances.
+
+      | Provider | Tier | Description |
+      |----------|------|-------------|
+      | SECA | ubuntu-24.04 | Ubuntu 24.04 LTS Image |
+      | SECA | redhat-9.3 | Red Hat Enterprise Linux 9.3 Image |
+      | SECA | debian-12 | Debian 12 (Bookworm) Image |
+
+      Properties, capabilities, and extensions can also be found in the metadata.labels sections.
+      These can be used for searching with the appropriate namespace "properties.", "capabilities.", and "extensions.".
+      Example: filter="capabilities.OS=Linux"
+    properties:
+      metadata:
+        $ref: './resource.yaml#/RegionalResourceMetadata'
+      spec:
+        $ref: './image.yaml#/ImageSpec'
+      status:
+        $ref: './image.yaml#/ImageStatus'
+
+ImageSpec:
   type: object
-  description: |
-    Represents an Image Stock Keeping Unit (SKU) for cloud instances.
-
-    | Provider | Tier | Description |
-    |----------|------|-------------|
-    | SECA | ubuntu-24.04 | Ubuntu 24.04 LTS Image |
-    | SECA | redhat-9.3 | Red Hat Enterprise Linux 9.3 Image |
-    | SECA | debian-12 | Debian 12 (Bookworm) Image |
-
-    Properties, capabilities, and extensions can also be found in the metadata.labels sections.
-    These can be used for searching with the appropriate namespace "properties.", "capabilities.", and "extensions.".
-    Example: filter="capabilities.OS=Linux"
   properties:
-    apiVersion:
+    provider:
       type: string
-      description: API version of the resource
-      default: v1
-      readOnly: true
-    kind:
+      description: Provider of the Image specification
+    tier:
       type: string
-      description: Type of the resource
-      enum: [ image ]
-      readOnly: true
-    metadata:
-      allOf:
-      - $ref: './resource.yaml#/RegionalResourceMetadata'
-      - type: object
-        properties:
-          labels:
-            $ref: '#/Image/properties/spec/properties/capabilities'
-    spec:
-      type: object
-      properties:
-        provider:
+      description: Tier of the Image
+    capabilities:
+      $ref: '#/ImageCapabilities'
+    extensions:
+      type: array
+      description: List of possible extensions for this Image
+      items:
+        type: string
+    mandatoryParameters:
+      type: array
+      description: List of mandatory parameters for this Image
+      items:
+        type: string
+    description:
           type: string
-          description: Provider of the Image specification
-        tier:
-          type: string
-          description: Tier of the Image
-        capabilities:
-          type: object
-          additionalProperties: true
-          properties:
-            tier:
-              type: string
-              description: "keyword to identify the product tier"
-              example: ubuntu-24.04
-            provider:
-              type: string
-              description: "keyword to identify the provider"
-              example: SECA
-        extensions:
-          type: array
-          description: List of possible extensions for this Image
-          items:
-            type: string
-        mandatoryParameters:
-          type: array
-          description: List of mandatory parameters for this Image
-          items:
-            type: string
-        description:
-              type: string
-      example:
-        provider: 'SECA'
-        tier: 'ubuntu-24.04'
-        cpuArchitecture: 'AMD64'
-        boot: 'UEFI'
-        cloudInitVersion: '22.01'
-        endOfLife: '2029-03-31'
-    status:
-      $ref: "./resource.yaml#/Status"
+  example:
+    provider: 'SECA'
+    tier: 'ubuntu-24.04'
+    cpuArchitecture: 'AMD64'
+    boot: 'UEFI'
+    cloudInitVersion: '22.01'
+    endOfLife: '2029-03-31'
+
+ImageStatus:
+  $ref: "./resource.yaml#/Status"
+
+ImageCapabilities:
+  type: object
+  properties:
+    tier:
+      type: string
+      description: "keyword to identify the product tier"
+      example: ubuntu-24.04
+    provider:
+      type: string
+      description: "keyword to identify the provider"
+      example: SECA

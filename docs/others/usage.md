@@ -62,11 +62,6 @@ To initialize a tenant we need the below requirements fulfilled:
 ```json
 //Role AuthorizationAdmin
 {
-    "apiVersion": "v1",
-    "kind": "role",
-    "metadata": {
-        "name": "authorization-admin"
-    },
     "spec":{
         "permissions": [
             "seca.authorization/*:write"
@@ -77,10 +72,6 @@ To initialize a tenant we need the below requirements fulfilled:
 //RoleAssignment TenantAdmin
 
 {
-    "apiVersion": "v1",
-    "kind": "role-assignment",
-    "metadata": {
-      "name": "TenantAdmin",
     "spec":{
         "subs": [
             "${userSubject}"
@@ -110,14 +101,12 @@ PUT /providers/seca.workspace/v1/tenants/{tenant_id}/workspaces/web-shop-prod
 Content-Type: application/json
 
 {
-  "apiVersion": "v1",
-  "kind": "workspace",
-  "metadata": {
+  "labels": {
+    "env": "production",
+    "project": "web-shop"
+  }
+  "annotations": {
     "description": "Production environment for web-shop",
-    "labels": {
-      "env": "production",
-      "project": "web-shop"
-    }
   }
 }
 ```
@@ -197,17 +186,9 @@ PUT /providers/seca.storage/v1/tenants/{tenant_id}/workspaces/web-shop-prod/bloc
 Content-Type: application/json
 
 {
-  "apiVersion": "v1",
-  "kind": "block-storage",
-  "metadata": {
-    "labels": {
-      "role": "os-disk",
-      "app": "web-shop"
-    },
-    "location": {
-      "region": "eu-central",
-      "zone": "eu-central-1"
-    }
+  "labels": {
+    "role": "os-disk",
+    "app": "web-shop"
   },
   "spec": {
     "blockStorageSkuRef": "seca.100",
@@ -226,15 +207,8 @@ PUT /providers/seca.network/v1/tenants/{tenant_id}/workspaces/web-shop-prod/lans
 Content-Type: application/json
 
 {
-  "apiVersion": "v1",
-  "kind": "lan",
-  "metadata": {
-    "labels": {
-      "app": "web-shop"
-    },
-    "location": {
-      "region": "eu-central"
-    }
+  "labels": {
+    "app": "web-shop"
   }
 }
 ```
@@ -246,17 +220,8 @@ PUT /providers/seca.network/v1/tenants/{tenant_id}/workspaces/web-shop-prod/lans
 Content-Type: application/json
 
 {
-  "apiVersion": "v1",
-  "kind": "subnet",
-  "metadata": {
-    "name": "web-shop-subnet",
-    "labels": {
-      "app": "web-shop"
-    },
-    "location": {
-      "region": "eu-central",
-      "zone": "eu-central-1"
-    }
+  "labels": {
+    "app": "web-shop"
   },
   "spec": {
     "ipv4Range": "192.168.1.0/24",
@@ -272,16 +237,8 @@ PUT /providers/seca.network/v1/tenants/{tenant_id}/workspaces/web-shop-prod/lans
 Content-Type: application/json
 
 {
-  "apiVersion": "v1",
-  "kind": "security-group",
-  "metadata": {
-    "name": "web-shop-sg",
-    "labels": {
-      "app": "web-shop"
-    },
-    "location": {
-      "region": "eu-central"
-    }
+  "labels": {
+    "app": "web-shop"
   },
   "spec": {
     "rules": [
@@ -325,16 +282,8 @@ PUT /providers/seca.network/v1/tenants/{tenant_id}/workspaces/web-shop-prod/publ
 Content-Type: application/json
 
 {
-  "apiVersion": "v1",
-  "kind": "public-ip",
-  "metadata": {
-    "name": "web-shop-ip",
-    "labels": {
-      "app": "web-shop"
-    },
-    "location": {
-      "region": "eu-central"
-    }
+  "labels": {
+    "app": "web-shop"
   },
   "spec": {
     "type": "Static"
@@ -351,18 +300,9 @@ PUT /providers/seca.compute/v1/tenants/{tenant_id}/workspaces/web-shop-prod/inst
 Content-Type: application/json
 
 {
-  "apiVersion": "v1",
-  "kind": "instance",
-  "metadata": {
-    "name": "web-shop-server",
-    "labels": {
-      "app": "web-shop",
-      "role": "web"
-    },
-    "location": {
-      "region": "eu-central",
-      "zone": "eu-central-1"
-    }
+  "labels": {
+    "app": "web-shop",
+    "role": "web"
   },
   "spec": {
     "instanceSkuRef": "seca.m",

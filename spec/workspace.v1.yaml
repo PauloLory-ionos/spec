@@ -41,18 +41,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: './schemas/workspace.yaml#/Workspace'
-                  metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                $ref: "#/components/schemas/WorkspaceIterator"
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -77,11 +66,7 @@ paths:
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:
         '200':
           description: Successful response
@@ -114,11 +99,7 @@ paths:
             verbs: ["create","update"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - $ref: './schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
       requestBody:
         required: true
@@ -164,11 +145,7 @@ paths:
             verbs: ["delete"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - $ref: './schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
       responses:
         '202':
@@ -189,3 +166,17 @@ paths:
 components:
   securitySchemes:
     $ref: './schemas/security.yaml#/securitySchemes'
+
+  schemas:
+    WorkspaceIterator:
+      type: object
+      required:
+        - items
+        - metadata
+      properties:
+        items:
+          type: array
+          items:
+            $ref: './schemas/workspace.yaml#/Workspace'
+        metadata:
+          $ref: './schemas/resource.yaml#/ResponseMetadata'

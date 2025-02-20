@@ -66,11 +66,7 @@ paths:
                     items:
                       $ref: './schemas/network-sku.yaml#/NetworkSku'
                   metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -98,11 +94,7 @@ paths:
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:
         '200':
           description: Successful response with network SKU details
@@ -158,11 +150,7 @@ paths:
                     items:
                       $ref: './schemas/quotas.yaml#/ResourceQuota'
                   metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -255,13 +243,9 @@ paths:
                   items:
                     type: array
                     items:
-                      $ref: './schemas/lan.yaml#/LAN'
+                      $ref: './schemas/lan.yaml#/Lan'
                   metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -304,7 +288,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './schemas/lan.yaml#/LAN'
+                $ref: './schemas/lan.yaml#/Lan'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -346,7 +330,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './schemas/lan.yaml#/LAN'
+              $ref: './schemas/lan.yaml#/Lan'
       responses:
         '202':
           description: LAN updated or created
@@ -445,27 +429,23 @@ paths:
                     items:
                       $ref: './schemas/subnet.yaml#/Subnet'
                   metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
                 example:
                   items:
-                  - apiVersion: v1
-                    kind: subnet
-                    metadata:
+                  - metadata:
                       name: standard-subnet
                       description: Standard subnet with auto gateway
+                      apiVersion: v1
+                      kind: subnet
                     spec:
                       ipv4Range: '192.168.1.0/24'
                       networkSkuRef: 'seca.100'
                       dhcpEnabled: true
-                  - apiVersion: v1
-                    kind: subnet
-                    metadata:
+                  - metadata:
                       name: firewall-subnet
                       description: Custom gateway through network appliance
+                      apiVersion: v1
+                      kind: subnet
                     spec:
                       ipv4Range: '10.0.0.0/24'
                       dhcpEnabled: true
@@ -498,17 +478,9 @@ paths:
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -545,17 +517,9 @@ paths:
             verbs: ["create","update"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -599,17 +563,9 @@ paths:
             verbs: ["delete"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -670,11 +626,7 @@ paths:
                     items:
                       $ref: './schemas/security-group.yaml#/SecurityGroup'
                   metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -701,17 +653,9 @@ paths:
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -747,17 +691,9 @@ paths:
             verbs: ["create","update"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -800,17 +736,9 @@ paths:
             verbs: ["delete"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -870,10 +798,9 @@ paths:
                   items:
                     type: array
                     items:
-                      $ref: './schemas/nic.yaml#/NIC'
-                  skipToken:
-                    type: string
-                    description: Token for retrieving the next page of results
+                      $ref: './schemas/nic.yaml#/Nic'
+                  metadata:
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -914,20 +841,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './schemas/nic.yaml#/NIC'
+              $ref: './schemas/nic.yaml#/Nic'
       responses:
         '200':
           description: NIC updated successfully
           content:
             application/json:
               schema:
-                $ref: './schemas/nic.yaml#/NIC'
+                $ref: './schemas/nic.yaml#/Nic'
         '201':
           description: NIC created successfully
           content:
             application/json:
               schema:
-                $ref: './schemas/nic.yaml#/NIC'
+                $ref: './schemas/nic.yaml#/Nic'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -957,17 +884,9 @@ paths:
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -979,7 +898,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './schemas/nic.yaml#/NIC'
+                $ref: './schemas/nic.yaml#/Nic'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -1006,17 +925,9 @@ paths:
             verbs: ["delete"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -1081,11 +992,7 @@ paths:
                     items:
                       $ref: './schemas/routing-table.yaml#/RoutingTable'
                   metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -1112,17 +1019,9 @@ paths:
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -1160,17 +1059,9 @@ paths:
             verbs: ["create","update"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -1214,17 +1105,9 @@ paths:
             verbs: ["delete"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - name: lan
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
           in: path
           required: true
           schema:
@@ -1283,11 +1166,7 @@ paths:
                     items:
                       $ref: './schemas/public-ip.yaml#/PublicIp'
                   metadata:
-                    type: object
-                    properties:
-                      skipToken:
-                        type: string
-                        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+                    $ref: './schemas/resource.yaml#/ResponseMetadata'
         '400':
           $ref: './schemas/errors.yaml#/responses/Error400'
         '401':
@@ -1313,18 +1192,8 @@ paths:
             verbs: ["create"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Name of the workspace
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Name of the public IP
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - $ref: './schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
       requestBody:
         required: true
@@ -1367,18 +1236,8 @@ paths:
             verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Name of the workspace
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Name of the public IP
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:
         '200':
           description: Successful response
@@ -1412,18 +1271,8 @@ paths:
             verbs: ["delete"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Name of the workspace
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Name of the public IP
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
+        - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - $ref: './schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
       responses:
         '202':

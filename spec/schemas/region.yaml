@@ -1,61 +1,64 @@
 Location:
   type: object
+  required:
+    - spec
   description: Represents a specific geographic location combining region and zone. Composite name in the format 'region/zone'
   properties:
-    apiVersion:
-      type: string
-      description: API version of the resource
-      default: v1
-      readOnly: true
-    kind:
-      type: string
-      description: Type of the resource
-      enum: [ location ]
-      readOnly: true
     metadata:
-      $ref: './resource.yaml#/GlobalResourceMetadata'
+      $ref: './resource.yaml#/ResourceMetadata'
     spec:
-      type: object
-      properties:
-        region:
-          type: string
-        zone:
-          type: string
-          description: Optional zone within the region
+      $ref: './region.yaml#/LocationSpec'
     status:
-      $ref: "./resource.yaml#/Status"
+      $ref: './region.yaml#/LocationStatus'
+
+LocationSpec:
+  type: object
+  properties:
+    region:
+      type: string
+    zone:
+      type: string
+      description: Optional zone within the region
+
+LocationStatus:
+  $ref: "./resource.yaml#/Status"
 
 Region:
   type: object
+  required:
+    - spec
   properties:
-    apiVersion:
-      type: string
-      description: API version of the resource
-      default: v1
-      readOnly: true
-    kind:
-      type: string
-      description: Type of the resource
-      enum: [ region ]
-      readOnly: true
     metadata:
-      $ref: './resource.yaml#/GlobalResourceMetadata'
+      $ref: './resource.yaml#/ResourceMetadata'
     spec:
-      type: object
-      properties:
-        availableZones:
-          type: array
-          items:
-            type: string
-        providers:
-          type: array
-          items:
-            $ref: './region.yaml#/Provider'
+      $ref: './region.yaml#/RegionSpec'
     status:
-      $ref: "./resource.yaml#/Status"
+      $ref: './region.yaml#/RegionStatus'
+
+RegionSpec:
+  type: object
+  required:
+    - availableZones
+    - providers
+  properties:
+    availableZones:
+      type: array
+      items:
+        type: string
+    providers:
+      type: array
+      items:
+        $ref: './region.yaml#/Provider'
+
+RegionStatus:
+  $ref: "./resource.yaml#/Status"
 
 Provider:
   type: object
+  required:
+    - name
+    - version
+    - url
   properties:
     name:
       type: string
