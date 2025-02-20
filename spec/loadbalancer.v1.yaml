@@ -23,13 +23,8 @@ paths:
         - LoadBalancer
       summary: List all NetworkLoadBalancers
       operationId: listNetworkLoadBalancers
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.load-balancer/network-load-balancers"]
-            verbs: ["list"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
@@ -62,13 +57,8 @@ paths:
         - LoadBalancer
       summary: Get a Network Load Balancer
       operationId: getNetworkLoadBalancer
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.load-balancer/network-load-balancers/{network-load-balancer-name}"]
-            verbs: ["get"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
@@ -104,13 +94,8 @@ paths:
         - LoadBalancer
       summary: Create or update a specific Network-Load-Balancer
       operationId: createOrUpdateNetworkLoadBalancer
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}"]
-            resources: ["seca.load-balancer/workspaces/{workspaceName}/network-load-balancers/{network-load-balancer-name}"]
-            verbs: ["create","update"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
@@ -153,13 +138,8 @@ paths:
         - LoadBalancer
       summary: Delete a specific NetworkLoadBalancer
       operationId: deleteNetworkLoadBalancer
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}"]
-            resources: ["seca.load-balancer/workspaces/{workspaceName}/network-load-balancers/{network-load-balancer-name}"]
-            verbs: ["delete"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace

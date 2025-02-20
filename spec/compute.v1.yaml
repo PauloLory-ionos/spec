@@ -40,13 +40,8 @@ paths:
         | SECA | seca.l | 8 | 16 | amd64 | min 12000 |
         | SECA | seca.xl | 16 | 32 | amd64 | min 24000 |
       operationId: listSkus
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.compute/skus"]
-            verbs: ["list"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
@@ -90,13 +85,8 @@ paths:
       summary: Get details of a specific SKU
       description: Retrieves details for a specific SKU by its name
       operationId: getSku
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.compute/skus/{skuName}"]
-            verbs: ["get"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/resourceName'
@@ -128,14 +118,7 @@ paths:
         Retrieves the resource quota for the Compute Resource Provider
       operationId: listComputeQuotas
       security:
-        - bearerAuth: []  # JWT required for authentication
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}"]
-            resources: ["seca.compute/quotas"]
-            verbs: ["list"]
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
@@ -173,13 +156,8 @@ paths:
         - Quotas
       summary: Create or update the resource quota for the Compute Resource Provider
       operationId: createOrUpdateComputeQuota
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}/"]
-            resources: ["seca.compute/quotas/{resourceType}"]
-            verbs: ["create","update"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: resourceType
@@ -219,13 +197,8 @@ paths:
         - Compute
       summary: List all instances
       operationId: listInstances
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.compute/instances"]
-            verbs: ["list"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
@@ -268,13 +241,8 @@ paths:
         - Compute
       summary: Get a specific instance
       operationId: getInstance
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.compute/instances/{instanceName}"]
-            verbs: ["get"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
@@ -301,13 +269,8 @@ paths:
         - Compute
       summary: Create or update a specific instance
       operationId: createOrUpdateInstance
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.compute/instances/{instanceName}"]
-            verbs: ["create","update"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
@@ -341,13 +304,8 @@ paths:
         - Compute
       summary: Delete a specific instance
       operationId: deleteInstance
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.compute/instances/{instanceName}"]
-            verbs: ["delete"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
@@ -372,13 +330,8 @@ paths:
         - Compute
       summary: Power cycle a specific instance
       operationId: powerCycleInstance
-      x-authorization:
-        type: hybrid
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.compute/instances/{instanceName}"]
-            verbs: ["power"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
@@ -403,13 +356,8 @@ paths:
         - Compute
       summary: Power off a specific instance
       operationId: powerOffInstance
-      x-authorization:
-        type: hybrid
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.compute/instances/{instanceName}"]
-            verbs: ["power"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
@@ -434,13 +382,8 @@ paths:
         - Compute
       summary: Power on a specific instance
       operationId: powerOnInstance
-      x-authorization:
-        type: hybrid
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.compute/instances/{instanceName}"]
-            verbs: ["power"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/workspaceName'

@@ -1,28 +1,3 @@
-Location:
-  type: object
-  required:
-    - spec
-  description: Represents a specific geographic location combining region and zone. Composite name in the format 'region/zone'
-  properties:
-    metadata:
-      $ref: './resource.yaml#/ResourceMetadata'
-    spec:
-      $ref: './region.yaml#/LocationSpec'
-    status:
-      $ref: './region.yaml#/LocationStatus'
-
-LocationSpec:
-  type: object
-  properties:
-    region:
-      type: string
-    zone:
-      type: string
-      description: Optional zone within the region
-
-LocationStatus:
-  $ref: "./resource.yaml#/Status"
-
 Region:
   type: object
   required:

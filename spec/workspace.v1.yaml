@@ -22,13 +22,6 @@ paths:
         - Workspace
       summary: List workspaces
       operationId: listWorkspaces
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}"]
-            resources: ["seca.workspace/workspaces"]
-            verbs: ["list"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
@@ -57,13 +50,6 @@ paths:
         - Workspace
       summary: Get a specific workspace
       operationId: getWorkspace
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}"]
-            resources: ["seca.workspace/workspaces/{workspaceName}"]
-            verbs: ["get"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/resourceName'
@@ -90,13 +76,6 @@ paths:
         - Workspace
       summary: Create or update a workspace
       operationId: createOrUpdateWorkspace
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}"]
-            resources: ["seca.workspace/workspaces/{workspaceName}"]
-            verbs: ["create","update"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/resourceName'
@@ -136,13 +115,6 @@ paths:
         - Role assignments specific to this workspace are also deleted
         - Deletion is a cascading operation that removes all associated resources
       operationId: deleteWorkspace
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}"]
-            resources: ["seca.workspace/workspaces/{workspaceName}"]
-            verbs: ["delete"]
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/resourceName'
