@@ -24,13 +24,8 @@ paths:
         - Regions
       summary: List all regions
       operationId: listRegions
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: []
-            resources: ["seca.region/regions"]
-            verbs: ["list"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
         - $ref: './schemas/parameters.yaml#/parameters/limitParam'
@@ -58,13 +53,8 @@ paths:
         - Regions
       summary: Get a specific region by name
       operationId: getRegion
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: []
-            resources: ["seca.region/regions/{regionName}"]
-            verbs: ["list"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:

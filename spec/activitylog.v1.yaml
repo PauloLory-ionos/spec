@@ -23,20 +23,11 @@ paths:
         - Observability
       summary: List all Audit Logs
       operationId: listAuditLogs
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}"]
-            resources: ["seca.activity-logs/workspaces/{workspaceName}"]
-            verbs: ["list"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
-        - name: workspace
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
         - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
         - $ref: './schemas/parameters.yaml#/parameters/limitParam'
         - $ref: './schemas/parameters.yaml#/parameters/skipTokenParam'

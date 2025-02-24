@@ -32,14 +32,7 @@ paths:
   #       | SECA | seca.hot |  | Hot Access tier |
   #     operationId: listObjectStorageSkus
   #     security:
-  #       - bearerAuth: []  # JWT required for authentication
-  #     x-authorization:
-  #       type: hybrid  # Supports both RBAC and ABAC
-  #       policies:
-  #         - type: RBAC
-  #           scopes: ["tenants/{tenantId}"]
-  #           resources: ["seca.object-storage/skus"]
-  #           verbs: ["list"]
+  #       - bearerAuth: []
   #     parameters:
   #       - $ref: './schemas/parameters.yaml#/parameters/tenantID'
   #       - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
@@ -78,13 +71,8 @@ paths:
   #     summary: Get details of a specific object storage SKU
   #     description: Retrieves details for a specific object storage SKU by its name
   #     operationId: getObjectStorageSku
-  #     x-authorization:
-  #       type: hybrid  # Supports both RBAC and ABAC
-  #       policies:
-  #         - type: RBAC
-  #           scopes: ["tenants/{tenantId}"]
-  #           resources: ["seca.object-storage/skus/{skuName}"]
-  #           verbs: ["get"]
+  #     security:
+  #       - bearerAuth: []
   #     parameters:
   #       - $ref: './schemas/parameters.yaml#/parameters/tenantID'
   #       - $ref: './schemas/parameters.yaml#/parameters/resourceName'
@@ -106,21 +94,17 @@ paths:
   #       '500':
   #         $ref: './schemas/errors.yaml#/responses/Error500'
 
-  /v1/tenants/{id}/accounts:
+  /v1/tenants/{id}/workspaces/{workspace}/accounts:
     get:
       tags:
         - Object Storage
       summary: List all object storage accounts
       operationId: listObjectStorageAccounts
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}"]
-            resources: ["seca.object-storage/accounts"]
-            verbs: ["list"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
         - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
         - $ref: './schemas/parameters.yaml#/parameters/limitParam'
         - $ref: './schemas/parameters.yaml#/parameters/skipTokenParam'
@@ -150,22 +134,17 @@ paths:
         '500':
           $ref: './schemas/errors.yaml#/responses/Error500'
 
-
-  /v1/tenants/{id}/accounts/{name}:
+  /v1/tenants/{id}/workspaces/{workspace}/accounts/{name}:
     get:
       tags:
         - Object Storage
       summary: Get a specific object storage account
       operationId: getObjectStorageAccount
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}"]
-            resources: ["seca.object-storage/accounts"]
-            verbs: ["get"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
         - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - $ref: './schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
       responses:
@@ -190,15 +169,11 @@ paths:
         - Object Storage
       summary: Create or update a specific object storage account
       operationId: createOrUpdateObjectStorageAccount
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}"]
-            resources: ["seca.object-storage/accounts/{objectStorageName}"]
-            verbs: ["create","update"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
         - $ref: './schemas/parameters.yaml#/parameters/resourceName'
         - $ref: './schemas/parameters.yaml#/parameters/ifUnmodifiedSince'
       requestBody:
@@ -229,15 +204,11 @@ paths:
         - Object Storage
       summary: Delete a specific object storage account
       operationId: deleteObjectStorageAccount
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}"]
-            resources: ["seca.object-storage/accounts/{objectStorageName}"]
-            verbs: ["delete"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
+        - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
         - $ref: './schemas/parameters.yaml#/parameters/resourceName'
       responses:
         '202':

@@ -38,11 +38,25 @@ To achieve foundation compliance, a Cloud Service Provider (CSP) must implement 
 
 New CSPs can ideally achieve foundation compliance within a short timeframe by implementing the required providers from scratch. Alternatively, existing CSPs with pre-existing APIs can leverage these to expedite the compliance process. In such cases, a simple API proxy or translator can be employed to map the control plane resources, enabling seamless integration with the SECA API framework. This approach minimizes the need for extensive re-architecture, allowing CSPs to rapidly adapt to the SECA standard.
 
-## Guidelines
+## Principles
 
-In the modern landscape of cloud computing, APIs serve as the backbone for enabling seamless integration between services, applications, and platforms. When designing and developing APIs for the cloud, it’s essential to focus on scalability, security, and flexibility to support a wide range of client applications. This chapter provides comprehensive guidelines on how to design robust, scalable cloud APIs that align with industry best practices.
+- We organize and manage cloud resources through a structured, **resource-based** approach
+- Every resource within the platform is classified according to
+  - **service level**:  refers to the degree of management and abstraction provided by the cloud platform. 
+    It is classified into primary models such as:
+    - Infrastructure as a Service (**IaaS**)
+    - Platform as a Service(**PaaS**)
+    - Software as a Service(**SaaS**)
+  - **location**: defines the geographical availability of a resource, affecting performance, redundancy, and accessibility. 
+      - **global**: resources that are accessible across multiple regions and do not depend on a single geographical location (e.g., IAM, DNS)
+      - **regional**: resources that span multiple availability zones within a specific region (e.g., regional load balancers, replicated storage)
+      - **zonal**: resources that are confined to a single availability zone within a region (e.g., virtual machines, disks)
+  - **scope**: defines the hierarchical structure and boundaries within which a resource exists and can be managed. It determines how a resource is grouped and referenced within the cloud platform.
+  Resources are classified as:
+    - **tenant-scoped**: resource that spans across multiple workspaces within an a tenant (e.g., Skus).
+    - **workspace-scoped**: resource confined to a single and logical set of resources (e.g., a VM in a cloud workspace). 
 
-In this chapter we aim to cover key principles such as RESTful architecture, API versioning, backward compatibility, and security considerations, along with strategies to design cloud resources. Whether building APIs for internal use or exposing them to third-party developers, these practices will help create APIs that are easy to use, maintain, and evolve over time.
+Further details about each resource modeled is described in the [Glossary](./docs/others/glossary.md)
 
 ### Resource Design
 
@@ -68,6 +82,12 @@ The aim of this document is to define guidelines to design resource model for th
     * [Properties](./docs/resource-guidelines/06-resource-model.md#properties)
     * [Status](./docs/resource-guidelines/06-resource-model.md#status)
   * [Resource Lifecycle](./docs/resource-guidelines/06-resource-model.md#resource-lifecycle)
+
+## Guidelines
+
+In the modern landscape of cloud computing, APIs serve as the backbone for enabling seamless integration between services, applications, and platforms. When designing and developing APIs for the cloud, it’s essential to focus on scalability, security, and flexibility to support a wide range of client applications. This chapter provides comprehensive guidelines on how to design robust, scalable cloud APIs that align with industry best practices.
+
+Here we aim to cover key principles such as RESTful architecture, API versioning, backward compatibility, and security considerations, along with strategies to design cloud resources. Whether building APIs for internal use or exposing them to third-party developers, these practices will help create APIs that are easy to use, maintain, and evolve over time.
 
 ### Api Conventions
 

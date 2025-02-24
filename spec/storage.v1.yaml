@@ -42,23 +42,7 @@ paths:
         | SECA | seca.100 | 100 IOPS | High-performance block storage tier |
       operationId: listBlockStorageSkus
       security:
-        - bearerAuth: []  # JWT required for authentication
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}"]
-            resources: ["seca.storage/skus"]
-            verbs: ["list"]
-  ### FUTURE EVOLUTIONS
-  #        - type: ABAC
-  #          attributes:
-  #            - name: workspace
-  #              description: Workspace in the request must match user's allowed namespaces.
-  #            - name: user-roles
-  #              description: User must have a role allowing access to the resource.
-  #            - name: request-time
-  #              description: Access allowed only during specific time windows.
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
@@ -103,22 +87,8 @@ paths:
       summary: Get details of a specific storage SKU
       description: Retrieves details for a specific storage SKU by its name
       operationId: getStorageSku
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}"]
-            resources: ["seca.storage/skus/{skuName}"]
-            verbs: ["get"]
-  ### FUTURE EVOLUTIONS
-  #        - type: ABAC
-  #          attributes:
-  #            - name: workspace
-  #              description: Workspace in the request must match user's allowed namespaces.
-  #            - name: user-roles
-  #              description: User must have a role allowing access to the resource.
-  #            - name: request-time
-  #              description: Access allowed only during specific time windows.
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/resourceName'
@@ -150,14 +120,7 @@ paths:
         Retrieves the resource quota for the Storage Resource Provider
       operationId: listStorageQuotas
       security:
-        - bearerAuth: []  # JWT required for authentication
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}"]
-            resources: ["seca.storage/quotas"]
-            verbs: ["list"]
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/labelSelector'
@@ -195,13 +158,8 @@ paths:
         - Quotas
       summary: Create or update the resource quota for the Storage Resource Provider
       operationId: createOrUpdateStorageQuota
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}/"]
-            resources: ["seca.storage/quotas/{resourceType}"]
-            verbs: ["create","update"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: resourceType
@@ -240,13 +198,8 @@ paths:
     get:
       summary: List Images
       operationId: listImages
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}"]
-            resources: ["seca.storage/images"]
-            verbs: ["get"]
+      security:
+        - bearerAuth: []
       tags:
         - Images
       parameters:
@@ -284,13 +237,8 @@ paths:
     get:
       summary: Get Image
       operationId: getImage
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}"]
-            resources: ["seca.storage/images/{imageName}"]
-            verbs: ["get"]
+      security:
+        - bearerAuth: []
       tags:
         - Images
       parameters:
@@ -322,13 +270,8 @@ paths:
         - Storage
       summary: List all block storage volumes
       operationId: listBlockStorages
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.storage/block-storages"]
-            verbs: ["list"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - name: workspace
@@ -371,13 +314,8 @@ paths:
         - Storage
       summary: Get a specific block storage volume
       operationId: getBlockStorage
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.storage/block-storages"]
-            verbs: ["get"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
@@ -406,13 +344,8 @@ paths:
         - Storage
       summary: Create or update a specific block storage volume
       operationId: createOrUpdateBlockStorage
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.storage/block-storages/{blockStorageName}"]
-            verbs: ["create","update"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/workspaceName'
@@ -447,13 +380,8 @@ paths:
         - Storage
       summary: Delete a specific block storage volume
       operationId: deleteBlockStorage
-      x-authorization:
-        type: hybrid  # Supports both RBAC and ABAC
-        policies:
-          - type: RBAC
-            scopes: ["tenants/{tenantId}/workspaces/{workspaceName}"]
-            resources: ["seca.storage/block-storages/{blockStorageName}"]
-            verbs: ["delete"]
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: './schemas/parameters.yaml#/parameters/tenantID'
         - $ref: './schemas/parameters.yaml#/parameters/workspaceName'

@@ -32,9 +32,45 @@ RoleSpec:
     permissions:
       type: array
       items:
-        type: string
+        $ref: "#/Permission"
       description: List of permissions granted by this role
-      example: ["compute/instance:read", "network/*:write"]
+      example:
+      - scopes: ["workspaces/production"]
+        resources:
+        - "seca.compute/instances"
+        - "seca.compute/instances/*"
+        - "seca.network/lans"
+        - "seca.network/lans/*"
+        verb: ["put", "delete"]
+      - scopes: ["workspaces/develop"]
+        resources:
+        - "seca.compute/instances"
+        - "seca.compute/instances/*"
+        - "seca.network/lans"
+        - "seca.network/lans/*"
+        verb: ["get"]
+
+Permission:
+  type: object
+  properties:
+    scopes:
+      type: array
+      items:
+        type: string
+      description: List of Scopes to whom the roles are assigned
+      example: ["workspaces/develop", "workspaces/production"]
+    resources:
+      type: array
+      items:
+        type: string
+      description: List of assigned role names
+      example: ["project-manager", "workspace-viewer"]
+    verb:
+      type: array
+      items:
+        type: string
+      description: List of operations
+      example: ["read", "write"]
 
 RoleStatus:
   $ref: "./resource.yaml#/Status"
@@ -68,12 +104,6 @@ RoleAssignmentSpec:
         type: string
       description: List of assigned role names
       example: ["project-manager", "workspace-viewer"]
-    scopes:
-      type: array
-      items:
-        type: string
-      description: List of Scopes to whom the roles are assigned
-      example: ["workspaces/develop", "workspaces/production"]
 
 RoleAssignmentStatus:
   $ref: "./resource.yaml#/Status"

@@ -6,6 +6,7 @@ ResourceMetadata:
 GlobalResourceMetadata:
   allOf:
   - $ref: '#/NameMetadata'
+  - $ref: '#/PermissionMetadata'
   - $ref: '#/ModificationMetadata'
   - $ref: '#/TypeMetadata'
   - $ref: '#/TenantMetadata'
@@ -13,6 +14,7 @@ GlobalResourceMetadata:
 RegionalResourceMetadata:
   allOf:
   - $ref: '#/NameMetadata'
+  - $ref: '#/PermissionMetadata'
   - $ref: '#/ModificationMetadata'
   - $ref: '#/TypeMetadata'
   - $ref: '#/TenantMetadata'
@@ -21,6 +23,7 @@ RegionalResourceMetadata:
 ZonalResourceMetadata:
   allOf:
   - $ref: '#/NameMetadata'
+  - $ref: '#/PermissionMetadata'
   - $ref: '#/ModificationMetadata'
   - $ref: '#/TypeMetadata'
   - $ref: '#/TenantMetadata'
@@ -48,7 +51,6 @@ TypeMetadata:
       - instance
       - instance-sku
       - lan
-      - location
       - network-load-balancer
       - network-sku
       - nic
@@ -63,13 +65,32 @@ TypeMetadata:
       - security-group-rule 
       - storage-sku 
       - subnet
-      - workspace 
+      - workspace
+
+PermissionMetadata:
+  type: object
+  readOnly: true
+  description: Metadata for permission management
+  required:
+    - scope
+    - resource
+    - verb
+  properties:
+    scope:
+      type: string
+      example: "workspace/production"
+    resource:
+      type: string
+      example: "seca.compute/instances/my-server"
+    verb:
+      type: string
+      example: get
 
 ModificationMetadata:
   type: object
   readOnly: true
   description: Base metadata for all resources
-   with optional location references
+   with optional region references
   required:
     - lastModifiedTimestamp
     - deletionTimestamp
@@ -243,8 +264,10 @@ StatusCondition:
       maxLength: 32768
 
 ResponseMetadata:
-  type: object
-  properties:
-    skipToken:
-      type: string
-      description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
+  allOf:
+  - $ref: '#/PermissionMetadata'  
+  - type: object
+    properties:
+      skipToken:
+        type: string
+        description: Opaque cursor to get the next page. Field is omitted when there are no more pages available.
