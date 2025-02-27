@@ -48,6 +48,58 @@ The Key Elements of this model are listed below:
 
 A resource authorization model with a dedicated resource provider centralizes access control across resources, offering an efficient, consistent, and secure way to manage permissions and enforce policies at scale in a cloud environment. This model enhances security by reducing complexity and enabling centralized governance over resource access.
 
+
+### Tenant Initialization
+
+To initialize a tenant we need the below requirements fulfilled:
+
+- The TenantId should be provided to the client
+- Should exist at least a User with the following Role and RoleAssignments.
+
+```json
+//Role with name: authorization-admin
+{
+  "labels": {},
+  "annotations": {
+    "description": "Authorization Admin Role"  
+  },
+  "spec": {
+    "permissions": [
+      {
+        "scopes": [
+          "*"
+        ],
+        "resources": [
+          "seca.authorization/*"
+        ],
+        "verb": [
+          "get",
+          "put",
+          "delete"
+        ]
+      }
+    ]
+  }
+}
+
+//RoleAssignment with name tenant-admin
+
+{
+  "labels": {},
+  "annotations": {
+    "description": "Authorization Admin Role"  
+  },
+  "spec": {
+    "subs": [
+      "user1@example.com" //subject to whoam assign the owner tenant role
+    ],
+    "roles": [
+      "authorization-admin"
+    ]
+  }
+}
+```
+
 ## Validation
 
 Resource validation in SECA ensures that all requests to create or modify resources meet business rules before being processed. While authentication verifies who is making the request and authorization determines if they have permission, validation ensures the request itself is valid and consistent.

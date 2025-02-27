@@ -52,52 +52,83 @@ This guide walks you through the process of creating and managing cloud instance
 - Use the token in the Authorization header: `Authorization: Bearer <your_jwt_token>`
 - The tenantId is provided by your iaas cloud provider
 
-### Tenant Initialization
-
-To initialize a tenant we need the below requirements fulfilled:
-
-- The TenantId should be provided to the client
-- Should exist at least a User with the following Role and RoleAssignments.
-
-```json
-//Role AuthorizationAdmin
-{
-    "spec":{
-        "permissions": [
-            "seca.authorization/*:write"
-        ]
-    }
-}
-
-//RoleAssignment TenantAdmin
-
-{
-    "spec":{
-        "subs": [
-            "${userSubject}"
-          ],
-          "roles": [
-            "authorization-admin"
-          ]
-        "scopes":[
-            "tenants/${tenantId}"
-        ]
-    }
-}
-```
-
 ### SSH Keys
 
 - Prepare your SSH public key
 - The system uses external SSH key management
 - You'll need the reference to your SSH key for instance creation
 
+Let's suppose you, as subject user@secapi.eu, and tenant administrator, start a new project!
+
+
+## Step 0: Make sure you have the grant to get region details
+
+Create the **Role**: region-administrator 
+
+
+```
+PUT ${authorization-provider-url}/v1/tenants/tenant-id/roles/region-administrator
+{
+  "labels": {},
+  "annotations": {
+    "description": "Resource administrator"
+  },
+  "spec": {
+    "permissions": [
+      {
+        "scopes": [
+          "*"
+        ],
+        "resources": [
+          "regions/*"
+        ],
+        "verb": [
+          "get",
+          "list"
+        ]
+      }
+    ]
+  }
+}
+```
+
+Create the **Role-Assignment**: region-administrator 
+
+```
+PUT ${authorization-provider-url}/v1/tenants/tenant-id/role-assignments/region-administrator
+{
+  "labels": {}
+  "annotations": {
+    "description": "Region Administrator"
+  },
+  "spec": {
+    "subs": [
+      "user@secapi.eu"
+    ],
+    "roles": [
+      "region-administrator"
+    ]
+  }
+}
+```
+
+## Step 1: Get Region Details and Provider References
+
+```http
+GET /v1/regions
+```
+here you get **provider-url** that can be:
+- dns-based (e.g https://eu-workspace.ionos.secapi.eu)
+- path-based (e.g. https://aruba.secapi.eu/providers/seca.workspace)
+
+This will return available regions and their zones. Resources can be created at either the regional level (like LANs and Public IPs) or the zonal level (like Instances).
+
 ## Step 1: Create a Workspace
 
 Create a workspace to organize your resources:
 
 ```http
-PUT /providers/seca.workspace/v1/tenants/{tenant_id}/workspaces/web-shop-prod
+PUT ${workspace-provider-url}/v1/tenants/{tenant_id}/workspaces/web-shop-prod
 Content-Type: application/json
 
 {
@@ -113,22 +144,13 @@ Content-Type: application/json
 
 Note: Creating a workspace automatically grants you admin permissions for that workspace.
 
-## Step 2: Select Region and Zones
 
-Before creating resources, you need to select a region and its availability zones:
-
-```http
-GET /providers/seca.region/v1/tenants/{tenant_id}/regions
-```
-
-This will return available regions and their zones. Resources can be created at either the regional level (like LANs and Public IPs) or the zonal level (like Instances and Block Storage).
-
-## Step 3: Review Available SKUs
+## Step 2: Review Available SKUs
 
 ### Check Compute SKUs
 
 ```http
-GET /providers/seca.compute/v1/tenants/{tenant_id}/skus
+GET ${compute-provider-url}/v1/tenants/{tenant_id}/skus
 ```
 
 Available compute tiers:
@@ -141,7 +163,7 @@ Available compute tiers:
 ### Check Storage SKUs
 
 ```http
-GET /providers/seca.storage/v1/tenants/{tenant_id}/skus
+GET ${storage-provider-url}/v1/tenants/{tenant_id}/skus
 ```
 
 Important notes about storage:
@@ -156,7 +178,7 @@ Important notes about storage:
 ### Check Network SKUs
 
 ```http
-GET /providers/seca.network/v1/tenants/{tenant_id}/skus
+GET ${network-provider-url}/v1/tenants/{tenant_id}/skus
 ```
 
 Available network tiers:
@@ -168,7 +190,7 @@ Available network tiers:
 ### Review Available Images
 
 ```http
-GET /providers/seca.storage/v1/images
+GET ${storage-provider-url}/v1/images
 ```
 
 Available images:
@@ -182,18 +204,33 @@ Available images:
 Create a block storage volume from an image:
 
 ```http
-PUT /providers/seca.storage/v1/tenants/{tenant_id}/workspaces/web-shop-prod/block-storages/web-shop-os-disk
+PUT ${storage-provider-url}/v1/tenants/{tenant_id}/workspaces/web-shop-prod/block-storages/web-shop-os-disk
 Content-Type: application/json
 
 {
   "labels": {
-    "role": "os-disk",
-    "app": "web-shop"
+    "language": "en",
+    "billing.cost-center": "platform-eng",
+    "env": "production"
+  },
+  "annotations": {
+    "description": "Resource with some human readable description",
+    "color": "red",
+    "externalID": "980c0d88-09e1-42f9-a4ae-f8f4687d6c99"
   },
   "spec": {
-    "blockStorageSkuRef": "seca.100",
+    "profile": {
+      "storageSkuRef": "tenants/{tenant_id}/skus/gold",
+      "skuExtensions": {
+        "additionalProp1": {}
+      }
+    },
     "sizeGB": 50,
-    "sourceImageRef": "ubuntu-24.04"
+    "origin": {
+      type: {
+        "sourceImageRef": "tenants/{tenant_id}/images/ubuntu-24.04"
+      }
+    }
   }
 }
 ```
@@ -203,12 +240,27 @@ Content-Type: application/json
 ### 5.1 Create a LAN
 
 ```http
-PUT /providers/seca.network/v1/tenants/{tenant_id}/workspaces/web-shop-prod/lans/web-shop-network
+PUT ${network-provider-url}/v1/tenants/{tenant_id}/workspaces/web-shop-prod/lans/web-shop-network
 Content-Type: application/json
 
 {
   "labels": {
-    "app": "web-shop"
+    "language": "en",
+    "billing.cost-center": "platform-eng",
+    "env": "production"
+  },
+  "annotations": {
+    "description": "Resource with some human readable description",
+    "color": "red",
+    "externalID": "980c0d88-09e1-42f9-a4ae-f8f4687d6c99"
+  },
+  "spec": {
+    "profile": {
+      "networkSkuRef": "tenants/{tenant_id}/skus/gold-lan",
+      "skuExtensions": {
+        "additionalProp1": {}
+      }
+    }
   }
 }
 ```
@@ -216,16 +268,32 @@ Content-Type: application/json
 ### 5.2 Create a Subnet
 
 ```http
-PUT /providers/seca.network/v1/tenants/{tenant_id}/workspaces/web-shop-prod/lans/web-shop-network/subnets/web-shop-subnet
+PUT ${network-provider-url}/v1/tenants/{tenant_id}/workspaces/web-shop-prod/lans/web-shop-network/subnets/web-shop-subnet
 Content-Type: application/json
 
 {
   "labels": {
-    "app": "web-shop"
+    "language": "en",
+    "billing.cost-center": "platform-eng",
+    "env": "production"
+  },
+  "annotations": {
+    "description": "Resource with some human readable description",
+    "color": "red",
+    "externalID": "980c0d88-09e1-42f9-a4ae-f8f4687d6c99"
   },
   "spec": {
-    "ipv4Range": "192.168.1.0/24",
-    "networkSkuRef": "seca.100"
+    "profile": {
+      "networkSkuRef": "tenants/{tenant_id}/skus/gold-subnet"
+    },
+    "cidr": {
+      "ipv4Range": "198.51.100.42"
+    },
+    "dhcpEnabled": true,
+    "defaultGateway": {
+      "type": "auto",
+      "value": "string"
+    }
   }
 }
 ```
@@ -233,42 +301,47 @@ Content-Type: application/json
 ### 5.3 Set Up Security Group
 
 ```http
-PUT /providers/seca.network/v1/tenants/{tenant_id}/workspaces/web-shop-prod/lans/web-shop-network/security-groups/web-shop-sg
+PUT ${network-provider-url}/v1/tenants/{tenant_id}/workspaces/web-shop-prod/lans/web-shop-network/security-groups/web-shop-sg
 Content-Type: application/json
 
 {
   "labels": {
-    "app": "web-shop"
+    "language": "en",
+    "billing.cost-center": "platform-eng",
+    "env": "production"
+  },
+  "annotations": {
+    "description": "Resource with some human readable description",
+    "color": "red",
+    "externalID": "980c0d88-09e1-42f9-a4ae-f8f4687d6c99"
   },
   "spec": {
     "rules": [
       {
-        "description": "Allow SSH access",
-        "direction": "ingress",
-        "protocol": "tcp",
-        "portRange": {
-          "from": 22,
-          "to": 22
+        "labels": {
+          "language": "en",
+          "billing.cost-center": "platform-eng",
+          "env": "production"
         },
-        "source": {
-          "type": "publicInternet",
-          "value": "any"
+        "annotations": {
+          "description": "Resource with some human readable description",
+          "color": "red",
+          "externalID": "980c0d88-09e1-42f9-a4ae-f8f4687d6c99"
         },
-        "priority": 100
-      },
-      {
-        "description": "Allow HTTPS access",
-        "direction": "ingress",
-        "protocol": "tcp",
-        "portRange": {
-          "from": 443,
-          "to": 443
-        },
-        "source": {
-          "type": "publicInternet",
-          "value": "any"
-        },
-        "priority": 200
+        "spec": {
+          "description": "string",
+          "direction": "ingress",
+          "protocol": "tcp",
+          "portRange": {
+            "from": 65535,
+            "to": 65535
+          },
+          "source": {
+            "type": "securityGroup",
+            "value": "string"
+          },
+          "priority": 10000
+        }
       }
     ]
   }
@@ -278,53 +351,105 @@ Content-Type: application/json
 ### 5.4 Create Public IP
 
 ```http
-PUT /providers/seca.network/v1/tenants/{tenant_id}/workspaces/web-shop-prod/public-ips
+PUT ${network-provider-url}/v1/tenants/{tenant_id}/workspaces/web-shop-prod/public-ips
 Content-Type: application/json
 
 {
   "labels": {
-    "app": "web-shop"
+    "language": "en",
+    "billing.cost-center": "platform-eng",
+    "env": "production"
+  },
+  "annotations": {
+    "description": "Resource with some human readable description",
+    "color": "red",
+    "externalID": "980c0d88-09e1-42f9-a4ae-f8f4687d6c99"
   },
   "spec": {
+    "ipVersion": "IPv4",
     "type": "Static"
   }
 }
 ```
+## Step 6: Create NIC
 
-## Step 6: Create Instance
-
-Create the compute instance:
+Create the NIC instance:
 
 ```http
-PUT /providers/seca.compute/v1/tenants/{tenant_id}/workspaces/web-shop-prod/instances/web-shop-server
+PUT ${network-provider-url}/v1/tenants/{tenant_id}/workspaces/web-shop-prod/nic
 Content-Type: application/json
 
 {
   "labels": {
-    "app": "web-shop",
-    "role": "web"
+    "language": "en",
+    "billing.cost-center": "platform-eng",
+    "env": "production"
+  },
+  "annotations": {
+    "description": "Resource with some human readable description",
+    "color": "red",
+    "externalID": "980c0d88-09e1-42f9-a4ae-f8f4687d6c99"
   },
   "spec": {
-    "instanceSkuRef": "seca.m",
-    "nics": [
-      {
-        "subnetRef": "web-shop-subnet",
-        "privateIPs": [
-          {
-            "addressType": "IPv4",
-            "provisioningStrategy": "DHCP"
-          }
-        ],
-        "publicIPRef": ["web-shop-ip"]
-      }
-    ],
-    "cloudInitData": {
-      "sshKeyExternalRef": ["your-ssh-key-reference"],
-      "userData": "#cloud-config\npackages:\n  - nginx"
-    },
-    "osBlockStorageRef": "web-shop-os-disk"
+    "subnetRef": "tenants/{tenant_id}/workspaces/web-shop-prod/lans/web-shop-network/subnets/web-shop-subnet",
+    "staticPrivateIPs": [],
+    "publicIPRef": "tenants/{tenant_id}/workspaces/web-shop-prod/public-ips"
   }
 }
+```
+
+## Step 7: Create Instance
+
+Create the compute instance:
+
+```http
+PUT ${compute-provider-url}/v1/tenants/{tenant_id}/workspaces/web-shop-prod/instances/web-shop-server
+Content-Type: application/json
+
+{
+  "labels": {
+    "language": "en",
+    "billing.cost-center": "platform-eng",
+    "env": "production"
+  },
+  "annotations": {
+    "description": "Resource with some human readable description",
+    "color": "red",
+    "externalID": "980c0d88-09e1-42f9-a4ae-f8f4687d6c99"
+  },
+  "spec": {
+    "profile": {
+      "instanceSkuRef": "tenants/{tenant_id}/skus/gold",
+      "skuExtensions": {
+        "additionalProp1": {}
+      }
+    },
+    "network": {
+      "primaryNicRef": "tenants/{tenant_id}/workspaces/web-shop-prod/nic",
+      "otherNics": []
+    },
+    "operatingSystem": {
+      "cloudInitData": {
+        "userData": "string",
+        "sshKeyExternalRef": [
+          "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0g..."
+        ]
+      },
+      "osBlockStorageRef": {
+        "objectRef": "tenants/{tenant_id}/workspaces/web-shop-prod/block-storages/web-shop-os-disk",
+        "properties": {
+          "connectionType": "iSCSI",
+          "deviceKind": "instance",
+          "deviceRef": "instance-123"
+        }
+      }
+    },
+    "storage": {
+      "dataBlockStorageRef": []
+    }
+  }
+}
+
 ```
 
 ## Step 7: Access and Use the Instance
@@ -332,13 +457,13 @@ Content-Type: application/json
 1. Wait for the instance to be in "running" state:
 
     ```http
-    GET /providers/seca.compute/v1/tenants/{tenant_id}/workspaces/web-shop-prod/instances/web-shop-server
+    GET ${compute-provider-url}/v1/tenants/{tenant_id}/workspaces/web-shop-prod/instances/web-shop-server
     ```
 
 2. Get the public IP:
 
     ```http
-    GET /providers/seca.network/v1/tenants/{tenant_id}/workspaces/web-shop-prod/public-ips/web-shop-ip
+    GET ${network-provider-url}/v1/tenants/{tenant_id}/workspaces/web-shop-prod/public-ips/web-shop-ip
     ```
 
 3. Connect to your instance:
@@ -363,13 +488,9 @@ Each error response includes detailed information:
 
 ```json
 {
-  "errors": [
-    {
-      "status": "400",
-      "code": "INVALID_REQUEST",
-      "title": "Bad Request",
-      "detail": "Specific error message"
-    }
-  ]
+  "status": 400,
+  "type": "http://secapi.eu/errors/invalid-request",
+  "title": "Bad Request",
+  "detail": "The request was invalid or cannot be served."
 }
 ```
