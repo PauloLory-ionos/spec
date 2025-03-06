@@ -8,8 +8,8 @@ SPEC = openapi.yaml
 OUTPUT = /tmp/swagger.yaml
 ASSETS = assets
 DOCS = docs
-ASSETS_FILES = $(shell find $(ASSETS) -type file)
-DOCS_FILES = $(shell find $(DOCS) -type file)
+ASSETS_FILES = $(shell find $(ASSETS) -type f)
+DOCS_FILES = $(shell find $(DOCS) -type f)
 README = README.md
 README_FINAL = $(DIST)/index.html
 
@@ -17,7 +17,7 @@ REDOCLY := npx @redocly/cli
 REDOCLY_BUNDLE_FLAGS := --remove-unused-components
 REDOCLY_DOCS_FLAGS := --disableGoogleFont
 
-SCHEMAS := $(shell find $(ROOT)/schemas -type file)
+SCHEMAS := $(shell find $(ROOT)/schemas -type f)
 SCHEMAS_SOURCES := $(shell ls $(ROOT)/*.yaml)
 SCHEMAS_FINAL = $(SCHEMAS_SOURCES:$(ROOT)/%.yaml=$(DIST)/specs/%.yaml)
 
@@ -31,36 +31,40 @@ VACUUM_LINT_FLAGS := -r config/ruleset-recommended.yaml -b
 all: $(DIST_ZIP)
 
 $(DIST_ZIP): build
-	zip -r $@ $(DIST)
+	rm -f $@
+	cd $(DIST) && zip -r ../$@ *
 
-build: $(DIST) $(SCHEMAS_FINAL) $(MD_FINAL) $(README_FINAL)/ fix-links $(DOCS_FINAL)
+build: $(DIST) $(SCHEMAS_FINAL) $(DOCS_FINAL) $(MD_FINAL) $(DIST)/index.html fix-links
 
 fix-links:
-	# link to html instead of md
-	@find $(DIST) -type f -name '*.html' -exec sed -i '' -e 's/\.md/.html/g' {} \;
-	# links should open new tabs
-	@find $(DIST) -type f -name '*.html' -exec sed -i '' -e 's/<a /<a target="_blank" /g' {} \;
+	# Detect OS and set proper sed flags
+	@if sed --version >/dev/null 2>&1; then \
+		find $(DIST) -name '*.html' | xargs sed -i 's/\.md/.html/g'; \
+		find $(DIST) -name '*.html' | xargs sed -i 's/<a /<a target="_blank" /g'; \
+	else \
+		find $(DIST) -name '*.html' | xargs sed -i '' 's/\.md/.html/g'; \
+		find $(DIST) -name '*.html' | xargs sed -i '' 's/<a /<a target="_blank" /g'; \
+	fi
+
+$(DIST)/index.html: $(README)
+	@mkdir -p $(DIST)
+	$(GO) run $(MD2HTML) -headingids -css assets/github-markdown.css $< $@
 
 $(DIST): $(ASSETS_FILES) 
-	@-mkdir -p $(DIST)/$(ASSETS)
-	cp -r $(ASSETS)/*.png $(DIST)/$(ASSETS)/
-	cp -r $(ASSETS)/*.css $(DIST)/$(ASSETS)/
+	@mkdir -p $(DIST)/$(ASSETS)
+	@find $(ASSETS) -type f -exec cp {} $(DIST)/$(ASSETS)/ \;
 
 $(DIST)/specs/%.yaml: $(ROOT)/%.yaml $(SCHEMAS)
-	@-mkdir -p $(shell dirname $@)
+	@mkdir -p $(shell dirname $@)
 	$(REDOCLY) bundle $(REDOCLY_BUNDLE_FLAGS) $< --output=$@
 
 $(DIST)/%.html: $(ROOT)/%.yaml $(SCHEMAS)
-	@-mkdir -p $(shell dirname $@)
+	@mkdir -p $(shell dirname $@)
 	$(REDOCLY) build-docs $(REDOCLY_DOCS_FLAGS) $< --output=$@
 
 $(DIST)/$(DOCS)/%.html: $(DOCS)/%.md
-	@-mkdir -p $(shell dirname $@)
+	@mkdir -p $(shell dirname $@)
 	$(GO) run $(MD2HTML) -headingids -css ../../assets/github-markdown.css $< $@
-
-$(README_FINAL): $(README)
-	@-mkdir -p $(shell dirname $@)
-	$(GO) run $(MD2HTML) -headingids -css assets/github-markdown.css $< $@
 
 .PHONY: lint
 lint: $(SCHEMAS_FINAL)
@@ -72,4 +76,4 @@ lint-verbose: $(SCHEMAS_FINAL)
 
 .PHONY: clean
 clean:
-	@rm -rf $(DIST) $(DIST_ZIP)
+	rm -rf $(DIST) $(DIST_ZIP)
