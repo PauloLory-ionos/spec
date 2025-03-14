@@ -1,19 +1,5 @@
 # SECA - Sovereign European Cloud API
 
-## Mission
-
-Unite top European providers to create a European cloud standard attracting the public sector.
-
-## Key advantages
-
-* sovereignty, e.g. immunity from foreign government interference keeping API control with founding members
-* common standards reduces costs, e.g. less training, common tooling, faster adoption, …
-* broad provider support will incentivize ISVs to build profitable tools and software ecosystems
-* built-in alignment with EU regulations for resilience, data protection and privacy
-* long-term support of APIs provide reliability and maintainability
-* comparison of compliant providers and increased resources using multiple providers
-* directly address the demand of the public sector to have no vendor lock-in
-
 ## Open Development Model
 
 The SECA API is designed with extensibility in mind, allowing for the seamless integration of new products and features as they emerge. To facilitate this, the API framework is open to proposals from any member of the SECA community. Members can submit suggestions for new features, enhancements, or extensions to the API council, which will review and evaluate them based on the established API guidelines. This collaborative approach ensures that the SECA API remains adaptable, innovative, and aligned with the evolving needs of its users, while maintaining the integrity and consistency of the API framework.
