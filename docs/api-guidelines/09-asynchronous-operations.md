@@ -2,7 +2,7 @@
 
 ![Diagram](../../assets/async-request.png)
 
-POST, PUT, or DELETE operation require processing, that takes some time to complete. Waiting for the operation to finish before sending a response to the client can cause unacceptable latency. We make all these operations asynchronous. Return the HTTP status code 202 (Accepted) to indicate that the request has been accepted for processing but has not yet been completed.
+ PUT, or DELETE operation require processing, that takes some time to complete. Waiting for the operation to finish before sending a response to the client can cause unacceptable latency. We make all these operations asynchronous. Return the HTTP status code 202 (Accepted) to indicate that the request has been accepted for processing but has not yet been completed.
 
 If the client sends a GET request to this endpoint, the response must contain the current status of the request. Optionally, it can also include the estimated time for completion.
 

@@ -68,4 +68,3 @@ such an example:
 | Update    |  PUT    | Updates a resource|
 | Delete    |  DELETE | Deletes a specific resource|
 | List      |  GET    | Retrieve the representations of a set of resources. The output set can be determined based on a filter passed on input|
-| Action    |  POST   | Control Plan APIs can be extended by Actions (for example PowerOff and Restart for Virtual Machines)|
