@@ -8,8 +8,6 @@ on:
 
 name: Pages
 
-env:
-  GOPRIVATE: "github.com/eu-sovereign-cloud"
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -25,27 +23,47 @@ concurrency:
 
 jobs:
   deploy:
-    name: Build and Publish
+    name: Build and Deploy Doc Page
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+#    environment:
+#      name: github-pages
+#      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Install Go
-        uses: actions/setup-go@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          go-version: '>=1.23.0'
-      - name: Build
-        run: make
-      - name: Setup Pages
+          node-version: 20.11.0
+          cache: npm # Automatically caches dependencies
+          cache-dependency-path: website/package-lock.json  # 👈 Ensure caching works for the correct path
+
+      - name: Install dependencies with npm ci
+        run: npm ci
+        working-directory: website  
+
+      - name: Build Docusaurus
+        run: npm run generate-config
+        working-directory: website  
+
+      - name: Generate Docusaurus config
+        run: npm run gen-api-docs all
+        working-directory: website  
+
+      - name: Build Docusaurus
+        run: npm run build
+        working-directory: website
+
+      - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/
+          path: website/build/  # Ensure correct upload path
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-

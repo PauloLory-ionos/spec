@@ -17,7 +17,7 @@ API access control combines identity verification (authentication) with permissi
 
 Based on **SECA Standard API Server** we adopted the below architecture:
 
-![API Access Control](../../assets/access-control.png)
+![API Access Control](@site/static/img/access-control.png)
 
 - More in detail, every request goes to the Control Plane API Server.
   - first check is **identify** who is the customer
@@ -26,7 +26,7 @@ Based on **SECA Standard API Server** we adopted the below architecture:
 
 ## Authentication
 
-As stated in the [REST API Guidelines](../../README.md#guidelines), authentication is handled via JSON Web Tokens (JWT). All API endpoints require a valid JWT to be included in the Authorization header using the Bearer scheme (e.g., `Authorization: Bearer <token>`). The JWT validation middleware verifies the token's signature, expiration, and required permissions (see *Authorization*) before allowing access to protected resources. Token issuance and management are handled externally to this API - clients must obtain valid tokens through the appropriate authentication service. Requests with missing, expired, or invalid tokens will receive a 401 Unauthorized response.
+As stated in the REST API Guidelines, authentication is handled via JSON Web Tokens (JWT). All API endpoints require a valid JWT to be included in the Authorization header using the Bearer scheme (e.g., `Authorization: Bearer <token>`). The JWT validation middleware verifies the token's signature, expiration, and required permissions (see *Authorization*) before allowing access to protected resources. Token issuance and management are handled externally to this API - clients must obtain valid tokens through the appropriate authentication service. Requests with missing, expired, or invalid tokens will receive a 401 Unauthorized response.
 
 ## Authorization
 

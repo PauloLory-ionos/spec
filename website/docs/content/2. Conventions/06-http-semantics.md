@@ -47,10 +47,10 @@ Accept: application/json
 |-------------|-------------|-------------|-------------|
 | null| null | | |
 | boolean | bool | | |
-| byte, int32, int64, uint32, uint64, float, double | number culture-invariant string | All numbers up to a maximum precision of 64 bits ([IEEE 754](https://en.wikipedia.org/wiki/IEEE_754), [binary64](https://en.wikipedia.org/wiki/Double-precision_floating-point_format)). | { "add": 123.5 }<br/>{ "add": 5 }<br/>{ "add": "136573525573.86576576" }|
-| decimal/arbitrary precision numbers | culture-invariant string |(?<sign>[+\|-])?(?<number>\d+)(?<digits>(?<separator>.)\d+)? | { "add": "136573525573.86576576" }|
+| byte, int32, int64, uint32, uint64, float, double | number culture-invariant string | All numbers up to a maximum precision of 64 bits ([IEEE 754](https://en.wikipedia.org/wiki/IEEE_754), [binary64](https://en.wikipedia.org/wiki/Double-precision_floating-point_format)). | ```json {"add": 123.5} ```<br/>```json {"add": 5} ```<br/>```json {"add": "136573525573.86576576"} ``` |
+| decimal/arbitrary precision numbers | Culture-invariant string | `(?<sign>[+\|-])?(?<number>\d+)(?<digits>(?<separator>\.)\d+)?` | ```json {"add": "136573525573.86576576"} ``` |
 | string | string | [UTF-8](https://en.wikipedia.org/wiki/UTF-8) | If necessary, [UTF-16](https://en.wikipedia.org/wiki/UTF-16) surrogate pairs should be used for escape sequences of glyphs outside the [Basic Multilingual Plane](https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane) (U+10000 to U+10FFFF)|
-| guid/uuid/ulid | string | (?<uuid>[0123456789abcdef]{32})| Example: a2b4c746c71745a8ad8f3cf7a1cede9b |
+| GUID/UUID/ULID | String | `(?<uuid>[0123456789abcdef]{32})` | Example: `a2b4c746c71745a8ad8f3cf7a1cede9b` |
 | blob | string | [base64](https://en.wikipedia.org/wiki/Base64) | |
 | date, time, datetime, duration, time intervals | string | [RFC339](https://datatracker.ietf.org/doc/html/rfc3339) ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) profile) | Time: 09:30,<br/> UtcTime: 09:30Z,<br/> DateTime: 2020-02-26T16:23:11.1196470+01:00,<br/> UtcDateTime: 2020-02-26T15:23:11.1280371Z,<br/> Duration: P3Y6M4DT12H30M5S,<br/> StartAndEndTimeInterval: 2007-03-01T13:00:00Z/2008-05-11T15:30:00Z,<br/> StartAndDurationTimeInterval: 2007-03-01T13:00:00Z/P1Y2M10DT2H30M,<br/> DurationAndEndTimeInterval: P1Y2M10DT2H30M/2008-05-11T15:30:00Z,<br/> DurationOnlyTimeInterval: P1Y2M10DT2H30M``` |
 | enum | string | conversion to string with camelCase |  |

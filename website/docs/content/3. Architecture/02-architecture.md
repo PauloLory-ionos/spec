@@ -1,4 +1,4 @@
-# Architecture
+# Overview
 
 Cloud Requests can be divided in two categories **Control-Plane** and **Data-Plane**.
 
@@ -9,7 +9,7 @@ Control-Plane APIs are responsible for managing resources and returning configur
 such as metadata, resource properties, and states. The resources managed by
 Control-Plane APIs follow a standardized resource schema.
 
-![Shared API Gateway Model](../../assets/shared-api-gw-model.png)
+![Shared API Gateway Model](@site/static/img/shared-api-gw-model.png)
 
 To ensure compatibility of the SECA API across all providers, a common API server is
 implemented. This API server serves as a frontend to a set of shared delegators, which

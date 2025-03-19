@@ -1,2 +1,49 @@
+# Ignore dependencies and package manager lock files inside website/
+website/node_modules/
+#website/package-lock.json
+website/pnpm-lock.yaml
+website/yarn.lock
+
+# Ignore Docusaurus build output
+website/build/
+website/docs/api/
+website/.cache/
+website/.docusaurus/
+
+# Generated files
+website/.docusaurus
+website/.cache-loader
+
+# Ignore auto-generated API website
+website/website/api/
+
+# Misc
+website/.DS_Store
+website/.env.local
+website/.env.development.local
+website/.env.test.local
+website/.env.production.local
+
+# Logs
+website/npm-debug.log*
+website/yarn-debug.log*
+website/yarn-error.log*
+
+#Docusaurus Config
+website/docusaurus.config.js
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# MacOS system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+
+# Others
 dist
 dist.zip

@@ -55,14 +55,14 @@ Example: security-group and security-group-rule. A security-group-rule only make
 
 ##### API Design
 
-- Parent resource: GET /security-groups/{securityGroupName}
+- Parent resource: `GET /security-groups/{securityGroupName}`
 - Child resources as sub-resources:
-  - GET /security-groups/{securityGroupName}/security-rules
-  - GET /security-groups/{securityGroupName}/security-group-rules/{securityGroupRuleName}
+  - `GET /security-groups/{securityGroupName}/security-rules`
+  - `GET /security-groups/{securityGroupName}/security-group-rules/{securityGroupRuleName}`
   - Create child resource:
-    - PUT /security-groups/{securityGroupName}/security-group-rules/{securityGroupRuleName}
+    - `PUT /security-groups/{securityGroupName}/security-group-rules/{securityGroupRuleName}`
   - Delete child along with parent:
-    - DELETE /security-groups/{securityGroupName} would delete both the securityGroup and its securityGroupRules.
+    - `DELETE /security-groups/{securityGroupName} would delete both the securityGroup and its securityGroupRules.`
 
 ##### Best Practices
 
@@ -84,8 +84,8 @@ Example: Virtual Machine and Disk. A Disk can exist with or without a VirtualMac
 #### AR - API Design
 
 - Separate resources:
-  - GET /compute/instances/{instanceName}
-  - GET /storage/block-storages/{diskName}
+  - `GET /compute/instances/{instanceName}`
+  - `GET /storage/block-storages/{diskName}`
 - Linking endpoints:
 
 ```json
@@ -105,7 +105,7 @@ Example: Virtual Machine and Disk. A Disk can exist with or without a VirtualMac
 ```
 
 - Manage relationships independently:
-  - DELETE /virtual-machines/{virtualMachineName} only deletes the virtualMachine without impacting the storage/block-storages.
+  - `DELETE /virtual-machines/{virtualMachineName} only deletes the virtualMachine without impacting the storage/block-storages.`
 
 #### Differences in API Design for Composition vs. Aggregation
 
@@ -120,7 +120,15 @@ Example: Virtual Machine and Disk. A Disk can exist with or without a VirtualMac
 #### Additional Design Tips
 
 1. Document relationship types clearly: explain in the API documentation which relationships are compositional (structural) and which are aggregational (weak), so developers know if deleting one entity affects others.
-2. When aggregating, leverage hypermedia links to indicate connections rather than deeply nesting endpoints. For example, in a response for a disk, include links to virtualMachine: { "attached_instance": "/virtual-machines/{virtualMachineName}" }
+2. When aggregating, leverage **hypermedia links** to indicate connections rather than deeply nesting endpoints. 
+
+For example, in a response for a disk, include links to `virtualMachine`:
+
+```json
+{
+  "attached_instance": "/virtual-machines/{virtualMachineName}"
+}
+
 3. Separate resource ownership logic: if the relationship requires logic specific to the parent-child relationship, consider defining an intermediate resource, such as a vm-attachment relationship resource to better manage the association.
 
 Using this approach will help you model these relationships in a way that reflects real-world dependencies and ownership, while keeping the API design clean and intuitive.

@@ -1,4 +1,4 @@
-# How to calculate Compute Score (Today GeekBenchmark Points)
+# Compute Score
 
 ## Abstract
 
