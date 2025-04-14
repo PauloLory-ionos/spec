@@ -70,8 +70,11 @@ lint: resource-apis
 		echo "$(YELLOW)⚠️  No OpenAPI specs found to lint.$(RESET)"; \
 		exit 1; \
 	fi; \
-	$(VACUUM) lint $(VACUUM_LINT_FLAGS) $$SCHEMAS
-
+	$(VACUUM) lint $(VACUUM_LINT_FLAGS) $$SCHEMAS > lint_output.log
+	if grep -q "warning" lint_output.log; then \
+	  echo "Warnings found! Failing lint..."; \
+	  exit 1; \
+	fi
 lint-verbose: resource-apis
 	@echo "$(YELLOW)Linting OpenAPI specs (verbose)...$(RESET)"
 	@$(MAKE) $(SCHEMAS_FINAL)
