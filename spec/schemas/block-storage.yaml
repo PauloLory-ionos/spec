@@ -44,7 +44,7 @@ BlockStorageStatus:
     readOnly: true
     description: |
       Conditions type `attachment` indicates the status of the volume attachment.
-      The status can be `attached` or `detached`.
+      The status can be `attached` or `detached` test.
     required:
     - sizeGB
     properties:
